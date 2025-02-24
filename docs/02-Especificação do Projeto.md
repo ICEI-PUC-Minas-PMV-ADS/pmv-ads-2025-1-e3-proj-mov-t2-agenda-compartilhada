@@ -24,12 +24,24 @@ Lembre-se que você deve ser enumerar e descrever precisamente e personalizada t
 
 ## Histórias de Usuários
 
-Com base na análise das personas forma identificadas as seguintes histórias de usuários:
 
-|EU COMO... `PERSONA`| QUERO/PRECISO ... `FUNCIONALIDADE` |PARA ... `MOTIVO/VALOR`                 |
-|--------------------|------------------------------------|----------------------------------------|
-|Usuário do sistema  | Registrar minhas tarefas           | Não esquecer de fazê-las               |
-|Administrador       | Alterar permissões                 | Permitir que possam administrar contas |
+
+
+
+| **EU COMO...** `PERSONA` | **QUERO/PRECISO...** `FUNCIONALIDADE` | **PARA...** `MOTIVO/VALOR` |  
+|---------------------------|--------------------------------------|----------------------------|  
+| Usuário do **Agenda Compartilhada** | Criar um evento informando nome, data, horário e local | Que meus amigos possam ser convidados e organizar sua participação |  
+| Usuário do **Agenda Compartilhada** | Convidar participantes para um evento através de um link ou pesquisa por nome | Facilitar o processo de convite e evitar a necessidade de cadastrar contatos manualmente |  
+| Participante de um evento | Confirmar minha presença escolhendo entre "Confirmado", "Talvez" ou "Não irei" | O organizador saber quem irá ao evento e planejar melhor |  
+| Participante de um evento | Votar no melhor horário sugerido para o evento | Garantir que o evento aconteça no momento mais conveniente para o grupo |  
+| Participante de um evento | Sugerir novos horários alternativos para um evento | Caso os horários disponíveis não sejam compatíveis com minha agenda |  
+| Usuário do **Agenda Compartilhada** | Receber notificações sobre mudanças no evento e lembretes próximos à data | Não esquecer do evento e acompanhar atualizações importantes |  
+| Usuário do **Agenda Compartilhada** | Sincronizar meus eventos com Google Calendar e Outlook | Visualizar todos os meus compromissos em um único lugar e evitar conflitos de agenda |  
+| Organizador do evento | Editar informações do evento, como data, local e horário | Ajustar os detalhes caso haja mudanças e informar os participantes |  
+| Organizador do evento | Cancelar um evento caso necessário | Avisar todos os participantes de forma automática, evitando confusão |  
+| Organizador do evento | Ver um resumo com a lista de confirmações de presença | Planejar melhor a logística do evento, como reservas e acomodações |  
+
+
 
 Apresente aqui as histórias de usuário que são relevantes para o projeto de sua solução. As Histórias de Usuário consistem em uma ferramenta poderosa para a compreensão e elicitação dos requisitos funcionais e não funcionais da sua aplicação. Se possível, agrupe as histórias de usuário por contexto, para facilitar consultas recorrentes à essa parte do documento.
 
