@@ -26,21 +26,16 @@ Diante dessas dificuldades, percebe-se a necessidade de uma solução que ofere�
 
 ## Objetivos
 
-Aqui você deve descrever os objetivos do trabalho indicando que o objetivo geral é desenvolver um software para solucionar o problema apresentado acima. 
+Agenda Compartilhada visa simplificar a organização de eventos, centralizando a escolha de horários, confirmação de presença e comunicação entre participantes. Com recursos interativos e integração com agendas pessoais, a plataforma torna o planejamento mais ágil, prático e eficiente.
 
-Apresente também alguns (pelo menos 2) objetivos específicos dependendo de onde você vai querer concentrar a sua prática investigativa, ou como você vai aprofundar no seu trabalho.
- 
-> **Links Úteis**:
-> - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/)
 
 ## Justificativa
 
-Descreva a importância ou a motivação para trabalhar com esta aplicação que você escolheu. Indique as razões pelas quais você escolheu seus objetivos específicos ou as razões para aprofundar em certos aspectos do software.
+A organização de eventos e encontros coletivos é frequentemente prejudicada pela dispersão de informações em múltiplos canais, como aplicativos de mensagens, e-mails e redes sociais. Esse modelo desorganizado dificulta a escolha de horários, a confirmação de presença e a comunicação sobre mudanças, resultando em confusão, atrasos e até no cancelamento de eventos.
 
-O grupo de trabalho pode fazer uso de questionários, entrevistas e dados estatísticos, que podem ser apresentados, com o objetivo de esclarecer detalhes do problema que será abordado pelo grupo.
+A ausência de uma ferramenta centralizada e interativa compromete a eficiência do planejamento, tornando-o demorado e suscetível a falhas. Além disso, muitas pessoas utilizam agendas digitais para organizar seus compromissos, mas não conseguem visualizar eventos coletivos de forma integrada.
 
-> **Links Úteis**:
-> - [Como montar a justificativa](https://guiadamonografia.com.br/como-montar-justificativa-do-tcc/)
+Diante desses desafios, o Agenda Compartilhada surge como uma solução inovadora, oferecendo uma plataforma intuitiva que facilita a organização de eventos, melhora a comunicação entre participantes e garante maior controle sobre datas e confirmações. Ao automatizar processos e integrar funcionalidades colaborativas, o aplicativo otimiza a experiência dos usuários, tornando o planejamento mais simples, acessível e eficiente.
 
 ## Público-Alvo
 
