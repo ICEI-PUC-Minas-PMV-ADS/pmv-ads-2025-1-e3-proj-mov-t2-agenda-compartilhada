@@ -26,7 +26,7 @@ Diante dessas dificuldades, percebe-se a necessidade de uma solução que ofere�
 
 ## Objetivos
 
-Agenda Compartilhada visa simplificar a organização de eventos, centralizando a escolha de horários, confirmação de presença e comunicação entre participantes. Com recursos interativos e integração com agendas pessoais, a plataforma torna o planejamento mais ágil, prático e eficiente.
+Agenda Compartilhada tem como objetivo simplificar a organização de eventos, centralizando a escolha de horários, confirmação de presença e comunicação entre participantes. Com recursos interativos e integração com agendas pessoais, a plataforma torna o planejamento mais ágil, prático e eficiente.
 
 
 ## Justificativa
