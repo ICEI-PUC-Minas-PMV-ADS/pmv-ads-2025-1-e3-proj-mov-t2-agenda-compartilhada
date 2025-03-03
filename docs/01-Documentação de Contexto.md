@@ -39,13 +39,10 @@ Diante desses desafios, o Agenda Compartilhada surge como uma solução inovador
 
 ## Público-Alvo
 
-Descreva quem serão as pessoas que usarão a sua aplicação indicando os diferentes perfis. O objetivo aqui não é definir quem serão os clientes ou quais serão os papéis dos usuários na aplicação. A ideia é, dentro do possível, conhecer um pouco mais sobre o perfil dos usuários: conhecimentos prévios, relação com a tecnologia, relações
-hierárquicas, etc.
+O público-alvo do Agenda Compartilhada é composto por diferentes perfis de usuários que buscam uma solução eficiente para organizar compromissos e eventos no âmbito pessoal e profissional. O aplicativo é voltado para grupos de amigos, familiares e colegas de trabalho, oferecendo funcionalidades que facilitam o planejamento de encontros de maneira prática e colaborativa.
 
-Adicione informações sobre o público-alvo por meio de uma descrição textual, diagramas de personas e mapa de stakeholders.
+Grupos de Amigos: Usuários que desejam organizar encontros informais, como festas, viagens, jantares e confraternizações. Eles precisam de uma ferramenta intuitiva que facilite a escolha de datas, a confirmação de presença e a comunicação eficiente, evitando trocas excessivas de mensagens e conflitos de agenda.
 
-> **Links Úteis**:
-> - [Público-alvo](https://blog.hotmart.com/pt-br/publico-alvo/)
-> - [Como definir o público alvo](https://exame.com/pme/5-dicas-essenciais-para-definir-o-publico-alvo-do-seu-negocio/)
-> - [Público-alvo: o que é, tipos, como definir seu público e exemplos](https://klickpages.com.br/blog/publico-alvo-o-que-e/)
-> - [Qual a diferença entre público-alvo e persona?](https://rockcontent.com/blog/diferenca-publico-alvo-e-persona/)
+Famílias: Pessoas que buscam coordenar reuniões familiares, celebrações e eventos especiais. Com diferentes rotinas e compromissos, esses usuários necessitam de uma plataforma que ajude a sincronizar agendas, enviar lembretes automáticos e garantir que todos os membros estejam informados sobre os compromissos planejados.
+
+Colegas de Trabalho: Profissionais que precisam organizar reuniões informais, happy hours, almoços e eventos corporativos sem depender de ferramentas empresariais complexas. Eles necessitam de um sistema que permita a criação de eventos recorrentes, votação de horários e notificações para manter todos os participantes alinhados.
