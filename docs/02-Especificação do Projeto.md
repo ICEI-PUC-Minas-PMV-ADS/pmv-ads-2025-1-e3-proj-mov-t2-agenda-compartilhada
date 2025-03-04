@@ -25,22 +25,27 @@ Lembre-se que você deve ser enumerar e descrever precisamente e personalizada t
 ## Histórias de Usuários
 
 
+# Histórias de Usuário para o App de Agenda Compartilhada
 
-
-
-| **EU COMO...** `PERSONA` | **QUERO/PRECISO...** `FUNCIONALIDADE` | **PARA...** `MOTIVO/VALOR` |  
-|---------------------------|--------------------------------------|----------------------------|  
-| Usuário do **Agenda Compartilhada** | Criar um evento informando nome, data, horário e local | Que meus amigos possam ser convidados e organizar sua participação |  
-| Usuário do **Agenda Compartilhada** | Convidar participantes para um evento através de um link ou pesquisa por nome | Facilitar o processo de convite e evitar a necessidade de cadastrar contatos manualmente |  
-| Participante de um evento | Confirmar minha presença escolhendo entre "Confirmado", "Talvez" ou "Não irei" | O organizador saber quem irá ao evento e planejar melhor |  
-| Participante de um evento | Votar no melhor horário sugerido para o evento | Garantir que o evento aconteça no momento mais conveniente para o grupo |  
-| Participante de um evento | Sugerir novos horários alternativos para um evento | Caso os horários disponíveis não sejam compatíveis com minha agenda |  
-| Usuário do **Agenda Compartilhada** | Receber notificações sobre mudanças no evento e lembretes próximos à data | Não esquecer do evento e acompanhar atualizações importantes |  
-| Usuário do **Agenda Compartilhada** | Sincronizar meus eventos com Google Calendar e Outlook | Visualizar todos os meus compromissos em um único lugar e evitar conflitos de agenda |  
-| Organizador do evento | Editar informações do evento, como data, local e horário | Ajustar os detalhes caso haja mudanças e informar os participantes |  
-| Organizador do evento | Cancelar um evento caso necessário | Avisar todos os participantes de forma automática, evitando confusão |  
-| Organizador do evento | Ver um resumo com a lista de confirmações de presença | Planejar melhor a logística do evento, como reservas e acomodações |  
-
+| COMO...                               | QUERO...                                                | PARA...                                                      |
+|:--------------------------------------|:--------------------------------------------------------|:-------------------------------------------------------------|
+| Usuário não cadastrado                | Criar uma conta usando email ou redes sociais (Google)  | Acessar as funcionalidades do sistema                         |
+| Usuário cadastrado                    | Fazer login no sistema                                  | Visualizar minhas agendas e eventos                          |
+| Usuário                               | Personalizar meu perfil com foto e nome                 | Ser identificado facilmente pelos outros participantes        |
+| Usuário                               | Ver meu calendário em formatos diário, semanal e mensal | Organizar melhor meus compromissos                           |
+| Usuário                               | Indicar meus horários livres e ocupados                 | Facilitar o planejamento de eventos em grupo                 |
+| Usuário                               | Criar eventos pessoais detalhados                       | Gerenciar minha agenda individual                            |
+| Usuário                               | Criar agendas para diferentes grupos sociais            | Separar eventos por círculos sociais específicos             |
+| Usuário                               | Convidar pessoas para uma agenda compartilhada          | Planejar eventos coletivamente                               |
+| Administrador da agenda compartilhada | Configurar permissões para os membros                   | Controlar quem pode ver ou editar a agenda                   |
+| Usuário                               | Ver todos os eventos nas agendas compartilhadas         | Acompanhar os compromissos coletivos                         |
+| Membro da agenda compartilhada        | Adicionar eventos com todas as informações necessárias  | Convidar os demais membros para um encontro                  |
+| Convidado para um evento              | Informar se poderei comparecer                          | Ajudar na organização e planejamento do evento               |
+| Organizador de evento                 | Ver sugestões de datas conforme disponibilidade geral   | Escolher o melhor momento para reunir mais pessoas           |
+| Usuário                               | Ser alertado ao ser incluído em agendas compartilhadas  | Saber quando fui adicionado a um novo grupo                  |
+| Membro da agenda compartilhada        | Receber avisos sobre novos eventos                      | Ficar por dentro das atividades programadas                  |
+| Participante confirmado               | Receber lembretes de eventos próximos                   | Não esquecer dos compromissos agendados                      |
+| Participante de evento                | Ser informado sobre mudanças nos eventos                | Atualizar minha agenda pessoal conforme necessário           |
 
 
 Apresente aqui as histórias de usuário que são relevantes para o projeto de sua solução. As Histórias de Usuário consistem em uma ferramenta poderosa para a compreensão e elicitação dos requisitos funcionais e não funcionais da sua aplicação. Se possível, agrupe as histórias de usuário por contexto, para facilitar consultas recorrentes à essa parte do documento.
