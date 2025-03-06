@@ -138,16 +138,30 @@ Enumere as restrições à sua solução. Lembre-se de que as restrições geral
 
 ## Diagrama de Casos de Uso
 
-O diagrama de casos de uso é o próximo passo após a elicitação de requisitos, que utiliza um modelo gráfico e uma tabela com as descrições sucintas dos casos de uso e dos atores. Ele contempla a fronteira do sistema e o detalhamento dos requisitos funcionais com a indicação dos atores, casos de uso e seus relacionamentos. 
+O diagrama de casos de uso será elaborado para ilustrar as interações entre as personas e o sistema de agenda compartilhada. Cada persona terá casos de uso específicos que refletem suas necessidades e interações com o sistema.
 
-As referências abaixo irão auxiliá-lo na geração do artefato “Diagrama de Casos de Uso”.
+### Diagrama de Casos de Uso Detalhado
 
-> **Links Úteis**:
-> - [Criando Casos de Uso](https://www.ibm.com/docs/pt-br/elm/6.0?topic=requirements-creating-use-cases)
-> - [Como Criar Diagrama de Caso de Uso: Tutorial Passo a Passo](https://gitmind.com/pt/fazer-diagrama-de-caso-uso.html/)
-> - [Lucidchart](https://www.lucidchart.com/)
-> - [Astah](https://astah.net/)
-> - [Diagrams](https://app.diagrams.net/)
+#### Personas e Seus Casos de Uso:
+
+1. **Marcos Rocha - Jovem que trabalha e estuda**
+    - **Encontrar com amigos**: Acessar agenda compartilhada para verificar a data do próximo evento
+    - **Definir mais facilmente a data para evento com os amigos**: Acessar agenda compartilhada e verificar as datas indicadas pelo sistema
+    - **Decidir qual o melhor local para o próximo evento com os amigos**: Acessar agenda compartilhada e criar uma enquete
+
+2. **Silvia Fagundes - Mulher madura, dedicada ao lar e à família**
+    - **Organizar encontros familiares**: Criar agenda compartilhada e convidar membros da família
+    - **Marcar encontro familiar**: Acessar agenda compartilhada e agendar um encontro
+	- **Definir o que será necessário para o encontro**: Detalhar informações do encontro no momento do agendamento
+
+3. **Natalia Martins - Profissional com muitos amigos no trabalho**
+    - **Consultar data e horário dos próximos happy hours**: Acessar área de notificações e verificar eventos marcados
+    - **Confirmar presença no próximo almoço com os colegas**: Acessar evento na agenda compartilhada e confirmar presença
+
+
+### Diagrama Gráfico
+
+![UseCaseDiagram](https://github.com/user-attachments/assets/f865bbd3-aa0c-431b-9d28-14f3ac0c8b79)
 
 # Matriz de Rastreabilidade
 
