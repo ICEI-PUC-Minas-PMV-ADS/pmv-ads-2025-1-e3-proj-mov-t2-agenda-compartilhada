@@ -8,19 +8,25 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
 
 ## Personas
 
-Pedro Paulo tem 26 anos, é arquiteto recém-formado e autônomo. Pensa em se desenvolver profissionalmente através de um mestrado fora do país, pois adora viajar, é solteiro e sempre quis fazer um intercâmbio. Está buscando uma agência que o ajude a encontrar universidades na Europa que aceitem alunos estrangeiros.
+Identificamos três personas que representam os principais usuários e stakeholders do sistema de agenda compartilada. Cada persona possui necessidades e expectativas específicas em relação ao sistema:
 
-Enumere e detalhe as personas da sua solução. Para tanto, baseie-se tanto nos documentos disponibilizados na disciplina e/ou nos seguintes links:
+| ![image](https://github.com/user-attachments/assets/eb4edf81-2953-4368-b416-249c3f9a2e3f) | Marcos Rocha<br>Idade: 30<br>Descrição: Trabalha e faz faculdade  |
+|--------|----------------------------------------------------------------------------------------|
+| Background | Marcos possui uma vida muito atarefada e adora encontrar com os amigos sempre que possível. |
+| Frustrações | Dificuldade em encontrar com grupo de amigos. |
+| Expectativas | Um sistema que auxilie na marcação de eventos e encontro com os amigos e que forneça um feedback visual visual simples da agenda de eventos. |
 
-> **Links Úteis**:
-> - [Rock Content](https://rockcontent.com/blog/personas/)
-> - [Hotmart](https://blog.hotmart.com/pt-br/como-criar-persona-negocio/)
-> - [O que é persona?](https://resultadosdigitais.com.br/blog/persona-o-que-e/)
-> - [Persona x Público-alvo](https://flammo.com.br/blog/persona-e-publico-alvo-qual-a-diferenca/)
-> - [Mapa de Empatia](https://resultadosdigitais.com.br/blog/mapa-da-empatia/)
-> - [Mapa de Stalkeholders](https://www.racecomunicacao.com.br/blog/como-fazer-o-mapeamento-de-stakeholders/)
->
-Lembre-se que você deve ser enumerar e descrever precisamente e personalizada todos os clientes ideais que sua solução almeja.
+| ![image](https://github.com/user-attachments/assets/1622aee0-f4fe-4550-9e9f-37aae45e74c9) | Silvia Fagundes<br>Idade: 53<br>Descrição: Mulher madura, dedicada ao lar e à família |
+|--------|----------------------------------------------------------------------------------------|
+| Background | Silvia é casada, trabalha cuidando da casa e adora promover encontros e almoços em família. |
+| Frustrações | Dificuldade em definir datas e organizar a distribuição das tarefas para o encontro. |
+| Expectativas | Um sistema que facilite a definição da data do encontro e forneça uma forma de informar os detalhes necessários. |
+
+| ![image](https://github.com/user-attachments/assets/9e5a4029-3267-48b8-90be-4341e9d43e49) | Natalia Martins<br>Idade: 27<br>Descrição: Profissional com muitos amigos no trabalho |
+|--------|----------------------------------------------------------------------------------------|
+| Background | Natalia trabalha em uma grande empresa, possui muitos amigos no trabalho e entende como importante manter um relacionamento saudável com os amigos fora do ambiente profissional. |
+| Frustrações | Dificuldade em encontrar datas e definir locais para momentos descontraídos com os amigos do trabalho |
+| Expectativas | Um sistema que facilite a definição de data para eventos e que possua um sistema que facilite a definição do próximo local. |
 
 ## Histórias de Usuários
 
