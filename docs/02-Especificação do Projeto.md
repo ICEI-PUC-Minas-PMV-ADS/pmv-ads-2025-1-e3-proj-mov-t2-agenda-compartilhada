@@ -94,53 +94,62 @@ Usar o seguinte modelo:
 ![Indicadores de Desempenho](img/02-indic-desemp.png)
 Obs.: todas as informações para gerar os indicadores devem estar no diagrama de classe a ser apresentado a posteriori. 
 
-## Requisitos
+# Requisitos do Aplicativo de Gerenciamento de Eventos
 
-As tabelas que se seguem apresentam os requisitos funcionais e não funcionais que detalham o escopo do projeto. Para determinar a prioridade de requisitos, aplicar uma técnica de priorização de requisitos e detalhar como a técnica foi aplicada.
+## Requisitos Funcionais
 
-### Requisitos Funcionais
+| ID | Descrição | Prioridade |
+|----|-----------|------------|
+| RF01 | Sistema de cadastro e login de usuários (email/senha ou redes sociais) | Alta |
+| RF02 | Criação e edição de perfil de usuário (nome e foto) | Média |
+| RF03 | Visualização de calendário individual em formatos diário, semanal e mensal | Alta |
+| RF04 | Marcação de disponibilidade e indisponibilidade de horários | Alta |
+| RF05 | Criação, edição e exclusão de eventos pessoais (título, data, hora, local, descrição) | Alta |
+| RF06 | Criação e gerenciamento de agendas compartilhadas (amigos, família, trabalho) | Alta |
+| RF07 | Compartilhamento de agendas com outros usuários via email ou nome de usuário | Alta |
+| RF08 | Configuração de permissões por agenda compartilhada (visualização/edição) | Média |
+| RF09 | Visualização de eventos em agendas compartilhadas | Alta |
+| RF10 | Criação, edição e exclusão de eventos em agendas compartilhadas | Alta |
+| RF11 | Sistema de confirmação de presença em eventos (sim/não/talvez) | Média |
+| RF12 | Sugestão automática de datas baseada na disponibilidade dos participantes | Baixa |
+| RF13 | Sistema de notificações para inclusão em agendas compartilhadas | Média |
+| RF14 | Sistema de lembretes para eventos | Alta |
+| RF15 | Notificações de novos eventos compartilhados | Média |
+| RF16 | Notificações de alterações em eventos existentes | Média |
 
-|ID    | Descrição do Requisito  | Prioridade |
-|------|-----------------------------------------|----|
-|RF-001| Permitir que o usuário cadastre tarefas | ALTA | 
-|RF-002| Emitir um relatório de tarefas no mês   | MÉDIA |
+## Requisitos Não Funcionais
 
-### Requisitos não Funcionais
-
-|ID     | Descrição do Requisito  |Prioridade |
-|-------|-------------------------|----|
-|RNF-001| O sistema deve ser responsivo para rodar em um dispositivos móvel | MÉDIA | 
-|RNF-002| Deve processar requisições do usuário em no máximo 3s |  BAIXA | 
-
-Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
-
-- [Requisitos Funcionais
- (RF)](https://pt.wikipedia.org/wiki/Requisito_funcional):
- correspondem a uma funcionalidade que deve estar presente na
-  plataforma (ex: cadastro de usuário).
-- [Requisitos Não Funcionais
-  (RNF)](https://pt.wikipedia.org/wiki/Requisito_n%C3%A3o_funcional):
-  correspondem a uma característica técnica, seja de usabilidade,
-  desempenho, confiabilidade, segurança ou outro (ex: suporte a
-  dispositivos iOS e Android).
-Lembre-se que cada requisito deve corresponder à uma e somente uma
-característica alvo da sua solução. Além disso, certifique-se de que
-todos os aspectos capturados nas Histórias de Usuário foram cobertos.
+| ID | Descrição | Prioridade |
+|----|-----------|------------|
+| RNF01 | Desenvolvimento do frontend em React Native para suporte multiplataforma (iOS/Android) | Alta |
+| RNF02 | Desenvolvimento do backend com NestJS | Alta |
+| RNF03 | Utilização de MongoDB como banco de dados | Alta |
+| RNF04 | Estrutura de componentes reutilizáveis no frontend | Média |
+| RNF05 | Gerenciamento de estado global com Context API | Média |
+| RNF06 | Interface de usuário utilizando React Native Paper | Média |
+| RNF07 | Sistema de navegação com React Navigation | Alta |
+| RNF08 | Implementação de biblioteca de calendário (react-native-calendars) | Alta |
+| RNF09 | Sistema de notificações push | Média |
+| RNF10 | Arquitetura modular no backend (controladores e serviços) | Média |
+| RNF11 | Autenticação segura via JWT | Alta |
+| RNF12 | Comunicação frontend-backend via REST API | Alta |
+| RNF13 | Serviço de notificações e lembretes | Média |
+| RNF14 | Modelagem de dados com Mongoose para MongoDB | Alta |
+| RNF15 | Implementação de índices para otimização de consultas frequentes | Baixa |
 
 ## Restrições
 
-O projeto está restrito pelos itens apresentados na tabela a seguir.
-
-|ID| Restrição                                             |
-|--|-------------------------------------------------------|
-|01| O projeto deverá ser entregue até o final do semestre |
-|02| Não pode ser desenvolvido um módulo de backend        |
-
-Enumere as restrições à sua solução. Lembre-se de que as restrições geralmente limitam a solução candidata.
-
-> **Links Úteis**:
-> - [O que são Requisitos Funcionais e Requisitos Não Funcionais?](https://codificar.com.br/requisitos-funcionais-nao-funcionais/)
-> - [O que são requisitos funcionais e requisitos não funcionais?](https://analisederequisitos.com.br/requisitos-funcionais-e-requisitos-nao-funcionais-o-que-sao/)
+| ID | Descrição | Prioridade |
+|----|-----------|------------|
+| R01 | O aplicativo deve ser desenvolvido utilizando React Native, NestJS e MongoDB | Alta |
+| R02 | O sistema de autenticação deve utilizar JWT | Alta |
+| R03 | A comunicação entre frontend e backend deve ser realizada via REST API | Alta |
+| R04 | O gerenciamento de estado no frontend deve utilizar Context API | Média |
+| R05 | O aplicativo deve suportar apenas os métodos de login mencionados (email/senha e redes sociais) | Média |
+| R06 | O banco de dados deve seguir a estrutura de coleções para usuários, agendas e eventos | Alta |
+| R07 | O sistema de notificações e lembretes deve ser implementado de forma simplificada | Média |
+| R08 | As permissões por agenda compartilhada limitam-se a visualização e edição | Média |
+| R09 | A confirmação de presença em eventos possui apenas três opções (sim/não/talvez) | Baixa |
 
 ## Diagrama de Casos de Uso
 
