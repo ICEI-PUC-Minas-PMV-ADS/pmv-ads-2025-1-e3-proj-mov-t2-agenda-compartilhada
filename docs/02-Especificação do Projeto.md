@@ -1,10 +1,35 @@
 # Especificações do Projeto
 
-<span style="color:red">Pré-requisitos: <a href="1-Documentação de Contexto.md"> Documentação de Contexto</a></span>
+## 1. Introdução
 
-Definição do problema e ideia de solução a partir da perspectiva do usuário. É composta pela definição do  diagrama de personas, histórias de usuários, requisitos funcionais e não funcionais além das restrições do projeto.
+No cenário atual, a falta de tempo e a falta de planejamento adequado têm se tornado obstáculos recorrentes para que as pessoas possam se reunir com seus amigos de maneira fácil e eficiente. Muitos indivíduos recorrem a aplicativos para tentar organizar esses encontros, mas frequentemente esses aplicativos não foram desenvolvidos com esse propósito específico, o que resulta em uma experiência de uso limitada e insatisfatória.
 
-Apresente uma visão geral do que será abordado nesta parte do documento, enumerando as técnicas e/ou ferramentas utilizadas para realizar a especificações do projeto
+Visando resolver essa lacuna, nosso grupo propôs o desenvolvimento de um **aplicativo para dispositivos móveis** simples, intuitivo e eficiente, que permita aos usuários planejar encontros de forma prática e organizada. O aplicativo buscará atender a três necessidades principais:
+
+- **Facilidade em encontrar um horário para se reunir com o grupo de amigos.**
+- **Facilidade em definir datas e organizar a distribuição de tarefas para o evento.**
+- **Facilidade em definir locais e agendar momentos de descontração com amigos de trabalho.**
+
+Este documento de especificação descreve os requisitos e as diretrizes para o desenvolvimento deste aplicativo.
+
+## 2. Objetivo do Projeto
+
+O objetivo principal deste projeto é criar um aplicativo para dispositivos móveis que permita aos usuários organizar encontros com amigos de maneira prática, rápida e eficiente. O aplicativo deve ser intuitivo, fácil de usar e atender às seguintes funcionalidades principais:
+
+- **Gestão de Agenda**: Permitir aos usuários sugerir datas e horários para o encontro, facilitando a escolha da melhor opção para todos os participantes.
+- **Distribuição de Tarefas**: Facilitar a organização e atribuição de tarefas para os membros do grupo (como quem vai levar o que, quem irá cuidar do transporte, etc.).
+- **Sugestão de Locais**: Auxiliar na definição de locais para encontros, permitindo a interação com serviços de geolocalização.
+
+## 3. Tecnologias Utilizadas
+
+- **Front-End**: O aplicativo será desenvolvido utilizando **React Native**, garantindo compatibilidade entre as plataformas Android e iOS e permitindo um desenvolvimento ágil e eficiente.
+- **Back-End**: Para o desenvolvimento do servidor e da lógica de negócios, será utilizado **NestJS**, uma estrutura robusta e escalável para aplicações backend em Node.js.
+- **Banco de Dados**: O banco de dados escolhido será **MongoDB**, um banco de dados NoSQL que garante flexibilidade e escalabilidade para o armazenamento das informações dos usuários, eventos e tarefas.
+
+## 4. Conclusão
+
+Este projeto visa entregar uma solução prática e eficaz para os usuários que desejam organizar encontros de forma mais simples, reduzindo a complexidade e o tempo gasto em processos de planejamento. Ao utilizar tecnologias modernas como React Native, NestJS e MongoDB, o aplicativo será escalável, eficiente e fácil de usar, garantindo uma experiência agradável para todos os envolvidos.
+
 
 ## Personas
 
