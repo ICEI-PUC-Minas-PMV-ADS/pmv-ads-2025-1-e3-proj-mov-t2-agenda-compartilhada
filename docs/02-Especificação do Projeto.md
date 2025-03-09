@@ -66,24 +66,48 @@ Apresente aqui as histórias de usuário que são relevantes para o projeto de s
 ## Modelagem do Processo de Negócio 
 
 ### Análise da Situação Atual
+Atualmente, a organização de eventos e compromissos entre grupos de pessoas enfrenta diversos desafios que comprometem a eficiência e praticidade:
 
-Apresente aqui os problemas existentes que viabilizam sua proposta. Apresente o modelo do sistema como ele funciona hoje. Caso sua proposta seja inovadora e não existam processos claramente definidos, apresente como as tarefas que o seu sistema pretende implementar são executadas atualmente, mesmo que não se utilize tecnologia computacional. 
+Fragmentação de informações: As pessoas utilizam diferentes ferramentas para gerenciar suas agendas (Google Calendar, Outlook, agenda física, notas em papel), dificultando a visualização integrada de disponibilidades.
+Comunicação ineficiente: A marcação de eventos em grupo geralmente ocorre por trocas de mensagens em aplicativos como WhatsApp ou e-mail, gerando longas conversas com informações dispersas e de difícil acompanhamento.
+Processo manual de conciliação: Encontrar horários compatíveis para todos os participantes exige que alguém pergunte individualmente sobre disponibilidades e faça manualmente a conciliação das agendas.
+Falta de centralização: Não há um repositório central onde todos os participantes possam visualizar eventos compartilhados, resultando em esquecimentos e confusões sobre datas e horários.
+Dificuldade de atualização: Alterações em eventos exigem nova rodada de comunicações, muitas vezes causando desalinhamento de informações entre os participantes.
+Confirmação de presença informal: Não existe um mecanismo padronizado para confirmar presença, resultando em incertezas sobre quem realmente participará de determinado evento.
+
+Esse cenário atual faz com que a organização de eventos entre grupos (familiares, amigos, colegas de trabalho) seja trabalhosa, propensa a erros e ineficiente.
 
 ### Descrição Geral da Proposta
+O aplicativo de gerenciamento de eventos pessoais e compartilhados propõe uma solução integrada para facilitar a organização de compromissos em grupo, conectando agendas individuais e permitindo a visualização compartilhada de disponibilidades.
 
-Apresente aqui uma descrição da sua proposta abordando seus limites e suas ligações com as estratégias e objetivos do negócio. Apresente aqui as oportunidades de melhorias.
+Limites da Proposta:
 
-### Processo 1 – NOME DO PROCESSO
+O aplicativo foca na gestão de eventos e compartilhamento de disponibilidades, não abrangendo outras funcionalidades como planejamento financeiro de eventos ou gerenciamento de tarefas.
+A solução é voltada para usuários individuais e pequenos grupos, não sendo projetada para uso corporativo em larga escala.
+O sistema não substitui plataformas especializadas em gestão de eventos profissionais ou conferências.
 
-Apresente aqui o nome e as oportunidades de melhorias para o processo 1. Em seguida, apresente o modelo do processo 1, descrito no padrão BPMN. 
+Ligações com Estratégias e Objetivos do Negócio:
 
-![Processo 1](img/02-bpmn-proc1.png)
+Simplificar e otimizar a organização do tempo pessoal e em grupo
+Reduzir o tempo gasto em coordenação de agendas
+Minimizar conflitos de horários e esquecimentos de compromissos
+Facilitar a visualização integrada de disponibilidades
 
-### Processo 2 – NOME DO PROCESSO
+Oportunidades de Melhorias:
 
-Apresente aqui o nome e as oportunidades de melhorias para o processo 2. Em seguida, apresente o modelo do processo 2, descrito no padrão BPMN.
+Centralização de informações: Unificação de calendários pessoais e compartilhados em uma única plataforma.
+Automação de conciliação: Sugestão automática de horários com base nas disponibilidades dos participantes.
+Comunicação simplificada: Redução da necessidade de trocas de mensagens em outros canais para marcação de eventos.
+Transparência de disponibilidades: Visualização clara de horários disponíveis de todos os participantes.
+Confirmação estruturada: Sistema formalizado para confirmar presença em eventos.
+Notificações automáticas: Alertas sobre novos eventos, alterações e lembretes de compromissos.
+Adaptabilidade a diferentes grupos: Possibilidade de criar múltiplas agendas para diferentes círculos sociais (trabalho, família, amigos).
 
-![Processo 2](img/02-bpmn-proc2.png)
+### Processo 1 - Gestão da Agenda Pessoal
+![Processo 1 - Gestão da Agenda Pessoal](https://github.com/user-attachments/assets/b2307b52-8ace-4b0d-b19c-f616e5465995)
+
+### Processo 2 - Organização de Eventos Compartilhados
+![Processo 2 - Organização de Eventos Compartilhados](https://github.com/user-attachments/assets/b035a434-ca36-4945-b587-41fcbaee61cc)
 
 ## Indicadores de Desempenho
 
@@ -198,22 +222,99 @@ De acordo com o PMBoK v6 as dez áreas que constituem os pilares para gerenciar 
 
 ## Gerenciamento de Tempo
 
-Com diagramas bem organizados que permitem gerenciar o tempo nos projetos, o gerente de projetos agenda e coordena tarefas dentro de um projeto para estimar o tempo necessário de conclusão.
+Desenvolvemos um gráfico de Gantt utilizando o Power BI para otimizar o gerenciamento de tempo do nosso projeto de agenda compartilhada. Esta visualização permite acompanhar em tempo real o progresso de cada etapa do desenvolvimento, identificando tarefas finalizadas, em andamento e não iniciadas através de um código de cores intuitivo. A interface facilita o monitoramento do cronograma completo, desde a fase de brainstorming até a apresentação final, garantindo que todas as entregas e atividades críticas sejam concluídas dentro dos prazos estabelecidos para o período de 5 meses do projeto.
 
-![Diagrama de rede simplificado notação francesa (método francês)](img/02-diagrama-rede-simplificado.png)
+![image](https://github.com/user-attachments/assets/80496011-291a-4349-a8da-40f328de243e)
 
-O gráfico de Gantt ou diagrama de Gantt também é uma ferramenta visual utilizada para controlar e gerenciar o cronograma de atividades de um projeto. Com ele, é possível listar tudo que precisa ser feito para colocar o projeto em prática, dividir em atividades e estimar o tempo necessário para executá-las.
-
-![Gráfico de Gantt](img/02-grafico-gantt.png)
 
 ## Gerenciamento de Equipe
 
-O gerenciamento adequado de tarefas contribuirá para que o projeto alcance altos níveis de produtividade. Por isso, é fundamental que ocorra a gestão de tarefas e de pessoas, de modo que os times envolvidos no projeto possam ser facilmente gerenciados. 
-
-![Simple Project Timeline](img/02-project-timeline.png)
+Foi utilizada a ferramenta Trello para a gestão da equipe e distribuição das tarefas. A comunicação aconteceu via grupo no Whatsapp e reuniões semanais através do Teams da equipe.
+![image](https://github.com/user-attachments/assets/b05749e9-6d1a-4b07-af43-1f786ae5487a)
 
 ## Gestão de Orçamento
 
-O processo de determinar o orçamento do projeto é uma tarefa que depende, além dos produtos (saídas) dos processos anteriores do gerenciamento de custos, também de produtos oferecidos por outros processos de gerenciamento, como o escopo e o tempo.
+# Planilha de Custos para Desenvolvimento de Software de Agenda Compartilhada
+## Projeto Universitário com React Native
 
-![Orçamento](img/02-orcamento.png)
+## 1. Custos de Pessoal (Bolsas/Auxílios)
+
+| Função | Número de Alunos | Valor Mensal (R$) | Duração (meses) | Custo Total (R$) |
+|--------|------------------|-------------------|-----------------|------------------|
+| Coordenador do Projeto | 1 | 800,00 | 5 | 4.000,00 |
+| Desenvolvedor React Native | 2 | 700,00 | 5 | 7.000,00 |
+| Designer UI/UX | 1 | 700,00 | 5 | 3.500,00 |
+| Desenvolvedor Back-end | 1 | 700,00 | 5 | 3.500,00 |
+| Tester/Documentação | 1 | 600,00 | 5 | 3.000,00 |
+| **Subtotal Pessoal** | | | | **21.000,00** |
+
+*Observação: Os valores representam possíveis bolsas de estudo/iniciação científica ou auxílio para os estudantes envolvidos no projeto.*
+
+## 2. Infraestrutura Tecnológica (Serviços em Nuvem e Ferramentas)
+
+| Item | Quantidade | Valor Unitário (R$) | Duração (meses) | Custo Total (R$) | Observações |
+|------|------------|---------------------|-----------------|------------------|-------------|
+| Servidor na Nuvem (Tier Básico) | 1 | 150,00/mês | 5 | 750,00 | Para desenvolvimento/testes (AWS/Azure/GCP - tier gratuito pode ser utilizado) |
+| Banco de Dados (MongoDB Atlas) | 1 | 0,00/mês | 5 | 0,00 | Plano gratuito para desenvolvimento |
+| Firebase (Autenticação, Notificações) | 1 | 0,00/mês | 5 | 0,00 | Plano gratuito (Spark) |
+| GitHub Pro (Repositório de Código) | 1 | 0,00/mês | 5 | 0,00 | GitHub Student Developer Pack (gratuito para estudantes) |
+| GitHub Actions (CI/CD) | 1 | 0,00/mês | 5 | 0,00 | Gratuito para repositórios públicos ou com conta educacional |
+| Figma (Design) | 1 | 0,00/mês | 5 | 0,00 | Versão educacional gratuita |
+| **Subtotal Infraestrutura** | | | | **750,00** | |
+
+## 3. Espaço Físico
+
+| Item | Quantidade | Valor Unitário (R$) | Duração (meses) | Custo Total (R$) |
+|------|------------|---------------------|-----------------|------------------|
+| Laboratório de Informática | 1 | 0,00 | 5 | 0,00 |
+| Sala de Reuniões | 1 | 0,00 | 5 | 0,00 |
+| **Subtotal Espaço Físico** | | | | **0,00** |
+
+*Observação: Considera-se o uso dos espaços já disponíveis na universidade, sem custos adicionais.*
+
+## 4. Equipamentos
+
+| Item | Quantidade | Valor Unitário (R$) | Custo Total (R$) | Observações |
+|------|------------|---------------------|------------------|-------------|
+| Smartphones para Teste | 2 | 1.200,00 | 2.400,00 | Android e iOS para testes |
+| Cabo USB e Acessórios | 4 | 50,00 | 200,00 | Para conexão e testes |
+| **Subtotal Equipamentos** | | | **2.600,00** | |
+
+*Observação: Considera-se que os alunos utilizarão seus próprios notebooks/computadores para desenvolvimento.*
+
+## 5. Software e Licenças
+
+| Item | Quantidade | Valor Unitário (R$) | Duração (meses) | Custo Total (R$) | Observações |
+|------|------------|---------------------|-----------------|------------------|-------------|
+| Apple Developer Program | 1 | 500,00/ano | - | 500,00 | Para publicação na App Store |
+| Google Play Developer Account | 1 | 100,00 | - | 100,00 | Licença vitalícia |
+| Bibliotecas Premium React Native | 1 | 300,00 | - | 300,00 | Componentes especializados (se necessário) |
+| **Subtotal Software e Licenças** | | | | **900,00** | |
+
+## 6. Outros Custos
+
+| Item | Valor (R$) | Observações |
+|------|------------|-------------|
+| Material de Consumo | 300,00 | Papelaria, impressões, etc. |
+| Participação em Eventos | 1.500,00 | Inscrição em competições ou eventos de apresentação |
+| Contingência (10%) | 2.705,00 | 10% do valor total dos outros itens |
+| **Subtotal Outros** | **4.505,00** | |
+
+## 7. Resumo de Custos
+
+| Categoria | Valor Total (R$) |
+|-----------|------------------|
+| 1. Custos de Pessoal (Bolsas) | 21.000,00 |
+| 2. Infraestrutura Tecnológica | 750,00 |
+| 3. Espaço Físico | 0,00 |
+| 4. Equipamentos | 2.600,00 |
+| 5. Software e Licenças | 900,00 |
+| 6. Outros Custos | 4.505,00 |
+| **CUSTO TOTAL DO PROJETO** | **29.755,00** |
+
+## 8. Observações Importantes
+
+- O projeto considera desenvolvimento em React Native para aplicações móveis (Android e iOS)
+- A duração estimada do projeto é de 5 meses
+- Considera-se o uso de serviços em nuvem com planos gratuitos quando possível
+- Projeto será desenvolvido de forma remota, sem necessidade de reuniões presenciais
