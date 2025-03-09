@@ -68,12 +68,12 @@ Apresente aqui as histórias de usuário que são relevantes para o projeto de s
 ### Análise da Situação Atual
 Atualmente, a organização de eventos e compromissos entre grupos de pessoas enfrenta diversos desafios que comprometem a eficiência e praticidade:
 
-Fragmentação de informações: As pessoas utilizam diferentes ferramentas para gerenciar suas agendas (Google Calendar, Outlook, agenda física, notas em papel), dificultando a visualização integrada de disponibilidades.
-Comunicação ineficiente: A marcação de eventos em grupo geralmente ocorre por trocas de mensagens em aplicativos como WhatsApp ou e-mail, gerando longas conversas com informações dispersas e de difícil acompanhamento.
-Processo manual de conciliação: Encontrar horários compatíveis para todos os participantes exige que alguém pergunte individualmente sobre disponibilidades e faça manualmente a conciliação das agendas.
-Falta de centralização: Não há um repositório central onde todos os participantes possam visualizar eventos compartilhados, resultando em esquecimentos e confusões sobre datas e horários.
-Dificuldade de atualização: Alterações em eventos exigem nova rodada de comunicações, muitas vezes causando desalinhamento de informações entre os participantes.
-Confirmação de presença informal: Não existe um mecanismo padronizado para confirmar presença, resultando em incertezas sobre quem realmente participará de determinado evento.
+Fragmentação de informações: As pessoas utilizam diferentes ferramentas para gerenciar suas agendas (Google Calendar, Outlook, agenda física, notas em papel), dificultando a visualização integrada de disponibilidades.  
+Comunicação ineficiente: A marcação de eventos em grupo geralmente ocorre por trocas de mensagens em aplicativos como WhatsApp ou e-mail, gerando longas conversas com informações dispersas e de difícil acompanhamento.  
+Processo manual de conciliação: Encontrar horários compatíveis para todos os participantes exige que alguém pergunte individualmente sobre disponibilidades e faça manualmente a conciliação das agendas.  
+Falta de centralização: Não há um repositório central onde todos os participantes possam visualizar eventos compartilhados, resultando em esquecimentos e confusões sobre datas e horários.  
+Dificuldade de atualização: Alterações em eventos exigem nova rodada de comunicações, muitas vezes causando desalinhamento de informações entre os participantes.  
+Confirmação de presença informal: Não existe um mecanismo padronizado para confirmar presença, resultando em incertezas sobre quem realmente participará de determinado evento.  
 
 Esse cenário atual faz com que a organização de eventos entre grupos (familiares, amigos, colegas de trabalho) seja trabalhosa, propensa a erros e ineficiente.
 
@@ -95,13 +95,13 @@ Facilitar a visualização integrada de disponibilidades
 
 Oportunidades de Melhorias:
 
-Centralização de informações: Unificação de calendários pessoais e compartilhados em uma única plataforma.
-Automação de conciliação: Sugestão automática de horários com base nas disponibilidades dos participantes.
-Comunicação simplificada: Redução da necessidade de trocas de mensagens em outros canais para marcação de eventos.
-Transparência de disponibilidades: Visualização clara de horários disponíveis de todos os participantes.
-Confirmação estruturada: Sistema formalizado para confirmar presença em eventos.
-Notificações automáticas: Alertas sobre novos eventos, alterações e lembretes de compromissos.
-Adaptabilidade a diferentes grupos: Possibilidade de criar múltiplas agendas para diferentes círculos sociais (trabalho, família, amigos).
+Centralização de informações: Unificação de calendários pessoais e compartilhados em uma única plataforma.  
+Automação de conciliação: Sugestão automática de horários com base nas disponibilidades dos participantes.  
+Comunicação simplificada: Redução da necessidade de trocas de mensagens em outros canais para marcação de eventos.  
+Transparência de disponibilidades: Visualização clara de horários disponíveis de todos os participantes.  
+Confirmação estruturada: Sistema formalizado para confirmar presença em eventos.  
+Notificações automáticas: Alertas sobre novos eventos, alterações e lembretes de compromissos.  
+Adaptabilidade a diferentes grupos: Possibilidade de criar múltiplas agendas para diferentes círculos sociais (trabalho, família, amigos).  
 
 ### Processo 1 - Gestão da Agenda Pessoal
 ![Processo 1 - Gestão da Agenda Pessoal](https://github.com/user-attachments/assets/b2307b52-8ace-4b0d-b19c-f616e5465995)
@@ -233,11 +233,7 @@ Foi utilizada a ferramenta Trello para a gestão da equipe e distribuição das 
 ![image](https://github.com/user-attachments/assets/b05749e9-6d1a-4b07-af43-1f786ae5487a)
 
 ## Gestão de Orçamento
-
-# Planilha de Custos para Desenvolvimento de Software de Agenda Compartilhada
-## Projeto Universitário com React Native
-
-## 1. Custos de Pessoal (Bolsas/Auxílios)
+### Custos de Pessoal (Bolsas/Auxílios)
 
 | Função | Número de Alunos | Valor Mensal (R$) | Duração (meses) | Custo Total (R$) |
 |--------|------------------|-------------------|-----------------|------------------|
@@ -250,7 +246,7 @@ Foi utilizada a ferramenta Trello para a gestão da equipe e distribuição das 
 
 *Observação: Os valores representam possíveis bolsas de estudo/iniciação científica ou auxílio para os estudantes envolvidos no projeto.*
 
-## 2. Infraestrutura Tecnológica (Serviços em Nuvem e Ferramentas)
+### Infraestrutura Tecnológica (Serviços em Nuvem e Ferramentas)
 
 | Item | Quantidade | Valor Unitário (R$) | Duração (meses) | Custo Total (R$) | Observações |
 |------|------------|---------------------|-----------------|------------------|-------------|
@@ -262,7 +258,7 @@ Foi utilizada a ferramenta Trello para a gestão da equipe e distribuição das 
 | Figma (Design) | 1 | 0,00/mês | 5 | 0,00 | Versão educacional gratuita |
 | **Subtotal Infraestrutura** | | | | **750,00** | |
 
-## 3. Espaço Físico
+### Espaço Físico
 
 | Item | Quantidade | Valor Unitário (R$) | Duração (meses) | Custo Total (R$) |
 |------|------------|---------------------|-----------------|------------------|
@@ -272,7 +268,7 @@ Foi utilizada a ferramenta Trello para a gestão da equipe e distribuição das 
 
 *Observação: Considera-se o uso dos espaços já disponíveis na universidade, sem custos adicionais.*
 
-## 4. Equipamentos
+### Equipamentos
 
 | Item | Quantidade | Valor Unitário (R$) | Custo Total (R$) | Observações |
 |------|------------|---------------------|------------------|-------------|
@@ -282,7 +278,7 @@ Foi utilizada a ferramenta Trello para a gestão da equipe e distribuição das 
 
 *Observação: Considera-se que os alunos utilizarão seus próprios notebooks/computadores para desenvolvimento.*
 
-## 5. Software e Licenças
+### Software e Licenças
 
 | Item | Quantidade | Valor Unitário (R$) | Duração (meses) | Custo Total (R$) | Observações |
 |------|------------|---------------------|-----------------|------------------|-------------|
@@ -291,7 +287,7 @@ Foi utilizada a ferramenta Trello para a gestão da equipe e distribuição das 
 | Bibliotecas Premium React Native | 1 | 300,00 | - | 300,00 | Componentes especializados (se necessário) |
 | **Subtotal Software e Licenças** | | | | **900,00** | |
 
-## 6. Outros Custos
+### Outros Custos
 
 | Item | Valor (R$) | Observações |
 |------|------------|-------------|
@@ -300,7 +296,7 @@ Foi utilizada a ferramenta Trello para a gestão da equipe e distribuição das 
 | Contingência (10%) | 2.705,00 | 10% do valor total dos outros itens |
 | **Subtotal Outros** | **4.505,00** | |
 
-## 7. Resumo de Custos
+### Resumo de Custos
 
 | Categoria | Valor Total (R$) |
 |-----------|------------------|
@@ -312,7 +308,7 @@ Foi utilizada a ferramenta Trello para a gestão da equipe e distribuição das 
 | 6. Outros Custos | 4.505,00 |
 | **CUSTO TOTAL DO PROJETO** | **29.755,00** |
 
-## 8. Observações Importantes
+### Observações Importantes
 
 - O projeto considera desenvolvimento em React Native para aplicações móveis (Android e iOS)
 - A duração estimada do projeto é de 5 meses
