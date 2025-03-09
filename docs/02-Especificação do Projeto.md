@@ -93,12 +93,12 @@ Apresente aqui as histórias de usuário que são relevantes para o projeto de s
 ### Análise da Situação Atual
 Atualmente, a organização de eventos e compromissos entre grupos de pessoas enfrenta diversos desafios que comprometem a eficiência e praticidade:
 
-Fragmentação de informações: As pessoas utilizam diferentes ferramentas para gerenciar suas agendas (Google Calendar, Outlook, agenda física, notas em papel), dificultando a visualização integrada de disponibilidades.  
-Comunicação ineficiente: A marcação de eventos em grupo geralmente ocorre por trocas de mensagens em aplicativos como WhatsApp ou e-mail, gerando longas conversas com informações dispersas e de difícil acompanhamento.  
-Processo manual de conciliação: Encontrar horários compatíveis para todos os participantes exige que alguém pergunte individualmente sobre disponibilidades e faça manualmente a conciliação das agendas.  
-Falta de centralização: Não há um repositório central onde todos os participantes possam visualizar eventos compartilhados, resultando em esquecimentos e confusões sobre datas e horários.  
-Dificuldade de atualização: Alterações em eventos exigem nova rodada de comunicações, muitas vezes causando desalinhamento de informações entre os participantes.  
-Confirmação de presença informal: Não existe um mecanismo padronizado para confirmar presença, resultando em incertezas sobre quem realmente participará de determinado evento.  
+-**Fragmentação de informações: As pessoas utilizam diferentes ferramentas para gerenciar suas agendas (Google Calendar, Outlook, agenda física, notas em papel), dificultando a visualização integrada de disponibilidades.  
+-**Comunicação ineficiente: A marcação de eventos em grupo geralmente ocorre por trocas de mensagens em aplicativos como WhatsApp ou e-mail, gerando longas conversas com informações dispersas e de difícil acompanhamento.  
+-**Processo manual de conciliação: Encontrar horários compatíveis para todos os participantes exige que alguém pergunte individualmente sobre disponibilidades e faça manualmente a conciliação das agendas.  
+-**Falta de centralização: Não há um repositório central onde todos os participantes possam visualizar eventos compartilhados, resultando em esquecimentos e confusões sobre datas e horários.  
+-**Dificuldade de atualização: Alterações em eventos exigem nova rodada de comunicações, muitas vezes causando desalinhamento de informações entre os participantes.  
+-**Confirmação de presença informal: Não existe um mecanismo padronizado para confirmar presença, resultando em incertezas sobre quem realmente participará de determinado evento.  
 
 Esse cenário atual faz com que a organização de eventos entre grupos (familiares, amigos, colegas de trabalho) seja trabalhosa, propensa a erros e ineficiente.
 
@@ -107,26 +107,26 @@ O aplicativo de gerenciamento de eventos pessoais e compartilhados propõe uma s
 
 Limites da Proposta:
 
-O aplicativo foca na gestão de eventos e compartilhamento de disponibilidades, não abrangendo outras funcionalidades como planejamento financeiro de eventos ou gerenciamento de tarefas.
-A solução é voltada para usuários individuais e pequenos grupos, não sendo projetada para uso corporativo em larga escala.
-O sistema não substitui plataformas especializadas em gestão de eventos profissionais ou conferências.
+-**O aplicativo foca na gestão de eventos e compartilhamento de disponibilidades, não abrangendo outras funcionalidades como planejamento financeiro de eventos ou gerenciamento de tarefas.
+-**A solução é voltada para usuários individuais e pequenos grupos, não sendo projetada para uso corporativo em larga escala.
+-**O sistema não substitui plataformas especializadas em gestão de eventos profissionais ou conferências.
 
 Ligações com Estratégias e Objetivos do Negócio:
 
-Simplificar e otimizar a organização do tempo pessoal e em grupo
-Reduzir o tempo gasto em coordenação de agendas
-Minimizar conflitos de horários e esquecimentos de compromissos
-Facilitar a visualização integrada de disponibilidades
+-**Simplificar e otimizar a organização do tempo pessoal e em grupo
+-**Reduzir o tempo gasto em coordenação de agendas
+-**Minimizar conflitos de horários e esquecimentos de compromissos
+-**Facilitar a visualização integrada de disponibilidades
 
 Oportunidades de Melhorias:
 
-Centralização de informações: Unificação de calendários pessoais e compartilhados em uma única plataforma.  
-Automação de conciliação: Sugestão automática de horários com base nas disponibilidades dos participantes.  
-Comunicação simplificada: Redução da necessidade de trocas de mensagens em outros canais para marcação de eventos.  
-Transparência de disponibilidades: Visualização clara de horários disponíveis de todos os participantes.  
-Confirmação estruturada: Sistema formalizado para confirmar presença em eventos.  
-Notificações automáticas: Alertas sobre novos eventos, alterações e lembretes de compromissos.  
-Adaptabilidade a diferentes grupos: Possibilidade de criar múltiplas agendas para diferentes círculos sociais (trabalho, família, amigos).  
+-**Centralização de informações: Unificação de calendários pessoais e compartilhados em uma única plataforma.  
+-**Automação de conciliação: Sugestão automática de horários com base nas disponibilidades dos participantes.  
+-**Comunicação simplificada: Redução da necessidade de trocas de mensagens em outros canais para marcação de eventos.  
+-**Transparência de disponibilidades: Visualização clara de horários disponíveis de todos os participantes.  
+-**Confirmação estruturada: Sistema formalizado para confirmar presença em eventos.  
+-**Notificações automáticas: Alertas sobre novos eventos, alterações e lembretes de compromissos.  
+-**Adaptabilidade a diferentes grupos: Possibilidade de criar múltiplas agendas para diferentes círculos sociais (trabalho, família, amigos).  
 
 ### Processo 1 - Gestão da Agenda Pessoal
 ![Processo 1 - Gestão da Agenda Pessoal](https://github.com/user-attachments/assets/b2307b52-8ace-4b0d-b19c-f616e5465995)
