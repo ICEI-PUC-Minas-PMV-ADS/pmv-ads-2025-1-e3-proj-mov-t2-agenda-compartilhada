@@ -1,45 +1,32 @@
 
 # Metodologia
 
-<span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Documentação de Especificação</a></span>
-
-Descreva aqui a metodologia de trabalho do grupo para atacar o problema. Definições sobre os ambiente de trabalho utilizados pela  equipe para desenvolver o projeto. Abrange a relação de ambientes utilizados, a estrutura para gestão do código fonte, além da definição do processo e ferramenta através dos quais a equipe se organiza (Gestão de Times).
+Para construir o sistema de agenda compartilhada, vamos seguir um método ágil chamado SCRUM. O trabalho será dividido em ciclos curtos e colaborativos, com lançamentos parciais e revisão constante da equipe. Nosso objetivo é assegurar que todas as funções sejam desenvolvidas de forma eficaz, dentro do prazo e com excelência, adaptando-nos prontamente a quaisquer alterações no plano ou nas necessidades do projeto.
 
 ## Relação de Ambientes de Trabalho
-
-Os artefatos do projeto são desenvolvidos a partir de diversas plataformas e a relação dos ambientes com seu respectivo propósito deverá ser apresentada em uma tabela que especifica que detalha Ambiente, Plataforma e Link de Acesso. 
-Nota: Vide documento modelo do estudo de caso "Portal de Notícias" e defina também os ambientes e frameworks que serão utilizados no desenvolvimento de aplicações móveis.
+ Os artefatos do projeto são desenvolvidos a partir de diversas plataformas e a relação dos ambientes com seu respectivo propósito é apresentada na tabela que se segue.
+|Ambiente| Plataforma  | Link de Acesso|
+|------|--------------------|----|
+|Repositório do projeto e código fonte|Github | https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-1-e3-proj-mov-t2-agenda-compartilhada | 
+|Framework| React Native | https://reactnative.dev/ |
+|Emulador Android| Android Studio | https://developer.android.com/ |
+|Ambiente de Desenvolvimento| A escolha | https://developer.android.com/ |
+|Gerenciamento do Projeto| Trello | https://trello.com/invite/b/67aa9ac38291bf3a99c9c882/ATTI224e5095d9b9c2476bd095ffbc07520aF378C10B/eixo-3 |
 
 ## Controle de Versão
 
-A ferramenta de controle de versão adotada no projeto foi o
-[Git](https://git-scm.com/), sendo que o [Github](https://github.com)
-foi utilizado para hospedagem do repositório.
+A ferramenta de controle de versão adotada no projeto foi o [Git](https://git-scm.com/), sendo que o [Github](https://github.com) foi utilizado para hospedagem do repositório.
 
-O projeto segue a seguinte convenção para o nome de branches:
+Para o gerenciamento de versão do projeto, a interface [GitKraken](https://www.gitkraken.com/) é empregada para facilitar a visualização e a gestão das branches e deixar o controle de versão intuitivo. A estratégia adotada para o gerenciamento das branches segue o modelo Gitflow, que ajuda a manter o fluxo eficiente e bem definido.
 
-- `main`: versão estável já testada do software
-- `unstable`: versão já testada do software, porém instável
-- `testing`: versão em testes do software
-- `dev`: versão de desenvolvimento do software
+### Estrutura de Branches
+As branches estão estruturadas da seguinte forma:
 
-Quanto à gerência de issues, o projeto adota a seguinte convenção para
-etiquetas:
+- `main`: branch principal contendo a versão estável e pronta para produção do software.
+- `dev`: branch de desenvolvimento onde as novas funcionalidades e melhorias são integradas após serem concluídas.
+- `feature`: branches específicas para o desenvolvimento de novas funcionalidades
 
-- `documentation`: melhorias ou acréscimos à documentação
-- `bug`: uma funcionalidade encontra-se com problemas
-- `enhancement`: uma funcionalidade precisa ser melhorada
-- `feature`: uma nova funcionalidade precisa ser introduzida
-
-Discuta como a configuração do projeto foi feita na ferramenta de versionamento escolhida. Exponha como a gerência de tags, merges, commits e branchs é realizada. Discuta como a gerência de issues foi realizada.
-
-> **Links Úteis**:
-> - [Microfundamento: Gerência de Configuração](https://pucminas.instructure.com/courses/87878/)
-> - [Tutorial GitHub](https://guides.github.com/activities/hello-world/)
-> - [Git e Github](https://www.youtube.com/playlist?list=PLHz_AreHm4dm7ZULPAmadvNhH6vk9oNZA)
->  - [Comparando fluxos de trabalho](https://www.atlassian.com/br/git/tutorials/comparing-workflows)
-> - [Understanding the GitHub flow](https://guides.github.com/introduction/flow/)
-> - [The gitflow workflow - in less than 5 mins](https://www.youtube.com/watch?v=1SXpE08hvGs)
+Essa estrutura permite uma organização clara do desenvolvimento e facilita a gestão de diferentes aspectos do projeto.
 
 ## Gerenciamento de Projeto
 
