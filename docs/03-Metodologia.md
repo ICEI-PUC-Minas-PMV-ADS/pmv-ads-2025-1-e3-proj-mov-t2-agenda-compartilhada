@@ -43,45 +43,64 @@ Discuta como a configuração do projeto foi feita na ferramenta de versionament
 
 ## Gerenciamento de Projeto
 
+Com o objetivo de garantir a eficiência no planejamento e execução do desenvolvimento do aplicativo Agenda Compartilhada, foi adotada uma abordagem híbrida baseada nos princípios das metodologias ágeis, combinando elementos do Scrum e do Kanban, que permite integrar o planejamento iterativo do Scrum com a flexibilidade do Kanban, proporcionando um fluxo contínuo de trabalho e uma gestão mais dinâmica das tarefas.
+
+A utilização do Trello como ferramenta de gestão visual possibilita a organização do backlog de atividades, distribuindo as tarefas em colunas como To Do, Doing e Done. Esse modelo permite um acompanhamento claro do progresso, priorizando a transparência e a eficiência na execução das demandas. 
+
+Além disso, foram implementadas reuniões semanais via Microsoft Teams, garantindo alinhamento contínuo entre os membros da equipe. Essas reuniões desempenham um papel semelhante às daily meetings do Scrum, permitindo a identificação e resolução de desafios, bem como o acompanhamento do progresso das atividades em andamento.
+
+Para monitoramento do cronograma e controle das entregas, foi utilizado um gráfico de Gantt. Essa ferramenta auxilia no rastreamento das etapas do projeto, permitindo uma visualização clara dos marcos e prazos estabelecidos.
+
+Portanto, a metodologia ágil escolhida pelo grupo favorece a previsibilidade no desenvolvimento do software, otimizando a produtividade e promovendo uma execução eficiente e colaborativa. 
+
+
 ### Divisão de Papéis
 
-Apresente a divisão de papéis entre os membros do grupo.
+Para garantir a organização e eficiência no desenvolvimento do aplicativo Agenda Compartilhada, a equipe foi estruturada de acordo com os princípios da metodologia ágil Scrum. A divisão de papéis seguiu uma abordagem que favorece a colaboração, a agilidade na tomada de decisões e a entrega incremental do produto.
 
-Exemplificação: A equipe utiliza metodologias ágeis, tendo escolhido o Scrum como base para definição do processo de desenvolvimento. A equipe está organizada da seguinte maneira:
-- Scrum Master: Felipe Domingos;
-- Product Owner: Rommel Carneiro;
-- Equipe de Desenvolvimento: Pedro Penna, Pedro Ivo, Rodrigo Richard;
-- Equipe de Design: Simone Nogueira.
+Scrum Master: Nikolas Victor Mota.
+Responsável por garantir a aplicação da metodologia ágil Scrum, facilitando a comunicação entre os membros da equipe.
 
-> **Links Úteis**:
-> - [11 Passos Essenciais para Implantar Scrum no seu Projeto](https://mindmaster.com.br/scrum-11-passos/)
-> - [Scrum em 9 minutos](https://www.youtube.com/watch?v=XfvQWnRgxG0)
-> - [Os papéis do Scrum e a verdade sobre cargos nessa técnica](https://www.atlassian.com/br/agile/scrum/roles)
+Product Owner: Nikolas Victor Mota.
+Responsável pela definição e priorização do backlog do produto, garantindo que os requisitos atendam às necessidades dos usuários e que a equipe de desenvolvimento esteja alinhada com os objetivos do projeto.
+
+Equipe de Desenvolvimento:
+Yasmim Emmeline Brandão Nunes
+Milton Roberto Garcia Ventura
+Grace Kelly Santos e Silva
+Daianne Moreira
+Letícia Moreira
+Responsáveis pela implementação das funcionalidades do sistema, desenvolvimento do código-fonte, integração de tecnologias e garantia da qualidade técnica do produto.
+
+Equipe de Design: 
+Daianne Moreira
+Letícia Moreira
+Responsáveis pela concepção da interface do usuário e experiência do usuário, garantindo um design intuitivo e acessível, alinhado às necessidades dos usuários finais.
 
 ### Processo
 
-Coloque  informações sobre detalhes da implementação do Scrum seguido pelo grupo. O grupo deverá fazer uso do recurso de gerenciamento de projeto oferecido pelo GitHub, que permite acompanhar o andamento do projeto, a execução das tarefas e o status de desenvolvimento da solução.
- 
-> **Links Úteis**:
-> - [Planejamento e Gestáo Ágil de Projetos](https://pucminas.instructure.com/courses/87878/pages/unidade-2-tema-2-utilizacao-de-ferramentas-para-controle-de-versoes-de-software)
-> - [Sobre quadros de projeto](https://docs.github.com/pt/issues/organizing-your-work-with-project-boards/managing-project-boards/about-project-boards)
-> - [Project management, made simple](https://github.com/features/project-management/)
-> - [Sobre quadros de projeto](https://docs.github.com/pt/github/managing-your-work-on-github/about-project-boards)
-> - [Como criar Backlogs no Github](https://www.youtube.com/watch?v=RXEy6CFu9Hk)
-> - [Tutorial Slack](https://slack.com/intl/en-br/)
+Conforme especificado anteriormente, o Scrum foi definido como a metodologia ágil para o desenvolvimento do Agenda Compartilhada, garantindo um fluxo de trabalho iterativo e eficiente. A seguir, detalhamos a implementação do Scrum no projeto.
+
+A equipe Scrum é composta pelo Scrum Master e Product Owner Nikolas Victor Mota, e pela equipe de desenvolvimento e design, formada por Yasmim Emmeline Brandão Nunes, Milton Roberto Garcia Ventura, Grace Kelly Santos e Silva, Daianne Moreira e Letícia Moreira.
+
+O Scrum Master é responsável por garantir que a equipe siga as práticas do Scrum, facilitando o trabalho dos desenvolvedores e designers, removendo impedimentos e promovendo a melhoria contínua do processo. Além disso, acumulando a função de Product Owner, Nikolas Victor Mota é responsável por definir e priorizar o backlog do produto, assegurando que as funcionalidades desenvolvidas estejam alinhadas às necessidades dos usuários.
+
+A equipe de desenvolvimento e design tem a responsabilidade de entregar as funcionalidades do sistema dentro dos períodos definidos em cada Sprint. Um Sprint é um ciclo fixo de trabalho no qual a equipe deve desenvolver e entregar um conjunto de funcionalidades predefinidas no backlog do produto.
+
+Durante o projeto, foram realizadas reuniões semanalmente para acompanhar o progresso do trabalho e garantir que todos os membros estivessem alinhados com os objetivos da Sprint. As reuniões foram estruturadas da seguinte maneira: 
+- 	Reunião de acompanhamento (Daily Scrum): Cada membro da equipe compartilha as atividades realizadas desde o último encontro, as próximas tarefas planejadas e eventuais impedimentos que possam impactar o desenvolvimento.
+- 	Reunião para revisão do Sprint: Nesse encontro, a equipe apresenta as funcionalidades concluídas ao final da Sprint. O Product Owner e outras partes interessadas fornecem feedback sobre o trabalho desenvolvido e revisam o backlog do produto, ajustando as prioridades para as próximas entregas.
+
+A utilização do Scrum no desenvolvimento do Agenda Compartilhada proporcionou um fluxo de trabalho estruturado, permitindo entregas incrementais e ajustáveis de acordo com as necessidades do projeto. Como o Scrum é uma metodologia flexível, adaptações foram feitas ao longo do processo para garantir maior alinhamento com os desafios e demandas específicas da equipe e do produto.
 
 ### Ferramentas
 
 As ferramentas empregadas no projeto são:
 
-- Editor de código.
-- Ferramentas de comunicação
-- Ferramentas de desenho de tela (_wireframing_)
-
-O editor de código foi escolhido porque ele possui uma integração com o sistema de versão. As ferramentas de comunicação utilizadas possuem integração semelhante e por isso foram selecionadas. Por fim, para criar diagramas utilizamos essa ferramenta por melhor captar as necessidades da nossa solução.
-
-Liste quais ferramentas foram empregadas no desenvolvimento do projeto, justificando a escolha delas, sempre que possível.
- 
-> **Possíveis Ferramentas que auxiliarão no gerenciamento**: 
-> - [Slack](https://slack.com/)
-> - [Github](https://github.com/)
+Repositório de Código Fonte: Github
+Gerenciamento do Projeto: Trello
+Ferramenta de Comunicação: Microsoft Teams
+Desenvolvimento e Implementação: React Native
+Banco de dados NoSQL: MongoDB
+Editor de Código: Visual Studio v.2019
+Ferramentas de desenho de tela: Figma
