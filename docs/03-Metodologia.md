@@ -88,7 +88,7 @@ O Scrum Master é responsável por garantir que a equipe siga as práticas do Sc
 A equipe de desenvolvimento e design tem a responsabilidade de entregar as funcionalidades do sistema dentro dos períodos definidos em cada Sprint. Um Sprint é um ciclo fixo de trabalho no qual a equipe deve desenvolver e entregar um conjunto de funcionalidades predefinidas no backlog do produto.
 
 Durante o projeto, foram realizadas reuniões semanalmente para acompanhar o progresso do trabalho e garantir que todos os membros estivessem alinhados com os objetivos da Sprint. As reuniões foram estruturadas da seguinte maneira: 
-- 	Reunião de acompanhamento (Daily Scrum): Cada membro da equipe compartilha as atividades realizadas desde o último encontro, as próximas tarefas planejadas e eventuais impedimentos que possam impactar o desenvolvimento.
+- 	Reunião de acompanhamento: Cada membro da equipe compartilha as atividades realizadas desde o último encontro, as próximas tarefas planejadas e eventuais impedimentos que possam impactar o desenvolvimento.
 - 	Reunião para revisão do Sprint: Nesse encontro, a equipe apresenta as funcionalidades concluídas ao final da Sprint. O Product Owner e outras partes interessadas fornecem feedback sobre o trabalho desenvolvido e revisam o backlog do produto, ajustando as prioridades para as próximas entregas.
 
 A utilização do Scrum no desenvolvimento do Agenda Compartilhada proporcionou um fluxo de trabalho estruturado, permitindo entregas incrementais e ajustáveis de acordo com as necessidades do projeto. Como o Scrum é uma metodologia flexível, adaptações foram feitas ao longo do processo para garantir maior alinhamento com os desafios e demandas específicas da equipe e do produto.
@@ -97,10 +97,10 @@ A utilização do Scrum no desenvolvimento do Agenda Compartilhada proporcionou 
 
 As ferramentas empregadas no projeto são:
 
-Repositório de Código Fonte: Github
-Gerenciamento do Projeto: Trello
-Ferramenta de Comunicação: Microsoft Teams
-Desenvolvimento e Implementação: React Native
-Banco de dados NoSQL: MongoDB
-Editor de Código: Visual Studio v.2019
-Ferramentas de desenho de tela: Figma
+Repositório de Código Fonte: Github;
+Gerenciamento do Projeto: Trello;
+Ferramenta de Comunicação: Microsoft Teams;
+Desenvolvimento e Implementação: React Native;
+Banco de dados NoSQL: MongoDB;
+Editor de Código: Visual Studio v.2019;
+Ferramentas de desenho de tela: Figma;
