@@ -97,12 +97,12 @@ A utilização do Scrum no desenvolvimento do Agenda Compartilhada proporcionou 
 
 As ferramentas empregadas no projeto são:
 
--Repositório de Código Fonte: Github;
--Gerenciamento do Projeto: Trello;
--Ferramenta de Comunicação: Microsoft Teams;
--Desenvolvimento e Implementação: React Native;
--Banco de dados NoSQL: MongoDB;
--Editor de Código: Visual Studio v.2019;
--Ferramentas de desenho de tela: Figma.
+- 	Repositório de Código Fonte: Github;
+- 	Gerenciamento do Projeto: Trello;
+- 	Ferramenta de Comunicação: Microsoft Teams;
+- 	Desenvolvimento e Implementação: React Native;
+- 	Banco de dados NoSQL: MongoDB;
+- 	Editor de Código: Visual Studio v.2019;
+- 	Ferramentas de desenho de tela: Figma.
 
 
