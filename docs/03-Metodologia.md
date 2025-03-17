@@ -10,7 +10,7 @@ Para construir o sistema de agenda compartilhada, vamos seguir um método ágil 
 |Repositório do projeto e código fonte|Github | https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-1-e3-proj-mov-t2-agenda-compartilhada | 
 |Framework| React Native | https://reactnative.dev/ |
 |Emulador Android| Android Studio | https://developer.android.com/ |
-|Ambiente de Desenvolvimento| A escolha | https://developer.android.com/ |
+|Ambiente de Desenvolvimento| A escolha | X |
 |Gerenciamento do Projeto| Trello | https://trello.com/invite/b/67aa9ac38291bf3a99c9c882/ATTI224e5095d9b9c2476bd095ffbc07520aF378C10B/eixo-3 |
 
 ## Controle de Versão
