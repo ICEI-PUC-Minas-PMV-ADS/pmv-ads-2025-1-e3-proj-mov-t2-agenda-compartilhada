@@ -2,7 +2,8 @@
 
 O aplicativo será desenvolvido para dispositivos móveis com foco principal na criação de um front-end ideal, proporcionando uma interface interativa e altamente responsiva. A camada de front-end será construída utilizando React JS, garantindo uma experiência de usuário fluida e dinâmica. O back-end será implementado com NestJS, proporcionando uma estrutura robusta para gerenciar a lógica de negócios e rotas da aplicação de forma eficiente. A API criada com NestJS se conectará ao banco de dados MongoDB, garantindo um armazenamento flexível e escalável de dados.
 
-![Arquitetura da Solução](img/02-mob-arch.png)
+![Arquitetura](https://github.com/user-attachments/assets/45b905f0-bba5-4884-b341-1a05462b4422)
+
 
 ## Diagrama de Classes
 
