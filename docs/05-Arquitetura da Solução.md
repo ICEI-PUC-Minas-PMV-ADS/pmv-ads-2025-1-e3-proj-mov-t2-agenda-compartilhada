@@ -2,8 +2,7 @@
 
 O aplicativo será desenvolvido para dispositivos móveis com foco principal na criação de um front-end ideal, proporcionando uma interface interativa e altamente responsiva. A camada de front-end será construída utilizando React JS, garantindo uma experiência de usuário fluida e dinâmica. O back-end será implementado com NestJS, proporcionando uma estrutura robusta para gerenciar a lógica de negócios e rotas da aplicação de forma eficiente. A API criada com NestJS se conectará ao banco de dados MongoDB, garantindo um armazenamento flexível e escalável de dados.
 
-![Arquitetura](https://github.com/user-attachments/assets/45b905f0-bba5-4884-b341-1a05462b4422)
-
+![Arquitetura](https://github.com/user-attachments/assets/b3d1de03-1e95-497b-92d3-15a92d2c831c)
 
 ## Diagrama de Classes
 
@@ -36,9 +35,21 @@ Entregar um arquivo banco.sql contendo os scripts de criação das tabelas do ba
 
 ## Tecnologias Utilizadas
 
-Descreva aqui qual(is) tecnologias você vai usar para resolver o seu problema, ou seja, implementar a sua solução. Liste todas as tecnologias envolvidas, linguagens a serem utilizadas, serviços web, frameworks, bibliotecas, IDEs de desenvolvimento, e ferramentas.
+- **Git**: Ferramenta utilizada para o versionamento de código.
+- **GitHub**: Repositório para armazenar os arquivos do projeto.
+- **Sourcetree**: Interface gráfica para facilitar o uso do Git.
+- **Gitflow**: Ferramenta que organiza o fluxo de branches do projeto.
 
-Apresente também uma figura explicando como as tecnologias estão relacionadas ou como uma interação do usuário com o sistema vai ser conduzida, por onde ela passa até retornar uma resposta ao usuário.
+- **IDEs**: Softwares utilizados para o desenvolvimento do código
+  - Visual Studio Code
+  - IntelliJ
+  - Expo
+
+- **MongoDB**: Banco de dados não relacional para armazenamento das informações do sistema.
+- **React Native**: Framework para o desenvolvimento da interface do sistema.
+- **Nest JS**: Framework para o back-end, responsável pela comunicação entre o banco de dados e a interface.
+
+- **Trello**: Plataforma usada para gerenciar os quadros e as tarefas da equipe.
 
 ## Hospedagem
 
