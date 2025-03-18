@@ -17,7 +17,7 @@ Para construir o sistema de agenda compartilhada, vamos seguir um método ágil 
 
 A ferramenta de controle de versão adotada no projeto foi o [Git](https://git-scm.com/), sendo que o [Github](https://github.com) foi utilizado para hospedagem do repositório.
 
-Para o gerenciamento de versão do projeto, a interface [GitKraken](https://www.gitkraken.com/) é empregada para facilitar a visualização e a gestão das branches e deixar o controle de versão intuitivo. A estratégia adotada para o gerenciamento das branches segue o modelo Gitflow, que ajuda a manter o fluxo eficiente e bem definido.
+Para o gerenciamento de versão do projeto, a interface [Sourcetree](https://www.sourcetreeapp.com/) é empregada para facilitar a visualização e a gestão das branches e deixar o controle de versão intuitivo. A estratégia adotada para o gerenciamento das branches segue o modelo Gitflow, que ajuda a manter o fluxo eficiente e bem definido.
 
 ### Estrutura de Branches
 As branches estão estruturadas da seguinte forma:
