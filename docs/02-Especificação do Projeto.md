@@ -126,12 +126,17 @@ Oportunidades de Melhorias:
 
 ## Indicadores de Desempenho
 
-Apresente aqui os principais indicadores de desempenho e algumas metas para o processo. Atenção: as informações necessárias para gerar os indicadores devem estar contempladas no diagrama de classe. Colocar no mínimo 5 indicadores. 
+Indicadores de qualidade são as métricas que usaremos para avaliar o desempenho de processos, produtos ou serviços, com o objetivo de garantir que atendam a padrões de qualidade específicos. Eles ajudam a medir a eficiência, a eficácia e a conformidade com os requisitos estabelecidos, e são fundamentais para a melhoria contínua dentro de organizações.
 
-Usar o seguinte modelo: 
+Segue abaixo os indicadores que serão usados para medir e qualificar o aplicativo:
 
-![Indicadores de Desempenho](img/02-indic-desemp.png)
-Obs.: todas as informações para gerar os indicadores devem estar no diagrama de classe a ser apresentado a posteriori. 
+| Indicador | Objetivos | Descrição | Cálculo | Fonte dados | Perspectiva |
+|-----------|-----------|-----------|---------|------------|-------------|
+Número de usuários ativos | Medir a adesão do público alvo ao uso do aplicativo | Número absoluto de usuários que acessam o aplicativo | Número absoluto de usuários que acessam o aplicativo no último mês | Tabela usuários | Crescimento e processos internos
+| Percentual de Lembretes Efetivos | Medir a eficácia do sistema de lembretes automáticos | Percentual de eventos em que os participantes comparecem após receberem lembretes | (Número de eventos com presença confirmada após lembrete / Total de eventos com lembretes enviados) × 100 | Tabela Eventos, Tabela Notificações | Processos internos |
+| Taxa de Utilização de Agendas Compartilhadas | Avaliar a adoção da funcionalidade de agendas compartilhadas | Média de eventos compartilhados criados por usuário mensalmente | Total de eventos compartilhados criados / Número de usuários ativos | Tabela Eventos, Tabela Usuários | Aprendizado e Crescimento |
+| Índice de Conflitos de Agenda | Monitorar a eficácia da funcionalidade de conciliação de horários | Percentual de eventos que precisam ser remarcados devido a conflitos de agenda não identificados previamente | (Número de eventos remarcados por conflito / Total de eventos criados) × 100 | Tabela Eventos, Tabela Alterações | Clientes |
+| Taxa de Confirmação de Presença | Medir a efetividade da funcionalidade de confirmação de presença em eventos | Percentual de convidados que respondem aos convites de eventos | (Número de respostas recebidas / Total de convites enviados) × 100 | Tabela Convites | Processos internos |
 
 # Requisitos do Aplicativo de Gerenciamento de Eventos
 
