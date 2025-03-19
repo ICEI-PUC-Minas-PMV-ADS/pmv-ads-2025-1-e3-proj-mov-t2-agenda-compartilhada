@@ -12,12 +12,13 @@ O diagrama de classes ilustra graficamente como será a estrutura do software, e
 
 ## Modelo ER
 
-O Modelo ER representa através de um diagrama como as entidades (coisas, objetos) se relacionam entre si na aplicação interativa.]
+Um diagrama de entidade-relacionamento (DER) é uma representação visual que descreve a estrutura de um sistema de banco de dados ou as relações entre entidades (tabelas) dentro desse sistema. Ele usa símbolos gráficos para representar entidades, atributos e os relacionamentos entre entidades. O principal objetivo de um DER é modelar como os dados são organizados e inter-relacionados em um banco de dados, proporcionando uma visão clara das entidades envolvidas e suas conexões. É amplamente utilizado em engenharia de software e gerenciamento de banco de dados para planejar, projetar e documentar sistemas de informações complexos.
+O diagrama acima apresenta o modelo entidade-relacionamento para o aplicativo de Agenda Compartilhada, que visa facilitar o agendamento colaborativo entre usuários, similar à experiência de agendamento do Outlook para dispositivos móveis. Neste modelo, são representadas as principais entidades do sistema: Usuário, Perfil, Notificações, Evento (classe abstrata), Evento_Individual, Evento_Grupo e Grupo.
+Os usuários se relacionam com notificações (1 para 0..), possuem um perfil (1 para 1), gerenciam eventos individuais (1 para 0..) e pertencem a grupos (0..* para 1..). A entidade Evento serve como base para duas especializações: Evento_Individual e Evento_Grupo, representadas por relacionamentos de herança. Os grupos, por sua vez, estão associados a eventos de grupo (1 para 0..) e possuem um perfil próprio (1 para 1).
+Cada entidade possui atributos específicos, como email e senha para Usuário, foto e nome para Perfil, e visibilidade para Evento_Individual. Os relacionamentos entre as entidades são claramente definidos pelas linhas que as conectam, com as cardinalidades indicando a quantidade de instâncias que podem participar em cada relacionamento.
+Este modelo ER fornece a base estrutural para o desenvolvimento do banco de dados do aplicativo, permitindo a implementação eficiente das funcionalidades de agendamento colaborativo e gerenciamento de compromissos compartilhados.
 
-As referências abaixo irão auxiliá-lo na geração do artefato “Modelo ER”.
-
-> - [Como fazer um diagrama entidade relacionamento | Lucidchart](https://www.lucidchart.com/pages/pt/como-fazer-um-diagrama-entidade-relacionamento)
-
+![modelo-er.svg](img/modelo-er.svg)
 ## Esquema Relacional
 
 O Esquema Relacional corresponde à representação dos dados em tabelas juntamente com as restrições de integridade e chave primária.
