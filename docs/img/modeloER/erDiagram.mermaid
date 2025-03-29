@@ -1,0 +1,55 @@
+erDiagram
+    USUARIO {
+        string usuario_id PK
+        string email
+        string senha
+    }
+
+    PERFIL {
+        string perfil_id PK
+        string nome
+        string foto
+    }
+
+    NOTIFICACAO {
+        string notificacao_id PK
+        string tipo
+        string descricao
+        date dataEnvio
+    }
+
+    EVENTO {
+        string evento_id PK
+        string nome
+        string descricao
+        date dataCriacao
+        string tipoEvento
+    }
+
+    EVENTO_INDIVIDUAL {
+        boolean visibilidade
+    }
+
+    EVENTO_GRUPO {
+    }
+
+    GRUPO {
+        string grupo_id PK
+        string nome
+    }
+
+    USUARIO_GRUPO {
+        string usuario_id PK
+        string grupo_id PK
+        string cargoOuPapel
+    }
+
+    USUARIO ||--|| PERFIL : possui
+    USUARIO ||--o{ NOTIFICACAO : recebe
+    USUARIO ||--o{ EVENTO_INDIVIDUAL : cria
+    USUARIO }o--o{ USUARIO_GRUPO : pertence
+    GRUPO }o--o{ USUARIO_GRUPO : tem
+    GRUPO ||--|| PERFIL : possui
+    GRUPO ||--o{ EVENTO_GRUPO : organiza
+    EVENTO ||--|| EVENTO_INDIVIDUAL : especializa
+    EVENTO ||--|| EVENTO_GRUPO : especializa

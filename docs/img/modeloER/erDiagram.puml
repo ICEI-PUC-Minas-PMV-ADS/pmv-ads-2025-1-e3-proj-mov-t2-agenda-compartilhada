@@ -1,0 +1,65 @@
+@startuml
+entity USUARIO {
+  * usuario_id : string
+  --
+  email : string
+  senha : string
+}
+
+entity PERFIL {
+  * perfil_id : string
+  --
+  nome : string
+  foto : string
+}
+
+entity NOTIFICACAO {
+  * notificacao_id : string
+  --
+  tipo : string
+  descricao : string
+  dataEnvio : date
+}
+
+entity EVENTO {
+  * evento_id : string
+  --
+  nome : string
+  descricao : string
+  dataCriacao : date
+  tipoEvento : string
+}
+
+entity EVENTO_INDIVIDUAL {
+  --
+  visibilidade : boolean
+}
+
+entity EVENTO_GRUPO {
+  --
+  ' Atributos específicos de evento de grupo podem ser adicionados aqui
+}
+
+entity GRUPO {
+  * grupo_id : string
+  --
+  nome : string
+}
+
+entity USUARIO_GRUPO {
+  * usuario_id : string
+  * grupo_id : string
+  --
+  cargoOuPapel : string
+}
+
+USUARIO ||--|| PERFIL : "possui"
+USUARIO ||--o{ NOTIFICACAO : "recebe"
+USUARIO ||--o{ EVENTO_INDIVIDUAL : "cria"
+USUARIO }o--o{ USUARIO_GRUPO : "pertence a"
+GRUPO }o--o{ USUARIO_GRUPO : "tem membros"
+GRUPO ||--|| PERFIL : "possui"
+GRUPO ||--o{ EVENTO_GRUPO : "organiza"
+EVENTO ||--|| EVENTO_INDIVIDUAL : "especializa"
+EVENTO ||--|| EVENTO_GRUPO : "especializa"
+@enduml
