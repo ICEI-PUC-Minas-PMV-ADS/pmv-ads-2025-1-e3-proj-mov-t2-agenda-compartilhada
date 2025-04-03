@@ -57,10 +57,9 @@ Flexibilidade para Expansão: Embora a entidade EVENTO_GRUPO esteja vazia neste 
 ![erDiagram.png](img/modeloER/erDiagram.png)
 ## Esquema Relacional
 Como o MongoDB é um banco de dados orientado a documentos, a estrutura dos dados é organizada em coleções, onde cada documento pode ter um formato flexível. No nosso modelo, separamos as informações em coleções que correspondem, de forma análoga, às entidades do modelo conceitual, porém utilizando referências (por meio de ObjectId) para relacionar documentos quando necessário. A seguir, o script que cria as coleções com validação de esquema usando JSON Schema:
-![Screenshot 2025-03-29 at 14.09.19.png](img/modeloER/Screenshot%202025-03-29%20at%2014.09.19.png)![Screenshot 2025-03-29 at 14.10.28.png](img/modeloER/Screenshot%202025-03-29%20at%2014.10.28.png)
-
+![Screenshot 2025-04-03 at 09.17.18.png](img/Screenshot%202025-04-03%20at%2009.17.18.png)![Screenshot 2025-04-03 at 09.17.47.png](img/Screenshot%202025-04-03%20at%2009.17.47.png)
 ## Modelo Físico
-![Screenshot 2025-03-29 at 14.17.43.png](img/modeloER/Screenshot%202025-03-29%20at%2014.17.43.png)
+![Screenshot 2025-04-03 at 09.16.41.png](img/Screenshot%202025-04-03%20at%2009.16.41.png)
 scrip anexado (pasta src) -[setup.js](../src/setup.js)
 
 ## Tecnologias Utilizadas

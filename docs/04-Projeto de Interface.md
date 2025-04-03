@@ -14,7 +14,6 @@ Este diagrama apresenta o fluxo de um aplicativo para gerenciamento de eventos. 
 
 
 
-
 ## Wireframes
 
 ![Exemplo de Wireframe](img/wireframe-example.png)
