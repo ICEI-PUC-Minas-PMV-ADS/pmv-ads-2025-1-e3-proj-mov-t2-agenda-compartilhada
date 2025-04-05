@@ -10,8 +10,7 @@ Visão geral da interação do usuário pelas telas do sistema e protótipo inte
 ## Diagrama de Fluxo
 Este diagrama apresenta o fluxo de um aplicativo para gerenciamento de eventos. Começando pelo login/cadastro, ramifica-se em funcionalidades principais: criação de eventos, gerenciamento de grupos, calendário pessoal, opções disponíveis e notificações, ilustrando o percurso completo que o usuário pode fazer na plataforma.
 
-![Untitled diagram-2025-04-02-140418.svg](img/diagramaFluxo/Untitled%20diagram-2025-04-02-140418.svg)
-
+![diagrama Fluxo 1-2025-04-05-101059.svg](img/diagramaFluxo/diagrama%20Fluxo%201-2025-04-05-101059.svg)
 
 
 ## Wireframes

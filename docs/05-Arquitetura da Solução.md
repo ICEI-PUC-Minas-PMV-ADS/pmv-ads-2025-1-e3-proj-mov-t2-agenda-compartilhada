@@ -13,48 +13,125 @@ O diagrama de classes ilustra graficamente como será a estrutura do software, e
 ## Modelo ER
 O modelo ER proposto organiza as principais entidades necessárias para o funcionamento do sistema de Agenda Compartilhada, permitindo o agendamento colaborativo e o gerenciamento de eventos de forma estruturada. Segue uma explicação detalhada de cada componente e de seus relacionamentos:
 
-Entidades Principais
+Abaixo segue uma descrição objetiva e detalhada do diagrama de Entidade-Relacionamento (ER) apresentado:
 
-USUARIO: Representa os usuários do sistema, contendo atributos como identificador, email e senha. É a entidade central que interage com os demais módulos do sistema.
 
-PERFIL: Armazena informações pessoais e visuais dos usuários (ou grupos), como nome e foto. Cada usuário e grupo possui um perfil associado, facilitando a personalização.
 
-NOTIFICACAO: Registra as mensagens e alertas enviados aos usuários. Inclui atributos para identificar o tipo de notificação, sua descrição e a data de envio.
+## 1. Entidades e Atributos
 
-EVENTO: É uma entidade abstrata que centraliza os dados comuns de todos os eventos, como identificador, nome, descrição, data de criação e um atributo para indicar o tipo de evento ("individual" ou "grupo").
+1. **USUARIO**
+  - **id** (int)
+  - **nome** (string)
+  - **email** (string)
+  - **senha** (string)
+  - **data_criacao** (datetime)
+  - Representa os usuários do sistema. Cada usuário tem um identificador único, além de dados como nome, e-mail, senha e data de criação do registro.
 
-EVENTO_INDIVIDUAL: Especialização da entidade Evento para os compromissos pessoais dos usuários. Possui, por exemplo, o atributo “visibilidade”, que pode controlar se o evento é público ou privado.
+2. **PERFIL**
+  - **id** (int)
+  - **nome** (string)
+  - Indica perfis (ou papéis) que podem ser associados a usuários, por exemplo “Administrador”, “Membro”, etc.
 
-EVENTO_GRUPO: Especialização da entidade Evento voltada para os compromissos que envolvem grupos. Embora neste modelo não contenha atributos exclusivos, ela está preparada para receber atributos específicos caso o sistema necessite diferenciá-los.
+3. **RECUPERACAO_SENHA**
+  - **id** (int)
+  - **user_id** (int)
+  - **data_expiracao** (datetime)
+  - Armazena informações para recuperação de senha de um usuário, incluindo a data de expiração desse pedido de recuperação.
 
-GRUPO: Representa os grupos de agendamento. Contém informações como identificador e nome, e é responsável por organizar eventos de grupo e gerenciar a participação de usuários.
+4. **NOTIFICACAO**
+  - **id** (int)
+  - **mensagem** (string)
+  - **data_criacao** (datetime)
+  - Guarda notificações enviadas ou recebidas pelos usuários (mensagens de aviso, alertas, etc.).
 
-USUARIO_GRUPO: É uma entidade intermediária que implementa o relacionamento muitos-para-muitos entre USUARIO e GRUPO. Além dos identificadores de usuário e grupo, armazena informações sobre o papel ou cargo do usuário dentro do grupo (por exemplo, “admin” ou “membro”).
+5. **CALENDARIO**
+  - **id** (int)
+  - **nome** (string)
+  - **visibilidade** (string)
+  - **created_at** (datetime)
+  - Representa calendários que podem pertencer a um usuário. Pode ter um nível de visibilidade (público, privado, etc.) e a data de criação.
 
-Relacionamentos e Cardinalidades
+6. **EVENTO**
+  - **id** (int)
+  - **nome** (string)
+  - **descricao** (string)
+  - **data_inicio** (datetime)
+  - **data_fim** (datetime)
+  - **local** (string)
+  - **visibilidade** (string)
+  - **type** (string) – Ex.: “Private”, “Compartilhado”
+  - Refere-se a eventos que podem estar vinculados a um calendário, a um usuário ou a um grupo. Possui atributos de data, local, descrição, tipo, etc.
 
-USUARIO – PERFIL: Cada usuário possui um perfil único (relação 1:1).
+7. **CONVITE**
+  - **id** (int)
+  - **status** (string) – Ex.: “pendente”, “aceito”, “recusado”
+  - Trata dos convites que podem ser enviados para participação em eventos ou grupos. O status indica a situação do convite.
 
-USUARIO – NOTIFICACAO: Um usuário pode receber várias notificações (relação 1:N).
+8. **GRUPO**
+  - **id** (int)
+  - **nome** (string)
+  - **descricao** (string)
+  - Representa grupos dentro do sistema, que podem ter vários membros (usuários) e organizar eventos.
 
-USUARIO – EVENTO_INDIVIDUAL: Um usuário pode criar ou estar associado a vários eventos individuais (relação 1:N).
+9. **COMPARTILHAMENTO_EVENTO**
+  - **id** (int)
+  - **usuario_id** (int)
+  - **evento_id** (int)
+  - **data_compartilhamento** (datetime)
+  - Entidade que registra o compartilhamento de um evento por parte de um usuário, armazenando a data em que ocorreu esse compartilhamento.
 
-USUARIO – GRUPO (via USUARIO_GRUPO): A relação entre usuários e grupos é muitos-para-muitos, facilitada pela entidade intermediária USUARIO_GRUPO, que permite registrar a participação e os papéis dos usuários em cada grupo.
+---
 
-GRUPO – PERFIL: Cada grupo possui um perfil próprio (relação 1:1), permitindo identificar visualmente o grupo.
+## 2. Relacionamentos Principais
 
-GRUPO – EVENTO_GRUPO: Um grupo pode organizar vários eventos de grupo (relação 1:N).
+1. **USUÁRIO – PERFIL**
+  - Um usuário pode estar associado a um perfil (por exemplo, para definir permissões ou funções no sistema).
+  - A cardinalidade exata (1:1, 1:N ou N:M) não está totalmente explícita no diagrama, mas geralmente um usuário pode ter um perfil principal ou vários perfis dependendo das regras de negócio.
 
-EVENTO – EVENTO_INDIVIDUAL e EVENTO_GRUPO: A entidade abstrata Evento se especializa em EVENTO_INDIVIDUAL e EVENTO_GRUPO, o que significa que ambas as entidades herdam os atributos comuns de Evento, mas podem ser expandidas com informações específicas conforme o tipo de evento.
+2. **USUÁRIO – RECUPERACAO_SENHA**
+  - Um usuário pode ter vários registros de recuperação de senha ao longo do tempo.
+  - Cada recuperação de senha pertence a um único usuário.
 
-Aspectos Conceituais
+3. **USUÁRIO – NOTIFICAÇÃO**
+  - Representa as notificações que um usuário recebe ou que podem ser enviadas em nome dele.
+  - Geralmente é um relacionamento 1:N (um usuário pode ter várias notificações).
 
-Herança: O uso da entidade abstrata Evento permite centralizar os atributos comuns aos diferentes tipos de eventos, promovendo reutilização e uma estrutura modular.
+4. **USUÁRIO – CALENDARIO**
+  - Um usuário pode ter vários calendários (pessoais, de trabalho, etc.).
+  - Cada calendário pertence a um único usuário (normalmente 1:N).
 
-Relacionamento M:N com Atributos: A entidade USUARIO_GRUPO é essencial para modelar a participação dos usuários em grupos, permitindo também a definição de papéis específicos, que pode ser importante para a gestão de permissões e hierarquias dentro dos grupos.
+5. **CALENDARIO – EVENTO**
+  - Um calendário pode conter vários eventos.
+  - Cada evento, nesse contexto, está vinculado a um calendário específico.
 
-Flexibilidade para Expansão: Embora a entidade EVENTO_GRUPO esteja vazia neste modelo, ela está pronta para receber atributos adicionais no futuro, conforme o sistema evolua e novos requisitos sejam identificados.
-![erDiagram.png](img/modeloER/erDiagram.png)
+6. **EVENTO – GRUPO**
+  - Um grupo pode ter vários eventos associados (por exemplo, eventos organizados por aquele grupo).
+  - Um evento pode pertencer a um grupo ou ser individual de um usuário, conforme o modelo.
+
+7. **EVENTO – CONVITE**
+  - Podem existir convites relacionados a um evento específico.
+  - Exemplo: convidar usuários ou membros de um grupo para participar de um evento.
+
+8. **GRUPO – CONVITE**
+  - Um grupo também pode estar envolvido no envio de convites para participação no grupo ou em eventos do grupo.
+
+9. **USUÁRIO – COMPARTILHAMENTO_EVENTO** / **EVENTO – COMPARTILHAMENTO_EVENTO**
+  - O compartilhamento de um evento registra que determinado usuário compartilhou um evento em certa data.
+  - A tabela (entidade) COMPARTILHAMENTO_EVENTO faz a associação entre USUÁRIO e EVENTO com informações adicionais (data do compartilhamento).
+
+---
+
+## 3. Observações Gerais
+
+- A entidade **USUARIO** centraliza a maior parte das interações:
+  - Ele pode ter perfis, receber notificações, ter calendários e criar/compartilhar eventos.
+- **GRUPO** funciona como um agrupador de usuários e de eventos, possivelmente permitindo que vários usuários participem de um mesmo grupo e organizem eventos em conjunto.
+- **CONVITE** atua como uma forma de gerenciar a entrada de usuários em grupos ou eventos, armazenando o status do convite.
+- **RECUPERACAO_SENHA** trata apenas do fluxo de redefinição de senha para cada usuário.
+- **COMPARTILHAMENTO_EVENTO** é uma entidade de relacionamento que registra, de forma histórica, quem compartilhou qual evento e quando.
+
+
+![ER-Final.svg](img/modeloER/ER-Final.svg)
 ## Esquema Relacional
 Como o MongoDB é um banco de dados orientado a documentos, a estrutura dos dados é organizada em coleções, onde cada documento pode ter um formato flexível. No nosso modelo, separamos as informações em coleções que correspondem, de forma análoga, às entidades do modelo conceitual, porém utilizando referências (por meio de ObjectId) para relacionar documentos quando necessário. A seguir, o script que cria as coleções com validação de esquema usando JSON Schema:
 ![Screenshot 2025-04-03 at 09.17.18.png](img/Screenshot%202025-04-03%20at%2009.17.18.png)![Screenshot 2025-04-03 at 09.17.47.png](img/Screenshot%202025-04-03%20at%2009.17.47.png)
