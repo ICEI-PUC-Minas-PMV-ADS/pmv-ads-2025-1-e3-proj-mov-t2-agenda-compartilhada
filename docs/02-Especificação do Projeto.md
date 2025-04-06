@@ -119,10 +119,10 @@ Oportunidades de Melhorias:
 - **Adaptabilidade a diferentes grupos: Possibilidade de criar múltiplas agendas para diferentes círculos sociais (trabalho, família, amigos).**
 
 ### Processo 1 - Gestão da Agenda Pessoal
-![Processo 1 - Gestão da Agenda Pessoal](https://github.com/user-attachments/assets/b2307b52-8ace-4b0d-b19c-f616e5465995)
+![Processos 1](https://github.com/user-attachments/assets/add2f937-0940-4a4c-a362-2ebbe4c41bb9)
 
 ### Processo 2 - Organização de Eventos Compartilhados
-![Processo 2 - Organização de Eventos Compartilhados](https://github.com/user-attachments/assets/b035a434-ca36-4945-b587-41fcbaee61cc)
+![Processos 2](https://github.com/user-attachments/assets/75c8ed3d-cbfd-4f3c-8843-76998b4e819c)
 
 ## Indicadores de Desempenho
 
