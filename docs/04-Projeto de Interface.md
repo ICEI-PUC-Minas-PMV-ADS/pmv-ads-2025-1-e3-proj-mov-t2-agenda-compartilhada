@@ -1,11 +1,34 @@
 
 # Projeto de Interface
+RF 01 - Sistema de cadastro e login de usuários (email/senha ou redes sociais):
+![image](https://github.com/user-attachments/assets/8382759b-36c4-488e-8bd1-3ae858218e36)
 
-<span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Documentação de Especificação</a></span>
+RF 02 - Criação e edição de perfil de usuário (nome e foto)
+![image](https://github.com/user-attachments/assets/b6fd28a1-fdc0-4135-8cdc-65d6fe2b9548)
 
-Visão geral da interação do usuário pelas telas do sistema e protótipo interativo das telas com as funcionalidades que fazem parte do sistema (wireframes).
+RF 03 - Visualização de calendário individual em formatos diário, semanal e mensal
+![image](https://github.com/user-attachments/assets/9a4b574c-f754-40ed-99ee-157d7c5629b7)
 
- Apresente as principais interfaces da plataforma. Discuta como ela foi elaborada de forma a atender os requisitos funcionais, não funcionais e histórias de usuário abordados nas <a href="2-Especificação do Projeto.md"> Documentação de Especificação</a>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Diagrama de Fluxo
 Este diagrama apresenta o fluxo de um aplicativo para gerenciamento de eventos. Começando pelo login/cadastro, ramifica-se em funcionalidades principais: criação de eventos, gerenciamento de grupos, calendário pessoal, opções disponíveis e notificações, ilustrando o percurso completo que o usuário pode fazer na plataforma.
