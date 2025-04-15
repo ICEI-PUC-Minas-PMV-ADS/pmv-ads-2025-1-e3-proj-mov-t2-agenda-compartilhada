@@ -12,7 +12,7 @@ import { AssociacoesGrupoModule } from './associacoes-grupo/associacoes-grupo.mo
 import { ParticipacoesEventoModule } from './participacoes-evento/participacoes-evento.module';
 import { CalendariosModule } from './calendarios/calendarios.module';
 import { CalendariosEventosModule } from './calendarios-eventos/calendarios-eventos.module';
-import { RecoveryModule } from './recuperacao-senha/recuperacao-senha.module';
+import { RecuperacaoSenhaModule } from './recuperacao-senha/recuperacao-senha.module';
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { RecoveryModule } from './recuperacao-senha/recuperacao-senha.module';
     ParticipacoesEventoModule,
     CalendariosModule,
     CalendariosEventosModule,
-    RecoveryModule,
+    RecuperacaoSenhaModule,
   ],
   controllers: [],
   providers: [],

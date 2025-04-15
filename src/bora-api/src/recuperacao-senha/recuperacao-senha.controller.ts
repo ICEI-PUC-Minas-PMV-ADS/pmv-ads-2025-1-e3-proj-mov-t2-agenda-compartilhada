@@ -12,7 +12,7 @@ import { CreateRecoveryDto } from './dto/create-recuperacao-senha.dto';
 import { Recovery } from './schema/recuperacao-senha.schema';
 import { UpdateRecoveryDto } from './dto/update-recuperacao-senha.dto';
 
-@Controller('recovery')
+@Controller('recuperacao-senha')
 export class RecoveryController {
   constructor(private readonly recoveryService: RecoveryService) {}
 
