@@ -1,0 +1,38 @@
+import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { GruposService } from './grupos.service';
+import { CreateGrupoDto } from './dto/create-grupo.dto';
+import { UpdateGrupoDto } from './dto/update-grupo.dto';
+import { Grupo } from './schema/grupos.schema';
+
+@Controller('grupos')
+export class GruposController {
+  constructor(private readonly gruposService: GruposService) {}
+
+  @Post()
+  async create(@Body() createGrupoDto: CreateGrupoDto): Promise<Grupo> {
+    return this.gruposService.create(createGrupoDto);
+  }
+
+  @Get()
+  async findAll(): Promise<Grupo[]> {
+    return this.gruposService.findAll();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<Grupo> {
+    return this.gruposService.findOne(id);
+  }
+
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateGrupoDto: UpdateGrupoDto,
+  ): Promise<Grupo> {
+    return this.gruposService.update(id, updateGrupoDto);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string): Promise<Grupo> {
+    return this.gruposService.remove(id);
+  }
+}
