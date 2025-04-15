@@ -1,6 +1,6 @@
 import { View, StyleSheet, Image } from 'react-native'
 
-export default function App(){
+export default function IdleScreen(){
   return(
     <View style={styles.container}>
       <Image
