@@ -1,10 +1,36 @@
+// src/app.module.ts
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from './users/users.module';
+import { PerfisModule } from './perfis/perfis.module';
+import { NotificacoesModule } from './notificacoes/notificacoes.module';
+import { EventosModule } from './eventos/eventos.module';
+import { EventosIndividuaisModule } from './eventos-individuais/eventos-individuais.module';
+import { EventosGruposModule } from './eventos-grupo/eventos-grupo.module';
+import { GruposModule } from './grupos/grupos.module';
+import { AssociacoesGrupoModule } from './associacoes-grupo/associacoes-grupo.module';
+import { ParticipacoesEventoModule } from './participacoes-evento/participacoes-evento.module';
+import { CalendariosModule } from './calendarios/calendarios.module';
+import { CalendariosEventosModule } from './calendarios-eventos/calendarios-eventos.module';
+import { RecuperacaoSenhaModule } from './recuperacao-senha/recuperacao-senha.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost:27017/bora-db'),
+    UsersModule,
+    PerfisModule,
+    NotificacoesModule,
+    EventosModule,
+    EventosIndividuaisModule,
+    EventosGruposModule,
+    GruposModule,
+    AssociacoesGrupoModule,
+    ParticipacoesEventoModule,
+    CalendariosModule,
+    CalendariosEventosModule,
+    RecuperacaoSenhaModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
