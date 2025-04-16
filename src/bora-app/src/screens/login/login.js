@@ -10,13 +10,13 @@ import {
   Image
 } from 'react-native';
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
   const handleLogin = () => {
-    if (email === 'admin@bora.com.br' && senha === '123456') {
-      Alert.alert('Login realizado com sucesso!');
+    if (email === '' && senha === '') {
+      navigation.navigate('notificacoesScreen');
     } else {
       Alert.alert('E-mail ou senha inválidos');
     }
@@ -61,12 +61,12 @@ export default function LoginScreen() {
         </TouchableOpacity>
 
         <View style={styles.linksContainer}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => {navigation.navigate('recuperarSenhaScreen')}}>
             <Text style={styles.linkText}>Esqueceu sua senha?</Text>
           </TouchableOpacity>
           <View style={styles.viewCadastrar}>
             <Text style={styles.naoTemConta}>Não tem uma conta?</Text>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => {navigation.navigate('cadastroScreen')}}>
               <Text style={styles.linkText}>Cadastre-se</Text>
             </TouchableOpacity>
           </View>

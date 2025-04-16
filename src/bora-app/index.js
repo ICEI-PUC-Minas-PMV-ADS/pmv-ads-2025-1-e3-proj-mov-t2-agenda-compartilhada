@@ -1,5 +1,4 @@
 import { registerRootComponent } from 'expo';
+import App from './App'; // Agora o ponto de entrada é o App.js com navegação
 
-import LoginScreen from './src/screens/login/login';
-
-registerRootComponent(LoginScreen);
+registerRootComponent(App);
