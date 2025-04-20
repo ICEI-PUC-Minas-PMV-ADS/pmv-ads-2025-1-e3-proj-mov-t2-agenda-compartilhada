@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import { ModalNotificacoes } from '../../components/notificacoes_modal';
 import axios from 'axios';
+import { API_IP } from '@env';
 
 const backgroundImage = require('../../assets/background.png');
 
@@ -82,7 +83,7 @@ const NotificacoesScreen = ({ navigation }) => {
       const usuarioJson = await AsyncStorage.getItem('usuario');
       const usuario = JSON.parse(usuarioJson);
       const response = await axios.get(
-        `http://192.168.0.253:3000/notificacoes/usuario/${usuario._id}`
+        `${API_IP}/notificacoes/usuario/${usuario._id}`
       );
       const dataTransformada = response.data.map((item) => ({
         id: item._id,

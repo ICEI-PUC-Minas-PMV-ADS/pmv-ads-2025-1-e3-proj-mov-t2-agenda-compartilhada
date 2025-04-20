@@ -9,6 +9,7 @@ import {
   ImageBackground,
   Image
 } from 'react-native';
+import { API_IP } from '@env';
 
 export default function CadastroScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -40,7 +41,7 @@ export default function CadastroScreen({ navigation }) {
       Alert.alert('As senhas devem ser iguais.')
     }
     else{
-      fetch('http://192.168.0.253:3000/usuarios', {
+      fetch(`${API_IP}/usuarios`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

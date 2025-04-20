@@ -9,6 +9,7 @@ import {
   ImageBackground
 } from 'react-native';
 
+
 export default function RecuperarSenhaScreen() {
   const [email, setEmail] = useState('');
 

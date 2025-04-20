@@ -31,6 +31,10 @@
 $ npm install
 ```
 
+## .env config
+
+- Renomeio o arquivo '.env.example' para '.env', na raiz do diretório bora-app, e substitua o texto '(coloque-o-seu-ip-aqui)' por seu IP de rede.
+
 ## Compile and run the project
 
 ```bash

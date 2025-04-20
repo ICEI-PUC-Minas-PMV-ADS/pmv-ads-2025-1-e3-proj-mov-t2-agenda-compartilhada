@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ImageBackground, Image } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_IP } from '@env';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ export default function LoginScreen({ navigation }) {
     }
   
     try {
-      const response = await axios.post('http://192.168.0.253:3000/auth/login', {
+      const response = await axios.post(`${API_IP}/auth/login`, {
         email,
         password: senha,
       });
@@ -32,7 +33,7 @@ export default function LoginScreen({ navigation }) {
       if (error.response && error.response.status === 401) {
         Alert.alert('Erro', 'E-mail ou senha inválidos');
       } else {
-        console.log('Erro:', error);
+        console.error('Erro:', error);
         Alert.alert('Erro', 'Algo deu errado. Tente novamente mais tarde.');
       }
     }
