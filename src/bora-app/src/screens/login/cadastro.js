@@ -19,7 +19,6 @@ export default function CadastroScreen({ navigation }) {
   const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).+$/;
 
   const handleNomeChange = (inputText) => {
-    // Remove tudo que não for letra (A-Z, a-z) ou espaço
     const cleanText = inputText.replace(/[^a-zA-Z ]/g, '');
     setNome(cleanText);
   };
@@ -87,13 +86,12 @@ export default function CadastroScreen({ navigation }) {
           />
         </View>
 
-        {/* Campo Nome com validação */}
         <TextInput
           style={styles.input}
           placeholder="Nome"
           placeholderTextColor="#757575"
           value={nome}
-          onChangeText={handleNomeChange} // Usando a função de validação
+          onChangeText={handleNomeChange}
         />
 
         <TextInput

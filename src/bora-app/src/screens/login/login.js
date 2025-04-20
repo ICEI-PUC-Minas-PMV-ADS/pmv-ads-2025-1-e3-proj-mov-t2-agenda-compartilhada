@@ -21,7 +21,6 @@ export default function LoginScreen({ navigation }) {
   
       await AsyncStorage.setItem('access_token', response.data.access_token);
       
-      // Se o response.data.user contiver o usuário
       if (response.data.user) {
         await AsyncStorage.setItem('usuario', JSON.stringify(response.data.user));
       } else {
@@ -33,7 +32,7 @@ export default function LoginScreen({ navigation }) {
       if (error.response && error.response.status === 401) {
         Alert.alert('Erro', 'E-mail ou senha inválidos');
       } else {
-        console.log('Erro:', error); // Para ajudar a debugar
+        console.log('Erro:', error);
         Alert.alert('Erro', 'Algo deu errado. Tente novamente mais tarde.');
       }
     }
@@ -42,7 +41,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <ImageBackground
-      source={require('../../assets/background.png')} // caminho local
+      source={require('../../assets/background.png')}
       style={styles.background}
       resizeMode="cover"
     >

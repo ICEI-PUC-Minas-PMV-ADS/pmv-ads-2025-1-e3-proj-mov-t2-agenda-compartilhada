@@ -4,12 +4,12 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { User, UserSchema } from './schema/user.schema';
 import { UsersRepository } from './repository/users.repository';
-import { PerfisModule } from '../perfis/perfis.module';  // Aqui você importa o PerfisModule
+import { PerfisModule } from '../perfis/perfis.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    PerfisModule, // Aqui você importa o PerfisModule
+    PerfisModule,
   ],
   controllers: [UsersController],
   providers: [UsersRepository, UsersService],

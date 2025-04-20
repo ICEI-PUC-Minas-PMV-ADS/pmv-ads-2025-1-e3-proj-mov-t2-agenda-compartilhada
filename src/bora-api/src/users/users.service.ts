@@ -3,22 +3,18 @@ import { UsersRepository } from './repository/users.repository';
 import { User, UserDocument } from './schema/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import * as bcrypt from 'bcrypt';
-
-// 👇 IMPORTAÇÕES DO PERFIL
 import { PerfisService } from '../perfis/perfis.service';
 import { CreatePerfilDto } from '../perfis/dto/create-perfil.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
-    private readonly perfisService: PerfisService, // 👈 Injetando PerfisService
+    private readonly perfisService: PerfisService,
   ) {}
 
-  // Criar novo usuário com senha criptografada
   async create(createUserDto: CreateUserDto): Promise<User> {
-    // Aplicar hash na senha
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
 
@@ -27,19 +23,16 @@ export class UsersService {
       password: hashedPassword,
     };
 
-    // Criando o usuário
     const novoUsuario: any = await this.usersRepository.create(userWithHashedPassword);
 
-    // 👇 Criação do perfil automaticamente após criação do usuário
     const perfilDto: CreatePerfilDto = {
-      _id: novoUsuario._id,     // o ID do perfil será o mesmo do usuário
+      _id: novoUsuario._id,
       nome: novoUsuario.name,
-      foto: null,                // Foto é null por enquanto
-      tipoDono: 'usuario',       // Tipo de dono é sempre 'usuario' no momento da criação
-      userId: novoUsuario._id,  // Associando o userId ao perfil
+      foto: null,
+      tipoDono: 'usuario',
+      userId: novoUsuario._id,
     };
 
-    // Criando o perfil
     await this.perfisService.create(perfilDto);
 
     return novoUsuario;

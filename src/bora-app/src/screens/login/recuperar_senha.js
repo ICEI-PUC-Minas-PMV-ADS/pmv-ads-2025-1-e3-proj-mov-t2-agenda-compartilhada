@@ -22,7 +22,7 @@ export default function RecuperarSenhaScreen() {
 
   return (
     <ImageBackground
-      source={require('../../assets/background.png')} // caminho local
+      source={require('../../assets/background.png')}
       style={styles.background}
       resizeMode="cover"
     >

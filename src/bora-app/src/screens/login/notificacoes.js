@@ -20,12 +20,10 @@ import axios from 'axios';
 
 const backgroundImage = require('../../assets/background.png');
 
-// Componente de item da notificação
 const NotificationItem = ({ titleCard, message, time, lido, onPress }) => {
-  // Estilos condicionais com base no campo 'lido'
   const notificationStyle = lido
-    ? { backgroundColor: '#cccccc', borderColor: '#BDBDBD' } // Estilo para notificações lidas
-    : { backgroundColor: '#4CAF50', borderColor: '#388E3C' }; // Estilo para notificações não lidas
+    ? { backgroundColor: '#cccccc', borderColor: '#BDBDBD' }
+    : { backgroundColor: '#4CAF50', borderColor: '#388E3C' };
 
   return (
     <TouchableOpacity onPress={onPress} style={[styles.notificationContainer, notificationStyle]}>
@@ -45,10 +43,9 @@ const NotificacoesScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
 
   const openModal = async (notification) => {
-    // Marcar a notificação como lida quando o usuário clicar nela
     try {
       await axios.patch(
-        `http://192.168.0.253:3000/notificacoes/${notification.id}/marcar-como-lida`, // Usando PATCH
+        `http://192.168.0.253:3000/notificacoes/${notification.id}/marcar-como-lida`,
         { lido: true }
       );
     } catch (error) {
@@ -56,7 +53,6 @@ const NotificacoesScreen = ({ navigation }) => {
       Alert.alert('Erro', 'Não foi possível marcar a notificação como lida');
     }
 
-    // Atualiza a notificação selecionada e exibe o modal
     setSelectedNotification(notification);
     setModalVisible(true);
   };
@@ -68,7 +64,6 @@ const NotificacoesScreen = ({ navigation }) => {
 
   };
 
-  // Função para formatar a data
   function formatarDataHora(dateString) {
     const date = new Date(dateString);
 
@@ -82,7 +77,6 @@ const NotificacoesScreen = ({ navigation }) => {
     return `${dia}/${mes}/${ano} - ${horas}:${minutos}`;
   }
 
-  // Função para carregar as notificações
   const carregarNotificacoes = async () => {
     try {
       const usuarioJson = await AsyncStorage.getItem('usuario');
@@ -95,7 +89,7 @@ const NotificacoesScreen = ({ navigation }) => {
         titleCard: item.titulo,
         message: item.mensagem,
         time: formatarDataHora(item.data),
-        lido: item.lido,  // Adicionando o campo 'lido' na notificação
+        lido: item.lido,
       }));
       setNotificacoes(dataTransformada);
     } catch (error) {
@@ -166,8 +160,8 @@ const NotificacoesScreen = ({ navigation }) => {
                   titleCard={item.titleCard}
                   message={item.message}
                   time={item.time}
-                  lido={item.lido} // Passando o valor de 'lido' para o componente NotificationItem
-                  onPress={() => openModal(item)} // Chamando a função para abrir o modal e marcar a notificação como lida
+                  lido={item.lido}
+                  onPress={() => openModal(item)}
                 />
               )}
             />
@@ -195,7 +189,6 @@ const NotificacoesScreen = ({ navigation }) => {
 
 export default NotificacoesScreen;
 
-// Seus estilos permanecem os mesmos
 const styles = StyleSheet.create({
   background: { flex: 1 },
   overlay: {

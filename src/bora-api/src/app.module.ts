@@ -1,4 +1,3 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
@@ -19,9 +18,9 @@ import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/agenda'),  // Configuração do MongoDB
-    UsersModule,  // Módulo de Usuários
-    AuthModule,   // Módulo de Autenticação (contém o JwtService)
+    MongooseModule.forRoot('mongodb://localhost:27017/agenda'),
+    UsersModule,
+    AuthModule,
     PerfisModule,
     NotificacoesModule,
     EventosModule,

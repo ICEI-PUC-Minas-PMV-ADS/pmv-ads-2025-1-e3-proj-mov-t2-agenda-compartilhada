@@ -6,10 +6,10 @@ import { AuthController } from './auth.controller';
 
 @Module({
   imports: [
-    UsersModule, // Importa o UsersModule para o serviço de autenticação acessar os dados do usuário
+    UsersModule,
     JwtModule.register({
-      secret: 'your_secret_key', // Substitua por uma chave segura
-      signOptions: { expiresIn: '1h' }, // Defina o tempo de expiração do token
+      secret: 'secret_key_bora', // -------------- Substituir isso no futuro. --------------
+      signOptions: { expiresIn: '1h' },
     }),
   ],
   providers: [AuthService],
