@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Perfil, PerfilDocument } from '../schema/perfis.schema';
+import { Perfil } from '../schema/perfis.schema'; // Importando apenas 'Perfil' sem o 'PerfilDocument'
 import { CreatePerfilDto } from '../dto/create-perfil.dto';
 import { UpdatePerfilDto } from '../dto/update-perfil.dto';
 
@@ -9,7 +9,7 @@ import { UpdatePerfilDto } from '../dto/update-perfil.dto';
 export class PerfisRepository {
   constructor(
     @InjectModel(Perfil.name)
-    private readonly perfilModel: Model<PerfilDocument>,
+    private readonly perfilModel: Model<Perfil>, // Usando o tipo 'Perfil' diretamente
   ) {}
 
   async create(createPerfilDto: CreatePerfilDto): Promise<Perfil> {

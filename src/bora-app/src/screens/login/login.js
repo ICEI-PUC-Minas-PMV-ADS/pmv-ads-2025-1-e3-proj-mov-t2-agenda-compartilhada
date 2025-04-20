@@ -1,26 +1,44 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  ImageBackground,
-  Image
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ImageBackground, Image } from 'react-native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const handleLogin = () => {
-    if (email === '' && senha === '') {
+  const handleLogin = async () => {
+    if (email === '' || senha === '') {
+      Alert.alert('Por favor, insira seu e-mail e senha');
+      return;
+    }
+  
+    try {
+      const response = await axios.post('http://192.168.0.253:3000/auth/login', {
+        email,
+        password: senha,
+      });
+  
+      await AsyncStorage.setItem('access_token', response.data.access_token);
+      
+      // Se o response.data.user contiver o usuário
+      if (response.data.user) {
+        await AsyncStorage.setItem('usuario', JSON.stringify(response.data.user));
+      } else {
+        console.log('Erro: usuário não encontrado na resposta');
+      }
+  
       navigation.navigate('notificacoesScreen');
-    } else {
-      Alert.alert('E-mail ou senha inválidos');
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        Alert.alert('Erro', 'E-mail ou senha inválidos');
+      } else {
+        console.log('Erro:', error); // Para ajudar a debugar
+        Alert.alert('Erro', 'Algo deu errado. Tente novamente mais tarde.');
+      }
     }
   };
+
 
   return (
     <ImageBackground
@@ -54,6 +72,7 @@ export default function LoginScreen({ navigation }) {
           value={senha}
           onChangeText={setSenha}
           secureTextEntry
+          autoCapitalize="none"
         />
 
         <TouchableOpacity style={styles.button} onPress={handleLogin}>

@@ -15,4 +15,4 @@ import { RecuperacaoSenhaRepository } from './repository/recuperacao-senha.repos
   providers: [RecuperacaoSenhaRepository, RecoveryService],
   exports: [RecoveryService],
 })
-export class RecuperacaoSenhaModule {}
+export class RecoveryModule {}

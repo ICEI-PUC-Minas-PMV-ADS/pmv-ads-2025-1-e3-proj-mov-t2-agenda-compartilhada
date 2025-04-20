@@ -1,18 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
-export type UserDocument = User & Document;
+// Explicitamente declarando que o _id é do tipo Types.ObjectId
+export type UserDocument = User & Document & { _id: Types.ObjectId };
 
-@Schema({ timestamps: true })
+@Schema({ collection: 'usuarios' })
 export class User {
-  @Prop({ required: true })
+  @Prop()
   name: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ unique: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop()
   password: string;
 }
 
+// Criando o Schema do Mongoose
 export const UserSchema = SchemaFactory.createForClass(User);

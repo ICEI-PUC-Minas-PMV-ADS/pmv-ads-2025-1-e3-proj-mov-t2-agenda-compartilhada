@@ -1,33 +1,66 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import {
-  Notificacao,
-  NotificacaoDocument,
-} from '../schema/natificacoes.schema';
+import { Model, Types } from 'mongoose'; // Importando Types do mongoose para criar ObjectId
+import { Notificacao, NotificacaoDocument } from '../schema/notificacoes.schema';
 import { CreateNotificacaoDto } from '../dto/create-notificacoe.dto';
 import { UpdateNotificacaoDto } from '../dto/update-notificacoe.dto';
+import { User, UserDocument } from '../../users/schema/user.schema'; // Ajuste o caminho se necessário
 
 @Injectable()
 export class NotificacoesRepository {
   constructor(
     @InjectModel(Notificacao.name)
     private readonly notificacaoModel: Model<NotificacaoDocument>,
+  
+    @InjectModel(User.name)
+    private readonly userModel: Model<UserDocument>, // Injete o model de usuário
   ) {}
 
+  // Criar uma nova notificação
   async create(
     createNotificacaoDto: CreateNotificacaoDto,
   ): Promise<Notificacao> {
+    const usuarioExiste = await this.userModel.exists({ _id: createNotificacaoDto.usuarioId });
+    if (!usuarioExiste) {
+      throw new NotFoundException(`Usuário com ID ${createNotificacaoDto.usuarioId} não encontrado.`);
+    }
+
     const createdNotificacao = new this.notificacaoModel(createNotificacaoDto);
     return createdNotificacao.save();
   }
+
+  // Buscar notificações por usuário (com populate)
+  async findByUserId(usuarioId: string): Promise<Notificacao[]> {
+    // Garantir que o usuarioId seja convertido para ObjectId válido
+    let usuarioObjectId: Types.ObjectId | null = null;
+  
+    // Verifique se o usuarioId é um ObjectId válido
+    if (Types.ObjectId.isValid(usuarioId)) {
+      usuarioObjectId = new Types.ObjectId(usuarioId);
+    }
+  
+    // Se o ID não for válido, lançar erro
+    if (!usuarioObjectId) {
+      throw new NotFoundException(`ID de usuário inválido: ${usuarioId}`);
+    }
+  
+    return this.notificacaoModel
+      .find({ usuarioId: usuarioObjectId })
+      //.populate('usuarioId', 'name email') // Populando o dado correto de usuário
+      .exec();
+      
+  }
+  
 
   async findAll(): Promise<Notificacao[]> {
     return this.notificacaoModel.find().exec();
   }
 
   async findOne(id: string): Promise<Notificacao> {
-    const notificacao = await this.notificacaoModel.findById(id).exec();
+    const notificacao = await this.notificacaoModel
+      .findById(id)
+      .populate('usuarioId', 'name email')
+      .exec();
     if (!notificacao) {
       throw new NotFoundException(`Notificação com ID ${id} não encontrada`);
     }
@@ -40,6 +73,7 @@ export class NotificacoesRepository {
   ): Promise<Notificacao> {
     const updatedNotificacao = await this.notificacaoModel
       .findByIdAndUpdate(id, updateNotificacaoDto, { new: true })
+      .populate('usuarioId', 'name email')
       .exec();
     if (!updatedNotificacao) {
       throw new NotFoundException(`Notificação com ID ${id} não encontrada`);

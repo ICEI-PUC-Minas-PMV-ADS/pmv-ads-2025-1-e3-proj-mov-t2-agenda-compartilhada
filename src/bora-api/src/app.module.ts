@@ -13,11 +13,15 @@ import { ParticipacoesEventoModule } from './participacoes-evento/participacoes-
 import { CalendariosModule } from './calendarios/calendarios.module';
 import { CalendariosEventosModule } from './calendarios-eventos/calendarios-eventos.module';
 import { RecoveryModule } from './recuperacao-senha/recuperacao-senha.module';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
+
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/bora-db'),
-    UsersModule,
+    MongooseModule.forRoot('mongodb://localhost:27017/agenda'),  // Configuração do MongoDB
+    UsersModule,  // Módulo de Usuários
+    AuthModule,   // Módulo de Autenticação (contém o JwtService)
     PerfisModule,
     NotificacoesModule,
     EventosModule,
