@@ -3,19 +3,40 @@ import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-na
 
 export default function HomeScreen({ navigation }) {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>Bem-vindo ao Aplicativo</Text>
-        <Text style={styles.subtitle}>Escolha uma opção abaixo</Text>
-        
-        <TouchableOpacity 
-          style={styles.button} 
-          onPress={() => navigation.navigate('EventList')}
-        >
-          <Text style={styles.buttonText}>Lista de Eventos</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.content}>
+          <Text style={styles.title}>Bem-vindo ao Aplicativo</Text>
+          <Text style={styles.subtitle}>Escolha uma opção abaixo</Text>
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('EventList')}
+          >
+            <Text style={styles.buttonText}>Lista de Eventos</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('MyGroups')}
+          >
+            <Text style={styles.buttonText}>Meus Grupos</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('CreateGroup')}
+          >
+            <Text style={styles.buttonText}>Criar Grupo</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('GroupDetails')}
+          >
+            <Text style={styles.buttonText}>Detalhes do Grupo</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
   );
 }
 
@@ -48,6 +69,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 3,
     marginTop: 20,
+    width: '80%',
+    alignItems: 'center',
   },
   buttonText: {
     color: 'white',
