@@ -14,6 +14,20 @@ export default function HomeScreen({ navigation }) {
         >
           <Text style={styles.buttonText}>Lista de Eventos</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('Profile')}
+          >
+            <Text style={styles.buttonText}>Perfil do Usuário</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('Notifications')}
+          >
+            <Text style={styles.buttonText}>Notificações</Text>
+          </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
