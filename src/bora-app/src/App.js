@@ -1,12 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Appbar, Avatar, Text, Card } from 'react-native-paper';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import GroupCalendar from './screens/GroupCalendar';
 import { Calendar } from 'react-native-calendars';
 import CalendarComp from './components/CalendarComp';
-
 
 const App = () => {
   const _goBack = () => console.log('Went back');
@@ -22,24 +21,35 @@ const App = () => {
       data: '2025-04-29',
       titulo: 'Happy Hour',
       subtitulo: 'Amigos do Trabalho',
-      cor: '#6a3de8'
     },
     {
       id: 2,
       data: '2025-04-30',
       titulo: 'Jantar em família',
       subtitulo: 'Família',
-      cor: '#3de86a'
-    }
+    },
+    {
+      id: 3,
+      data: '2025-05-30',
+      titulo: 'Jantar em família',
+      subtitulo: 'Família',
+    },
+    {
+      id: 4,
+      data: '2025-04-30',
+      titulo: 'Jantar em família',
+      subtitulo: 'Família',
+    },
+    {
+      id: 5,
+      data: '2025-04-30',
+      titulo: 'Jantar em família',
+      subtitulo: 'Família',
+    },
   ];
 
   const content = [
-    <View>
-      
-      <GroupCalendar eventos={ eventos }/>
-
-    </View>,
-
+    <GroupCalendar eventos={eventos} />,
 
     <View>
       <View style={{ marginVertical: 16 }}>
@@ -49,25 +59,94 @@ const App = () => {
               style={{ backgroundColor: '#F4F4F4' }}
               labelStyle={{ fontSize: 20 }}
               size={60}
-              label='P'
-              color='#9A9A9D'
+              label="P"
+              color="#9A9A9D"
             />
           </View>
 
-          <View style={{ alignSelf:'center' }}>
-            <Text style={{ fontSize: 17, fontWeight: 'bold' }} >Pedro (Você)</Text>
-            <Text style={{ fontSize: 14, color: '#9A9A9D' }} >Administrador</Text>
+          <View style={{ alignSelf: 'center' }}>
+            <Text style={{ fontSize: 17, fontWeight: 'bold' }}>
+              Pedro (Você)
+            </Text>
+            <Text style={{ fontSize: 14, color: '#9A9A9D' }}>
+              Administrador
+            </Text>
           </View>
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 8, marginTop: 8 }}>
-          <Text style={{ fontSize: 13, color: '#7839EE', backgroundColor: '#F1EBFD', borderRadius: 25, borderWidth: 10, borderColor: '#F1EBFD', minWidth: 60, textAlign: 'center' }}>Hoje</Text>
-          <Text style={{ fontSize: 13, color: '#9A9A9D', backgroundColor: '#F4F4F4', borderRadius: 25, borderWidth: 10, borderColor: '#F4F4F4', minWidth: 60, textAlign: 'center' }}>27/04</Text>
-          <Text style={{ fontSize: 13, color: '#7839EE', backgroundColor: '#F1EBFD', borderRadius: 25, borderWidth: 10, borderColor: '#F1EBFD', minWidth: 60, textAlign: 'center' }}>30/04</Text>
-          <Text style={{ fontSize: 13, color: '#7839EE', backgroundColor: '#F1EBFD', borderRadius: 25, borderWidth: 10, borderColor: '#F1EBFD', minWidth: 60, textAlign: 'center' }}>05/05</Text>
-          <Text style={{ fontSize: 13, color: '#9A9A9D', backgroundColor: '#F4F4F4', borderRadius: 25, borderWidth: 10, borderColor: '#F4F4F4', minWidth: 60, textAlign: 'center' }}>06/05</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginVertical: 8,
+            marginTop: 8,
+          }}>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#7839EE',
+              backgroundColor: '#F1EBFD',
+              borderRadius: 25,
+              borderWidth: 10,
+              borderColor: '#F1EBFD',
+              minWidth: 60,
+              textAlign: 'center',
+            }}>
+            Hoje
+          </Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#9A9A9D',
+              backgroundColor: '#F4F4F4',
+              borderRadius: 25,
+              borderWidth: 10,
+              borderColor: '#F4F4F4',
+              minWidth: 60,
+              textAlign: 'center',
+            }}>
+            27/04
+          </Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#7839EE',
+              backgroundColor: '#F1EBFD',
+              borderRadius: 25,
+              borderWidth: 10,
+              borderColor: '#F1EBFD',
+              minWidth: 60,
+              textAlign: 'center',
+            }}>
+            30/04
+          </Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#7839EE',
+              backgroundColor: '#F1EBFD',
+              borderRadius: 25,
+              borderWidth: 10,
+              borderColor: '#F1EBFD',
+              minWidth: 60,
+              textAlign: 'center',
+            }}>
+            05/05
+          </Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#9A9A9D',
+              backgroundColor: '#F4F4F4',
+              borderRadius: 25,
+              borderWidth: 10,
+              borderColor: '#F4F4F4',
+              minWidth: 60,
+              textAlign: 'center',
+            }}>
+            06/05
+          </Text>
         </View>
       </View>
-
 
       <View style={{ marginVertical: 16 }}>
         <View style={{ flexDirection: 'row' }}>
@@ -76,32 +155,95 @@ const App = () => {
               style={{ backgroundColor: '#F4F4F4' }}
               labelStyle={{ fontSize: 20 }}
               size={60}
-              label='J'
-              color='#9A9A9D'
+              label="J"
+              color="#9A9A9D"
             />
           </View>
 
-          <View style={{ alignSelf:'center' }}>
-            <Text style={{ fontSize: 17, fontWeight: 'bold' }} >João</Text>
-            <Text style={{ fontSize: 14, color: '#9A9A9D' }} >Participante</Text>
+          <View style={{ alignSelf: 'center' }}>
+            <Text style={{ fontSize: 17, fontWeight: 'bold' }}>João</Text>
+            <Text style={{ fontSize: 14, color: '#9A9A9D' }}>Participante</Text>
           </View>
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 8, marginTop: 8 }}>
-          <Text style={{ fontSize: 13, color: '#7839EE', backgroundColor: '#F1EBFD', borderRadius: 25, borderWidth: 10, borderColor: '#F1EBFD', minWidth: 60, textAlign: 'center' }}>Hoje</Text>
-          <Text style={{ fontSize: 13, color: '#7839EE', backgroundColor: '#F1EBFD', borderRadius: 25, borderWidth: 10, borderColor: '#F1EBFD', minWidth: 60, textAlign: 'center' }}>29/04</Text>
-          <Text style={{ fontSize: 13, color: '#9A9A9D', backgroundColor: '#F4F4F4', borderRadius: 25, borderWidth: 10, borderColor: '#F4F4F4', minWidth: 60, textAlign: 'center' }}>01/05</Text>
-          <Text style={{ fontSize: 13, color: '#7839EE', backgroundColor: '#F1EBFD', borderRadius: 25, borderWidth: 10, borderColor: '#F1EBFD', minWidth: 60, textAlign: 'center' }}>05/05</Text>
-          <Text style={{ fontSize: 13, color: '#7839EE', backgroundColor: '#F1EBFD', borderRadius: 25, borderWidth: 10, borderColor: '#F1EBFD', minWidth: 60, textAlign: 'center' }}>06/05</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginVertical: 8,
+            marginTop: 8,
+          }}>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#7839EE',
+              backgroundColor: '#F1EBFD',
+              borderRadius: 25,
+              borderWidth: 10,
+              borderColor: '#F1EBFD',
+              minWidth: 60,
+              textAlign: 'center',
+            }}>
+            Hoje
+          </Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#7839EE',
+              backgroundColor: '#F1EBFD',
+              borderRadius: 25,
+              borderWidth: 10,
+              borderColor: '#F1EBFD',
+              minWidth: 60,
+              textAlign: 'center',
+            }}>
+            29/04
+          </Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#9A9A9D',
+              backgroundColor: '#F4F4F4',
+              borderRadius: 25,
+              borderWidth: 10,
+              borderColor: '#F4F4F4',
+              minWidth: 60,
+              textAlign: 'center',
+            }}>
+            01/05
+          </Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#7839EE',
+              backgroundColor: '#F1EBFD',
+              borderRadius: 25,
+              borderWidth: 10,
+              borderColor: '#F1EBFD',
+              minWidth: 60,
+              textAlign: 'center',
+            }}>
+            05/05
+          </Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#7839EE',
+              backgroundColor: '#F1EBFD',
+              borderRadius: 25,
+              borderWidth: 10,
+              borderColor: '#F1EBFD',
+              minWidth: 60,
+              textAlign: 'center',
+            }}>
+            06/05
+          </Text>
         </View>
       </View>
-
-
     </View>,
     <View style={styles.contentItem}>
       <Text>Content for Item 3</Text>
     </View>,
   ];
-
 
   const handleMenuItemPress = (index) => {
     setItemAtivo(index);
@@ -109,30 +251,28 @@ const App = () => {
 
   return (
     <SafeAreaProvider style={styles.container}>
-
       <Appbar.Header style={styles.appBarHeader}>
         <Appbar.BackAction onPress={_goBack} />
-        <Appbar.Content title='Amigos do Trabalho' />
+        <Appbar.Content title="Amigos do Trabalho" />
       </Appbar.Header>
 
       <View style={styles.body}>
-
-        <View style={styles.groupName} >
+        <View style={styles.groupName}>
           <Avatar.Text
             style={{ backgroundColor: '#F4F4F4' }}
             labelStyle={{ fontSize: 20 }}
             size={90}
-            label='AT'
-            color='#9A9A9D'
+            label="AT"
+            color="#9A9A9D"
           />
 
           <View style={{ flex: 1, alignItems: 'center', alignSelf: 'center' }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }} >Amigos do Trabalho</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+              Amigos do Trabalho
+            </Text>
             <Text style={{ fontSize: 15 }}>5 membros</Text>
           </View>
         </View>
-
-
 
         <ScrollView
           ref={scrollViewRef}
@@ -167,16 +307,7 @@ const App = () => {
         </ScrollView>
 
         <View>{content[itemAtivo]}</View>
-
-
-
-
-
-
-
-
       </View>
-
     </SafeAreaProvider>
   );
 };
@@ -184,19 +315,19 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   appBarHeader: {
     backgroundColor: 'transparent',
   },
   body: {
     margin: 8,
-    marginTop: 0
+    marginTop: 0,
   },
   groupName: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 8
+    paddingVertical: 8,
   },
   menuContainer: {
     flex: 1,
@@ -217,7 +348,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: 'center',
     width: '70%',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   activeMenuText: {
     color: '#7839EE',
@@ -228,6 +359,6 @@ const styles = StyleSheet.create({
   contentItem: {
     alignItems: 'center',
   },
-})
+});
 
 export default App;
