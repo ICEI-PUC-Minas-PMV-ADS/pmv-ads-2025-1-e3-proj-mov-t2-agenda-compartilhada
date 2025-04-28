@@ -1,17 +1,20 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, FlatList } from 'react-native'
 import CalendarComp from '../components/CalendarComp';
 import { Text } from 'react-native-paper';
 import CardInfo from '../components/CardInfo';
 
 
 
-export default ({ date }) => {
+export default ( { eventos } ) => {
+
+    
+
     return (
         <>
-            <CalendarComp />
+            <CalendarComp eventos = { eventos }/>
 
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }} >{date}</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }} >Eventos do dia</Text>
 
             <CardInfo>
                 <Text style={{ fontSize: 17, fontWeight: 'bold' }} >Hoje</Text>

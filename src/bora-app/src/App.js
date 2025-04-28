@@ -3,8 +3,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Appbar, Avatar, Text, Card } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
-import Calendar from './components/CalendarComp';
 import GroupCalendar from './screens/GroupCalendar';
+import { Calendar } from 'react-native-calendars';
+import CalendarComp from './components/CalendarComp';
 
 
 const App = () => {
@@ -15,10 +16,27 @@ const App = () => {
 
   const menuItems = ['Calendário', 'Membros', 'Eventos'];
 
+  const eventos = [
+    {
+      id: 1,
+      data: '2025-04-29',
+      titulo: 'Happy Hour',
+      subtitulo: 'Amigos do Trabalho',
+      cor: '#6a3de8'
+    },
+    {
+      id: 2,
+      data: '2025-04-30',
+      titulo: 'Jantar em família',
+      subtitulo: 'Família',
+      cor: '#3de86a'
+    }
+  ];
+
   const content = [
     <View>
       
-      <GroupCalendar date='Eventos do dia (25 Abr)'/>
+      <GroupCalendar eventos={ eventos }/>
 
     </View>,
 
