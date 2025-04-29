@@ -14,6 +14,13 @@ export default function HomeScreen({ navigation }) {
         >
           <Text style={styles.buttonText}>Lista de Eventos</Text>
         </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => navigation.navigate('CalendarScreen')}
+        >
+          <Text style={styles.buttonText}>Calendário</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
