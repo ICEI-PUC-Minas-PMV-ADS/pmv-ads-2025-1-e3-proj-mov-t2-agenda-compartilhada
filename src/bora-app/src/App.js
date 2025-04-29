@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import EventList from './screens/EventList';
+import EventInfo from './screens/EventInfo';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,11 @@ export default function App() {
           name="EventList" 
           component={EventList} 
           options={{ title: 'Lista de Eventos' }}
+        />
+        <Stack.Screen 
+          name="EventInfo" 
+          component={EventInfo} 
+          options={{ title: 'Informações de Eventos' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

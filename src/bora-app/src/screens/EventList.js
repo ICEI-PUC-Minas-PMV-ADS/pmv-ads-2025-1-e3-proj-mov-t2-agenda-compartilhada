@@ -69,26 +69,7 @@ export default function App() {
             </View>
           ))}
         </ScrollView>
-      </View>
-      
-      {/* Barra de navegação */}
-      <View style={styles.navBar}>
-       {/* <TouchableOpacity style={styles.navItem}>
-          <Image source={require('./assets/home.png')} style={styles.navIcon} /> 
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Image source={require('./assets/calendar.png')} style={styles.navIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Image source={require('./assets/contacts.png')} style={styles.navIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Image source={require('./assets/notification.png')} style={styles.navIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Image source={require('./assets/profile.png')} style={styles.navIcon} />
-        </TouchableOpacity>*/}
-      </View>
+      </View>     
     </SafeAreaView>
   );
 }
