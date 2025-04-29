@@ -21,6 +21,21 @@ export default function HomeScreen({ navigation }) {
         >
           <Text style={styles.buttonText}>Calendário</Text>
         </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={styles.button} 
+          onPress={() => navigation.navigate('CreateEventScreen')}
+        >
+          <Text style={styles.buttonText}>Criar Evento</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button} 
+          onPress={() => navigation.navigate('EventTimeScreen')}
+        >
+          <Text style={styles.buttonText}>Horário do Evento</Text>
+        </TouchableOpacity>
+        
       </View>
     </SafeAreaView>
   );

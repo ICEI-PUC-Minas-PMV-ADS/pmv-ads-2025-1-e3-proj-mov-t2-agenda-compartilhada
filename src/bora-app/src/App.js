@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import EventList from './screens/EventList';
 import CalendarScreen from './screens/CalendarScreen';
+import CreateEventScreen from './screens/CreateEventScreen';
+import EventTimeScreen from './screens/EventTimeScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +27,16 @@ export default function App() {
           name="CalendarScreen" 
           component={CalendarScreen} 
           options={{ title: 'Calendário' }}
+          />
+        <Stack.Screen
+          name="CreateEventScreen" 
+          component={CreateEventScreen} 
+          options={{ title: 'Criar Evento' }} 
+          />
+        <Stack.Screen
+          name="EventTimeScreen" 
+          component={EventTimeScreen} 
+          options={{ title: 'Horário do Evento' }} 
           />
       </Stack.Navigator>
     </NavigationContainer>
