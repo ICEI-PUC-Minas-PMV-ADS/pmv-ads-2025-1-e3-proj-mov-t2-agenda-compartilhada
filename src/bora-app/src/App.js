@@ -46,6 +46,37 @@ const App = () => {
       titulo: 'Jantar em família',
       subtitulo: 'Família',
     },
+    {
+      id: 6,
+      data: '2025-04-30',
+      titulo: 'Jantar em família',
+      subtitulo: 'Família',
+    },
+    {
+      id: 7,
+      data: '2025-04-30',
+      titulo: 'Jantar em família',
+      subtitulo: 'Família',
+    },
+    {
+      id: 8,
+      data: '2025-04-30',
+      titulo: 'Jantar em família',
+      subtitulo: 'Família',
+    },
+    {
+      id: 9,
+      data: '2025-04-30',
+      titulo: 'Jantar em família',
+      subtitulo: 'Família',
+    },
+    {
+      id: 10,
+      data: '2025-04-30',
+      titulo: 'Jantar em família',
+      subtitulo: 'Família',
+    },
+
   ];
 
   const content = [
@@ -250,13 +281,18 @@ const App = () => {
   };
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaProvider >
+      
       <Appbar.Header style={styles.appBarHeader}>
         <Appbar.BackAction onPress={_goBack} />
         <Appbar.Content title="Amigos do Trabalho" />
       </Appbar.Header>
-
+      
+      
       <View style={styles.body}>
+      
+
+
         <View style={styles.groupName}>
           <Avatar.Text
             style={{ backgroundColor: '#F4F4F4' }}
@@ -274,6 +310,7 @@ const App = () => {
           </View>
         </View>
 
+        <View>
         <ScrollView
           ref={scrollViewRef}
           horizontal
@@ -282,10 +319,6 @@ const App = () => {
           {menuItems.map((item, index) => (
             <TouchableOpacity
               key={index}
-              style={[
-                styles.menuItem,
-                itemAtivo === index && styles.activeMenuItem,
-              ]}
               onPress={() => handleMenuItemPress(index)}>
               <Text
                 style={
@@ -295,6 +328,7 @@ const App = () => {
                 }>
                 {item}
               </Text>
+
               <View
                 style={
                   itemAtivo === index
@@ -302,32 +336,32 @@ const App = () => {
                     : styles.underline
                 }
               />
+              
             </TouchableOpacity>
           ))}
         </ScrollView>
+        </View>
 
-        <View>{content[itemAtivo]}</View>
+
+          {content[itemAtivo]} 
+
       </View>
     </SafeAreaProvider>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  body: {
     flex: 1,
     backgroundColor: 'white',
+    marginHorizontal: 8
   },
   appBarHeader: {
     backgroundColor: 'transparent',
   },
-  body: {
-    margin: 8,
-    marginTop: 0,
-  },
   groupName: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 8,
   },
   menuContainer: {
     flex: 1,
