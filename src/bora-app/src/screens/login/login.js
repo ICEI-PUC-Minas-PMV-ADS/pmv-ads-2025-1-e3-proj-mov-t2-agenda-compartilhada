@@ -15,10 +15,19 @@ export default function LoginScreen({ navigation }) {
     }
   
     try {
-      const response = await axios.post(`${API_IP}/auth/login`, {
-        email,
-        password: senha,
+      const response = await axios({
+        method: 'post',
+        url: `${API_IP}/auth/login`,
+        timeout: 10000, // 10 segundos
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: {
+          email,
+          password: senha,
+        },
       });
+      
   
       await AsyncStorage.setItem('access_token', response.data.access_token);
       

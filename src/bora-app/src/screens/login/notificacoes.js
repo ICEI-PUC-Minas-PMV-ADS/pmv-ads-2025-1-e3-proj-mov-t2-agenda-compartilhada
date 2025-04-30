@@ -46,7 +46,7 @@ const NotificacoesScreen = ({ navigation }) => {
   const openModal = async (notification) => {
     try {
       await axios.patch(
-        `http://192.168.0.253:3000/notificacoes/${notification.id}/marcar-como-lida`,
+        `${API_IP}/notificacoes/${notification.id}/marcar-como-lida`,
         { lido: true }
       );
     } catch (error) {

@@ -25,6 +25,7 @@ export default function CadastroScreen({ navigation }) {
   };
 
   const handleCadastro = () => {
+    console.log('API_IP:', API_IP);
     if (nome == '' || email == '' || senha == '' || confirmSenha == ''){
       Alert.alert('Preencha todos os campos.')
     }
@@ -34,7 +35,7 @@ export default function CadastroScreen({ navigation }) {
     else if(!regexEmail.test(email)) {
       Alert.alert('Digite um e-mail válido.')
     }
-    else if(senha.length < 5 || !regexSenha.test(regexSenha)) {
+    else if (senha.length < 5 || !regexSenha.test(senha)) {
       Alert.alert('Digite uma senha válida')
     }
     else if (senha != confirmSenha){
@@ -52,20 +53,20 @@ export default function CadastroScreen({ navigation }) {
           password: senha
         }),
       })
-        .then(response => {
+        .then(async response => {
+          const data = await response.json();
           if (response.ok) {
             Alert.alert('Cadastro realizado com sucesso!');
             navigation.navigate('loginScreen');
           } else {
-            response.json().then(data => {
-              Alert.alert('Erro ao cadastrar', data.message || 'Erro desconhecido');
-            });
+            Alert.alert('Erro ao cadastrar', data.message || 'Erro desconhecido');
           }
         })
         .catch(error => {
-          console.error('Erro na requisição:', error);
+          console.error('Erro na requisição:', JSON.stringify(error, null, 2));
           Alert.alert('Erro de conexão com o servidor');
-        });  
+        });
+        
     }
 
   };
