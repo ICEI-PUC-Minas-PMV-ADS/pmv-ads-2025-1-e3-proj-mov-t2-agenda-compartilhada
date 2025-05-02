@@ -282,12 +282,14 @@ const App = () => {
 
   return (
     <SafeAreaProvider >
-      
-      <Appbar.Header style={styles.appBarHeader}>
+      <SafeAreaView>
+      <Appbar.Header 
+      style={styles.appBarHeader}
+      statusBarHeight={0}>
         <Appbar.BackAction onPress={_goBack} />
         <Appbar.Content title="Amigos do Trabalho" />
       </Appbar.Header>
-      
+      </SafeAreaView>
       
       <View style={styles.body}>
       

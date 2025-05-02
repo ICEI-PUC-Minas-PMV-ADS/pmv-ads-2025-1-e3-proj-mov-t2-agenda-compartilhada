@@ -39,16 +39,16 @@ export default ({ eventos }) => {
 
     const exibeLabelDiaSelecionado = () => {
         if (!dataSelecionada) {
-            return <Text style={styles.txtBold}>Selecione uma data </Text>
+            return <Text style={[styles.txtBold, {paddingBottom: 8}]}>Selecione uma data </Text>
         }
 
         const data = dataEditavel(dataSelecionada.dateString)
         const hoje = ehHoje(data)
 
         return hoje ? (
-            <Text style={styles.txtBold}>Eventos de hoje</Text>
+            <Text style={[styles.txtBold, {paddingBottom: 8}]}>Eventos de hoje</Text>
         ) : (
-            <Text style={styles.txtBold}> Eventos do dia {data.toLocaleDateString('pt-Br', { day: 'numeric', month: 'short' })}</Text>
+            <Text style={[styles.txtBold, {paddingBottom: 8}]}> Eventos do dia {data.toLocaleDateString('pt-Br', { day: 'numeric', month: 'short' })}</Text>
         )
     }
 
@@ -79,7 +79,7 @@ export default ({ eventos }) => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View>
+            <View style>
                 <CalendarComp
                     eventos={eventos}
                     onDayPress={(data) => {

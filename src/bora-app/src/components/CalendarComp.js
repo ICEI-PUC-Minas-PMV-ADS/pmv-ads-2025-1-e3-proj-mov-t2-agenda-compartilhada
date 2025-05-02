@@ -18,7 +18,7 @@ export default ( {eventos = [], ...props} ) => {
     return (
         
         <Calendar
-            style={{ backgroundColor: 'transparent', paddingVertical: 10 }}
+            style={{ backgroundColor: 'transparent'}}
             markedDates={ datasEventos }
             theme={{
                 calendarBackground: 'transparent',
