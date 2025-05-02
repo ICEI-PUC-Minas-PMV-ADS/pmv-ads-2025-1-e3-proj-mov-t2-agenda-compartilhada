@@ -25,7 +25,6 @@ export default function CadastroScreen({ navigation }) {
   };
 
   const handleCadastro = () => {
-    console.log('API_IP:', API_IP);
     if (nome == '' || email == '' || senha == '' || confirmSenha == ''){
       Alert.alert('Preencha todos os campos.')
     }

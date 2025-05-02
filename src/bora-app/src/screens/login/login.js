@@ -14,7 +14,6 @@ export default function LoginScreen({ navigation }) {
       return;
     }
   
-    console.log("Fazendo login via URL:", `${API_IP}/auth/login`);
     try {
       const response = await axios({
         method: 'post',
