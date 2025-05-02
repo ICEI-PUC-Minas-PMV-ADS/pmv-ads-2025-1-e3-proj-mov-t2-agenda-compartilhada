@@ -46,19 +46,19 @@ export class NotificacoesController {
     @Param('id') id: string,
     @Body() updateNotificacaoDto: UpdateNotificacaoDto,
   ): Promise<Notificacao> {
-    return this.notificacoesService.update(id, updateNotificacaoDto); // Usando o serviço para atualizar a notificação
+    return this.notificacoesService.update(id, updateNotificacaoDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Notificacao> {
-    return this.notificacoesService.remove(id); // Usando o serviço para remover a notificação
+    return this.notificacoesService.remove(id);
   }
 
   // Novo endpoint para buscar notificações de um usuário
   @Get('usuario/:usuarioId')
   async buscarPorUsuario(
     @Param('usuarioId') usuarioId: string,
-    @Headers('Authorization') authHeader: string, // Adicionando o cabeçalho Authorization
+    @Headers('Authorization') authHeader: string,
   ): Promise<Notificacao[]> {
     console.log('usuarioId recebido:', usuarioId);
     return this.notificacoesService.buscarPorUsuario(usuarioId);
@@ -67,6 +67,6 @@ export class NotificacoesController {
   // Endpoint para marcar a notificação como lida
   @Patch(':id/marcar-como-lida')
   async marcarComoLida(@Param('id') id: string): Promise<Notificacao> {
-    return this.notificacoesService.marcarComoLida(id); // Usando o serviço para marcar a notificação como lida
+    return this.notificacoesService.marcarComoLida(id);
   }
 }

@@ -10,7 +10,6 @@ export class NotificacoesService {
     private readonly notificacaoModel: Model<NotificacaoDocument>,
   ) {}
 
-  // Criar uma nova notificação
   async criarNotificacao(data: {
     usuarioId: string;
     mensagem: string;
@@ -19,7 +18,6 @@ export class NotificacoesService {
     return nova.save();
   }
 
-  // Buscar notificações por usuário
   async buscarPorUsuario(usuarioId: string): Promise<Notificacao[]> {
     return this.notificacaoModel
       .find({ usuarioId })

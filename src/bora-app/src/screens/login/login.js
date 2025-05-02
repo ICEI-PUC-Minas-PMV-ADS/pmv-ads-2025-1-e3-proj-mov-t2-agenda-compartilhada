@@ -37,7 +37,7 @@ export default function LoginScreen({ navigation }) {
         console.log('Erro: usuário não encontrado na resposta');
       }
   
-      navigation.navigate('notificacoesScreen');
+      navigation.replace('mainTab');
     } catch (error) {
       if (error.response && error.response.status === 401) {
         Alert.alert('Erro', 'E-mail ou senha inválidos');
