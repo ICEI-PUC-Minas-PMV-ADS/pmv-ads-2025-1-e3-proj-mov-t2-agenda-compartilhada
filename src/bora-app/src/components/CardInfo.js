@@ -7,7 +7,7 @@ import { Card } from 'react-native-paper';
 export default ({ children }) => {
     return (
         <Card style={styles.card} mode='contained'>
-            <View style={{ margin: 15 }}>
+            <View style={styles.cardContent}>
                 {children}
             </View>
         </Card>
@@ -29,4 +29,7 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         borderBottomWidth: 1,
     },
+    cardContent: {
+        margin: 8
+    }
 })

@@ -25,7 +25,7 @@ export default ({ eventos }) => {
         return date.toDateString() === new Date().toDateString();
     }
 
-    // Retorna os eventos do dia selecionado
+    // Retorna os eventos do dia selecionado, para serem exibidos nos cards
     const cardInfo = () => {
         if (!dataSelecionada) {
             return [];
@@ -39,47 +39,58 @@ export default ({ eventos }) => {
 
     const exibeLabelDiaSelecionado = () => {
         if (!dataSelecionada) {
-            return <Text style={[styles.txtBold, {paddingBottom: 8}]}>Selecione uma data </Text>
+            return <Text style={styles.txtLabelDiaSelecionado}>Selecione uma data </Text>
         }
 
         const data = dataEditavel(dataSelecionada.dateString)
         const hoje = ehHoje(data)
 
         return hoje ? (
-            <Text style={[styles.txtBold, {paddingBottom: 8}]}>Eventos de hoje</Text>
+            <Text style={styles.txtLabelDiaSelecionado}>Eventos de hoje</Text>
         ) : (
-            <Text style={[styles.txtBold, {paddingBottom: 8}]}> Eventos do dia {data.toLocaleDateString('pt-Br', { day: 'numeric', month: 'short' })}</Text>
+            <Text style={styles.txtLabelDiaSelecionado}> Eventos do dia {data.toLocaleDateString('pt-Br', {
+                day: 'numeric',
+                month: 'short'
+            })}
+            </Text>
         )
     }
 
     const exibirCardList = ({ item }) => (
         <View key={item.id}>
             <CardInfo>
-                <Text style={{ fontSize: 17, fontWeight: 'bold' }}>
+                <Text style={styles.cardTitulo}>
                     {item.titulo}
                 </Text>
 
-                {new Date(item.data).toDateString() == new Date().toDateString() ? (
-                    <Text style={{ fontSize: 14, color: '#9A9A9D' }}> Hoje </Text>
-                ):(
-                    <Text style={{ fontSize: 14, color: '#9A9A9D' }}> {new Date(item.data).toLocaleDateString('pt-Br', {day:'numeric', month: 'numeric'})} </Text>
+                {ehHoje(dataEditavel(item.data)) ? (
+                    <Text style={styles.dataEventoCard}> Hoje </Text>
+                ) : (
+                    <Text style={styles.dataEventoCard}> {new Date(item.data).toLocaleDateString('pt-Br', {
+                        day: 'numeric',
+                        month: 'numeric'
+                    })}
+                    </Text>
                 )
-            }
-                
-                <Text style={{ fontSize: 14, color: '#7839EE' }}>
+                }
+
+                <Text style={styles.cofirmadosEventoCard}>
                     {item.subtitulo}
                 </Text>
             </CardInfo>
         </View>
     )
 
+    // Associa CardInfo a dataSelecionada para evitar desync
     useEffect(() => {
         cardInfo();
     }, [dataSelecionada]);
 
     return (
-        <View style={{ flex: 1 }}>
-            <View style>
+
+        <View style={styles.container}>
+
+            <View>
                 <CalendarComp
                     eventos={eventos}
                     onDayPress={(data) => {
@@ -88,40 +99,48 @@ export default ({ eventos }) => {
                 />
             </View>
 
-
-
             <View>
                 {exibeLabelDiaSelecionado()}
             </View>
 
+                {cardInfo().length > 0 ? (
+                    <FlatList
+                        data={cardInfo()}
+                        renderItem={exibirCardList}
+                        keyExtractor={evento => evento.id}
+                        showsVerticalScrollIndicator={false}
+                    />
+                ) : (
+                    <CardInfo>
+                        <Text style={styles.cardTitulo}>
+                            Sem eventos no dia
+                        </Text>
+                    </CardInfo>
+                )}
 
-
-            {cardInfo().length > 0 ? (
-                <FlatList
-                    data={cardInfo()}
-                    renderItem={exibirCardList}
-                    keyExtractor={evento => evento.id}
-                    style={{ flex: 1 }}
-                    showsVerticalScrollIndicator={false}
-                />
-            ) : (
-
-                <CardInfo>
-                    <Text style={{ fontSize: 17, fontWeight: 'bold' }}>
-                        Sem eventos no dia
-                    </Text>
-                </CardInfo>
-
-
-
-            )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    txtBold: {
+    txtLabelDiaSelecionado: {
         fontSize: 20,
         fontWeight: 'bold',
+        paddingBottom: 8
     },
+    cardTitulo: {
+        fontSize: 17,
+        fontWeight: 'bold'
+    },
+    dataEventoCard: {
+        fontSize: 14,
+        color: '#9A9A9D'
+    },
+    cofirmadosEventoCard: {
+        fontSize: 14,
+        color: '#7839EE'
+    },
+    container: {
+        flex: 1
+    }
 });
