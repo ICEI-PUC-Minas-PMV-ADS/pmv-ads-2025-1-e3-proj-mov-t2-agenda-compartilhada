@@ -28,7 +28,7 @@ export class UsersService {
     const perfilDto: CreatePerfilDto = {
       _id: novoUsuario._id,
       nome: novoUsuario.name,
-      foto: null,
+      foto: createUserDto.foto,
       tipoDono: 'usuario',
       userId: novoUsuario._id,
     };

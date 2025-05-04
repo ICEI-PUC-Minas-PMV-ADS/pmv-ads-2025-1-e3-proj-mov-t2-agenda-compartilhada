@@ -10,6 +10,8 @@ import {
   Image,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
+import { Ionicons } from '@expo/vector-icons';
 import { API_IP } from '@env';
 
 export default function CadastroScreen({ navigation }) {
@@ -18,6 +20,8 @@ export default function CadastroScreen({ navigation }) {
   const [confirmSenha, setConfirmSenha] = useState('');
   const [nome, setNome] = useState('');
   const [image, setImage] = useState(null);
+  const [senhaVisivel, setSenhaVisivel] = useState(false);
+  const [confirmSenhaVisivel, setConfirmSenhaVisivel] = useState(false);
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).+$/;
 
@@ -51,12 +55,62 @@ export default function CadastroScreen({ navigation }) {
     }
   };
 
+  const handleUploadImage = async () => {
+    if (!image || !email) return;
+  
+    try {
+      const fileInfo = await FileSystem.getInfoAsync(image);
+      const fileUriParts = image.split('.');
+      const fileType = fileUriParts[fileUriParts.length - 1];
+  
+      const formData = new FormData();
+      formData.append('file', {
+        uri: image,
+        name: `${email}.${fileType}`,
+        type: `image/${fileType}`,
+      });
+      formData.append('displayName', email);
+  
+      const response = await fetch(`${API_IP}/usuarios/upload-image`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        console.log(data);
+        Alert.alert('Erro ao enviar imagem', data.message || 'Erro desconhecido');
+      } else {
+        console.log('Imagem enviada:', data);
+      }
+  
+    } catch (error) {
+      console.error('Erro no upload da imagem:', error);
+      Alert.alert('Erro ao enviar imagem');
+    }
+  };
+  
+
   const handleNomeChange = (inputText) => {
     const cleanText = inputText.replace(/[^a-zA-Z ]/g, '');
     setNome(cleanText);
   };
 
     const handleCadastro = () => {
+
+      let fotoPath;
+
+      if (image) {
+        const fileType = image.split('.').pop(); // pega extensão
+        fotoPath = `${API_IP}/public/uploads/${email}.${fileType}`;
+      } else {
+        fotoPath = `${API_IP}/public/uploads/default_profile_image.png`;
+      }
+
       if (nome == '' || email == '' || senha == '' || confirmSenha == ''){
         Alert.alert('Preencha todos os campos.')
       }
@@ -73,6 +127,8 @@ export default function CadastroScreen({ navigation }) {
         Alert.alert('As senhas devem ser iguais.')
       }
       else{
+        handleUploadImage();
+        
         fetch(`${API_IP}/usuarios`, {
           method: 'POST',
           headers: {
@@ -81,7 +137,8 @@ export default function CadastroScreen({ navigation }) {
           body: JSON.stringify({
             name: nome,
             email: email,
-            password: senha
+            password: senha,
+            foto: fotoPath,
           }),
         })
           .then(async response => {
@@ -143,25 +200,41 @@ export default function CadastroScreen({ navigation }) {
           autoCapitalize="none"
         />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          placeholderTextColor="#757575"
-          value={senha}
-          onChangeText={setSenha}
-          secureTextEntry
-          autoCapitalize="none"
-        />
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Senha"
+            placeholderTextColor="#757575"
+            value={senha}
+            onChangeText={setSenha}
+            secureTextEntry={!senhaVisivel}
+            autoCapitalize="none"
+          />
+          <TouchableOpacity
+            style={styles.eyeIcon}
+            onPress={() => setSenhaVisivel(!senhaVisivel)}
+          >
+            <Ionicons name={senhaVisivel ? 'eye-off' : 'eye'} size={24} color="#757575" />
+          </TouchableOpacity>
+        </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Confirme sua senha"
-          placeholderTextColor="#757575"
-          value={confirmSenha}
-          onChangeText={setConfirmSenha}
-          secureTextEntry
-          autoCapitalize="none"
-        />
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Confirme sua senha"
+            placeholderTextColor="#757575"
+            value={confirmSenha}
+            onChangeText={setConfirmSenha}
+            secureTextEntry={!confirmSenhaVisivel}
+            autoCapitalize="none"
+          />
+          <TouchableOpacity
+            style={styles.eyeIcon}
+            onPress={() => setConfirmSenhaVisivel(!confirmSenhaVisivel)}
+          >
+            <Ionicons name={confirmSenhaVisivel ? 'eye-off' : 'eye'} size={24} color="#757575" />
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity style={styles.button} onPress={handleCadastro}>
           <Text style={styles.buttonText}>Cadastrar</Text>
@@ -232,5 +305,14 @@ const styles = StyleSheet.create({
   },
   selectedPhotoText: {
     color: '#4bded7',
-  }
+  },
+  passwordContainer: {
+    position: 'relative',
+    justifyContent: 'center',
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: 15,
+    top: 18,
+  },
 });
