@@ -17,6 +17,7 @@ export default ({ eventos }) => {
             return null;
         } else {
             const data = new Date(dateString);
+            data.setMinutes(data.getMinutes() + data.getTimezoneOffset());
             return data;
         }
     };
@@ -62,11 +63,10 @@ export default ({ eventos }) => {
                 <Text style={styles.cardTitulo}>
                     {item.titulo}
                 </Text>
-
                 {ehHoje(dataEditavel(item.data)) ? (
                     <Text style={styles.dataEventoCard}> Hoje </Text>
                 ) : (
-                    <Text style={styles.dataEventoCard}> {new Date(item.data).toLocaleDateString('pt-Br', {
+                    <Text style={styles.dataEventoCard}> {dataEditavel(item.data).toLocaleDateString('pt-Br', {
                         day: 'numeric',
                         month: 'numeric'
                     })}
