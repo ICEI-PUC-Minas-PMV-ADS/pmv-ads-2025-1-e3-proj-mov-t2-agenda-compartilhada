@@ -10,6 +10,13 @@ export default function HomeScreen({ navigation }) {
 
           <TouchableOpacity
               style={styles.button}
+              onPress={() => navigation.navigate('Dashboard')}
+          >
+            <Text style={styles.buttonText}>Home/Dashboard</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={styles.button}
               onPress={() => navigation.navigate('EventList')}
           >
             <Text style={styles.buttonText}>Lista de Eventos</Text>
