@@ -17,7 +17,5 @@ export class CreateNotificacaoDto {
   readonly data: Date;
 
   @IsBoolean()
-  readonly lido: boolean;  // Tornamos 'lido' obrigatório e não opcional
-
-  // 'notificationId' não precisa ser passado pelo usuário, será gerado automaticamente no service.
+  readonly lido: boolean;
 }
