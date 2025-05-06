@@ -1,16 +1,16 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Card } from 'react-native-paper';
 
 
 
 export default ({ children }) => {
     return (
-        <Card style={styles.card} mode='contained'>
+        <View style={styles.card}>
+            <View style={styles.borderAccent} />
             <View style={styles.cardContent}>
                 {children}
             </View>
-        </Card>
+        </View>
     );
 }
 
@@ -19,17 +19,17 @@ const styles = StyleSheet.create({
         margin: 8,
         marginVertical: 10,
         backgroundColor: '#fff',
-        borderLeftColor: '#7839EE',
-        borderTopColor: '#EEEEEE',
-        borderRightColor: '#EEEEEE',
-        borderBottomColor: '#EEEEEE',
-        borderStyle: 'solid',
-        borderLeftWidth: 11.8,
-        borderTopWidth: 1,
-        borderRightWidth: 1,
-        borderBottomWidth: 1,
+        borderColor: '#EEEEEE',
+        borderWidth: 1,
+        borderRadius: 12,
+        flexDirection: 'row',
+        overflow: 'hidden'
+    },
+    borderAccent: {
+        width: 9,
+        backgroundColor: '#7839EE'
     },
     cardContent: {
-        margin: 8
+        padding: 8
     }
-})
+});

@@ -1,30 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, FlatList, ScrollView, View } from 'react-native';
+import { StyleSheet, FlatList, View } from 'react-native';
 import CalendarComp from '../components/CalendarComp';
-import { Text, List } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import CardInfo from '../components/CardInfo';
-import { DateData, todayString } from 'react-native-calendars';
+import { dataEditavel, ehHoje } from '../utils/dateUtils';
 
 
 export default ({ eventos }) => {
 
     // Controla datas selecionadas no calendário
     const [dataSelecionada, setDataSelecionada] = useState();
-
-    // Converte data para ser manipulável
-    const dataEditavel = (dateString) => {
-        if (!dateString) {
-            return null;
-        } else {
-            const data = new Date(dateString);
-            data.setMinutes(data.getMinutes() + data.getTimezoneOffset());
-            return data;
-        }
-    };
-
-    const ehHoje = (date) => {
-        return date.toDateString() === new Date().toDateString();
-    }
 
     // Retorna os eventos do dia selecionado, para serem exibidos nos cards
     const cardInfo = () => {

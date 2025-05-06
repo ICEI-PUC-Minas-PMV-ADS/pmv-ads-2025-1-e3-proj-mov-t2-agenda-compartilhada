@@ -6,6 +6,8 @@ import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import GroupCalendar from './screens/GroupCalendar';
 import { Calendar } from 'react-native-calendars';
 import CalendarComp from './components/CalendarComp';
+import MemberCard from './components/MemberCard';
+import GroupMemberEvents from './screens/GroupMemberEvents';
 
 const App = () => {
   const _goBack = () => console.log('Went back');
@@ -79,198 +81,129 @@ const App = () => {
 
   ];
 
+  const userEventos = [
+    {
+      id: 1,
+      nome: 'Pedro (Você)',
+      role: 'Administrador',
+      eventos: [
+        {
+          id: 1,
+          data: '2025-04-30',
+          desseGrupo: true
+        },
+        {
+          id: 2,
+          data: '2025-05-02',
+          desseGrupo: true
+        },
+        {
+          id: 3,
+          data: '2025-05-13',
+          desseGrupo: true
+        },
+        {
+          id: 4,
+          data: '2025-05-27',
+          desseGrupo: true
+        },
+        {
+          id: 6,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+        {
+          id: 7,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+        {
+          id: 8,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+        {
+          id: 9,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+        {
+          id: 10,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+        {
+          id: 11,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+      ]
+    },
+    {
+      id: 2,
+      nome: 'Antonio',
+      role: 'Membro',
+      eventos: [
+        {
+          id: 1,
+          data: '2025-04-30',
+          desseGrupo: true
+        },
+        {
+          id: 2,
+          data: '2025-05-02',
+          desseGrupo: true
+        },
+        {
+          id: 3,
+          data: '2025-05-13',
+          desseGrupo: true
+        },
+        {
+          id: 4,
+          data: '2025-05-27',
+          desseGrupo: true
+        },
+        {
+          id: 6,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+        {
+          id: 7,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+        {
+          id: 8,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+        {
+          id: 9,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+        {
+          id: 10,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+        {
+          id: 11,
+          data: '2025-05-30',
+          desseGrupo: true
+        },
+      ]
+    }    
+  ];
+
+
   const content = [
     <GroupCalendar eventos={eventos} />,
-
-    <View>
-      <View style={{ marginVertical: 16 }}>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ width: '30%' }}>
-            <Avatar.Text
-              style={{ backgroundColor: '#F4F4F4' }}
-              labelStyle={{ fontSize: 20 }}
-              size={60}
-              label="P"
-              color="#9A9A9D"
-            />
-          </View>
-
-          <View style={{ alignSelf: 'center' }}>
-            <Text style={{ fontSize: 17, fontWeight: 'bold' }}>
-              Pedro (Você)
-            </Text>
-            <Text style={{ fontSize: 14, color: '#9A9A9D' }}>
-              Administrador
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 8,
-            marginTop: 8,
-          }}>
-          <Text
-            style={{
-              fontSize: 13,
-              color: '#7839EE',
-              backgroundColor: '#F1EBFD',
-              borderRadius: 25,
-              borderWidth: 10,
-              borderColor: '#F1EBFD',
-              minWidth: 60,
-              textAlign: 'center',
-            }}>
-            Hoje
-          </Text>
-          <Text
-            style={{
-              fontSize: 13,
-              color: '#9A9A9D',
-              backgroundColor: '#F4F4F4',
-              borderRadius: 25,
-              borderWidth: 10,
-              borderColor: '#F4F4F4',
-              minWidth: 60,
-              textAlign: 'center',
-            }}>
-            27/04
-          </Text>
-          <Text
-            style={{
-              fontSize: 13,
-              color: '#7839EE',
-              backgroundColor: '#F1EBFD',
-              borderRadius: 25,
-              borderWidth: 10,
-              borderColor: '#F1EBFD',
-              minWidth: 60,
-              textAlign: 'center',
-            }}>
-            30/04
-          </Text>
-          <Text
-            style={{
-              fontSize: 13,
-              color: '#7839EE',
-              backgroundColor: '#F1EBFD',
-              borderRadius: 25,
-              borderWidth: 10,
-              borderColor: '#F1EBFD',
-              minWidth: 60,
-              textAlign: 'center',
-            }}>
-            05/05
-          </Text>
-          <Text
-            style={{
-              fontSize: 13,
-              color: '#9A9A9D',
-              backgroundColor: '#F4F4F4',
-              borderRadius: 25,
-              borderWidth: 10,
-              borderColor: '#F4F4F4',
-              minWidth: 60,
-              textAlign: 'center',
-            }}>
-            06/05
-          </Text>
-        </View>
-      </View>
-
-      <View style={{ marginVertical: 16 }}>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ width: '30%' }}>
-            <Avatar.Text
-              style={{ backgroundColor: '#F4F4F4' }}
-              labelStyle={{ fontSize: 20 }}
-              size={60}
-              label="J"
-              color="#9A9A9D"
-            />
-          </View>
-
-          <View style={{ alignSelf: 'center' }}>
-            <Text style={{ fontSize: 17, fontWeight: 'bold' }}>João</Text>
-            <Text style={{ fontSize: 14, color: '#9A9A9D' }}>Participante</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 8,
-            marginTop: 8,
-          }}>
-          <Text
-            style={{
-              fontSize: 13,
-              color: '#7839EE',
-              backgroundColor: '#F1EBFD',
-              borderRadius: 25,
-              borderWidth: 10,
-              borderColor: '#F1EBFD',
-              minWidth: 60,
-              textAlign: 'center',
-            }}>
-            Hoje
-          </Text>
-          <Text
-            style={{
-              fontSize: 13,
-              color: '#7839EE',
-              backgroundColor: '#F1EBFD',
-              borderRadius: 25,
-              borderWidth: 10,
-              borderColor: '#F1EBFD',
-              minWidth: 60,
-              textAlign: 'center',
-            }}>
-            29/04
-          </Text>
-          <Text
-            style={{
-              fontSize: 13,
-              color: '#9A9A9D',
-              backgroundColor: '#F4F4F4',
-              borderRadius: 25,
-              borderWidth: 10,
-              borderColor: '#F4F4F4',
-              minWidth: 60,
-              textAlign: 'center',
-            }}>
-            01/05
-          </Text>
-          <Text
-            style={{
-              fontSize: 13,
-              color: '#7839EE',
-              backgroundColor: '#F1EBFD',
-              borderRadius: 25,
-              borderWidth: 10,
-              borderColor: '#F1EBFD',
-              minWidth: 60,
-              textAlign: 'center',
-            }}>
-            05/05
-          </Text>
-          <Text
-            style={{
-              fontSize: 13,
-              color: '#7839EE',
-              backgroundColor: '#F1EBFD',
-              borderRadius: 25,
-              borderWidth: 10,
-              borderColor: '#F1EBFD',
-              minWidth: 60,
-              textAlign: 'center',
-            }}>
-            06/05
-          </Text>
-        </View>
-      </View>
-    </View>,
+    
+    <GroupMemberEvents userEventos={userEventos} />
+    ,
     <View style={styles.contentItem}>
       <Text>Content for Item 3</Text>
     </View>,
