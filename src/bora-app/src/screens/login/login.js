@@ -11,7 +11,6 @@ export default function LoginScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
-    console.log('botao clicado')
     if (email === '' || senha === '') {
       Alert.alert('Por favor, insira seu e-mail e senha');
       return;
