@@ -195,7 +195,73 @@ const App = () => {
           desseGrupo: true
         },
       ]
-    }    
+    },
+    {
+      id: 3,
+      nome: 'José',
+      role: 'Membro',
+      eventos: []
+    },
+    {
+      id: 4,
+      nome: 'Maria',
+      role: 'Membro',
+      eventos: []
+    },
+    {
+      id: 5,
+      nome: 'Maria',
+      role: 'Membro',
+      eventos: []
+    },
+    {
+      id: 6,
+      nome: 'Maria',
+      role: 'Membro',
+      eventos: []
+    },
+    {
+      id: 7,
+      nome: 'Maria',
+      role: 'Membro',
+      eventos: []
+    },
+    {
+      id: 8,
+      nome: 'Maria',
+      role: 'Membro',
+      eventos: []
+    },
+    {
+      id: 9,
+      nome: 'Maria',
+      role: 'Membro',
+      eventos: []
+    },
+    {
+      id: 10,
+      nome: 'Maria',
+      role: 'Membro',
+      eventos: []
+    },
+    {
+      id: 11,
+      nome: 'Maria',
+      role: 'Membro',
+      eventos: []
+    },
+    {
+      id: 12,
+      nome: 'Maria',
+      role: 'Membro',
+      eventos: []
+    },
+    {
+      id: 13,
+      nome: 'Maria',
+      role: 'Membro',
+      eventos: []
+    },  
   ];
 
 

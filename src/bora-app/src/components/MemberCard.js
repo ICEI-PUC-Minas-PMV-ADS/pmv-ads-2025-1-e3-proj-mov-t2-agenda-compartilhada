@@ -9,7 +9,7 @@ export default ({ nome, role, eventos }) => {
         <View style={{ marginVertical: 8 }}>
             <View style={{ flexDirection: 'row' }}>
 
-                <View style={{ width: '24%' }}>
+                <View style={{ width: '24%', marginLeft: 4 }}>
                     <Avatar.Text
                         style={{ backgroundColor: '#F4F4F4' }}
                         labelStyle={{ fontSize: 20 }}
@@ -28,10 +28,10 @@ export default ({ nome, role, eventos }) => {
                     </Text>
                 </View>
             </View>
+            
             <ScrollView
                 horizontal
-                showsHorizontalScrollIndicator={false}
-                style={{ marginHorizontal: -8 }}>
+                showsHorizontalScrollIndicator={false}>
 
                 <View
                     style={{
