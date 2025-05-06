@@ -4,9 +4,11 @@
     "slug": "bora-app",
     "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "./src/assets/logo.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
+      "image": "./src/assets/idle_screen.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -15,8 +17,12 @@
     },
     "android": {
       "adaptiveIcon": {
+        "foregroundImage": "./src/assets/idle_screen.png",
         "backgroundColor": "#ffffff"
       }
+    },
+    "web": {
+      "favicon": "./src/assets/favicon.png"
     }
   }
 }

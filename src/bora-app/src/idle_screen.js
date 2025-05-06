@@ -10,6 +10,14 @@ import GroupDetails from './screens/GroupDetails';
 
 const Stack = createStackNavigator();
 
+export default function IdleScreen(){
+  return(
+    <View style={styles.container}>
+      <Image
+        source={require("./assets/idle_screen.png")}
+      />
+    </View>
+  )
 export default function App() {
     return (
         <NavigationContainer>
@@ -48,3 +56,12 @@ export default function App() {
         </NavigationContainer>
     );
 }
+
+    const styles = StyleSheet.create({
+        container:{
+            flex:1,
+            backgroundColor: "#FFFFFF",
+            justifyContent: "center",
+            alignItems: "center"
+        }
+    });

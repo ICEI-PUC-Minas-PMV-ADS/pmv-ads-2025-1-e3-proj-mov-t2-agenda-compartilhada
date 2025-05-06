@@ -1,5 +1,9 @@
+import { Types } from 'mongoose';
+
 export class CreatePerfilDto {
-  readonly userId: string;
-  readonly bio?: string;
-  readonly avatarUrl?: string;
+  _id: Types.ObjectId;
+  nome: string;
+  foto: string;
+  tipoDono?: 'usuario' | 'grupo';
+  userId: Types.ObjectId;
 }
