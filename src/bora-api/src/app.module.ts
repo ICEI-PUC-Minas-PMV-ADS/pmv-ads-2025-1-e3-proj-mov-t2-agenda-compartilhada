@@ -1,6 +1,9 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
 import { UsersModule } from './users/users.module';
 import { PerfisModule } from './perfis/perfis.module';
 import { NotificacoesModule } from './notificacoes/notificacoes.module';
