@@ -19,6 +19,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schema/user.schema';
 import { promises as fs } from 'fs'; // Import para manipulação de arquivos
+import { config } from 'dotenv';
+config();
+
+
 
 @Controller('usuarios')
 export class UsersController {
@@ -96,7 +100,8 @@ export class UsersController {
       file.filename = newFilename;
     }
 
-    const url = `http://localhost:3000/public/uploads/${file.filename}`;
+    const baseUrl = process.env.API_IP ?? 'http://localhost:3000';
+    const url = `${baseUrl}/uploads/${file.filename}`;
 
     return {
       message: 'Imagem enviada com sucesso!',

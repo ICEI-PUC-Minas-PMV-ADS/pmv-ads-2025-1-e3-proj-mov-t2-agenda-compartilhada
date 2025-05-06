@@ -84,8 +84,6 @@ export default function CadastroScreen({ navigation }) {
       if (!response.ok) {
         console.log(data);
         Alert.alert('Erro ao enviar imagem', data.message || 'Erro desconhecido');
-      } else {
-        console.log('Imagem enviada:', data);
       }
   
     } catch (error) {

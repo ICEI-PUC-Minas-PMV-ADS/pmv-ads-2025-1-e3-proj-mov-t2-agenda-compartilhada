@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose'; // Importando Types do mongoose para criar ObjectId
+import { Model, Types } from 'mongoose';
 import { Notificacao, NotificacaoDocument } from '../schema/notificacoes.schema';
 import { CreateNotificacaoDto } from '../dto/create-notificacoe.dto';
 import { UpdateNotificacaoDto } from '../dto/update-notificacoe.dto';
-import { User, UserDocument } from '../../users/schema/user.schema'; // Ajuste o caminho se necessário
+import { User, UserDocument } from '../../users/schema/user.schema';
 
 @Injectable()
 export class NotificacoesRepository {
@@ -13,10 +13,9 @@ export class NotificacoesRepository {
     private readonly notificacaoModel: Model<NotificacaoDocument>,
   
     @InjectModel(User.name)
-    private readonly userModel: Model<UserDocument>, // Injete o model de usuário
+    private readonly userModel: Model<UserDocument>,
   ) {}
 
-  // Criar uma nova notificação
   async create(
     createNotificacaoDto: CreateNotificacaoDto,
   ): Promise<Notificacao> {
@@ -29,24 +28,19 @@ export class NotificacoesRepository {
     return createdNotificacao.save();
   }
 
-  // Buscar notificações por usuário (com populate)
   async findByUserId(usuarioId: string): Promise<Notificacao[]> {
-    // Garantir que o usuarioId seja convertido para ObjectId válido
     let usuarioObjectId: Types.ObjectId | null = null;
   
-    // Verifique se o usuarioId é um ObjectId válido
     if (Types.ObjectId.isValid(usuarioId)) {
       usuarioObjectId = new Types.ObjectId(usuarioId);
     }
   
-    // Se o ID não for válido, lançar erro
     if (!usuarioObjectId) {
       throw new NotFoundException(`ID de usuário inválido: ${usuarioId}`);
     }
   
     return this.notificacaoModel
       .find({ usuarioId: usuarioObjectId })
-      //.populate('usuarioId', 'name email') // Populando o dado correto de usuário
       .exec();
       
   }
