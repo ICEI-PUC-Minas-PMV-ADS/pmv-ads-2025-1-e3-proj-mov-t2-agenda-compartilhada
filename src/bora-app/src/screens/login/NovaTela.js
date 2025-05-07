@@ -52,7 +52,7 @@ export default function NovaTela() {
     formData.append('displayName', displayName);
 
     try {
-      const response = await fetch('http://192.168.0.13:3000/usuarios/upload-image', {
+      const response = await fetch('http://http://192.168.0.19:3000/usuarios/upload-image', {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',

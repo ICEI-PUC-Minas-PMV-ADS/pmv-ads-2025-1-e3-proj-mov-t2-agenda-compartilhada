@@ -1,11 +1,11 @@
 // setup_node.js
 import { config } from 'dotenv';
-const { MongoClient } = require("mongodb");
+import { MongoClient } from 'mongodb';
 
 config(); // carrega variáveis do .env
 
 async function runSetup() {
-  const uri = process.env.MONGO_URI || "mongodb://localhost:27017/agenda";
+  const uri = process.env.MONGO_URI || "mongodb://localhost:27017/bora-db";
   const client = new MongoClient(uri);
 
   try {
