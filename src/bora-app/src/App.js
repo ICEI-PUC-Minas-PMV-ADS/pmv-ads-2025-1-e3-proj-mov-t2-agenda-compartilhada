@@ -3,9 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import EventList from './screens/EventList';
-import MyGroups from './screens/MyGroups';
-import CreateGroup from './screens/CreateGroup';
-import GroupDetails from './screens/GroupDetails';
+// import MyGroups from './screens/MyGroups';
+// import CreateGroup from './screens/CreateGroup';
+// import GroupDetails from './screens/GroupDetails';
 import ProfileScreen from './screens/ProfileScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
 import ConviteScreen from './screens/ConviteScreen';
@@ -26,7 +26,7 @@ export default function App() {
                     component={EventList}
                     options={{ title: 'Lista de Eventos' }}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                     name="MyGroups"
                     component={MyGroups}
                     options={{ headerShown: false }}
@@ -40,7 +40,7 @@ export default function App() {
                     name="GroupDetails"
                     component={GroupDetails}
                     options={{ headerShown: false }}
-                />
+                /> */}
                 <Stack.Screen
                     name="Profile"
                     component={ProfileScreen}
