@@ -28,6 +28,14 @@ export default function HomeScreen({ navigation }) {
           >
             <Text style={styles.buttonText}>Notificações</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('Convite')}
+          >
+                <Text style={styles.buttonText}>Convidar Pessoas</Text>
+          </TouchableOpacity>
+
       </View>
     </SafeAreaView>
   );

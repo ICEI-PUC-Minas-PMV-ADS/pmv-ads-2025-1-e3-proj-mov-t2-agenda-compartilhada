@@ -8,6 +8,7 @@ import CreateGroup from './screens/CreateGroup';
 import GroupDetails from './screens/GroupDetails';
 import ProfileScreen from './screens/ProfileScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
+import ConviteScreen from './screens/ConviteScreen';
 
 const Stack = createStackNavigator();
 
@@ -49,6 +50,13 @@ export default function App() {
                     name="Notifications"
                     component={NotificationsScreen}
                     options={{ headerShown: false }}
+                />
+                <Stack.Screen 
+                    name="Convite" 
+                    component={ConviteScreen}
+                    options={{
+                        title: 'Convidar Pessoas',
+                    }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
