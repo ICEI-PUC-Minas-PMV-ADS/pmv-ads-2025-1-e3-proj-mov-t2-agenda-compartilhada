@@ -57,3 +57,5 @@
 
 # NestJS specific: Arquivos gerados pela compilação (TypeScript, etc.)
 **/*.tsbuildinfo
+
+docker-compose.yaml

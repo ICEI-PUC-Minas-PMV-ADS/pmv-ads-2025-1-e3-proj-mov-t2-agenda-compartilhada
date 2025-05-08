@@ -1,18 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
-export type PerfilDocument = Perfil & Document;
-
-@Schema({ timestamps: true })
-export class Perfil {
-  @Prop({ required: true })
-  userId: string;
+@Schema({ collection: 'perfils' })
+export class Perfil extends Document {
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  userId: Types.ObjectId;
 
   @Prop()
-  bio?: string;
+  nome: string;
 
-  @Prop()
-  avatarUrl?: string;
+  @Prop({ type: String, required: false, default: null })
+  foto: string | null;
+
+  @Prop({ type: String, enum: ['usuario', 'grupo'], default: 'usuario' })
+  tipoDono: 'usuario' | 'grupo';
 }
 
 export const PerfilSchema = SchemaFactory.createForClass(Perfil);

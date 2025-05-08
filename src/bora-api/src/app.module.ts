@@ -1,6 +1,9 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
 import { UsersModule } from './users/users.module';
 import { PerfisModule } from './perfis/perfis.module';
 import { NotificacoesModule } from './notificacoes/notificacoes.module';
@@ -12,12 +15,31 @@ import { AssociacoesGrupoModule } from './associacoes-grupo/associacoes-grupo.mo
 import { ParticipacoesEventoModule } from './participacoes-evento/participacoes-evento.module';
 import { CalendariosModule } from './calendarios/calendarios.module';
 import { CalendariosEventosModule } from './calendarios-eventos/calendarios-eventos.module';
-import { RecuperacaoSenhaModule } from './recuperacao-senha/recuperacao-senha.module';
+import { RecoveryModule } from './recuperacao-senha/recuperacao-senha.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/bora-db'),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_URI'),
+      }),
+    }),
+
+    // 👉 Serve arquivos estáticos da pasta "uploads"
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/public', // URL base para acessar os arquivos
+    }),
+
     UsersModule,
+    AuthModule,
     PerfisModule,
     NotificacoesModule,
     EventosModule,
@@ -28,7 +50,7 @@ import { RecuperacaoSenhaModule } from './recuperacao-senha/recuperacao-senha.mo
     ParticipacoesEventoModule,
     CalendariosModule,
     CalendariosEventosModule,
-    RecuperacaoSenhaModule,
+    RecoveryModule,
   ],
   controllers: [],
   providers: [],

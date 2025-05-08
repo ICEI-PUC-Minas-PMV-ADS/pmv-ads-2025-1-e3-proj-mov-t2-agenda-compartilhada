@@ -6,15 +6,23 @@ import {
   Param,
   Put,
   Delete,
+  UnauthorizedException,
+  Headers,
+  Patch,
 } from '@nestjs/common';
 import { NotificacoesService } from './notificacoes.service';
 import { CreateNotificacaoDto } from './dto/create-notificacoe.dto';
-import { Notificacao } from './schema/natificacoes.schema';
+import { Notificacao } from './schema/notificacoes.schema';
 import { UpdateNotificacaoDto } from './dto/update-notificacoe.dto';
+import { JwtService } from '@nestjs/jwt';
+import { Types } from 'mongoose';
 
 @Controller('notificacoes')
 export class NotificacoesController {
-  constructor(private readonly notificacoesService: NotificacoesService) {}
+  constructor(
+    private readonly notificacoesService: NotificacoesService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   @Post()
   async create(
@@ -44,5 +52,19 @@ export class NotificacoesController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Notificacao> {
     return this.notificacoesService.remove(id);
+  }
+
+  @Get('usuario/:usuarioId')
+  async buscarPorUsuario(
+    @Param('usuarioId') usuarioId: string,
+    @Headers('Authorization') authHeader: string,
+  ): Promise<Notificacao[]> {
+    console.log('usuarioId recebido:', usuarioId);
+    return this.notificacoesService.buscarPorUsuario(usuarioId);
+  }
+
+  @Patch(':id/marcar-como-lida')
+  async marcarComoLida(@Param('id') id: string): Promise<Notificacao> {
+    return this.notificacoesService.marcarComoLida(id);
   }
 }
