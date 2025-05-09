@@ -15,7 +15,7 @@ Pensou por 7 segundos
 **Informações Gerais:**
 
 * **Data:** 09/05/2025
-* **Responsável pelos Testes:** Andressa Julia Guedes Ribeiro
+* **Responsável pelos Testes:** Yasmim Nunes
 * **Versão da Aplicação Testada:** 1.0.0 (Frontend)
 * **Backend:** em desenvolvimento 
 * **Plano de Testes:** Home-dashboard, MyGroups, CreateGroup e GroupDetails
