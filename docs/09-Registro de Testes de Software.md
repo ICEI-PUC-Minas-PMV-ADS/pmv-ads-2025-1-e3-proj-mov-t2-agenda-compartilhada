@@ -2,11 +2,166 @@
 
 <span style="color:red">Pré-requisitos: <a href="3-Projeto de Interface.md"> Projeto de Interface</a></span>, <a href="8-Plano de Testes de Software.md"> Plano de Testes de Software</a>
 
-Relatório com as evidências dos testes de software realizados no sistema pela equipe, baseado em um plano de testes pré-definido.
+**Ajustando o Registro de Testes**
 
-## Avaliação
+O usuário quer que o Registro de Testes de Software seja revisado, com a inclusão de uma observação informando que o backend ainda está sendo desenvolvido em todas as telas já feitas para o frontend. Para cada caso de teste, vamos adicionar uma nota, como "APIs de backend ainda em desenvolvimento" ou "Backend ainda em desenvolvimento; testes de integração pendentes". Dessa forma, o registro manterá a estrutura, mas refletirá o status atual do backend para os testes.
 
-Discorra sobre os resultados do teste. Ressaltando pontos fortes e fracos identificados na solução. Comente como o grupo pretende atacar esses pontos nas próximas iterações. Apresente as falhas detectadas e as melhorias geradas a partir dos resultados obtidos nos testes.
+
+Pensou por 7 segundos
+
+
+# Registro de Testes de Software
+
+**Informações Gerais:**
+
+* **Data:** 09/05/2025
+* **Responsável pelos Testes:** Andressa Julia Guedes Ribeiro
+* **Versão da Aplicação Testada:** 1.0.0 (Frontend)
+* **Backend:** em desenvolvimento 
+* **Plano de Testes:** Home-dashboard, MyGroups, CreateGroup e GroupDetails
+
+---
+
+## Caso de Teste 1: Home-dashboard – Exibição de Eventos e Grupos
+
+**Requisitos Referentes:** Tela Home-dashboard (frontend apenas)
+**Descrição:**
+Verificar se a tela inicial apresenta corretamente a saudação, os cards de “Próximos eventos” e os círculos de “Meus grupos”, usando dados mockados, e se permite navegar para detalhes.
+**Objetivo do Teste:**
+Assegurar que o frontend exiba e navegue corretamente, mesmo sem integração com o backend final.
+
+**Passos:**
+
+1. Abrir o aplicativo e aguardar carregamento da Home-dashboard.
+2. Confirmar exibição da saudação com nome do usuário (mock).
+3. Verificar cards de “Próximos eventos” (dados mockados).
+4. Tocar em um card de evento.
+5. Verificar círculos de “Meus grupos” (dados mockados).
+6. Tocar em um círculo de grupo.
+
+**Critérios de Êxito:**
+
+* Saudação mostra corretamente o nome mockado.
+* Cada card de evento exibe data, hora, título e grupo conforme mock.
+* Ao tocar no card, a navegação de frontend ocorre para GroupDetails.
+* Cada círculo de grupo exibe iniciais e nome conforme mock.
+* Ao tocar no círculo, a navegação de frontend ocorre para GroupDetails.
+
+**Resultados:**
+
+* Passos 1–6: **Aprovado** (frontend exibiu e navegou conforme esperado)
+![Home-dashboard 2025-05-05 at 11.06.01.png](img/Home-dashboard%202025-05-05%20at%2011.06.01.png)
+**Observações de Backend:**
+
+* Integração com APIs de eventos e grupos pendente; 
+
+---
+
+## Caso de Teste 2: MyGroups – Listagem, Busca e Criação de Grupos
+
+**Requisitos Referentes:** Tela MyGroups (frontend apenas)
+**Descrição:**
+Verificar listagem das seções “Grupos que administro” e “Grupos que participo”, funcionamento da busca por nome, e botão “Criar Grupo” navegando ao formulário, tudo com dados mockados.
+**Objetivo do Teste:**
+Garantir que o frontend filtre, liste e navegue corretamente sem backend.
+
+**Passos:**
+
+1. Navegar até a tela MyGroups.
+2. Confirmar exibição dos grupos mockados em ambas as seções.
+3. Digitar parte do nome de um grupo na barra de busca.
+4. Tocar no botão “Criar Grupo”.
+5. Tocar em um card de grupo listado.
+
+**Critérios de Êxito:**
+
+* Ambas as seções mostram corretamente os grupos mockados.
+* A lista filtra conforme o termo digitado (mock).
+* “Criar Grupo” navega para CreateGroup.
+* Tocar em grupo navega para GroupDetails.
+
+**Resultados:**
+
+* Passos 1–5: **Aprovado** (busca, listagem e navegação do frontend OK)
+![MeusGrupos 2025-05-05 at 11.06.56.png](img/MeusGrupos%202025-05-05%20at%2011.06.56.png)
+**Observações de Backend:**
+
+* API de listagem e busca de grupos está em desenvolvimento; 
+
+---
+
+## Caso de Teste 3: CreateGroup – Formulário de Criação de Grupo
+
+**Requisitos Referentes:** Tela CreateGroup (frontend apenas)
+**Descrição:**
+Verificar campos do formulário de criação de grupo (nome, descrição, convite e foto opcional), submissão e retorno à MyGroups, usando mocks de submissão.
+**Objetivo do Teste:**
+Assegurar funcionalidade completa do formulário no frontend, apesar da API de criação ainda não estar pronta.
+
+**Passos:**
+
+1. Navegar até a tela CreateGroup.
+2. Preencher “Nome do grupo” com texto válido.
+3. Preencher “Descrição” com até 4 linhas.
+4. Inserir email ou usuário em “Convidar membros”.
+5. (Opcional) Tocar em “Adicionar foto” e escolher imagem mockada.
+6. Tocar em “Criar Grupo”.
+
+**Critérios de Êxito:**
+
+* Todos os campos aceitam e exibem corretamente os valores.
+* Preview de imagem aparece quando escolhido.
+* Após “Criar Grupo”, o frontend navega de volta para MyGroups.
+
+**Resultados:**
+
+* Passos 1–6: **Aprovado** (formulário e navegação OK)
+![CriarGrupo 2025-05-05 at 11.07.12.png](img/CriarGrupo%202025-05-05%20at%2011.07.12.png)
+**Observações de Backend:**
+
+* Endpoint POST /groups em desenvolvimento; 
+
+---
+
+## Caso de Teste 4: GroupDetails – Visualização e Ações de Grupo
+
+**Requisitos Referentes:** Tela GroupDetails (frontend apenas)
+**Descrição:**
+Verificar exibição de detalhes do grupo (avatar, nome, membros), listas de eventos e membros, menu de contexto e botão “Novo Evento”, com dados mockados.
+**Objetivo do Teste:**
+Garantir que o frontend apresente todas as informações e ações, mesmo sem backend disponível.
+
+**Passos:**
+
+1. Abrir GroupDetails para um grupo mockado.
+2. Confirmar exibição de avatar, nome e quantidade de membros (mock).
+3. Verificar cards de “Próximos Eventos” (mock) e tocar em um.
+4. Verificar lista de membros e status (mock).
+5. Tocar no ícone de menu (⋮) e visualizar opções.
+6. Selecionar cada opção do menu e analisar navegação ou ação de frontend.
+7. Tocar em “Novo Evento”.
+
+**Critérios de Êxito:**
+
+* Avatar, nome e membros exibidos conforme mock.
+* Cards de eventos exibem dados corretos e navegam no frontend.
+* Membros mostram status (Administrador/Membro).
+* Menu de contexto abre com todas as opções e cada opção dispara a ação de frontend (navegação/modal).
+* “Novo Evento” navega para formulário de evento.
+
+**Resultados:**
+* Passos 1–7: **Aprovado** (frontend exibiu e executou ações mockadas)
+![DetalhesGrupos 2025-05-05 at 11.07.23.png](img/DetalhesGrupos%202025-05-05%20at%2011.07.23.png)
+**Observações de Backend:**
+
+* Endpoints de detalhes de grupo, eventos e membros pendentes; 
+
+---
+
+
+
+
+
 
 > **Links Úteis**:
 > - [Ferramentas de Test para Java Script](https://geekflare.com/javascript-unit-testing/)
