@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './screens/HomeScreen';
-import HomeDashboard from './screens/Home-dashboard'; // Corrected import name and path
-import EventList from './screens/EventList';
-import MyGroups from './screens/MyGroups';
-import CreateGroup from './screens/CreateGroup';
-import GroupDetails from './screens/GroupDetails';
+import HomeScreen from './screens/home/HomeScreen';
+import HomeDashboard from './screens/home/Home-dashboard'; // Corrected import name and path
+import EventList from './screens/home/EventList';
+import MyGroups from './screens/home/MyGroups';
+import CreateGroup from './screens/home/CreateGroup';
+import GroupDetails from './screens/home/GroupDetails';
 
 const Stack = createStackNavigator();
 
@@ -64,4 +64,4 @@ export default function App() {
             justifyContent: "center",
             alignItems: "center"
         }
-    });
+    })};
