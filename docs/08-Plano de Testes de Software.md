@@ -2,7 +2,7 @@
 
 | **Caso de Teste 1: Home-dashboard – Exibição de Eventos e Grupos** |                                                                                                                                                               |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Requisito Referente**                                            | Tela Home-dashboard                                                                                                                                           |
+| **Requisito Referente**                                            | RF 01 - Tela Home-dashboard                                                                                                                                           |
 | **Descrição**                                                      | Verificar se a tela Home-dashboard exibe corretamente a saudação, os cards de “Próximos eventos” e a lista “Meus grupos”, e se permite navegar para detalhes. |
 | **Objetivo do Teste**                                              | Assegurar que o usuário visualize e acesse eventos e grupos a partir da tela principal.                                                                       |
 | **Passos**                                                         | **Critérios de Êxito**                                                                                                                                        |
@@ -14,7 +14,7 @@
 
 | **Caso de Teste 2: MyGroups – Listagem, Busca e Criação de Grupos** |                                                                                                                                              |
 | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Requisito Referente**                                             | Tela MyGroups                                                                                                                                |
+| **Requisito Referente**                                             | RF 02 - Tela MyGroups                                                                                                                                |
 | **Descrição**                                                       | Verificar a listagem das seções “Grupos que administro” e “Grupos que participo”, o funcionamento da barra de busca e o botão “Criar Grupo”. |
 | **Objetivo do Teste**                                               | Garantir filtragem, navegação e acesso ao fluxo de criação de grupos.                                                                        |
 | **Passos**                                                          | **Critérios de Êxito**                                                                                                                       |
@@ -25,7 +25,7 @@
 
 | **Caso de Teste 3: CreateGroup – Formulário de Criação de Grupo** |                                                                                                           |
 | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| **Requisito Referente**                                           | Tela CreateGroup                                                                                          |
+| **Requisito Referente**                                           | RF 03 - Tela CreateGroup                                                                                          |
 | **Descrição**                                                     | Verificar campos do formulário, validações e comportamento ao submeter a criação de um novo grupo.        |
 | **Objetivo do Teste**                                             | Assegurar que o usuário preencha nome, descrição, convide membros e retorne à lista de grupos após criar. |
 | **Passos**                                                        | **Critérios de Êxito**                                                                                    |
@@ -37,7 +37,7 @@
 
 | **Caso de Teste 4: GroupDetails – Visualização e Ações de Grupo** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **Requisito Referente**                                           | Tela GroupDetails                                                                                                                    |
+| **Requisito Referente**                                           | RF 04 - Tela GroupDetails                                                                                                                    |
 | **Descrição**                                                     | Verificar exibição dos detalhes do grupo, lista de eventos e de membros, funcionamento do menu de contexto e do botão “Novo Evento”. |
 | **Objetivo do Teste**                                             | Garantir que o usuário veja informações completas do grupo e realize as ações esperadas.                                             |
 | **Passos**                                                        | **Critérios de Êxito**                                                                                                               |
@@ -51,21 +51,19 @@
 
 | **Caso de Teste 5: GroupDetails – Visualização de Perfil** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **Requisito Referente**                                           | Exibição do perfil de usuário                                                                                                                    |
+| **Requisito Referente**                                           | RF 05 - Exibição do perfil de usuário                                                                                                                    |
 | **Descrição**                                                     | Verificar se a tela de perfil exibe corretamente o nome do usuário, foto de perfil e demais informações cadastradas. |
 | **Objetivo do Teste**                                             | Assegurar que o usuário visualize corretamente seus dados de perfil.                                             |
 | **Passos**                                                        | **Critérios de Êxito**                                                                                                               |
 | 1. Fazer login no aplicativo.                    | 1. Login é realizado com sucesso.                                                               |
 | 2. Navegar até a seção de perfil através do menu principal.       | 2. A tela de perfil é carregada sem erros.                                      |
 | 3. Observar as informações exibidas na tela de perfil.            | 3. Nome do usuário é exibido corretamente.                                      |
-| 4. Observar as demais informações do perfil.                      | 4. Todas as informações cadastradas são exibidas conforme esperado.             |
-                         |
-                                
+| 4. Observar as demais informações do perfil.                      | 4. Todas as informações cadastradas são exibidas conforme esperado.             |               
 
 
 | **Caso de Teste 6: Edição de Informações do Perfil** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **Requisito Referente**                                           | Edição de perfil de usuário                                                                                                                    |
+| **Requisito Referente**                                           | RF 06 - Edição de perfil de usuário                                                                                                                    |
 | **Descrição**                                                     | Verificar se o usuário consegue editar suas informações de perfil e se as alterações são salvas corretamente. |
 | **Objetivo do Teste**                                             | Assegurar que o usuário consiga modificar seus dados de perfil sem problemas.                                             |
 | **Passos**                                                        | **Critérios de Êxito**                                                                                                               |
@@ -78,10 +76,9 @@
 
 
 
-
 | **Caso de Teste 7: Envio de Convite de Grupo por Nome de Usuário** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **Requisito Referente**                                           | Compartilhamento de agendas com outros usuários via email ou nome de usuário.     |
+| **Requisito Referente**                                           | RF 07 - Compartilhamento de agendas com outros usuários via email ou nome de usuário.     |
 | **Descrição**                                                     | Verificar se o sistema permite enviar convites para novos membros buscando por nome de usuário. |
 | **Objetivo do Teste**                                             | Assegurar que a funcionalidade de convite por nome de usuário funcione corretamente.   |
 | **Passos**                                                        | **Critérios de Êxito**    |
