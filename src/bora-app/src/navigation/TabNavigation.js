@@ -14,6 +14,12 @@ import GroupDetails from "../screens/home/GroupDetails";
 import CreateGroup from "../screens/home/CreateGroup";
 import GroupScreen from '../screens/GroupScreen';
 
+// Telas Daianne
+import CalendarScreen from '../screens/CalendarScreen'
+import CreateEventScreen from '../screens/CreateEventScreen'
+import EventTimeScreen from '../screens/EventTimeScreen';
+
+
 // Criar um Stack Navigator para telas relacionadas a grupos
 const GroupStack = createStackNavigator();
 
@@ -98,6 +104,36 @@ const TabNavigation = () => {
                     tabBarLabel: 'Configurações',
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="settings-outline" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="calendarScreen"
+                component={CalendarScreen}
+                options={{
+                    tabBarLabel: 'Calendário',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="calendar-number-outline" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="createEventScreen"
+                component={CreateEventScreen}
+                options={{
+                    tabBarLabel: 'Criar Evento',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="construct-outline" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="createTimeScreen"
+                component={EventTimeScreen}
+                options={{
+                    tabBarLabel: 'Evento',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="construct-outline" size={size} color={color} />
                     ),
                 }}
             />

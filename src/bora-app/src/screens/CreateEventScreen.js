@@ -6,7 +6,6 @@ import {
   TextInput, 
   TouchableOpacity, 
   ScrollView,  Platform} from 'react-native';
-import NavBar from '../components/NavBar';
 import { Ionicons } from '@expo/vector-icons'; // Nota: Você precisará instalar expo/vector-icons
 
 const CreateEventScreen = ({ navigation }) => {
@@ -98,8 +97,6 @@ const CreateEventScreen = ({ navigation }) => {
         <Text style={styles.nextButtonText}>Próximo</Text>
       </TouchableOpacity>
 
-      {/* Barra de navegação inferior */}
-      <NavBar navigation={navigation} />
     </View>
   );
 };

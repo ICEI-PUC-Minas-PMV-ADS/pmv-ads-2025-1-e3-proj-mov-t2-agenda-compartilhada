@@ -6,7 +6,6 @@ import {
   TouchableOpacity, 
   ScrollView 
 } from 'react-native';
-import NavBar from '../components/NavBar';
 import TimeSlot from '../components/TimeSlot';
 
 const EventTimeScreen = ({ route, navigation }) => {
@@ -67,9 +66,6 @@ const EventTimeScreen = ({ route, navigation }) => {
       >
         <Text style={styles.finishButtonText}>Finalizar</Text>
       </TouchableOpacity>
-
-      {/* Barra de navegação inferior */}
-      <NavBar navigation={navigation} />
     </View>
   );
 };

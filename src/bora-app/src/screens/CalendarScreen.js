@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import CalendarDay from '../components/CalendarDay';
 import EventItem from '../components/EventItem';
-import NavBar from '../components/NavBar';
 
 // Dados de exemplo
 const daysOfWeek = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
@@ -101,13 +100,12 @@ const CalendarScreen = ({ navigation }) => {
       {/* Botão de adicionar */}
       <TouchableOpacity 
         style={styles.addButton}
-        onPress={() => navigation.navigate('CreateEvent')}
+        onPress={() => navigation.navigate('createEventScreen')}
       >
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>
 
       {/* Barra de navegação inferior */}
-      <NavBar />
     </View>
   );
 };
