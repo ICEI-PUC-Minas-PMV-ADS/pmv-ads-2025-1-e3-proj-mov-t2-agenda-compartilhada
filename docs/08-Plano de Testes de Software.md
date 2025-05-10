@@ -51,14 +51,7 @@
 
 
 
-
-
-
-
-
-adadaada
-
-| **Caso de Teste 4: GroupDetails – Visualização de Perfil** |                                                                                                                                      |
+| **Caso de Teste 5: GroupDetails – Visualização de Perfil** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | **Requisito Referente**                                           | Exibição do perfil de usuário                                                                                                                    |
 | **Descrição**                                                     | Verificar se a tela de perfil exibe corretamente o nome do usuário, foto de perfil e demais informações cadastradas. |
@@ -71,6 +64,21 @@ adadaada
                          |
                                    
 
+
+
+
+| **Caso de Teste 6: Edição de Informações do Perfil** |                                                                                                                                      |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Requisito Referente**                                           | Edição de perfil de usuário                                                                                                                    |
+| **Descrição**                                                     | Verificar se o usuário consegue editar suas informações de perfil e se as alterações são salvas corretamente. |
+| **Objetivo do Teste**                                             | Assegurar que o usuário consiga modificar seus dados de perfil sem problemas.                                             |
+| **Passos**                                                        | **Critérios de Êxito**                                                                                                               |
+| 1.  Fazer login no aplicativo.                                    | 1. Login é realizado com sucesso.                                                   |
+| 2. Navegar até a seção de perfil.         | 2.  A tela de perfil é carregada sem erros.                                                  |
+| 3. Clicar no botão de edição escrito: "Editar Perfil".     | 3. A tela de edição de perfil é aberta.                                       |
+| 4. Alterar o nome do usuário para um novo nome.      | 4. Campo aceita a digitação do novo valor.                              |
+| 5. Salvar as alterações.      | 5. Uma mensagem de confirmação é exibida.                         |
+| 6.  Retornar à tela de visualização do perfil.               | 6. O nome atualizado é exibido corretamente.                                                  |
 
 
 
