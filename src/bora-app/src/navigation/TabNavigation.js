@@ -19,6 +19,9 @@ import CalendarScreen from '../screens/CalendarScreen'
 import CreateEventScreen from '../screens/CreateEventScreen'
 import EventTimeScreen from '../screens/EventTimeScreen';
 
+// Telas Grace
+import ProfileScreen from '../screens/ProfileScreen'
+import ConviteScreen from '../screens/ConviteScreen'
 
 // Criar um Stack Navigator para telas relacionadas a grupos
 const GroupStack = createStackNavigator();
@@ -97,6 +100,7 @@ const TabNavigation = () => {
                     ),
                 }}
             />
+            {/*
             <Tab.Screen
                 name="telaTesteScreen"
                 component={TelaTesteScreen}
@@ -106,7 +110,7 @@ const TabNavigation = () => {
                         <Ionicons name="settings-outline" size={size} color={color} />
                     ),
                 }}
-            />
+            />*/}
             <Tab.Screen
                 name="calendarScreen"
                 component={CalendarScreen}
@@ -132,6 +136,26 @@ const TabNavigation = () => {
                 component={EventTimeScreen}
                 options={{
                     tabBarLabel: 'Evento',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="construct-outline" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="conviteScreen"
+                component={ConviteScreen}
+                options={{
+                    tabBarLabel: 'Convite',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="construct-outline" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="profileScreen"
+                component={ProfileScreen}
+                options={{
+                    tabBarLabel: 'Perfil',
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="construct-outline" size={size} color={color} />
                     ),
