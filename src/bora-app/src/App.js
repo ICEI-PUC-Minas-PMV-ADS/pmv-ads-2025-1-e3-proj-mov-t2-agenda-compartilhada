@@ -9,6 +9,7 @@ import CreateEventScreen from './screens/CreateEventScreen';
 import EventTimeScreen from './screens/EventTimeScreen';
 import * as React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
+import EventInfo from './screens/EventInfo';
 import AppRoutes from './src/routes'; // substitua pelo seu componente principal
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
     </PaperProvider>
   );
 }
+
 
 const Stack = createStackNavigator();
 
@@ -50,6 +52,11 @@ export default function App() {
           component={EventTimeScreen} 
           options={{ title: 'Horário do Evento' }} 
           />
+        <Stack.Screen
+          name="EventInfo" 
+          component={EventInfo} 
+          options={{ title: 'Informações de Eventos' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
