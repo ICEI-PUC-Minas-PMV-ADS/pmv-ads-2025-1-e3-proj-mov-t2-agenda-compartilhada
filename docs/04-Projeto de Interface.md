@@ -73,36 +73,10 @@ RF 14 - Sistema de lembretes para eventos:
 
 ![image](https://github.com/user-attachments/assets/c9c7da9d-65e7-45c9-b03f-ad046108f6ba)
 
+RF 15 - Criação e gerenciamento do perfil do usuário
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+RF 16 - Sistema de criação de grupo
 
 
 
@@ -112,17 +86,3 @@ Este diagrama apresenta o fluxo de um aplicativo para gerenciamento de eventos. 
 ![diagrama Fluxo 1-2025-04-05-101059.svg](img/diagramaFluxo/diagrama%20Fluxo%201-2025-04-05-101059.svg)
 
 
-## Wireframes
-
-![Exemplo de Wireframe](img/wireframe-example.png)
-
-São protótipos usados em design de interface para sugerir a estrutura de um site web e seu relacionamentos entre suas páginas. Um wireframe web é uma ilustração semelhante do layout de elementos fundamentais na interface.
- 
-> **Links Úteis**:
-> - [Protótipos vs Wireframes](https://www.nngroup.com/videos/prototypes-vs-wireframes-ux-projects/)
-> - [Ferramentas de Wireframes](https://rockcontent.com/blog/wireframes/)
-> - [MarvelApp](https://marvelapp.com/developers/documentation/tutorials/)
-> - [Figma](https://www.figma.com/)
-> - [Adobe XD](https://www.adobe.com/br/products/xd.html#scroll)
-> - [Axure](https://www.axure.com/edu) (Licença Educacional)
-> - [InvisionApp](https://www.invisionapp.com/) (Licença Educacional)
