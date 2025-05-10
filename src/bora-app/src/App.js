@@ -6,6 +6,18 @@ import EventList from './screens/EventList';
 import CalendarScreen from './screens/CalendarScreen';
 import CreateEventScreen from './screens/CreateEventScreen';
 import EventTimeScreen from './screens/EventTimeScreen';
+import * as React from 'react';
+import { Provider as PaperProvider } from 'react-native-paper';
+import AppRoutes from './src/routes'; // substitua pelo seu componente principal
+
+export default function App() {
+  return (
+    <PaperProvider>
+      <AppRoutes />
+    </PaperProvider>
+  );
+}
+
 
 const Stack = createStackNavigator();
 
