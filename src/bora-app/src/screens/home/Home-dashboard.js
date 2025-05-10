@@ -102,7 +102,12 @@ const HomeDashboard = ({ navigation }) => {
                                 <EventCard
                                     key={event.id}
                                     event={event}
-                                    onPress={() => navigation.navigate('GroupDetails', { groupId: event.id })}
+                                    onPress={() =>
+                                        navigation.navigate('myGroups', {
+                                            screen: 'GroupDetails',
+                                            params: { groupId: event.id }
+                                        })
+                                    }
                                 />
                             ))}
                         </View>
@@ -116,7 +121,12 @@ const HomeDashboard = ({ navigation }) => {
                                 <GroupCircle
                                     key={group.id}
                                     group={group}
-                                    onPress={() => navigation.navigate(group.id === 1 ? {name: 'myGroups', params: {screen: 'GroupScreen'}} : 'GroupDetails', { groupId: group.id })}
+                                    onPress={() =>
+                                        navigation.navigate('myGroups', {
+                                            screen: group.id === 1 ? 'GroupScreen' : 'GroupDetails',
+                                            params: { groupId: group.id }
+                                        })
+                                    }
                                 />
                             ))}
                             <View style={styles.groupCircleContainer}>
