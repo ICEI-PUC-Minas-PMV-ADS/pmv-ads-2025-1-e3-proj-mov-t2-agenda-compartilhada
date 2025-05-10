@@ -6,7 +6,6 @@ import { API_IP } from '@env';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function LoginScreen({ navigation }) {
-  console.log('API_IP', API_IP);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
