@@ -1,23 +1,5 @@
 # Plano de Testes de Software
 
-<span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Especificação do Projeto</a></span>, <a href="3-Projeto de Interface.md"> Projeto de Interface</a>
-
-**Gerando plano de testes para telas específicas**
-
-O usuário quer casos de teste exclusivamente para as telas: Home-dashboard, MyGroups, CreateGroup e GroupDetails. A resposta anterior incluiu 10 casos, mas eles devem ser filtrados para essas quatro telas. Vou gerar um plano de testes especificamente para "HomeDashboard", "MyGroups", "CreateGroup" e "GroupDetails", seguindo a estrutura do exemplo anterior. Isso inclui mapear os requisitos funcionais para cada tela, como a "HomeDashboard", que exibe eventos futuros e os meus grupos.
-
-**Gerando casos de teste para telas específicas**
-
-O usuário quer casos de teste para as telas Home-dashboard, MyGroups, CreateGroup e GroupDetails, sem a necessidade de mapear os requisitos para IDs. Vou criar os casos de teste com base nas telas mencionadas. Para cada uma, vou definir um caso de teste, como "Tela HomeDashboard – Exibição de eventos e grupos", e usar requisitos como RF03 (visualização de calendário individual) e RF06 (agendas compartilhadas), ou simplesmente se referir às telas. O importante é focar apenas nas telas que o usuário especificou.
-
-**Criando casos de teste para as telas**
-
-O usuário quer um plano de teste para as telas Home-dashboard, MyGroups, CreateGroup e GroupDetails. Eu sugiro estruturar os casos de teste apenas para estas telas com a descrição, objetivo, passos e critérios de êxito. A primeira tela pode ser dividida em "exibição de eventos" e "exibição de grupos", criando dois casos de teste. Mas como o usuário não especificou quantos casos deseja, vou criar um para cada tela, seguindo a estrutura de exemplo. Assim, teremos 4 casos no total, com descrição e objetivos claros.
-
-
-Pensou por 36 segundos
-
-
 | **Caso de Teste 1: Home-dashboard – Exibição de Eventos e Grupos** |                                                                                                                                                               |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Requisito Referente**                                            | Tela Home-dashboard                                                                                                                                           |
@@ -65,6 +47,54 @@ Pensou por 36 segundos
 | 4. Tocar no ícone de menu (⋮) para abrir o menu de contexto.      | 4. Modal exibe opções: “Editar grupo”, “Adicionar membros”, “Silenciar notificações” e “Sair do grupo”.                              |
 | 5. Selecionar cada opção de menu e confirmar navegação/ação.      | 5. Cada ação leva à tela ou executa a operação esperada (ex.: abrir edição, abrir convite, silenciar, sair).                         |
 | 6. Clicar em “Novo Evento”.                                       | 6. O app navega para a tela de criação de evento correspondente.                                                                     |
+
+
+
+
+
+
+
+
+
+adadaada
+
+| **Caso de Teste 4: GroupDetails – Visualização de Perfil** |                                                                                                                                      |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Requisito Referente**                                           | Exibição do perfil de usuário                                                                                                                    |
+| **Descrição**                                                     | Verificar se a tela de perfil exibe corretamente o nome do usuário, foto de perfil e demais informações cadastradas. |
+| **Objetivo do Teste**                                             | Assegurar que o usuário visualize corretamente seus dados de perfil.                                             |
+| **Passos**                                                        | **Critérios de Êxito**                                                                                                               |
+| 1. Fazer login no aplicativo.                    | 1. Login é realizado com sucesso.                                                               |
+| 2. Navegar até a seção de perfil através do menu principal.       | 2. A tela de perfil é carregada sem erros.                                      |
+| 3. Observar as informações exibidas na tela de perfil.            | 3. Nome do usuário é exibido corretamente.                                      |
+| 4. Observar as demais informações do perfil.                      | 4. Todas as informações cadastradas são exibidas conforme esperado.             |
+                         |
+                                   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  
 ## Ferramentas de Testes (Opcional)
