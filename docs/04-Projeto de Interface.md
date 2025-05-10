@@ -75,7 +75,13 @@ RF 14 - Sistema de lembretes para eventos:
 
 RF 15 - Gerenciamento do perfil do usuário
 
+<img width="251" alt="Gerenciamento do perfil do usuário3" src="https://github.com/user-attachments/assets/440d2730-2092-42c2-885d-159e7b36df7b" />
+<img width="260" alt="Gerenciamento do perfil do usuário2" src="https://github.com/user-attachments/assets/ccf6fce2-6266-4820-81a4-d63e87c4a260" />
+<img width="259" alt="Gerenciamento do perfil do usuário1" src="https://github.com/user-attachments/assets/f8316c45-22a0-4400-a3af-abc1a5d3fd7d" />
+
+
 RF 16 - Sistema de convite de grupo
+
 <img width="296" alt="Sistema de convite de grupo" src="https://github.com/user-attachments/assets/6a227e7b-925e-4461-8952-c2af948d44f4" />
 
 
