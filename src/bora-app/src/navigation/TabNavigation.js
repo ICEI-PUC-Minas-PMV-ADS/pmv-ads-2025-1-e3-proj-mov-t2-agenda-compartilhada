@@ -3,6 +3,8 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
 
 import NotificacoesScreen from '../screens/login/notificacoes';
 import TelaTesteScreen from '../screens/login/tela_teste';
@@ -64,6 +66,19 @@ const TabNavigation = () => {
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="people-outline" size={size} color={color} />
                     ),
+
+                    // Garante que "MyGroups" será acionado ao pressionar o botão na navbar
+                    tabBarButton: (props) => {
+                        const navigation = useNavigation();
+                        return (
+                            <TouchableOpacity
+                                {...props}
+                                onPress={() => {
+                                    navigation.navigate('myGroups', {screen: 'MyGroups'})
+                                }}
+                            />
+                        )
+                    }
                 }}
             />
             <Tab.Screen
