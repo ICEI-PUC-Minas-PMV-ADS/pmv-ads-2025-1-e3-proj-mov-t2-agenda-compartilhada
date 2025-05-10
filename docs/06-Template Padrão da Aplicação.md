@@ -1,8 +1,7 @@
 # Template Padrão da Aplicação
-
-<span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Especificação do Projeto</a></span>, <a href="3-Projeto de Interface.md"> Projeto de Interface</a>, <a href="4-Metodologia.md"> Metodologia</a>
-
 Layout padrão da aplicação que será utilizado em todas as páginas com a definição de identidade visual, aspectos de responsividade e iconografia.
+
+<img width="227" alt="Template Padrão da Aplicação" src="https://github.com/user-attachments/assets/2d99277e-29a5-4e8d-bfc1-9d0d6df48d5a" />
 
 > **Links Úteis**:
 >
