@@ -212,7 +212,22 @@ https://github.com/user-attachments/assets/695887af-f20b-48dc-8db4-712668ba1b9a
 
 
 
+## Caso de Teste 7: Envio de Convite de Grupo por Nome de Usuário
 
+**Requisitos Referentes:** Tela Perfil (frontend apenas)
+**Descrição:**
+A busca de usuários por nome funcionou corretamente. O usuário pôde ser selecionado e o convite foi enviado com sucesso.
+**Objetivo do Teste:**
+Assegurar que a funcionalidade de convite por nome de usuário funcione corretamente.
+
+**Critérios de Êxito:**
+* A busca é rápida e os resultados são precisos, mesmo com buscas parciais do nome.
+
+**Resultados:**
+**Aprovado**
+
+
+https://github.com/user-attachments/assets/0d8a29da-ee75-4ff4-ad85-21f8cb1f2590
 
 
 
