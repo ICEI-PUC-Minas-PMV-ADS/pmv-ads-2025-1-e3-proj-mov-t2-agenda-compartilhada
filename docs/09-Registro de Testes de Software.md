@@ -7,8 +7,6 @@
 O usuário quer que o Registro de Testes de Software seja revisado, com a inclusão de uma observação informando que o backend ainda está sendo desenvolvido em todas as telas já feitas para o frontend. Para cada caso de teste, vamos adicionar uma nota, como "APIs de backend ainda em desenvolvimento" ou "Backend ainda em desenvolvimento; testes de integração pendentes". Dessa forma, o registro manterá a estrutura, mas refletirá o status atual do backend para os testes.
 
 
-Pensou por 7 segundos
-
 
 # Registro de Testes de Software
 
@@ -50,7 +48,9 @@ Assegurar que o frontend exiba e navegue corretamente, mesmo sem integração co
 **Resultados:**
 
 * Passos 1–6: **Aprovado** (frontend exibiu e navegou conforme esperado)
+  
 ![Home-dashboard 2025-05-05 at 11.06.01.png](img/Home-dashboard%202025-05-05%20at%2011.06.01.png)
+
 **Observações de Backend:**
 
 * Integração com APIs de eventos e grupos pendente; 
@@ -83,7 +83,9 @@ Garantir que o frontend filtre, liste e navegue corretamente sem backend.
 **Resultados:**
 
 * Passos 1–5: **Aprovado** (busca, listagem e navegação do frontend OK)
+  
 ![MeusGrupos 2025-05-05 at 11.06.56.png](img/MeusGrupos%202025-05-05%20at%2011.06.56.png)
+
 **Observações de Backend:**
 
 * API de listagem e busca de grupos está em desenvolvimento; 
@@ -116,7 +118,9 @@ Assegurar funcionalidade completa do formulário no frontend, apesar da API de c
 **Resultados:**
 
 * Passos 1–6: **Aprovado** (formulário e navegação OK)
+* 
 ![CriarGrupo 2025-05-05 at 11.07.12.png](img/CriarGrupo%202025-05-05%20at%2011.07.12.png)
+
 **Observações de Backend:**
 
 * Endpoint POST /groups em desenvolvimento; 
@@ -151,17 +155,39 @@ Garantir que o frontend apresente todas as informações e ações, mesmo sem ba
 
 **Resultados:**
 * Passos 1–7: **Aprovado** (frontend exibiu e executou ações mockadas)
+* 
 ![DetalhesGrupos 2025-05-05 at 11.07.23.png](img/DetalhesGrupos%202025-05-05%20at%2011.07.23.png)
+
 **Observações de Backend:**
 
 * Endpoints de detalhes de grupo, eventos e membros pendentes; 
 
 ---
 
+# Registro de Testes de Software
 
+**Informações Gerais:**
 
+* **Data:** 10/05/2025
+* **Responsável pelos Testes:** Grace Santos
+* **Versão da Aplicação Testada:** 1.0.0 (Frontend)
+* **Backend:** em desenvolvimento 
+* **Plano de Testes:** Perfil e Convite de Grupo
 
+---
 
+## Caso de Teste 5: Visualização de Perfil
 
-> **Links Úteis**:
-> - [Ferramentas de Test para Java Script](https://geekflare.com/javascript-unit-testing/)
+**Requisitos Referentes:** Tela GroupDetails (frontend apenas)
+**Descrição:**
+A tela de perfil exibiu corretamente todas as informações do usuário, incluindo nome e foto de perfil. A interface está de acordo com o design proposto.
+**Objetivo do Teste:**
+Garantir que o usuário visualize corretamente seus dados de perfil.
+
+**Critérios de Êxito:**
+* Todos os critérios de êxito foram atendidos sem problemas.
+
+**Resultados:**
+**Aprovado**
+
+<img width="251" alt="Gerenciamento do perfil do usuário3" src="https://github.com/user-attachments/assets/cfb3f919-1421-4e87-af3e-b73c4af1ea2c" />
