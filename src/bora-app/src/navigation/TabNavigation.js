@@ -23,6 +23,9 @@ import EventTimeScreen from '../screens/EventTimeScreen';
 import ProfileScreen from '../screens/ProfileScreen'
 import ConviteScreen from '../screens/ConviteScreen'
 
+// Telas Letícia
+import EventInfo from '../screens/EventInfo'
+
 // Criar um Stack Navigator para telas relacionadas a grupos
 const GroupStack = createStackNavigator();
 
@@ -156,6 +159,16 @@ const TabNavigation = () => {
                 component={ProfileScreen}
                 options={{
                     tabBarLabel: 'Perfil',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="construct-outline" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="eventInfo"
+                component={EventInfo}
+                options={{
+                    tabBarLabel: 'Info',
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="construct-outline" size={size} color={color} />
                     ),
