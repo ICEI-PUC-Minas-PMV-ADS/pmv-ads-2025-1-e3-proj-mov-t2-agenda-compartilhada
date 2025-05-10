@@ -21,12 +21,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderColor: '#EEEEEE',
         borderWidth: 1,
-        borderRadius: 12,
+        borderRadius: 16,
         flexDirection: 'row',
         overflow: 'hidden'
     },
     borderAccent: {
-        width: 9,
+        width: 8,
         backgroundColor: '#7839EE'
     },
     cardContent: {

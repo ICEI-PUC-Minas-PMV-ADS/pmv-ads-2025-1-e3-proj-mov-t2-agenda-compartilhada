@@ -116,7 +116,7 @@ const HomeDashboard = ({ navigation }) => {
                                 <GroupCircle
                                     key={group.id}
                                     group={group}
-                                    onPress={() => navigation.navigate('GroupDetails', { groupId: group.id })}
+                                    onPress={() => navigation.navigate(group.id === 1 ? {name: 'myGroups', params: {screen: 'GroupScreen'}} : 'GroupDetails', { groupId: group.id })}
                                 />
                             ))}
                             <View style={styles.groupCircleContainer}>

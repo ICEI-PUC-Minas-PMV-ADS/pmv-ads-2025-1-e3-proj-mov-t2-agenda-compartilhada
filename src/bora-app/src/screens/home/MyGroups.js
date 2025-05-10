@@ -71,7 +71,7 @@ const MyGroups = ({ navigation }) => {
                             <GroupCard
                                 key={group.id}
                                 group={group}
-                                onPress={() => navigation.navigate('GroupDetails', { groupId: group.id })}
+                                onPress={() => navigation.navigate(group.id === 1 ? 'GroupScreen' : 'GroupDetails', { groupId: group.id })}
                             />
                         ))}
                     </View>

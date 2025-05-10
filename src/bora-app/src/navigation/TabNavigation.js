@@ -10,16 +10,19 @@ import HomeDashboard from "../screens/home/Home-dashboard";
 import MyGroups from "../screens/home/MyGroups";
 import GroupDetails from "../screens/home/GroupDetails";
 import CreateGroup from "../screens/home/CreateGroup";
+import GroupScreen from '../screens/GroupScreen';
 
 // Criar um Stack Navigator para telas relacionadas a grupos
 const GroupStack = createStackNavigator();
 
 const GroupStackScreen = () => {
+    
     return (
-        <GroupStack.Navigator screenOptions={{ headerShown: false }}>
+        <GroupStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="MyGroups">
             <GroupStack.Screen name="MyGroups" component={MyGroups} />
             <GroupStack.Screen name="GroupDetails" component={GroupDetails} />
             <GroupStack.Screen name="CreateGroup" component={CreateGroup} />
+            <GroupStack.Screen name="GroupScreen" component={GroupScreen} />
         </GroupStack.Navigator>
     );
 };

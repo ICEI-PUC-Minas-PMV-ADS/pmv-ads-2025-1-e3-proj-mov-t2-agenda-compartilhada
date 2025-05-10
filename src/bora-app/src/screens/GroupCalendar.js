@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, View } from 'react-native';
-import CalendarComp from '../components/CalendarComp';
+import CalendarComp from '../components/CalendarComp'
 import { Text } from 'react-native-paper';
 import CardInfo from '../components/CardInfo';
 import { dataEditavel, ehHoje } from '../utils/dateUtils';
