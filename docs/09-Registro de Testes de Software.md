@@ -178,7 +178,7 @@ Garantir que o frontend apresente todas as informações e ações, mesmo sem ba
 
 ## Caso de Teste 5: Visualização de Perfil
 
-**Requisitos Referentes:** Tela GroupDetails (frontend apenas)
+**Requisitos Referentes:** Tela Perfil (frontend apenas)
 **Descrição:**
 A tela de perfil exibiu corretamente todas as informações do usuário, incluindo nome e foto de perfil. A interface está de acordo com o design proposto.
 **Objetivo do Teste:**
@@ -191,3 +191,47 @@ Garantir que o usuário visualize corretamente seus dados de perfil.
 **Aprovado**
 
 <img width="251" alt="Gerenciamento do perfil do usuário3" src="https://github.com/user-attachments/assets/cfb3f919-1421-4e87-af3e-b73c4af1ea2c" />
+
+
+## Caso de Teste 6: Edição de Informações do Perfil
+
+**Requisitos Referentes:** Tela Perfil (frontend apenas)
+**Descrição:**
+A funcionalidade de edição de perfil permitiu alterar o nome do usuário corretamente. Após salvar, as alterações foram refletidas na tela de visualização do perfil.
+**Objetivo do Teste:**
+Assegurar que o usuário consiga modificar seus dados de perfil sem problemas.
+
+**Critérios de Êxito:**
+* A mensagem de confirmação após salvar as alterações é clara e informativa.
+
+**Resultados:**
+**Aprovado**
+
+
+https://github.com/user-attachments/assets/695887af-f20b-48dc-8db4-712668ba1b9a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
