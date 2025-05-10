@@ -14,7 +14,7 @@ export default function HomeScreen({ navigation }) {
         >
           <Text style={styles.buttonText}>Lista de Eventos</Text>
         </TouchableOpacity>
-        
+       
         <TouchableOpacity 
           style={styles.button} 
           onPress={() => navigation.navigate('CalendarScreen')}
@@ -35,7 +35,26 @@ export default function HomeScreen({ navigation }) {
         >
           <Text style={styles.buttonText}>Horário do Evento</Text>
         </TouchableOpacity>
-        
+        <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('Profile')}
+          >
+            <Text style={styles.buttonText}>Perfil do Usuário</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('Notifications')}
+          >
+            <Text style={styles.buttonText}>Notificações</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('Convite')}
+          >
+                <Text style={styles.buttonText}>Convidar Pessoas</Text>
+          </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
