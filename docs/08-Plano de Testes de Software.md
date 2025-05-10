@@ -49,8 +49,6 @@
 | 6. Clicar em “Novo Evento”.                                       | 6. O app navega para a tela de criação de evento correspondente.                                                                     |
 
 
-
-
 | **Caso de Teste 5: GroupDetails – Visualização de Perfil** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | **Requisito Referente**                                           | Exibição do perfil de usuário                                                                                                                    |
@@ -62,9 +60,7 @@
 | 3. Observar as informações exibidas na tela de perfil.            | 3. Nome do usuário é exibido corretamente.                                      |
 | 4. Observar as demais informações do perfil.                      | 4. Todas as informações cadastradas são exibidas conforme esperado.             |
                          |
-                                   
-
-
+                                
 
 
 | **Caso de Teste 6: Edição de Informações do Perfil** |                                                                                                                                      |
@@ -73,15 +69,30 @@
 | **Descrição**                                                     | Verificar se o usuário consegue editar suas informações de perfil e se as alterações são salvas corretamente. |
 | **Objetivo do Teste**                                             | Assegurar que o usuário consiga modificar seus dados de perfil sem problemas.                                             |
 | **Passos**                                                        | **Critérios de Êxito**                                                                                                               |
-| 1.  Fazer login no aplicativo.                                    | 1. Login é realizado com sucesso.                                                   |
-| 2. Navegar até a seção de perfil.         | 2.  A tela de perfil é carregada sem erros.                                                  |
-| 3. Clicar no botão de edição escrito: "Editar Perfil".     | 3. A tela de edição de perfil é aberta.                                       |
+| 1.  Fazer login no aplicativo.                                    | 1. Login é realizado com sucesso.                               |
+| 2. Navegar até a seção de perfil.         | 2.  A tela de perfil é carregada sem erros.                                           |
+| 3. Clicar no botão de edição escrito: "Editar Perfil".     | 3. A tela de edição de perfil é aberta.                             |
 | 4. Alterar o nome do usuário para um novo nome.      | 4. Campo aceita a digitação do novo valor.                              |
 | 5. Salvar as alterações.      | 5. Uma mensagem de confirmação é exibida.                         |
-| 6.  Retornar à tela de visualização do perfil.               | 6. O nome atualizado é exibido corretamente.                                                  |
+| 6.  Retornar à tela de visualização do perfil.               | 6. O nome atualizado é exibido corretamente.                     |
 
 
 
+
+| **Caso de Teste 7: Envio de Convite de Grupo por Nome de Usuário** |                                                                                                                                      |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Requisito Referente**                                           | Compartilhamento de agendas com outros usuários via email ou nome de usuário.     |
+| **Descrição**                                                     | Verificar se o sistema permite enviar convites para novos membros buscando por nome de usuário. |
+| **Objetivo do Teste**                                             | Assegurar que a funcionalidade de convite por nome de usuário funcione corretamente.   |
+| **Passos**                                                        | **Critérios de Êxito**    |
+| 1.  Navegar até a seção de convidar pessoas para grupos.          | 1. O botão "Selecionar Grupo" é exibido.                       |
+| 2. Selecionar a opção "Selecionar Grupo"                          | 2.  Os detalhes do grupo existentes são carregados.                         |
+| 3. Selecionar um grupo exixtente.     | 3. Os detalhes do grupo selecionado é exibido.'                             |
+| 4. Selecionar a opção "Buscar Usuário".      | 4. Campo de busca é exibido.                          |
+| 5. Digitar parte do nome de um usuário existente.     | 5. Sistema exibe resultados de busca correspondentes.     |
+| 6.  Selecionar o usuário desejado na lista de resultados.             | 6. Usuário é selecionado.                     |
+| 7.  Clicar no botão "Enviar Convites.             | 7. O Cconvite é enviado.                     |
+| 8.  Clicar no botão "Enviar Convites.             | 8. Sistema confirma envio do convite com uma mensagem de sucesso.                    |
 
 
 
