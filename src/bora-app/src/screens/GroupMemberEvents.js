@@ -1,6 +1,6 @@
 import React from 'react';
 import MemberCard from '../components/MemberCard';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 
 export default ({ userEventos }) => {
@@ -8,16 +8,23 @@ export default ({ userEventos }) => {
     return (
 
         <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ marginHorizontal: -8 }}>
-        {userEventos.map( usuario =>
-            <MemberCard
-                key={usuario.id}
-                nome={usuario.nome}
-                role={usuario.role}
-                eventos={usuario.eventos} />
+            showsVerticalScrollIndicator={false}
+            style={styles.scrollViewStyle}>
+            {userEventos.map(usuario =>
+                <MemberCard
+                    key={usuario.id}
+                    nome={usuario.nome}
+                    role={usuario.role}
+                    eventos={usuario.eventos} />
             )}
         </ScrollView>
 
-    );
-};
+    )
+}
+
+
+const styles = StyleSheet.create({
+    scrollViewStyle: {
+        marginHorizontal: -8
+    }
+})
