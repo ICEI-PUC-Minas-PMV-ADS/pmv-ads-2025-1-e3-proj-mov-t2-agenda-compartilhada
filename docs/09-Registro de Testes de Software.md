@@ -21,9 +21,9 @@ O usuário quer que o Registro de Testes de Software seja revisado, com a inclus
 
 ## Caso de Teste 1: Home-dashboard – Exibição de Eventos e Grupos
 
-**Requisitos Referentes:** Tela Home-dashboard (frontend apenas)
+**Requisitos Referentes:** Tela Home-dashboard (frontend apenas)<br/>
 **Descrição:**
-Verificar se a tela inicial apresenta corretamente a saudação, os cards de “Próximos eventos” e os círculos de “Meus grupos”, usando dados mockados, e se permite navegar para detalhes.
+Verificar se a tela inicial apresenta corretamente a saudação, os cards de “Próximos eventos” e os círculos de “Meus grupos”, usando dados mockados, e se permite navegar para detalhes.<br/>
 **Objetivo do Teste:**
 Assegurar que o frontend exiba e navegue corretamente, mesmo sem integração com o backend final.
 
@@ -58,9 +58,9 @@ Assegurar que o frontend exiba e navegue corretamente, mesmo sem integração co
 
 ## Caso de Teste 2: MyGroups – Listagem, Busca e Criação de Grupos
 
-**Requisitos Referentes:** Tela MyGroups (frontend apenas)
+**Requisitos Referentes:** Tela MyGroups (frontend apenas)<br/>
 **Descrição:**
-Verificar listagem das seções “Grupos que administro” e “Grupos que participo”, funcionamento da busca por nome, e botão “Criar Grupo” navegando ao formulário, tudo com dados mockados.
+Verificar listagem das seções “Grupos que administro” e “Grupos que participo”, funcionamento da busca por nome, e botão “Criar Grupo” navegando ao formulário, tudo com dados mockados.<br/>
 **Objetivo do Teste:**
 Garantir que o frontend filtre, liste e navegue corretamente sem backend.
 
@@ -93,9 +93,9 @@ Garantir que o frontend filtre, liste e navegue corretamente sem backend.
 
 ## Caso de Teste 3: CreateGroup – Formulário de Criação de Grupo
 
-**Requisitos Referentes:** Tela CreateGroup (frontend apenas)
+**Requisitos Referentes:** Tela CreateGroup (frontend apenas)<br/>
 **Descrição:**
-Verificar campos do formulário de criação de grupo (nome, descrição, convite e foto opcional), submissão e retorno à MyGroups, usando mocks de submissão.
+Verificar campos do formulário de criação de grupo (nome, descrição, convite e foto opcional), submissão e retorno à MyGroups, usando mocks de submissão.<br/>
 **Objetivo do Teste:**
 Assegurar funcionalidade completa do formulário no frontend, apesar da API de criação ainda não estar pronta.
 
@@ -128,9 +128,9 @@ Assegurar funcionalidade completa do formulário no frontend, apesar da API de c
 
 ## Caso de Teste 4: GroupDetails – Visualização e Ações de Grupo
 
-**Requisitos Referentes:** Tela GroupDetails (frontend apenas)
+**Requisitos Referentes:** Tela GroupDetails (frontend apenas)<br/>
 **Descrição:**
-Verificar exibição de detalhes do grupo (avatar, nome, membros), listas de eventos e membros, menu de contexto e botão “Novo Evento”, com dados mockados.
+Verificar exibição de detalhes do grupo (avatar, nome, membros), listas de eventos e membros, menu de contexto e botão “Novo Evento”, com dados mockados.<br/>
 **Objetivo do Teste:**
 Garantir que o frontend apresente todas as informações e ações, mesmo sem backend disponível.
 
@@ -177,9 +177,9 @@ Garantir que o frontend apresente todas as informações e ações, mesmo sem ba
 
 ## Caso de Teste 5: Visualização de Perfil
 
-**Requisitos Referentes:** Tela Perfil (frontend apenas)
+**Requisitos Referentes:** Tela Perfil (frontend apenas)<br/>
 **Descrição:**
-A tela de perfil exibiu corretamente todas as informações do usuário, incluindo nome e foto de perfil. A interface está de acordo com o design proposto.
+A tela de perfil exibiu corretamente todas as informações do usuário, incluindo nome e foto de perfil. A interface está de acordo com o design proposto.<br/>
 **Objetivo do Teste:**
 Garantir que o usuário visualize corretamente seus dados de perfil.
 
@@ -194,9 +194,9 @@ Garantir que o usuário visualize corretamente seus dados de perfil.
 
 ## Caso de Teste 6: Edição de Informações do Perfil
 
-**Requisitos Referentes:** Tela Perfil (frontend apenas)
+**Requisitos Referentes:** Tela Perfil (frontend apenas)<br/>
 **Descrição:**
-A funcionalidade de edição de perfil permitiu alterar o nome do usuário corretamente. Após salvar, as alterações foram refletidas na tela de visualização do perfil.
+A funcionalidade de edição de perfil permitiu alterar o nome do usuário corretamente. Após salvar, as alterações foram refletidas na tela de visualização do perfil.<br/>
 **Objetivo do Teste:**
 Assegurar que o usuário consiga modificar seus dados de perfil sem problemas.
 
@@ -213,9 +213,9 @@ https://github.com/user-attachments/assets/695887af-f20b-48dc-8db4-712668ba1b9a
 
 ## Caso de Teste 7: Envio de Convite de Grupo por Nome de Usuário
 
-**Requisitos Referentes:** Tela Perfil (frontend apenas)
+**Requisitos Referentes:** Tela Perfil (frontend apenas)<br/>
 **Descrição:**
-A busca de usuários por nome funcionou corretamente. O usuário pôde ser selecionado e o convite foi enviado com sucesso.
+A busca de usuários por nome funcionou corretamente. O usuário pôde ser selecionado e o convite foi enviado com sucesso.<br/>
 **Objetivo do Teste:**
 Assegurar que a funcionalidade de convite por nome de usuário funcione corretamente.
 
@@ -244,9 +244,9 @@ https://github.com/user-attachments/assets/0d8a29da-ee75-4ff4-ad85-21f8cb1f2590
 
 ## Caso de Teste 8: Visualizar eventos em agendas compartilhadas
 
-**Requisitos Referentes:** RF 09 - Visualização de eventos em agendas compartilhadas (frontend apenas)
+**Requisitos Referentes:** RF 09 - Visualização de eventos em agendas compartilhadas (frontend apenas) <br/>
 **Descrição:**
-Verificar se o sistema permite a visualização dos eventos presentes na agenda compartilhada
+Verificar se o sistema permite a visualização dos eventos presentes na agenda compartilhada<br/>
 **Objetivo do Teste:**
 Garantir que os eventos do grupo serão exibidos de forma clara
 
