@@ -228,6 +228,7 @@ Assegurar que a funcionalidade de convite por nome de usuário funcione corretam
 
 https://github.com/user-attachments/assets/0d8a29da-ee75-4ff4-ad85-21f8cb1f2590
 
+---
 
 # Registro de Testes de Software
 
@@ -239,6 +240,7 @@ https://github.com/user-attachments/assets/0d8a29da-ee75-4ff4-ad85-21f8cb1f2590
 * **Backend:** em desenvolvimento 
 * **Plano de Testes:** Visualização da agenda compartilhada
 
+---
 
 ## Caso de Teste 8: Visualizar eventos em agendas compartilhadas
 
