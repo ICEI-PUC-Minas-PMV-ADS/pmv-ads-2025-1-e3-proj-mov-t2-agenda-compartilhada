@@ -93,7 +93,7 @@
 
 
 
-| **Caso de Teste 8: Envio de Convite de Grupo por Nome de Usuário** |                                                                                                                                      |
+| **Caso de Teste 8: Visualizar eventos em agendas compartilhadas** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | **Requisito Referente**                                           | RF 09 - Visualização de eventos em agendas compartilhadas     |
 | **Descrição**                                                     | Verificar se o sistema permite a visualização dos eventos presentes na agenda compartilhada |
