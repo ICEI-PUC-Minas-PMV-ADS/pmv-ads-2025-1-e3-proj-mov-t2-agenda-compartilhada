@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import { ptBr } from "../utils/localeCalenderConfig";
+import { Feather } from "@expo/vector-icons";
 
 LocaleConfig.locales['pt-Br'] = ptBr
 LocaleConfig.defaultLocale = 'pt-Br'
@@ -16,15 +17,18 @@ export default ( {eventos = [], ...props} ) => {
         }
         acum[data].dots.length < 5 ? acum[data].dots.push({ key: evento.id.toString(), color: '#55EE39' }) : null;
         return acum;
-      }, {});
-    
-    return (
-        
-        <Calendar
-            markedDates={ datasEventos }
-            theme={styles.calendarTheme}
-            markingType={'multi-dot'}
+    }, {});
 
+    return (
+
+        <Calendar
+            markedDates={datasEventos}
+            markingType={'multi-dot'}
+            hideExtraDays
+            renderArrow={(direction) => (
+                <Feather size={24} name={`chevron-${direction}`} color={'#7839EE'} />
+            )}
+            theme={styles.calendarTheme}
             {...props}
         />
     );
@@ -37,6 +41,8 @@ const styles = StyleSheet.create({
         textSectionTitleColor: '#9A9A9D',
         textDayHeaderFontWeight: 'bold',
         textDayHeaderFontSize: 16,
-        selectedDayBackgroundColor: '#7839EE'
+        selectedDayBackgroundColor: '#7839EE',
+        todayTextColor: '#7839EE',
+        arrowColor: '#7839EE',
     }
 })

@@ -72,7 +72,7 @@ const eventos = [
 const userEventos = [
   {
     id: 1,
-    nome: 'Pedro (Você)',
+    nome: 'Pedro Pereira (Você)',
     role: 'Administrador',
     eventos: [
       {
@@ -93,7 +93,7 @@ const userEventos = [
       {
         id: 4,
         data: '2025-05-27',
-        desseGrupo: true
+        desseGrupo: false
       },
       {
         id: 6,
@@ -103,7 +103,7 @@ const userEventos = [
       {
         id: 7,
         data: '2025-05-30',
-        desseGrupo: true
+        desseGrupo: false
       },
       {
         id: 8,
@@ -118,7 +118,7 @@ const userEventos = [
       {
         id: 10,
         data: '2025-05-30',
-        desseGrupo: true
+        desseGrupo: false
       },
       {
         id: 11,
@@ -127,15 +127,16 @@ const userEventos = [
       },
     ]
   },
+
   {
     id: 2,
-    nome: 'Antonio',
+    nome: 'João Silva',
     role: 'Membro',
     eventos: [
       {
         id: 1,
         data: '2025-04-30',
-        desseGrupo: true
+        desseGrupo: false
       },
       {
         id: 2,
@@ -145,12 +146,12 @@ const userEventos = [
       {
         id: 3,
         data: '2025-05-13',
-        desseGrupo: true
+        desseGrupo: false
       },
       {
         id: 4,
         data: '2025-05-27',
-        desseGrupo: true
+        desseGrupo: false
       },
       {
         id: 6,
@@ -160,99 +161,101 @@ const userEventos = [
       {
         id: 7,
         data: '2025-05-30',
-        desseGrupo: true
+        desseGrupo: false
       },
+    ]
+  },
+
+  {
+    id: 3,
+    nome: 'José Antonio',
+    role: 'Membro',
+    eventos: [
       {
-        id: 8,
+        id: 1,
         data: '2025-05-30',
         desseGrupo: true
       },
       {
-        id: 9,
+        id: 2,
+        data: '2025-05-30',
+        desseGrupo: false
+      },
+      {
+        id: 3,
+        data: '2025-05-30',
+        desseGrupo: true
+      },
+    ]
+  },
+
+  {
+    id: 4,
+    nome: 'Maria Costa',
+    role: 'Membro',
+    eventos: [
+      {
+        id: 1,
         data: '2025-05-30',
         desseGrupo: true
       },
       {
-        id: 10,
+        id: 2,
         data: '2025-05-30',
         desseGrupo: true
       },
       {
-        id: 11,
+        id: 3,
+        data: '2025-05-30',
+        desseGrupo: false
+      }, 
+      {
+        id: 4,
+        data: '2025-05-30',
+        desseGrupo: false
+      },
+      {
+        id: 5,
+        data: '2025-05-30',
+        desseGrupo: true
+      },
+      {
+        id: 6,
         data: '2025-05-30',
         desseGrupo: true
       },
     ]
   },
   {
-    id: 3,
-    nome: 'José',
-    role: 'Membro',
-    eventos: []
-  },
-  {
-    id: 4,
-    nome: 'Maria',
-    role: 'Membro',
-    eventos: []
-  },
-  {
     id: 5,
-    nome: 'Maria',
+    nome: 'Rogério Pena',
     role: 'Membro',
-    eventos: []
-  },
-  {
-    id: 6,
-    nome: 'Maria',
-    role: 'Membro',
-    eventos: []
-  },
-  {
-    id: 7,
-    nome: 'Maria',
-    role: 'Membro',
-    eventos: []
-  },
-  {
-    id: 8,
-    nome: 'Maria',
-    role: 'Membro',
-    eventos: []
-  },
-  {
-    id: 9,
-    nome: 'Maria',
-    role: 'Membro',
-    eventos: []
-  },
-  {
-    id: 10,
-    nome: 'Maria',
-    role: 'Membro',
-    eventos: []
-  },
-  {
-    id: 11,
-    nome: 'Maria',
-    role: 'Membro',
-    eventos: []
-  },
-  {
-    id: 12,
-    nome: 'Maria',
-    role: 'Membro',
-    eventos: []
-  },
-  {
-    id: 13,
-    nome: 'Maria',
-    role: 'Membro',
-    eventos: []
-  },  
+    eventos: [
+      {
+        id: 1,
+        data: '2025-05-30',
+        desseGrupo: true
+      },
+      {
+        id: 2,
+        data: '2025-05-30',
+        desseGrupo: false
+      },
+      {
+        id: 3,
+        data: '2025-05-30',
+        desseGrupo: true
+      }, 
+      {
+        id: 4,
+        data: '2025-05-30',
+        desseGrupo: true
+      },
+    ]
+  }
 ];
 
-const GroupScreen = ({navigation}) => {
+const GroupScreen = ({ navigation }) => {
 
   const [itemAtivo, setItemAtivo] = useState(0);
   const scrollViewRef = useRef(null);
@@ -261,9 +264,9 @@ const GroupScreen = ({navigation}) => {
 
   const content = [
     <GroupCalendar eventos={eventos} />,
-    
-    <GroupMemberEvents userEventos={userEventos} />
-    ,
+
+    <GroupMemberEvents userEventos={userEventos} />,
+
     <View style={styles.contentItem}>
       <Text>Content for Item 3</Text>
     </View>,
@@ -275,13 +278,13 @@ const GroupScreen = ({navigation}) => {
 
   return (
     <SafeAreaProvider >
-        <Appbar.Header style={styles.appBarHeader} statusBarHeight={20} mode='center-aligned'>
-          <Appbar.BackAction onPress={() => navigation.goBack()} />
-          <Appbar.Content titleStyle={{fontSize: 16, fontWeight: 'bold'}} title="Amigos do Trabalho" />
-        </Appbar.Header>
+      <Appbar.Header style={styles.appBarHeader} statusBarHeight={20} mode='center-aligned'>
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content titleStyle={{ fontSize: 16, fontWeight: 'bold' }} title="Amigos do Trabalho" />
+      </Appbar.Header>
 
       <View style={styles.body}>
-      
+
         <View style={styles.groupName}>
           <Avatar.Text
             style={{ backgroundColor: '#F4F4F4' }}
@@ -300,39 +303,39 @@ const GroupScreen = ({navigation}) => {
         </View>
 
         <View>
-        <ScrollView
-          ref={scrollViewRef}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.menuContainer}>
-          {menuItems.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => handleMenuItemPress(index)}>
-              <Text
-                style={
-                  itemAtivo === index
-                    ? [styles.menuText, styles.activeMenuText]
-                    : styles.menuText
-                }>
-                {item}
-              </Text>
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.menuContainer}>
+            {menuItems.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handleMenuItemPress(index)}>
+                <Text
+                  style={
+                    itemAtivo === index
+                      ? [styles.menuText, styles.activeMenuText]
+                      : styles.menuText
+                  }>
+                  {item}
+                </Text>
 
-              <View
-                style={
-                  itemAtivo === index
-                    ? [styles.underline, styles.activeUnderline]
-                    : styles.underline
-                }
-              />
-              
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+                <View
+                  style={
+                    itemAtivo === index
+                      ? [styles.underline, styles.activeUnderline]
+                      : styles.underline
+                  }
+                />
+
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
 
 
-          {content[itemAtivo]} 
+        {content[itemAtivo]}
 
 
       </View>
@@ -344,7 +347,7 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: 8, 
+    paddingHorizontal: 8,
     paddingTop: 8
   },
   appBarHeader: {

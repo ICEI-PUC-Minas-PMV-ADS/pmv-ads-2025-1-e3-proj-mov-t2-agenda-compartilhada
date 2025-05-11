@@ -6,24 +6,23 @@ import { dataEditavel } from '../utils/dateUtils';
 
 export default ({ nome, role, eventos }) => {
     return (
-        <View style={{ marginVertical: 8 }}>
-            <View style={{ flexDirection: 'row' }}>
+        <View style={styles.container}>
+            <View style={styles.userInfo}>
 
-                <View style={{ width: '24%', marginLeft: 4 }}>
+                <View style={styles.avatarPosition}>
                     <Avatar.Text
-                        style={{ backgroundColor: '#F4F4F4' }}
-                        labelStyle={{ fontSize: 20 }}
+                        style={styles.avatar}
+                        labelStyle={styles.avatarLableStyle}
                         size={60}
                         label={nome[0].toUpperCase()}
-                        color="#9A9A9D"
                     />
                 </View>
 
-                <View style={{ alignSelf: 'center' }}>
-                    <Text style={{ fontSize: 17, fontWeight: 'bold' }}>
+                <View style={styles.userTextPosition}>
+                    <Text style={styles.userNameText}>
                         {nome}
                     </Text>
-                    <Text style={{ fontSize: 14, color: '#9A9A9D' }}>
+                    <Text style={styles.userRoleText}>
                         {role}
                     </Text>
                 </View>
@@ -34,28 +33,12 @@ export default ({ nome, role, eventos }) => {
                 showsHorizontalScrollIndicator={false}>
 
                 <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'flex-start',
-                        marginVertical: 8,
-                        marginTop: 8,
-                        gap: 8,
-                    }}>
+                    style={styles.eventsDatePosition}>
 
                     {eventos.map(evento =>
                         <Text
                             key={evento.id}
-                            style={{
-                                fontSize: 13,
-                                color: '#7839EE',
-                                backgroundColor: '#F1EBFD',
-                                borderRadius: 25,
-                                borderWidth: 10,
-                                borderColor: '#F1EBFD',
-                                minWidth: 60,
-                                textAlign: 'center',
-                                marginHorizontal: 4
-                            }}>
+                            style={[styles.eventsDate, evento.desseGrupo ? styles.eventsDateInGroup : styles.eventsDateOutGroup]}>
                             {dataEditavel(evento.data).toLocaleDateString('pt-Br', {
                                 day: 'numeric',
                                 month: 'numeric'
@@ -63,179 +46,68 @@ export default ({ nome, role, eventos }) => {
                         </Text>
                     )}
                 </View>
-
-                {/* <View
-                style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
-                    marginVertical: 8,
-                    marginTop: 8,
-                    gap: 8,
-                }}>
-
-                <Text
-                    style={{
-                        fontSize: 13,
-                        color: '#7839EE',
-                        backgroundColor: '#F1EBFD',
-                        borderRadius: 25,
-                        borderWidth: 10,
-                        borderColor: '#F1EBFD',
-                        minWidth: 60,
-                        textAlign: 'center',
-                        marginHorizontal:4
-                    }}>
-                    Hoje
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 13,
-                        color: '#9A9A9D',
-                        backgroundColor: '#F4F4F4',
-                        borderRadius: 25,
-                        borderWidth: 10,
-                        borderColor: '#F4F4F4',
-                        minWidth: 60,
-                        textAlign: 'center',
-                        marginHorizontal:4
-                    }}>
-                    27/04
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 13,
-                        color: '#7839EE',
-                        backgroundColor: '#F1EBFD',
-                        borderRadius: 25,
-                        borderWidth: 10,
-                        borderColor: '#F1EBFD',
-                        minWidth: 60,
-                        textAlign: 'center',
-                        marginHorizontal:4
-                    }}>
-                    30/04
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 13,
-                        color: '#7839EE',
-                        backgroundColor: '#F1EBFD',
-                        borderRadius: 25,
-                        borderWidth: 10,
-                        borderColor: '#F1EBFD',
-                        minWidth: 60,
-                        textAlign: 'center',
-                        marginHorizontal:4
-                    }}>
-                    05/05
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 13,
-                        color: '#9A9A9D',
-                        backgroundColor: '#F4F4F4',
-                        borderRadius: 25,
-                        borderWidth: 10,
-                        borderColor: '#F4F4F4',
-                        minWidth: 60,
-                        textAlign: 'center',
-                        marginHorizontal:4
-                    }}>
-                    06/05
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 13,
-                        color: '#9A9A9D',
-                        backgroundColor: '#F4F4F4',
-                        borderRadius: 25,
-                        borderWidth: 10,
-                        borderColor: '#F4F4F4',
-                        minWidth: 60,
-                        textAlign: 'center',
-                        marginHorizontal:4
-                    }}>
-                    06/05
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 13,
-                        color: '#9A9A9D',
-                        backgroundColor: '#F4F4F4',
-                        borderRadius: 25,
-                        borderWidth: 10,
-                        borderColor: '#F4F4F4',
-                        minWidth: 60,
-                        textAlign: 'center',
-                        marginHorizontal:4
-                    }}>
-                    06/05
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 13,
-                        color: '#9A9A9D',
-                        backgroundColor: '#F4F4F4',
-                        borderRadius: 25,
-                        borderWidth: 10,
-                        borderColor: '#F4F4F4',
-                        minWidth: 60,
-                        textAlign: 'center',
-                        marginHorizontal:4
-                    }}>
-                    06/05
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 13,
-                        color: '#9A9A9D',
-                        backgroundColor: '#F4F4F4',
-                        borderRadius: 25,
-                        borderWidth: 10,
-                        borderColor: '#F4F4F4',
-                        minWidth: 60,
-                        textAlign: 'center',
-                        marginHorizontal:4
-                    }}>
-                    06/05
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 13,
-                        color: '#7839EE',
-                        backgroundColor: '#F1EBFD',
-                        borderRadius: 25,
-                        borderWidth: 10,
-                        borderColor: '#F1EBFD',
-                        minWidth: 60,
-                        textAlign: 'center',
-                        marginHorizontal:4
-                    }}>
-                    06/05
-                </Text>
-
-            </View> */}
             </ScrollView>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    card: {
-        margin: 8,
-        marginVertical: 10,
-        backgroundColor: '#fff',
-        borderLeftColor: '#7839EE',
-        borderTopColor: '#EEEEEE',
-        borderRightColor: '#EEEEEE',
-        borderBottomColor: '#EEEEEE',
-        borderStyle: 'solid',
-        borderLeftWidth: 11.8,
-        borderTopWidth: 1,
-        borderRightWidth: 1,
-        borderBottomWidth: 1,
+    container: {
+        marginVertical: 8
     },
     cardContent: {
         margin: 8
+    },
+    userInfo: {
+        flexDirection: 'row'
+    },
+    avatarPosition:
+    {
+        width: '24%',
+        marginLeft: 4
+    },
+    avatar: {
+        backgroundColor: '#F4F4F4'
+    },
+    avatarLableStyle: {
+        fontSize: 20,
+        color: "#9A9A9D"
+    },
+    userTextPosition: {
+        alignSelf: 'center'
+    },
+    userNameText: {
+        fontSize: 17,
+        fontWeight: 'bold'
+    },
+    userRoleText: {
+        fontSize: 14,
+        color: '#9A9A9D'
+    },
+    eventsDatePosition: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        marginVertical: 8,
+        marginTop: 8,
+        gap: 8,
+    },
+    eventsDate: {
+        fontSize: 13,
+        borderRadius: 25,
+        borderWidth: 10,
+        minWidth: 60,
+        textAlign: 'center',
+        marginHorizontal: 4
+    },
+    eventsDateInGroup: {
+        color: '#7839EE',
+        backgroundColor: '#F1EBFD',
+        borderColor: '#F1EBFD',
+    },
+    eventsDateOutGroup:{
+        color: '#9A9A9D',
+        backgroundColor: '#F4F4F4',
+        borderColor: '#F4F4F4',
+        textAlign: 'center',
     }
 })
