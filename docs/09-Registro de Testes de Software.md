@@ -229,7 +229,53 @@ Assegurar que a funcionalidade de convite por nome de usuário funcione corretam
 https://github.com/user-attachments/assets/0d8a29da-ee75-4ff4-ad85-21f8cb1f2590
 
 
+# Registro de Testes de Software
 
+**Informações Gerais:**
+
+* **Data:** 11/05/2025
+* **Responsável pelos Testes:** Milton Ventura
+* **Versão da Aplicação Testada:** 1.0.0 (Frontend)
+* **Backend:** em desenvolvimento 
+* **Plano de Testes:** Visualização da agenda compartilhada
+
+
+## Caso de Teste 8: Visualizar eventos em agendas compartilhadas
+
+**Requisitos Referentes:** RF 09 - Visualização de eventos em agendas compartilhadas (frontend apenas)
+**Descrição:**
+Verificar se o sistema permite a visualização dos eventos presentes na agenda compartilhada
+**Objetivo do Teste:**
+Garantir que os eventos do grupo serão exibidos de forma clara
+
+**Passos:**
+1. Acessar a tela de um grupo
+2. Verificar datas marcadas no grupo
+3. Selecionar datas diversas
+4. Analisar informações dos cards de eventos exibidos ao clicar em datas marcadas no grupo
+5. Clicar no card de eventos marcados no grupo
+6. Verificar informações do evento clicado
+
+**Critérios de Êxito:**
+
+* A tela do grupo exibe marcações para as datas que possuem eventos.
+* Datas com vários eventos marcados no grupo são sinalizadas
+* Ao selecionar datas com eventos, os cards dos eventos são exibidos
+* O clique no card de um evento não exibe as informações do evento
+
+**Resultados:**
+
+* Passos 1-4: **Aprovado** (frontend exibiu informações e navegou conforme esperado)
+  
+![image](https://github.com/user-attachments/assets/8dbf3ff7-50c4-4553-8de8-3e94350477bf)
+
+![image](https://github.com/user-attachments/assets/8e5c5239-a7c2-4798-b465-1f3fd5945cb1)
+
+* Passos 5-6: **Reprovado** (frontend não exibiu informações do evento clicado)
+
+**Observações de Backend:**
+
+* Integração com APIs de eventos e grupos pendente; 
 
 
 
