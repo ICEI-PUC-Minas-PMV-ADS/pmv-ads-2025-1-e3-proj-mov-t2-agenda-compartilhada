@@ -102,8 +102,9 @@
 | 1.  Acessar a tela de um grupo                                    | 1. A tela do grupo deve exibir os eventos e datas marcadas de eventos criados no grupo |
 | 2. Verificar datas marcadas no grupo                              | 2. Caso existam vários eventos no mesmo dia, o scroll deve funcionar para que todos os eventos sejam visíveis   |
 | 3. Selecionar datas diversas                                      | 3. Ao selecionar um evento deve-se exibir informações do evento  |
-| 4. Analisar informações dos eventos exibidos ao clicar e datas marcadas no grupo                           
-| 5. Clicar em eventos marcados no grupo                 
+| 4. Analisar informações dos cards de eventos exibidos ao clicar em datas marcadas no grupo                          
+| 5. Clicar no card de eventos marcados no grupo
+| 6. Verificar informações do evento clicado
                           
 
 
