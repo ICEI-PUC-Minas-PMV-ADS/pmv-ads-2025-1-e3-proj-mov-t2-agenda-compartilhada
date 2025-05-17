@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Evento, EventoSchema } from '../../eventos/schema/eventos.schema';
 
 export type GrupoDocument = Grupo & Document;
 
@@ -13,6 +14,9 @@ export class Grupo {
 
   @Prop({ type: [String], default: [] })
   membros: string[];
+
+  @Prop({ type: [EventoSchema], default: [] })
+  eventos: Evento[];
 }
 
 export const GrupoSchema = SchemaFactory.createForClass(Grupo);
