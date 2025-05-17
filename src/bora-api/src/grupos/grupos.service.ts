@@ -38,6 +38,10 @@ export class GruposService {
     return this.gruposRepository.findOne(id);
   }
 
+  async findByUserEmail(email: string): Promise<Grupo[]> {
+    return this.gruposRepository.findByUserEmail(email);
+  }
+
   async update(id: string, updateGrupoDto: UpdateGrupoDto): Promise<Grupo> {
     return this.gruposRepository.update(id, updateGrupoDto);
   }

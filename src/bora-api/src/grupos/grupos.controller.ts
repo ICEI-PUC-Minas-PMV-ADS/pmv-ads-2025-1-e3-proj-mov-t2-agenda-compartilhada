@@ -24,6 +24,12 @@ export class GruposController {
     return this.gruposService.findOne(id);
   }
 
+  @Get('usuario/:email')
+  async findByUserEmail(@Param('email') email: string): Promise<Grupo[]> {
+    return this.gruposService.findByUserEmail(email);
+  }
+
+
   @Put(':id')
   async update(
     @Param('id') id: string,

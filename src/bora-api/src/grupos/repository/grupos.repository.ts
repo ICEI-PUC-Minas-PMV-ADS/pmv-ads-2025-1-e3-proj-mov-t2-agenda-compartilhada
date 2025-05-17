@@ -31,6 +31,10 @@ export class GruposRepository {
     return grupo;
   }
 
+  async findByUserEmail(email: string): Promise<Grupo[]> {
+    return this.grupoModel.find({ membros: email }).exec();
+  }
+
   async update(id: string, updateGrupoDto: UpdateGrupoDto): Promise<Grupo> {
     const updatedGrupo = await this.grupoModel
       .findByIdAndUpdate(id, updateGrupoDto, { new: true })
