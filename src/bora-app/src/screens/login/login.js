@@ -36,6 +36,12 @@ export default function LoginScreen({ navigation }) {
         await AsyncStorage.setItem('usuario', JSON.stringify(response.data.user));
       }
 
+      const token = await AsyncStorage.getItem('access_token');
+      const usuario = await  AsyncStorage.getItem('usuario');
+      const usuarioId = JSON.parse(usuario)._id;
+      const usuarioName = JSON.parse(usuario).name;
+      const usuarioEmail = JSON.parse(usuario).email;
+
       navigation.replace('mainTab');
     } catch (error) {
       if (error.response && error.response.status === 401) {

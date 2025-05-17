@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Evento, EventoSchema } from '../../eventos/schema/eventos.schema';
+import { Evento, EventoSchema } from '../../eventos/schema/eventos.schema'; // ajuste o caminho se necessário
 
 export type GrupoDocument = Grupo & Document;
 

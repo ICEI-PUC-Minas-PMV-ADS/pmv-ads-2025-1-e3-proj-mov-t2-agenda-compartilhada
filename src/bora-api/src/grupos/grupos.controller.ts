@@ -9,8 +9,9 @@ export class GruposController {
   constructor(private readonly gruposService: GruposService) {}
 
   @Post()
-  async create(@Body() createGrupoDto: CreateGrupoDto): Promise<Grupo> {
-    return this.gruposService.create(createGrupoDto);
+  async create(@Body() createGrupoDto: CreateGrupoDto) {
+    const { userId, foto } = createGrupoDto;
+    return this.gruposService.create(createGrupoDto, userId, foto);
   }
 
   @Get()

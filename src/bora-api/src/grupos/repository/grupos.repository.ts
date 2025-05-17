@@ -4,15 +4,17 @@ import { Model } from 'mongoose';
 import { Grupo, GrupoDocument } from '../schema/grupos.schema';
 import { CreateGrupoDto } from '../dto/create-grupo.dto';
 import { UpdateGrupoDto } from '../dto/update-grupo.dto';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class GruposRepository {
   constructor(
     @InjectModel(Grupo.name)
-    private readonly grupoModel: Model<GrupoDocument>,
+    private readonly grupoModel: Model<GrupoDocument>,  // Note GrupoDocument aqui
   ) {}
 
-  async create(createGrupoDto: CreateGrupoDto): Promise<Grupo> {
+  // Aqui o retorno deve ser GrupoDocument para garantir o _id
+  async create(createGrupoDto: CreateGrupoDto): Promise<GrupoDocument> {
     const createdGrupo = new this.grupoModel(createGrupoDto);
     return createdGrupo.save();
   }

@@ -5,4 +5,6 @@ export class CreateGrupoDto {
   descricao: string;
   membros: string[];
   eventos: CreateEventoDto[];
+  foto: string;
+  userId: string;
 }
