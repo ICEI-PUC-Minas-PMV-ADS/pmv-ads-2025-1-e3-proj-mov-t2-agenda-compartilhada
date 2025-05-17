@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   Provider,
@@ -7,56 +7,123 @@ import {
   Modal,
   Portal,
 } from 'react-native-paper';
-import { View, TouchableOpacity, StyleSheet, ImageBackground, FlatList, Pressable, Alert } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ImageBackground,
+  FlatList,
+  Pressable,
+  Alert,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_IP } from '@env';
 
 export default function ConviteScreen({ navigation }) {
   const [email, setEmail] = useState('');
-  const [grupoSelecionado, setGrupoSelecionado] = useState(null);  // objeto ou null
+  const [grupos, setGrupos] = useState([]); // Lista de grupos do usuário [{ nome, idGrupo }]
+  const [grupoSelecionado, setGrupoSelecionado] = useState(null); // objeto grupo completo
+  const [idGrupoSelecionado, setIdGrupoSelecionado] = useState(null); // id do grupo selecionado
   const [modalVisible, setModalVisible] = useState(false);
+  const [usuarioEmail, setUsuarioEmail] = useState('');
 
-  const userGroups = [
-    { id: '1', nome: 'Grupo A', membros: 10 },
-    { id: '2', nome: 'Grupo B', membros: 8 },
-    { id: '3', nome: 'Grupo C', membros: 15 },
-    { id: '4', nome: 'Grupo A', membros: 10 },
-    { id: '5', nome: 'Grupo B', membros: 8 },
-    { id: '6', nome: 'Grupo C', membros: 15 },
-    { id: '7', nome: 'Grupo A', membros: 10 },
-    { id: '8', nome: 'Grupo B', membros: 8 },
-    { id: '9', nome: 'Grupo C', membros: 15 },
-    { id: '10', nome: 'Grupo A', membros: 10 },
-    { id: '11', nome: 'Grupo B', membros: 8 },
-    { id: '12', nome: 'Grupo C', membros: 15 },
-    { id: '13', nome: 'Grupo A', membros: 10 },
-    { id: '14', nome: 'Grupo B', membros: 8 },
-    { id: '15', nome: 'Grupo C', membros: 15 },
-    { id: '16', nome: 'Grupo A', membros: 10 },
-    { id: '17', nome: 'Grupo B', membros: 8 },
-    { id: '18', nome: 'Grupo C', membros: 15 },
-    { id: '19', nome: 'Grupo A', membros: 10 },
-    { id: '20', nome: 'Grupo B', membros: 8 },
-    { id: '21', nome: 'Grupo C', membros: 15 },
-  ];
+  // Função para carregar email e buscar grupos do usuário
+  // 2. Atualize o useEffect para salvar o email do usuário logado
+    useEffect(() => {
+    const carregarDadosDoAsyncStorage = async () => {
+        try {
+        const usuarioRaw = await AsyncStorage.getItem('usuario');
+        if (usuarioRaw) {
+            const usuario = JSON.parse(usuarioRaw);
+            const emailLogado = usuario.email;
+
+            setUsuarioEmail(emailLogado);
+
+            // Buscar grupos pela API usando o email
+            fetch(`${API_IP}/grupos/usuario/${encodeURIComponent(emailLogado)}`)
+            .then((response) => response.json())
+            .then((data) => {
+                const gruposFormatados = data.map((g) => ({
+                nome: g.nome,
+                idGrupo: g._id,
+                }));
+                setGrupos(gruposFormatados);
+            })
+            .catch((error) => {
+                console.error('Erro ao buscar grupos:', error);
+                Alert.alert('Erro ao buscar grupos do usuário.');
+            });
+        }
+        } catch (error) {
+        console.error('Erro ao buscar dados do AsyncStorage:', error);
+        }
+    };
+
+    carregarDadosDoAsyncStorage();
+    }, []);
+
 
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
 
+  // Quando seleciona grupo, atualiza grupoSelecionado e idGrupoSelecionado
   const handleSelectGroup = (group) => {
-    setGrupoSelecionado(group);  // salva o objeto completo
+    setGrupoSelecionado(group);
+    setIdGrupoSelecionado(group.idGrupo);
     hideModal();
   };
 
   const handleEnviarConvite = async () => {
-    if(!grupoSelecionado){
-      Alert.alert('Selecione um grupo');
-      return;
+    if (!idGrupoSelecionado) {
+        Alert.alert('Selecione um grupo');
+        return;
     }
-    if(email.trim() === ''){
-      Alert.alert('Digite um email');
-      return;
+    if (email.trim() === '') {
+        Alert.alert('Digite um email');
+        return;
     }
-    // lógica para enviar convite aqui...
-  };
+
+    try {
+        const response = await fetch(`${API_IP}/usuarios/email/${encodeURIComponent(email)}`);
+
+        if (!response.ok) {
+        throw new Error('Erro na requisição');
+        }
+
+        const text = await response.text();
+
+        if (!text) {
+            Alert.alert('Usuário não encontrado', 'Nenhum usuário com esse email foi encontrado.');
+            return;
+        }
+
+        if (usuarioEmail == email){
+            Alert.alert('Usuário inválido', 'Você não pode enviar convite para si mesmo.');
+            return;
+        }
+
+        const user = JSON.parse(text);
+
+        if (!user || Object.keys(user).length === 0) {
+            Alert.alert('Usuário não encontrado', 'Nenhum usuário com esse email foi encontrado.');
+            return;
+        }
+
+        // Exemplo:
+        // await fetch(`${API_IP}/convites`, {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ email, idGrupo: idGrupoSelecionado }),
+        // });
+
+        Alert.alert('Convite enviado com sucesso!');
+        setEmail('')
+        setGrupoSelecionado(null)
+    } catch (error) {
+        console.error('Erro ao buscar usuário:', error);
+        Alert.alert('Erro', 'Não foi possível verificar o usuário. Tente novamente mais tarde.');
+    }
+};
 
   return (
     <Provider>
@@ -85,17 +152,20 @@ export default function ConviteScreen({ navigation }) {
               </Pressable>
 
               <Portal>
-                <Modal visible={modalVisible} onDismiss={hideModal} contentContainerStyle={styles.modal}>
+                <Modal
+                  visible={modalVisible}
+                  onDismiss={hideModal}
+                  contentContainerStyle={styles.modal}
+                >
                   <FlatList
-                    data={userGroups}
-                    keyExtractor={(item) => item.id}
+                    data={grupos}
+                    keyExtractor={(item) => item.idGrupo}
                     renderItem={({ item }) => (
                       <TouchableOpacity
                         onPress={() => handleSelectGroup(item)}
                         style={styles.groupItem}
                       >
                         <Text style={styles.groupName}>{item.nome}</Text>
-                        <Text style={styles.groupMembers}>{item.membros} membros</Text>
                       </TouchableOpacity>
                     )}
                   />
