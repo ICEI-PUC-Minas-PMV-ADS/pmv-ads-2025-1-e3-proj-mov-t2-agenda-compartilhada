@@ -18,7 +18,7 @@ export class GruposService {
   const novoGrupo = await this.gruposRepository.create(createGrupoDto);
 
   const perfilDto: CreatePerfilDto = {
-    _id: novoGrupo._id as Types.ObjectId, // Types.ObjectId já aqui
+    _id: novoGrupo._id as Types.ObjectId,
     nome: novoGrupo.nome,
     foto: pathFoto,
     tipoDono: 'grupo',

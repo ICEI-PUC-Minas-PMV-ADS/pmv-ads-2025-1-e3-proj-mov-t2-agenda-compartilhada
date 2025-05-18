@@ -62,19 +62,68 @@ const NotificacoesScreen = ({ navigation }) => {
     setSelectedNotification(null);
     setModalVisible(false);
     carregarNotificacoes();
+  };
 
+  const recusarConvite = async () => {
+    try {
+      await axios.put(`${API_IP}/notificacoes/${selectedNotification.id}`, {
+        dadosExtras: {
+          grupoId: selectedNotification.dadosExtras.grupoId,
+          aceitouConvite: false
+        }
+      });
+
+      Alert.alert('Convite recusado com sucesso');
+      closeModal();
+    } catch (error) {
+      console.error('Erro ao recusar convite:', error);
+      Alert.alert('Erro', 'Não foi possível recusar o convite.');
+    }
+  };
+
+  const aceitarConvite = async (notification) => {
+    try {
+      const usuarioJson = await AsyncStorage.getItem('usuario');
+      const usuario = JSON.parse(usuarioJson);
+      const grupoId = notification.dadosExtras.grupoId;
+
+      const grupoResponse = await axios.get(`${API_IP}/grupos/${grupoId}`);
+      const grupo = grupoResponse.data;
+
+      const emailUsuario = usuario.email;
+      let membrosAtualizados = grupo.membros;
+      if (!membrosAtualizados.includes(emailUsuario)) {
+        membrosAtualizados = [...membrosAtualizados, emailUsuario];
+      }
+
+      await axios.put(`${API_IP}/grupos/${grupoId}`, {
+        ...grupo,
+        membros: membrosAtualizados,
+      });
+
+      await axios.put(`${API_IP}/notificacoes/${notification.id}`, {
+        dadosExtras: {
+          ...notification.dadosExtras,
+          aceitouConvite: true,
+        },
+      });
+
+      Alert.alert('Convite aceito', 'Você foi adicionado ao grupo!');
+      carregarNotificacoes();
+      closeModal();
+    } catch (error) {
+      console.error('Erro ao aceitar convite:', error);
+      Alert.alert('Erro', 'Não foi possível aceitar o convite');
+    }
   };
 
   function formatarDataHora(dateString) {
     const date = new Date(dateString);
-
     const dia = String(date.getDate()).padStart(2, '0');
     const mes = String(date.getMonth() + 1).padStart(2, '0');
     const ano = date.getFullYear();
-
     const horas = String(date.getHours()).padStart(2, '0');
     const minutos = String(date.getMinutes()).padStart(2, '0');
-
     return `${dia}/${mes}/${ano} - ${horas}:${minutos}`;
   }
 
@@ -91,6 +140,8 @@ const NotificacoesScreen = ({ navigation }) => {
         message: item.mensagem,
         time: formatarDataHora(item.data),
         lido: item.lido,
+        tipo: item.tipo,
+        dadosExtras: item.dadosExtras,
       }));
       setNotificacoes(dataTransformada);
     } catch (error) {
@@ -174,13 +225,51 @@ const NotificacoesScreen = ({ navigation }) => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             {selectedNotification && (
-              <ModalNotificacoes
-                title={selectedNotification.titleCard}
-                message={selectedNotification.message}
-                date={selectedNotification.time}
-                handleClose={closeModal}
-              />
+              <>
+                <ModalNotificacoes
+                  title={selectedNotification.titleCard}
+                  message={selectedNotification.message}
+                  date={selectedNotification.time}
+                />
+
+                {selectedNotification.tipo === 'convite' && (
+                  <>
+                    {selectedNotification.dadosExtras.aceitouConvite === null && (
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 }}>
+                        <TouchableOpacity 
+                          style={[styles.button, { backgroundColor: 'green' }]}
+                          onPress={() => aceitarConvite(selectedNotification)}
+                        >
+                          <Text style={styles.buttonText}>Aceitar</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity 
+                          style={[styles.button, { backgroundColor: 'red' }]}
+                          onPress={recusarConvite}
+                        >
+                          <Text style={styles.buttonText}>Recusar</Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
+
+                    {selectedNotification.dadosExtras.aceitouConvite === false && (
+                      <Text style={{ color: 'red', fontWeight: 'bold', marginTop: 20, textAlign: 'center' }}>
+                        Recusado
+                      </Text>
+                    )}
+
+                    {selectedNotification.dadosExtras.aceitouConvite === true && (
+                      <Text style={{ color: 'green', fontWeight: 'bold', marginTop: 20, textAlign: 'center' }}>
+                        Aceito
+                      </Text>
+                    )}
+                  </>
+                )}
+              </>
             )}
+            <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>Fechar</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -262,4 +351,38 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     elevation: 5,
   },
-})
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  button: {
+    flex: 1,
+    padding: 12,
+    marginHorizontal: 8,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  acceptButton: {
+    backgroundColor: '#4CAF50',
+  },
+  rejectButton: {
+    backgroundColor: '#f44336',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  closeButton: {
+      marginTop: 20,
+      backgroundColor: '#712fe5',
+      padding: 10,
+      borderRadius: 8,
+      alignSelf: 'flex-end',
+  },
+  closeButtonText: {
+      color: '#fff',
+      fontWeight: 'bold',
+  },
+});

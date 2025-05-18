@@ -6,6 +6,7 @@ import {
   Card,
   Modal,
   Portal,
+  ActivityIndicator
 } from 'react-native-paper';
 import {
   View,
@@ -21,14 +22,13 @@ import { API_IP } from '@env';
 
 export default function ConviteScreen({ navigation }) {
   const [email, setEmail] = useState('');
-  const [grupos, setGrupos] = useState([]); // Lista de grupos do usuário [{ nome, idGrupo }]
-  const [grupoSelecionado, setGrupoSelecionado] = useState(null); // objeto grupo completo
-  const [idGrupoSelecionado, setIdGrupoSelecionado] = useState(null); // id do grupo selecionado
+  const [grupos, setGrupos] = useState([]);
+  const [grupoSelecionado, setGrupoSelecionado] = useState(null);
+  const [idGrupoSelecionado, setIdGrupoSelecionado] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [usuarioEmail, setUsuarioEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // Função para carregar email e buscar grupos do usuário
-  // 2. Atualize o useEffect para salvar o email do usuário logado
     useEffect(() => {
     const carregarDadosDoAsyncStorage = async () => {
         try {
@@ -39,7 +39,6 @@ export default function ConviteScreen({ navigation }) {
 
             setUsuarioEmail(emailLogado);
 
-            // Buscar grupos pela API usando o email
             fetch(`${API_IP}/grupos/usuario/${encodeURIComponent(emailLogado)}`)
             .then((response) => response.json())
             .then((data) => {
@@ -66,64 +65,92 @@ export default function ConviteScreen({ navigation }) {
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
 
-  // Quando seleciona grupo, atualiza grupoSelecionado e idGrupoSelecionado
   const handleSelectGroup = (group) => {
     setGrupoSelecionado(group);
     setIdGrupoSelecionado(group.idGrupo);
     hideModal();
   };
 
-  const handleEnviarConvite = async () => {
+ const handleEnviarConvite = async () => {
     if (!idGrupoSelecionado) {
-        Alert.alert('Selecione um grupo');
-        return;
+      Alert.alert('Selecione um grupo');
+      return;
     }
     if (email.trim() === '') {
-        Alert.alert('Digite um email');
-        return;
+      Alert.alert('Digite um email');
+      return;
     }
+
+    setLoading(true);
 
     try {
-        const response = await fetch(`${API_IP}/usuarios/email/${encodeURIComponent(email)}`);
+      const response = await fetch(`${API_IP}/usuarios/email/${encodeURIComponent(email)}`);
+      if (!response.ok) throw new Error('Erro na requisição');
 
-        if (!response.ok) {
-        throw new Error('Erro na requisição');
+      const text = await response.text();
+      if (!text) {
+        Alert.alert('Usuário não encontrado', 'Nenhum usuário com esse email foi encontrado.');
+        return;
+      }
+
+      const user = JSON.parse(text);
+      if (!user || Object.keys(user).length === 0) {
+        Alert.alert('Usuário não encontrado', 'Nenhum usuário com esse email foi encontrado.');
+        return;
+      }
+
+      if (usuarioEmail === email) {
+        Alert.alert('Usuário inválido', 'Você não pode enviar convite para si mesmo.');
+        return;
+      }
+
+      const gruposResponse = await fetch(`${API_IP}/grupos/usuario/${encodeURIComponent(email)}`);
+      if (!gruposResponse.ok) throw new Error('Erro ao buscar grupos do usuário convidado');
+
+      const gruposDoUsuario = await gruposResponse.json();
+
+      const jaPertence = gruposDoUsuario.some((g) => g._id === idGrupoSelecionado);
+
+      if (jaPertence) {
+        Alert.alert('Esse usuário já pertence a esse grupo');
+        return;
+      }
+
+      const notificacaoPayload = {
+        usuarioId: user._id,
+        titulo: 'Convite de Grupo',
+        mensagem: `Você está sendo convidado para o grupo: ${grupoSelecionado.nome}`,
+        tipo: 'convite',
+        dadosExtras: {
+          grupoId: idGrupoSelecionado,
+          aceitouConvite: null
         }
+      };
 
-        const text = await response.text();
+      const notificacaoResponse = await fetch(`${API_IP}/notificacoes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(notificacaoPayload),
+      });
 
-        if (!text) {
-            Alert.alert('Usuário não encontrado', 'Nenhum usuário com esse email foi encontrado.');
-            return;
-        }
+      if (!notificacaoResponse.ok) {
+        throw new Error('Erro ao enviar notificação');
+      }
 
-        if (usuarioEmail == email){
-            Alert.alert('Usuário inválido', 'Você não pode enviar convite para si mesmo.');
-            return;
-        }
-
-        const user = JSON.parse(text);
-
-        if (!user || Object.keys(user).length === 0) {
-            Alert.alert('Usuário não encontrado', 'Nenhum usuário com esse email foi encontrado.');
-            return;
-        }
-
-        // Exemplo:
-        // await fetch(`${API_IP}/convites`, {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ email, idGrupo: idGrupoSelecionado }),
-        // });
-
-        Alert.alert('Convite enviado com sucesso!');
-        setEmail('')
-        setGrupoSelecionado(null)
+      Alert.alert('Convite enviado com sucesso!');
+      setEmail('');
+      setGrupoSelecionado(null);
     } catch (error) {
-        console.error('Erro ao buscar usuário:', error);
-        Alert.alert('Erro', 'Não foi possível verificar o usuário. Tente novamente mais tarde.');
+      console.error('Erro ao buscar usuário ou enviar notificação:', error);
+      Alert.alert('Erro', 'Não foi possível enviar o convite. Tente novamente mais tarde.');
+    } finally {
+      setLoading(false);
     }
-};
+  };
+
+
 
   return (
     <Provider>
@@ -196,6 +223,12 @@ export default function ConviteScreen({ navigation }) {
             </Card.Content>
           </Card>
         </View>
+
+        {loading && (
+          <View style={styles.loadingOverlay}>
+            <ActivityIndicator size="large" color="#712fe5" />
+          </View>
+        )}
       </ImageBackground>
     </Provider>
   );
@@ -293,4 +326,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666',
   },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 999,
+  },
+
 });
