@@ -20,7 +20,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_IP } from '@env';
 
-export default function ConviteScreen({ navigation }) {
+export default function ConviteScreen() {
   const [email, setEmail] = useState('');
   const [grupos, setGrupos] = useState([]);
   const [grupoSelecionado, setGrupoSelecionado] = useState(null);
@@ -271,11 +271,11 @@ const styles = StyleSheet.create({
   },
   buttonCancel: {
     backgroundColor: '#fff',
+    borderColor: '#712fe5',
     padding: 20,
     borderRadius: 100,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#712fe5',
     flex: 1,
   },
   buttonCancelText: {

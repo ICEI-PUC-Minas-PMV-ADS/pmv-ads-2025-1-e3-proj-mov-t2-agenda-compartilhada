@@ -64,6 +64,33 @@ const NotificacoesScreen = ({ navigation }) => {
     carregarNotificacoes();
   };
 
+  const excluirNotificacao = () => {
+    Alert.alert(
+      'Excluir Notificação',
+      'Tem certeza que deseja excluir esta notificação?',
+      [
+        {
+          text: 'Não',
+          style: 'cancel',
+        },
+        {
+          text: 'Sim',
+          onPress: async () => {
+            try {
+              await axios.delete(`${API_IP}/notificacoes/${selectedNotification.id}`);
+              Alert.alert('Sucesso', 'Notificação excluída com sucesso.');
+              closeModal(); // Fecha o modal e atualiza a lista
+            } catch (error) {
+              console.error('Erro ao excluir notificação:', error);
+              Alert.alert('Erro', 'Não foi possível excluir a notificação.');
+            }
+          },
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
   const recusarConvite = async () => {
     try {
       await axios.put(`${API_IP}/notificacoes/${selectedNotification.id}`, {
@@ -267,9 +294,14 @@ const NotificacoesScreen = ({ navigation }) => {
                 )}
               </>
             )}
-            <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
-                <Text style={styles.closeButtonText}>Fechar</Text>
-            </TouchableOpacity>
+            <View style={styles.closeButtonsView}>
+              <TouchableOpacity style={styles.excluirButton} onPress={excluirNotificacao}>
+                <Text style={styles.excluirButtonText}>Excluir</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+                  <Text style={styles.closeButtonText}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -383,6 +415,25 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
       color: '#fff',
+      fontWeight: 'bold',
+  },
+  closeButtonsView:{
+    flexDirection: 'row',
+    gap: 10,
+    alignSelf: 'flex-end',
+  },
+  excluirButton: {
+      marginTop: 20,
+      backgroundColor: '#fff',
+      padding: 10,
+      borderRadius: 8,
+      alignSelf: 'flex-end',
+      borderWidth: 2,
+      borderColor: '#712fe5',
+
+  },
+  excluirButtonText: {
+      color: '#712fe5',
       fontWeight: 'bold',
   },
 });
