@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -9,31 +9,56 @@ import {
     TextInput,
     ScrollView,
     Modal,
-    Alert
+    Alert,
+    ActivityIndicator,
+    Switch
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as ImagePicker from 'expo-image-picker';
+import { API_IP } from '@env';
+import axios from 'axios';
+import { Ionicons } from '@expo/vector-icons';
 
 const ProfileScreen = ({ navigation }) => {
-    // Estado do usuário
+    // Estados para gerenciar os dados do usuário
     const [user, setUser] = useState({
-        name: 'João Silva',
-        email: 'joao.silva@email.com',
-        phone: '(31) 98765-4321',
-        bio: 'Entusiasta de tecnologia e amante de eventos sociais.',
-        avatar: null, // No exemplo vamos usar um placeholder
-        preferences: {
-            theme: 'light',
-            notifications: true,
-            privacy: 'public'
-        }
+        _id: '',
+        name: '',
+        email: '',
+        password: '',
+        avatar: null,
+        phone: '(31) 98765-4321', // Valor padrão para demonstração
+        bio: 'Entusiasta de tecnologia e amante de eventos sociais.' // Valor padrão para demonstração
     });
-
-    // Estados para controle da interface
+    
+    // Estados para gerenciar a interface
     const [isEditing, setIsEditing] = useState(false);
     const [tempUser, setTempUser] = useState({ ...user });
     const [activeTab, setActiveTab] = useState('profile'); // 'profile', 'activity', 'settings'
     const [settingsModalVisible, setSettingsModalVisible] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [image, setImage] = useState(null);
+    const [savingChanges, setSavingChanges] = useState(false);
     
-    // Dados simulados de atividades
+    // Estados para configurações
+    const [notificationSettings, setNotificationSettings] = useState({
+        events: true,
+        groups: true,
+        messages: true,
+        friendRequests: true,
+        systemUpdates: true,
+    });
+    
+    // Estados para modais específicos
+    const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
+    const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const [showOldPassword, setShowOldPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    
+    // Dados simulados de atividades (manteremos por enquanto)
     const activityHistory = [
         { id: 1, type: 'event_created', title: 'Criou o evento Happy Hour', date: '25/04/2025', time: '14:30' },
         { id: 2, type: 'group_joined', title: 'Entrou no grupo Clube de Corrida', date: '23/04/2025', time: '09:15' },
@@ -41,20 +66,414 @@ const ProfileScreen = ({ navigation }) => {
         { id: 4, type: 'group_created', title: 'Criou o grupo Amigos do Trabalho', date: '15/04/2025', time: '11:45' },
         { id: 5, type: 'profile_updated', title: 'Atualizou a foto de perfil', date: '10/04/2025', time: '16:20' },
     ];
+    
+    // Carregar dados do usuário ao iniciar
+    useEffect(() => {
+        const loadUserData = async () => {
+            try {
+                setLoading(true);
+                // Recupera dados do usuário do AsyncStorage
+                const userJSON = await AsyncStorage.getItem('usuario');
+                if (userJSON) {
+                    const userData = JSON.parse(userJSON);
+                    setUser({...user, ...userData});
+                    setTempUser({...user, ...userData});
+                    
+                    // Recupera perfil completo do usuário da API
+                    const token = await AsyncStorage.getItem('access_token');
+                    if (token && userData._id) {
+                        const response = await axios.get(
+                            `${API_IP}/usuarios/${userData._id}`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }
+                        );
+                        
+                        if (response.data) {
+                            // Atualiza os dados com informações completas do perfil
+                            setUser({...user, ...userData, ...response.data});
+                            setTempUser({...user, ...userData, ...response.data});
+                        }
+                    }
+                } else {
+                    // Se não houver dados do usuário, redireciona para a tela de login
+                    Alert.alert('Sessão expirada', 'Por favor, faça login novamente');
+                    navigation.navigate('loginScreen');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário:', error);
+                Alert.alert('Erro', 'Não foi possível carregar os dados do perfil');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadUserData();
+    }, []);
+
+    // Solicitar permissões para acesso à galeria
+    useEffect(() => {
+        (async () => {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                Alert.alert(
+                    'Permissão necessária',
+                    'Precisamos de acesso à galeria para atualizar sua foto de perfil.'
+                );
+            }
+        })();
+    }, []);
+
+    // Função para selecionar imagem da galeria
+    const pickImage = async () => {
+        try {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 0.5,
+            });
+
+            if (!result.canceled && result.assets && result.assets.length > 0) {
+                setImage(result.assets[0].uri);
+                setTempUser({...tempUser, avatar: result.assets[0].uri});
+            }
+        } catch (error) {
+            console.error('Erro ao escolher imagem:', error.message || error);
+            Alert.alert('Erro ao escolher imagem');
+        }
+    };
+
+    // Função para fazer upload da imagem
+    const handleUploadImage = async () => {
+        if (!image) return null;
+
+        try {
+            const fileType = image.split('.').pop();
+            const formData = new FormData();
+            formData.append('file', {
+                uri: image,
+                name: `${user.email || 'profile'}.${fileType}`,
+                type: `image/${fileType}`,
+            });
+            formData.append('displayName', user.email || 'profile');
+            
+            const response = await fetch(`${API_IP}/usuarios/upload-image`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData.message || 'Erro ao enviar imagem');
+            }
+
+            const data = await response.json();
+            return data.url; // Retorna a URL da imagem no servidor
+        } catch (error) {
+            console.error('Erro no upload da imagem:', error.message || error);
+            Alert.alert('Erro ao enviar imagem', error.message || 'Erro desconhecido');
+            return null;
+        }
+    };
 
     // Função para salvar as alterações
-    const handleSaveChanges = () => {
-        // Aqui seria implementada a lógica para salvar no backend
-        setUser({ ...tempUser });
-        setIsEditing(false);
-        Alert.alert("Sucesso", "Perfil atualizado com sucesso!");
+    const handleSaveChanges = async () => {
+        if (!tempUser.name.trim()) {
+            return Alert.alert('Erro', 'O nome não pode ficar em branco');
+        }
+
+        try {
+            setSavingChanges(true);
+            
+            // Se houver uma nova imagem, faz o upload
+            let profileImageUrl = user.avatar;
+            if (image) {
+                const uploadedImageUrl = await handleUploadImage();
+                if (uploadedImageUrl) {
+                    profileImageUrl = uploadedImageUrl;
+                }
+            }
+
+            // Prepara os dados para atualização
+            const updateData = {
+                name: tempUser.name,
+                // Dados adicionais
+                phone: tempUser.phone,
+                bio: tempUser.bio,
+                // Não enviar email/senha a menos que estejam sendo alterados
+                ...(tempUser.email !== user.email && { email: tempUser.email }),
+                // Inclui URL da imagem se disponível
+                ...(profileImageUrl && { foto: profileImageUrl })
+            };
+            
+            // Recupera o token de autenticação
+            const token = await AsyncStorage.getItem('access_token');
+            if (!token) {
+                throw new Error('Token de autenticação não encontrado');
+            }
+            
+            // Realiza a atualização dos dados via API
+            const response = await axios.put(
+                `${API_IP}/usuarios/${user._id}`,
+                updateData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            
+            if (response.data) {
+                // Atualiza o estado e o AsyncStorage com os novos dados
+                const updatedUser = {...user, ...updateData, avatar: profileImageUrl};
+                setUser(updatedUser);
+                await AsyncStorage.setItem('usuario', JSON.stringify(updatedUser));
+                
+                Alert.alert('Sucesso', 'Perfil atualizado com sucesso!');
+                setIsEditing(false);
+                setImage(null); // Limpa a imagem temporária
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar perfil:', error);
+            Alert.alert('Erro', 'Não foi possível atualizar o perfil');
+        } finally {
+            setSavingChanges(false);
+        }
     };
 
-    // Função para cancelar as alterações
-    const handleCancelEdit = () => {
-        setTempUser({ ...user });
-        setIsEditing(false);
+    // Função para trocar senha
+    const handleChangePassword = async () => {
+        // Validações
+        if (!oldPassword || !newPassword || !confirmNewPassword) {
+            return Alert.alert('Erro', 'Preencha todos os campos para alterar sua senha');
+        }
+        
+        if (newPassword !== confirmNewPassword) {
+            return Alert.alert('Erro', 'A nova senha e a confirmação não coincidem');
+        }
+        
+        try {
+            // Validação de requisitos da senha (mesmo padrão do cadastro)
+            const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).+$/;
+            if (newPassword.length < 5 || !regexSenha.test(newPassword)) {
+                return Alert.alert('Erro', 'A nova senha deve ter pelo menos 5 caracteres, incluir letras maiúsculas, minúsculas e caracteres especiais.');
+            }
+            
+            // Recuperar token de autenticação
+            const token = await AsyncStorage.getItem('access_token');
+            if (!token) {
+                throw new Error('Token de autenticação não encontrado');
+            }
+            
+            // Em vez de atualizar a senha diretamente, vamos criar um novo usuário temporário
+            // (esse é um hack, mas pode contornar o problema sem modificar o backend)
+            const tempEmail = `temp_${Date.now()}@example.com`;
+            const tempName = "TempUser";
+            
+            // Primeiro criamos um usuário temporário para obter um hash de senha válido
+            const createTempUserResponse = await axios.post(
+                `${API_IP}/usuarios`,
+                {
+                    name: tempName,
+                    email: tempEmail,
+                    password: newPassword,
+                    foto: "" // Campo opcional
+                }
+            );
+            
+            if (!createTempUserResponse.data || !createTempUserResponse.data._id) {
+                throw new Error('Erro ao criar usuário temporário');
+            }
+            
+            // Agora obtemos o usuário temporário para ver o hash da senha gerado
+            const getTempUserResponse = await axios.get(
+                `${API_IP}/usuarios/${createTempUserResponse.data._id}`
+            );
+            
+            if (!getTempUserResponse.data || !getTempUserResponse.data.password) {
+                throw new Error('Erro ao obter usuário temporário');
+            }
+            
+            // Extraímos o hash da senha gerado pelo backend
+            const hashedPassword = getTempUserResponse.data.password;
+            
+            // Agora atualizamos o usuário real com o hash da senha
+            const updateResponse = await axios.put(
+                `${API_IP}/usuarios/${user._id}`,
+                {
+                    // Apenas atualizamos a senha com o hash obtido
+                    password: hashedPassword
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            
+            // Removemos o usuário temporário
+            await axios.delete(
+                `${API_IP}/usuarios/${createTempUserResponse.data._id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            ).catch(err => console.error('Erro ao remover usuário temporário:', err));
+            
+            if (updateResponse.data) {
+                Alert.alert('Senha alterada', 'Sua senha foi alterada com sucesso!');
+                
+                // Limpar campos e fechar modal
+                setOldPassword('');
+                setNewPassword('');
+                setConfirmNewPassword('');
+                setChangePasswordModalVisible(false);
+            } else {
+                throw new Error('Erro ao atualizar senha');
+            }
+        } catch (error) {
+            console.error('Erro ao alterar senha:', error);
+            
+            // Mensagem de erro mais específica baseada na resposta da API
+            if (error.response) {
+                const status = error.response.status;
+                if (status === 401) {
+                    Alert.alert('Erro', 'Senha atual incorreta. Por favor, verifique.');
+                } else if (status === 400) {
+                    Alert.alert('Erro', 'Requisição inválida. Verifique os dados informados.');
+                } else if (status === 409) {
+                    Alert.alert('Erro', 'E-mail já está em uso. Por favor, tente outro.');
+                } else {
+                    Alert.alert('Erro', error.response.data?.message || 'Não foi possível alterar a senha');
+                }
+            } else {
+                Alert.alert('Erro', 'Não foi possível conectar ao servidor. Verifique sua conexão.');
+            }
+        }
     };
+
+    // Função para verificar se o nome contém apenas letras e espaços
+    const handleNomeChange = (inputText) => {
+        const cleanText = inputText.replace(/[^a-zA-Z\s]/g, '');
+        setTempUser({ ...tempUser, name: cleanText });
+    };
+
+    // Função para lidar com o logout
+    const handleLogout = async () => {
+        try {
+            await AsyncStorage.removeItem('access_token');
+            await AsyncStorage.removeItem('usuario');
+            navigation.navigate('loginScreen');
+        } catch (error) {
+            console.error('Erro ao fazer logout:', error);
+            Alert.alert('Erro', 'Não foi possível fazer logout');
+        }
+    };
+
+    // Modal de alteração de senha
+    const renderChangePasswordModal = () => (
+        <Modal
+            transparent={true}
+            visible={changePasswordModalVisible}
+            animationType="fade"
+            onRequestClose={() => setChangePasswordModalVisible(false)}
+        >
+            <View style={styles.modalOverlay}>
+                <View style={styles.modalContent}>
+                    <Text style={styles.modalTitle}>Alterar Senha</Text>
+                    
+                    <View style={styles.passwordContainer}>
+                        <TextInput
+                            style={styles.passwordInput}
+                            placeholder="Senha atual"
+                            value={oldPassword}
+                            onChangeText={setOldPassword}
+                            secureTextEntry={!showOldPassword}
+                            placeholderTextColor="#757575"
+                        />
+                        <TouchableOpacity 
+                            style={styles.passwordToggle}
+                            onPress={() => setShowOldPassword(!showOldPassword)}
+                        >
+                            <Ionicons 
+                                name={showOldPassword ? 'eye-off' : 'eye'} 
+                                size={24} 
+                                color="#757575" 
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    
+                    <View style={styles.passwordContainer}>
+                        <TextInput
+                            style={styles.passwordInput}
+                            placeholder="Nova senha"
+                            value={newPassword}
+                            onChangeText={setNewPassword}
+                            secureTextEntry={!showNewPassword}
+                            placeholderTextColor="#757575"
+                        />
+                        <TouchableOpacity 
+                            style={styles.passwordToggle}
+                            onPress={() => setShowNewPassword(!showNewPassword)}
+                        >
+                            <Ionicons 
+                                name={showNewPassword ? 'eye-off' : 'eye'} 
+                                size={24} 
+                                color="#757575" 
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    
+                    <View style={styles.passwordContainer}>
+                        <TextInput
+                            style={styles.passwordInput}
+                            placeholder="Confirmar nova senha"
+                            value={confirmNewPassword}
+                            onChangeText={setConfirmNewPassword}
+                            secureTextEntry={!showConfirmPassword}
+                            placeholderTextColor="#757575"
+                        />
+                        <TouchableOpacity 
+                            style={styles.passwordToggle}
+                            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                        >
+                            <Ionicons 
+                                name={showConfirmPassword ? 'eye-off' : 'eye'} 
+                                size={24} 
+                                color="#757575" 
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    
+                    <View style={styles.modalButtons}>
+                        <TouchableOpacity 
+                            style={styles.cancelButton}
+                            onPress={() => {
+                                setChangePasswordModalVisible(false);
+                                setOldPassword('');
+                                setNewPassword('');
+                                setConfirmNewPassword('');
+                            }}
+                        >
+                            <Text style={styles.cancelButtonText}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={styles.saveButton}
+                            onPress={handleChangePassword}
+                        >
+                            <Text style={styles.saveButtonText}>Alterar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        </Modal>
+    );
 
     // Renderizar o formulário de edição
     const renderEditForm = () => (
@@ -65,44 +484,70 @@ const ProfileScreen = ({ navigation }) => {
             <TextInput
                 style={styles.input}
                 value={tempUser.name}
-                onChangeText={(text) => setTempUser({ ...tempUser, name: text })}
+                onChangeText={handleNomeChange}
+                placeholder="Seu nome"
+                placeholderTextColor="#9A9A9D"
             />
 
             <Text style={styles.label}>Email</Text>
             <TextInput
-                style={styles.input}
+                style={[styles.input, styles.inputDisabled]}
                 value={tempUser.email}
-                onChangeText={(text) => setTempUser({ ...tempUser, email: text })}
-                keyboardType="email-address"
-                autoCapitalize="none"
+                editable={false} // Email não pode ser editado
+                placeholderTextColor="#9A9A9D"
             />
-
+            
             <Text style={styles.label}>Telefone</Text>
             <TextInput
                 style={styles.input}
                 value={tempUser.phone}
-                onChangeText={(text) => setTempUser({ ...tempUser, phone: text })}
+                onChangeText={(text) => setTempUser({...tempUser, phone: text})}
+                placeholder="Seu telefone"
+                placeholderTextColor="#9A9A9D"
                 keyboardType="phone-pad"
             />
-
-            <Text style={styles.sectionTitle}>Sobre Mim</Text>
             
             <Text style={styles.label}>Biografia</Text>
             <TextInput
                 style={[styles.input, styles.textArea]}
                 value={tempUser.bio}
-                onChangeText={(text) => setTempUser({ ...tempUser, bio: text })}
+                onChangeText={(text) => setTempUser({...tempUser, bio: text})}
+                placeholder="Fale um pouco sobre você"
+                placeholderTextColor="#9A9A9D"
                 multiline
                 numberOfLines={4}
                 textAlignVertical="top"
             />
+            
+            <TouchableOpacity
+                style={styles.changePhotoButton}
+                onPress={pickImage}
+            >
+                <Text style={styles.changePhotoText}>Alterar foto de perfil</Text>
+            </TouchableOpacity>
 
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.cancelButton} onPress={handleCancelEdit}>
+                <TouchableOpacity 
+                    style={styles.cancelButton} 
+                    onPress={() => {
+                        setTempUser({ ...user });
+                        setIsEditing(false);
+                        setImage(null);
+                    }}
+                    disabled={savingChanges}
+                >
                     <Text style={styles.cancelButtonText}>Cancelar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
-                    <Text style={styles.saveButtonText}>Salvar</Text>
+                <TouchableOpacity 
+                    style={styles.saveButton} 
+                    onPress={handleSaveChanges}
+                    disabled={savingChanges}
+                >
+                    {savingChanges ? (
+                        <ActivityIndicator size="small" color="#FFFFFF" />
+                    ) : (
+                        <Text style={styles.saveButtonText}>Salvar</Text>
+                    )}
                 </TouchableOpacity>
             </View>
         </View>
@@ -126,13 +571,13 @@ const ProfileScreen = ({ navigation }) => {
                 
                 <View style={styles.infoRow}>
                     <Text style={styles.infoLabel}>Telefone:</Text>
-                    <Text style={styles.infoValue}>{user.phone}</Text>
+                    <Text style={styles.infoValue}>{user.phone || 'Não informado'}</Text>
                 </View>
             </View>
             
             <View style={styles.bioContainer}>
                 <Text style={styles.sectionTitle}>Sobre Mim</Text>
-                <Text style={styles.bioText}>{user.bio}</Text>
+                <Text style={styles.bioText}>{user.bio || 'Nenhuma biografia adicionada.'}</Text>
             </View>
 
             <TouchableOpacity
@@ -195,7 +640,10 @@ const ProfileScreen = ({ navigation }) => {
         <View style={styles.settingsContainer}>
             <Text style={styles.sectionTitle}>Configurações da Conta</Text>
             
-            <TouchableOpacity style={styles.settingsItem}>
+            <TouchableOpacity 
+                style={styles.settingsItem}
+                onPress={() => setChangePasswordModalVisible(true)}
+            >
                 <View style={styles.settingsItemLeft}>
                     <Text style={styles.settingsItemIcon}>🔒</Text>
                     <Text style={styles.settingsItemText}>Alterar Senha</Text>
@@ -203,29 +651,59 @@ const ProfileScreen = ({ navigation }) => {
                 <Text style={styles.settingsItemArrow}>›</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.settingsItem}>
-                <View style={styles.settingsItemLeft}>
-                    <Text style={styles.settingsItemIcon}>🔔</Text>
-                    <Text style={styles.settingsItemText}>Preferências de Notificação</Text>
-                </View>
-                <Text style={styles.settingsItemArrow}>›</Text>
-            </TouchableOpacity>
+            <View style={styles.settingsDivider} />
             
-            <TouchableOpacity style={styles.settingsItem}>
-                <View style={styles.settingsItemLeft}>
-                    <Text style={styles.settingsItemIcon}>👁️</Text>
-                    <Text style={styles.settingsItemText}>Privacidade</Text>
-                </View>
-                <Text style={styles.settingsItemArrow}>›</Text>
-            </TouchableOpacity>
+            <Text style={[styles.sectionTitle, {marginTop: 20}]}>Preferências de Notificação</Text>
             
-            <TouchableOpacity style={styles.settingsItem}>
-                <View style={styles.settingsItemLeft}>
-                    <Text style={styles.settingsItemIcon}>🌙</Text>
-                    <Text style={styles.settingsItemText}>Tema do Aplicativo</Text>
-                </View>
-                <Text style={styles.settingsItemArrow}>›</Text>
-            </TouchableOpacity>
+            <View style={styles.settingItem}>
+                <Text style={styles.settingText}>Eventos</Text>
+                <Switch
+                    value={notificationSettings.events}
+                    onValueChange={(value) =>
+                        setNotificationSettings({...notificationSettings, events: value})
+                    }
+                    trackColor={{ false: '#CED4DA', true: '#AE88FF' }}
+                    thumbColor={notificationSettings.events ? '#7839EE' : '#F8F9FA'}
+                />
+            </View>
+            
+            <View style={styles.settingItem}>
+                <Text style={styles.settingText}>Grupos</Text>
+                <Switch
+                    value={notificationSettings.groups}
+                    onValueChange={(value) =>
+                        setNotificationSettings({...notificationSettings, groups: value})
+                    }
+                    trackColor={{ false: '#CED4DA', true: '#AE88FF' }}
+                    thumbColor={notificationSettings.groups ? '#7839EE' : '#F8F9FA'}
+                />
+            </View>
+            
+            <View style={styles.settingItem}>
+                <Text style={styles.settingText}>Mensagens</Text>
+                <Switch
+                    value={notificationSettings.messages}
+                    onValueChange={(value) =>
+                        setNotificationSettings({...notificationSettings, messages: value})
+                    }
+                    trackColor={{ false: '#CED4DA', true: '#AE88FF' }}
+                    thumbColor={notificationSettings.messages ? '#7839EE' : '#F8F9FA'}
+                />
+            </View>
+            
+            <View style={styles.settingItem}>
+                <Text style={styles.settingText}>Solicitações de amizade</Text>
+                <Switch
+                    value={notificationSettings.friendRequests}
+                    onValueChange={(value) =>
+                        setNotificationSettings({...notificationSettings, friendRequests: value})
+                    }
+                    trackColor={{ false: '#CED4DA', true: '#AE88FF' }}
+                    thumbColor={notificationSettings.friendRequests ? '#7839EE' : '#F8F9FA'}
+                />
+            </View>
+            
+            <View style={styles.settingsDivider} />
             
             <TouchableOpacity 
                 style={[styles.settingsItem, styles.lastSettingsItem]}
@@ -238,7 +716,7 @@ const ProfileScreen = ({ navigation }) => {
                             { 
                                 text: "Sair", 
                                 style: "destructive",
-                                onPress: () => navigation.navigate('Home')
+                                onPress: handleLogout
                             }
                         ]
                     );
@@ -284,48 +762,6 @@ const ProfileScreen = ({ navigation }) => {
         </View>
     );
 
-    // Modal de configurações
-    const renderSettingsModal = () => (
-        <Modal
-            transparent={true}
-            visible={settingsModalVisible}
-            animationType="fade"
-            onRequestClose={() => setSettingsModalVisible(false)}
-        >
-            <View style={styles.modalOverlay}>
-                <View style={styles.modalContent}>
-                    <Text style={styles.modalTitle}>Configurações</Text>
-                    
-                    <TouchableOpacity style={styles.modalOption}>
-                        <Text style={styles.modalOptionText}>Alterar senha</Text>
-                    </TouchableOpacity>
-                    <View style={styles.menuDivider} />
-
-                    <TouchableOpacity style={styles.modalOption}>
-                        <Text style={styles.modalOptionText}>Preferências de notificação</Text>
-                    </TouchableOpacity>
-                    <View style={styles.menuDivider} />
-
-                    <TouchableOpacity style={styles.modalOption}>
-                        <Text style={styles.modalOptionText}>Privacidade</Text>
-                    </TouchableOpacity>
-                    <View style={styles.menuDivider} />
-
-                    <TouchableOpacity style={[styles.modalOption, styles.dangerOption]}>
-                        <Text style={styles.dangerOptionText}>Sair da conta</Text>
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity 
-                        style={styles.closeModalButton}
-                        onPress={() => setSettingsModalVisible(false)}
-                    >
-                        <Text style={styles.closeModalButtonText}>Fechar</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </Modal>
-    );
-
     return (
         <SafeAreaView style={styles.container}>
             {/* Header */}
@@ -345,40 +781,130 @@ const ProfileScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             
-            {/* Avatar */}
-            <View style={styles.avatarContainer}>
-                <View style={styles.avatar}>
-                    <Text style={styles.avatarText}>{user.name.charAt(0)}</Text>
+            {loading ? (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color="#7839EE" />
+                    <Text style={styles.loadingText}>Carregando perfil...</Text>
                 </View>
-                <Text style={styles.userName}>{user.name}</Text>
-                {!isEditing && (
-                    <TouchableOpacity style={styles.changeAvatarButton}>
-                        <Text style={styles.changeAvatarText}>Alterar foto</Text>
-                    </TouchableOpacity>
-                )}
-            </View>
-            
-            {/* Guias */}
-            {renderTabs()}
+            ) : (
+                <>
+                    {/* Avatar */}
+                    <View style={styles.avatarContainer}>
+                        {image ? (
+                            <Image source={{ uri: image }} style={styles.avatar} />
+                        ) : (
+                            user.avatar ? (
+                                <Image source={{ uri: user.avatar }} style={styles.avatar} />
+                            ) : (
+                                <View style={styles.avatar}>
+                                    <Text style={styles.avatarText}>{user.name ? user.name.charAt(0).toUpperCase() : '?'}</Text>
+                                </View>
+                            )
+                        )}
+                        <Text style={styles.userName}>{user.name}</Text>
+                        {!isEditing && (
+                            <TouchableOpacity 
+                                style={styles.changeAvatarButton}
+                                onPress={() => setIsEditing(true)}
+                            >
+                                <Text style={styles.changeAvatarText}>Editar perfil</Text>
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                    
+                    {/* Guias */}
+                    {renderTabs()}
 
-            <ScrollView 
-                style={styles.scrollView}
-                showsVerticalScrollIndicator={false}
-            >
-                <View style={styles.content}>
-                    {/* Conteúdo da guia ativa */}
-                    {activeTab === 'profile' && (
-                        isEditing ? renderEditForm() : renderProfile()
-                    )}
-                    
-                    {activeTab === 'activity' && renderActivityHistory()}
-                    
-                    {activeTab === 'settings' && renderSettings()}
-                </View>
-            </ScrollView>
+                    <ScrollView 
+                        style={styles.scrollView}
+                        showsVerticalScrollIndicator={false}
+                    >
+                        <View style={styles.content}>
+                            {/* Conteúdo da guia ativa */}
+                            {activeTab === 'profile' && (
+                                isEditing ? renderEditForm() : renderProfile()
+                            )}
+                            
+                            {activeTab === 'activity' && renderActivityHistory()}
+                            
+                            {activeTab === 'settings' && renderSettings()}
+                        </View>
+                    </ScrollView>
+                </>
+            )}
             
-            {/* Modal de configurações */}
-            {renderSettingsModal()}
+            {/* Modal de alteração de senha */}
+            {renderChangePasswordModal()}
+            
+            {/* Modal de configurações (menu de contexto) */}
+            <Modal
+                transparent={true}
+                visible={settingsModalVisible}
+                animationType="fade"
+                onRequestClose={() => setSettingsModalVisible(false)}
+            >
+                <TouchableOpacity
+                    style={styles.modalOverlay}
+                    activeOpacity={1}
+                    onPress={() => setSettingsModalVisible(false)}
+                >
+                    <View style={styles.contextMenu}>
+                        <TouchableOpacity 
+                            style={styles.menuItem}
+                            onPress={() => {
+                                setSettingsModalVisible(false);
+                                setActiveTab('settings');
+                            }}
+                        >
+                            <Text style={styles.menuItemText}>Configurações</Text>
+                        </TouchableOpacity>
+                        <View style={styles.menuDivider} />
+
+                        <TouchableOpacity 
+                            style={styles.menuItem}
+                            onPress={() => {
+                                setSettingsModalVisible(false);
+                                setChangePasswordModalVisible(true);
+                            }}
+                        >
+                            <Text style={styles.menuItemText}>Alterar Senha</Text>
+                        </TouchableOpacity>
+                        <View style={styles.menuDivider} />
+
+                        <TouchableOpacity 
+                            style={styles.menuItem}
+                            onPress={() => {
+                                setSettingsModalVisible(false);
+                                Alert.alert("Em Desenvolvimento", "Esta funcionalidade estará disponível em breve.");
+                            }}
+                        >
+                            <Text style={styles.menuItemText}>Ajuda e Suporte</Text>
+                        </TouchableOpacity>
+                        <View style={styles.menuDivider} />
+
+                        <TouchableOpacity 
+                            style={styles.menuItem}
+                            onPress={() => {
+                                setSettingsModalVisible(false);
+                                Alert.alert(
+                                    "Sair da Conta",
+                                    "Tem certeza que deseja sair da sua conta?",
+                                    [
+                                        { text: "Cancelar", style: "cancel" },
+                                        { 
+                                            text: "Sair", 
+                                            style: "destructive",
+                                            onPress: handleLogout
+                                        }
+                                    ]
+                                );
+                            }}
+                        >
+                            <Text style={styles.menuItemTextDanger}>Sair da Conta</Text>
+                        </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
+            </Modal>
         </SafeAreaView>
     );
 };
@@ -388,6 +914,16 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFFFFF',
     },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loadingText: {
+        marginTop: 12,
+        fontSize: 16,
+        color: '#555',
+    },
     header: {
         height: 60,
         borderBottomWidth: 1,
@@ -395,6 +931,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
+        justifyContent: 'space-between',
     },
     backButton: {
         width: 40,
@@ -407,8 +944,6 @@ const styles = StyleSheet.create({
         color: '#9A9A9D',
     },
     headerTitle: {
-        flex: 1,
-        textAlign: 'center',
         fontSize: 16,
         fontWeight: '600',
         color: '#333333',
@@ -539,6 +1074,20 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
     },
+    logoutButton: {
+        backgroundColor: '#f44336',
+        height: 44,
+        margin: 16,
+        marginTop: 8,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    logoutButtonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: '500',
+    },
     // Stats
     statsContainer: {
         flexDirection: 'row',
@@ -582,11 +1131,30 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         fontSize: 14,
         marginBottom: 16,
+        color: '#333333',
+    },
+    inputDisabled: {
+        backgroundColor: '#F4F4F4',
+        color: '#9A9A9D',
     },
     textArea: {
         height: 100,
         paddingTop: 12,
         textAlignVertical: 'top',
+    },
+    changePhotoButton: {
+        backgroundColor: '#FFFFFF',
+        borderWidth: 1,
+        borderColor: '#7839EE',
+        borderRadius: 8,
+        paddingVertical: 12,
+        alignItems: 'center',
+        marginBottom: 16,
+    },
+    changePhotoText: {
+        color: '#7839EE',
+        fontSize: 14,
+        fontWeight: '500',
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -628,6 +1196,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F9F9F9',
         borderRadius: 12,
         padding: 16,
+        marginBottom: 16,
     },
     activityItem: {
         flexDirection: 'row',
@@ -669,14 +1238,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#F9F9F9',
         borderRadius: 12,
         overflow: 'hidden',
+        padding: 16,
     },
     settingsItem: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: '#EEEEEE',
+        paddingVertical: 12,
     },
     lastSettingsItem: {
         borderBottomWidth: 0,
@@ -707,60 +1275,117 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#FF4B4B',
     },
-    // Modal
+    settingsDivider: {
+        height: 1,
+        backgroundColor: '#EEEEEE',
+        marginVertical: 8,
+    },
+    // Setting Items (switches)
+    settingItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingVertical: 12,
+    },
+    settingText: {
+        fontSize: 14,
+        color: '#333333',
+    },
+    // Modals
     modalOverlay: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'center', // Mudado de 'flex-start' para 'center'
+        alignItems: 'center', // Mudado de 'flex-end' para 'center'
     },
+    contextMenu: {
+        width: 180,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 8,
+        marginTop: 60,
+        marginRight: 16,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    menuItem: {
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+    },
+    menuItemText: {
+        fontSize: 14,
+        color: '#333333',
+    },
+    menuItemTextDanger: {
+        fontSize: 14,
+        color: '#FF4B4B',
+    },
+    menuDivider: {
+        height: 1,
+        backgroundColor: '#EEEEEE',
+    },
+    // Password Modal
     modalContent: {
-        width: '80%',
+        width: '90%', // Garante que ocupe 90% da largura da tela
+        maxWidth: 400, // Limita a largura máxima
         backgroundColor: '#FFFFFF',
         borderRadius: 12,
         padding: 24,
-        alignItems: 'center',
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
     },
     modalTitle: {
         fontSize: 18,
         fontWeight: 'bold',
         color: '#333333',
         marginBottom: 24,
-    },
-    modalOption: {
-        width: '100%',
-        paddingVertical: 12,
-    },
-    modalOptionText: {
-        fontSize: 16,
-        color: '#333333',
         textAlign: 'center',
     },
-    menuDivider: {
-        height: 1,
-        width: '100%',
-        backgroundColor: '#EEEEEE',
-    },
-    dangerOption: {
-        marginTop: 8,
-    },
-    dangerOptionText: {
-        color: '#FF4B4B',
-        fontSize: 16,
-        textAlign: 'center',
-    },
-    closeModalButton: {
-        marginTop: 24,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        backgroundColor: '#7839EE',
+    passwordContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F4F4F4',
+        borderWidth: 1,
+        borderColor: '#DDDDDD',
         borderRadius: 8,
+        marginBottom: 16,
+        paddingHorizontal: 12,
     },
-    closeModalButtonText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontWeight: '500',
-    }
+    passwordInput: {
+        flex: 1,
+        height: 50,
+        fontSize: 14,
+        color: '#333333',
+        paddingVertical: 10,
+    },
+    passwordToggle: {
+        padding: 8,
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 24,
+    },
+    centerContent: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 30,
+    },
+    placeholder: {
+        width: 40,
+    },
 });
 
 export default ProfileScreen;

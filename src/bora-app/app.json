@@ -13,13 +13,15 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.bora-app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/idle_screen.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.boraapp"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
