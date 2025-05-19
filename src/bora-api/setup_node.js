@@ -14,21 +14,21 @@ async function runSetup() {
 
     // 1. Coleção de Usuários
     await db.createCollection("usuarios", {
-    validator: {
-      $jsonSchema: {
-        bsonType: "object",
-        required: ["name", "email", "password"], // Modificado para os nomes que o código usa
-        properties: {
-          name: { bsonType: "string" },        // 'nome' alterado para 'name'
-          email: { bsonType: "string" },
-          password: { bsonType: "string" },    // 'senha' alterado para 'password'
-          // Remova ou torne opcionais os campos que o código não inclui quando cria usuários
-          dataCriacao: { bsonType: "date", description: "Campo opcional" },
-          dataAtualizacao: { bsonType: "date", description: "Campo opcional" }
+      validator: {
+        $jsonSchema: {
+          bsonType: "object",
+          required: ["name", "email", "password"], // Modificado para os nomes que o código usa
+          properties: {
+            name: { bsonType: "string" },        // 'nome' alterado para 'name'
+            email: { bsonType: "string" },
+            password: { bsonType: "string" },    // 'senha' alterado para 'password'
+            // Remova ou torne opcionais os campos que o código não inclui quando cria usuários
+            dataCriacao: { bsonType: "date", description: "Campo opcional" },
+            dataAtualizacao: { bsonType: "date", description: "Campo opcional" }
+          }
         }
       }
-    }
-  });
+    });
     console.log("Coleção 'usuarios' criada.");
 
     // 2. Coleção de Perfis

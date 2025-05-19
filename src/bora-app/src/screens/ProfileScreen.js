@@ -35,7 +35,6 @@ const ProfileScreen = ({ navigation }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [tempUser, setTempUser] = useState({ ...user });
     const [activeTab, setActiveTab] = useState('profile'); // 'profile', 'activity', 'settings'
-    const [settingsModalVisible, setSettingsModalVisible] = useState(false);
     const [loading, setLoading] = useState(true);
     const [image, setImage] = useState(null);
     const [savingChanges, setSavingChanges] = useState(false);
@@ -57,6 +56,10 @@ const ProfileScreen = ({ navigation }) => {
     const [showOldPassword, setShowOldPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    // Adicionar estes novos estados para contadores
+    const [eventCount, setEventCount] = useState(0);
+    const [groupCount, setGroupCount] = useState(0);
     
     // Dados simulados de atividades (manteremos por enquanto)
     const activityHistory = [
@@ -82,7 +85,8 @@ const ProfileScreen = ({ navigation }) => {
                     // Recupera perfil completo do usuário da API
                     const token = await AsyncStorage.getItem('access_token');
                     if (token && userData._id) {
-                        const response = await axios.get(
+                        // Buscar o usuário
+                        const userResponse = await axios.get(
                             `${API_IP}/usuarios/${userData._id}`,
                             {
                                 headers: {
@@ -91,10 +95,98 @@ const ProfileScreen = ({ navigation }) => {
                             }
                         );
                         
-                        if (response.data) {
-                            // Atualiza os dados com informações completas do perfil
-                            setUser({...user, ...userData, ...response.data});
-                            setTempUser({...user, ...userData, ...response.data});
+                        // Buscar o perfil para obter a foto
+                        const perfilResponse = await axios.get(
+                            `${API_IP}/perfis`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }
+                        );
+                        
+                        // Encontrar o perfil correspondente ao usuário
+                        const userPerfil = perfilResponse.data.find(
+                            perfil => perfil.userId === userData._id
+                        );
+                        
+                        if (userResponse.data) {
+                            // Atualiza os dados com informações completas do usuário
+                            const updatedUserData = {...user, ...userData, ...userResponse.data};
+                            
+                            // Adiciona a URL da foto se disponível
+                            if (userPerfil && userPerfil.foto) {
+                                updatedUserData.avatar = userPerfil.foto;
+                            }
+                            
+                            setUser(updatedUserData);
+                            setTempUser(updatedUserData);
+                        }
+
+                        // Buscar contagem de eventos
+                        try {
+                            // Buscando eventos individuais (onde o usuário é o criador)
+                            const eventosResponse = await axios.get(
+                                `${API_IP}/eventos`,
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                }
+                            );
+                            
+                            // Filtra eventos criados pelo usuário atual
+                            const userEvents = eventosResponse.data.filter(
+                                evento => evento.criador_id === userData._id
+                            );
+                            
+                            // Buscando participações em eventos
+                            const participacoesResponse = await axios.get(
+                                `${API_IP}/participacoes-evento`,
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                }
+                            );
+                            
+                            // Filtra participações do usuário atual com status confirmado
+                            const userParticipations = participacoesResponse.data.filter(
+                                participacao => participacao.usuarioId === userData._id && 
+                                            participacao.status === "confirmed"
+                            );
+                            
+                            // Soma total de eventos (criados + participações)
+                            const totalEvents = (userEvents ? userEvents.length : 0) + 
+                                            (userParticipations ? userParticipations.length : 0);
+                            
+                            setEventCount(totalEvents);
+                        } catch (error) {
+                            console.error('Erro ao buscar eventos:', error);
+                            setEventCount(0);
+                        }
+
+                        // Buscar contagem de grupos
+                        try {
+                            // Buscando associações de grupo do usuário
+                            const gruposResponse = await axios.get(
+                                `${API_IP}/associacoes-grupo`,
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                }
+                            );
+                            
+                            // Filtra grupos do usuário atual
+                            const userGroups = gruposResponse.data.filter(
+                                associacao => associacao.associadoId === userData._id
+                            );
+                            
+                            setGroupCount(userGroups ? userGroups.length : 0);
+                        } catch (error) {
+                            console.error('Erro ao buscar grupos:', error);
+                            setGroupCount(0);
                         }
                     }
                 } else {
@@ -113,22 +205,20 @@ const ProfileScreen = ({ navigation }) => {
         loadUserData();
     }, []);
 
-    // Solicitar permissões para acesso à galeria
-    useEffect(() => {
-        (async () => {
+    // Função para selecionar imagem da galeria
+    const pickImage = async () => {
+        try {
+            // Solicitar permissão apenas quando necessário
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
             if (status !== 'granted') {
                 Alert.alert(
                     'Permissão necessária',
                     'Precisamos de acesso à galeria para atualizar sua foto de perfil.'
                 );
+                return; // Sai da função se a permissão não for concedida
             }
-        })();
-    }, []);
-
-    // Função para selecionar imagem da galeria
-    const pickImage = async () => {
-        try {
+            
+            // Continua com a seleção de imagem se a permissão for concedida
             const result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
@@ -497,28 +587,6 @@ const ProfileScreen = ({ navigation }) => {
                 placeholderTextColor="#9A9A9D"
             />
             
-            <Text style={styles.label}>Telefone</Text>
-            <TextInput
-                style={styles.input}
-                value={tempUser.phone}
-                onChangeText={(text) => setTempUser({...tempUser, phone: text})}
-                placeholder="Seu telefone"
-                placeholderTextColor="#9A9A9D"
-                keyboardType="phone-pad"
-            />
-            
-            <Text style={styles.label}>Biografia</Text>
-            <TextInput
-                style={[styles.input, styles.textArea]}
-                value={tempUser.bio}
-                onChangeText={(text) => setTempUser({...tempUser, bio: text})}
-                placeholder="Fale um pouco sobre você"
-                placeholderTextColor="#9A9A9D"
-                multiline
-                numberOfLines={4}
-                textAlignVertical="top"
-            />
-            
             <TouchableOpacity
                 style={styles.changePhotoButton}
                 onPress={pickImage}
@@ -568,16 +636,6 @@ const ProfileScreen = ({ navigation }) => {
                     <Text style={styles.infoLabel}>Email:</Text>
                     <Text style={styles.infoValue}>{user.email}</Text>
                 </View>
-                
-                <View style={styles.infoRow}>
-                    <Text style={styles.infoLabel}>Telefone:</Text>
-                    <Text style={styles.infoValue}>{user.phone || 'Não informado'}</Text>
-                </View>
-            </View>
-            
-            <View style={styles.bioContainer}>
-                <Text style={styles.sectionTitle}>Sobre Mim</Text>
-                <Text style={styles.bioText}>{user.bio || 'Nenhuma biografia adicionada.'}</Text>
             </View>
 
             <TouchableOpacity
@@ -587,19 +645,15 @@ const ProfileScreen = ({ navigation }) => {
                 <Text style={styles.editButtonText}>Editar Perfil</Text>
             </TouchableOpacity>
             
-            {/* Estatísticas do usuário */}
+            {/* Estatísticas do usuário com dados reais */}
             <View style={styles.statsContainer}>
                 <View style={styles.statsItem}>
-                    <Text style={styles.statsNumber}>12</Text>
+                    <Text style={styles.statsNumber}>{eventCount}</Text>
                     <Text style={styles.statsLabel}>Eventos</Text>
                 </View>
                 <View style={styles.statsItem}>
-                    <Text style={styles.statsNumber}>5</Text>
+                    <Text style={styles.statsNumber}>{groupCount}</Text>
                     <Text style={styles.statsLabel}>Grupos</Text>
-                </View>
-                <View style={styles.statsItem}>
-                    <Text style={styles.statsNumber}>28</Text>
-                    <Text style={styles.statsLabel}>Conexões</Text>
                 </View>
             </View>
         </View>
@@ -653,58 +707,6 @@ const ProfileScreen = ({ navigation }) => {
             
             <View style={styles.settingsDivider} />
             
-            <Text style={[styles.sectionTitle, {marginTop: 20}]}>Preferências de Notificação</Text>
-            
-            <View style={styles.settingItem}>
-                <Text style={styles.settingText}>Eventos</Text>
-                <Switch
-                    value={notificationSettings.events}
-                    onValueChange={(value) =>
-                        setNotificationSettings({...notificationSettings, events: value})
-                    }
-                    trackColor={{ false: '#CED4DA', true: '#AE88FF' }}
-                    thumbColor={notificationSettings.events ? '#7839EE' : '#F8F9FA'}
-                />
-            </View>
-            
-            <View style={styles.settingItem}>
-                <Text style={styles.settingText}>Grupos</Text>
-                <Switch
-                    value={notificationSettings.groups}
-                    onValueChange={(value) =>
-                        setNotificationSettings({...notificationSettings, groups: value})
-                    }
-                    trackColor={{ false: '#CED4DA', true: '#AE88FF' }}
-                    thumbColor={notificationSettings.groups ? '#7839EE' : '#F8F9FA'}
-                />
-            </View>
-            
-            <View style={styles.settingItem}>
-                <Text style={styles.settingText}>Mensagens</Text>
-                <Switch
-                    value={notificationSettings.messages}
-                    onValueChange={(value) =>
-                        setNotificationSettings({...notificationSettings, messages: value})
-                    }
-                    trackColor={{ false: '#CED4DA', true: '#AE88FF' }}
-                    thumbColor={notificationSettings.messages ? '#7839EE' : '#F8F9FA'}
-                />
-            </View>
-            
-            <View style={styles.settingItem}>
-                <Text style={styles.settingText}>Solicitações de amizade</Text>
-                <Switch
-                    value={notificationSettings.friendRequests}
-                    onValueChange={(value) =>
-                        setNotificationSettings({...notificationSettings, friendRequests: value})
-                    }
-                    trackColor={{ false: '#CED4DA', true: '#AE88FF' }}
-                    thumbColor={notificationSettings.friendRequests ? '#7839EE' : '#F8F9FA'}
-                />
-            </View>
-            
-            <View style={styles.settingsDivider} />
-            
             <TouchableOpacity 
                 style={[styles.settingsItem, styles.lastSettingsItem]}
                 onPress={() => {
@@ -743,15 +745,6 @@ const ProfileScreen = ({ navigation }) => {
             </TouchableOpacity>
             
             <TouchableOpacity 
-                style={[styles.tabItem, activeTab === 'activity' && styles.activeTab]}
-                onPress={() => setActiveTab('activity')}
-            >
-                <Text style={[styles.tabText, activeTab === 'activity' && styles.activeTabText]}>
-                    Atividades
-                </Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity 
                 style={[styles.tabItem, activeTab === 'settings' && styles.activeTab]}
                 onPress={() => setActiveTab('settings')}
             >
@@ -773,12 +766,7 @@ const ProfileScreen = ({ navigation }) => {
                     <Text style={styles.backButtonText}>←</Text>
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>Meu Perfil</Text>
-                <TouchableOpacity
-                    style={styles.settingsButton}
-                    onPress={() => setSettingsModalVisible(true)}
-                >
-                    <Text style={styles.settingsButtonText}>⚙️</Text>
-                </TouchableOpacity>
+                <View style={styles.placeholder} />
             </View>
             
             {loading ? (
@@ -825,8 +813,6 @@ const ProfileScreen = ({ navigation }) => {
                                 isEditing ? renderEditForm() : renderProfile()
                             )}
                             
-                            {activeTab === 'activity' && renderActivityHistory()}
-                            
                             {activeTab === 'settings' && renderSettings()}
                         </View>
                     </ScrollView>
@@ -836,75 +822,6 @@ const ProfileScreen = ({ navigation }) => {
             {/* Modal de alteração de senha */}
             {renderChangePasswordModal()}
             
-            {/* Modal de configurações (menu de contexto) */}
-            <Modal
-                transparent={true}
-                visible={settingsModalVisible}
-                animationType="fade"
-                onRequestClose={() => setSettingsModalVisible(false)}
-            >
-                <TouchableOpacity
-                    style={styles.modalOverlay}
-                    activeOpacity={1}
-                    onPress={() => setSettingsModalVisible(false)}
-                >
-                    <View style={styles.contextMenu}>
-                        <TouchableOpacity 
-                            style={styles.menuItem}
-                            onPress={() => {
-                                setSettingsModalVisible(false);
-                                setActiveTab('settings');
-                            }}
-                        >
-                            <Text style={styles.menuItemText}>Configurações</Text>
-                        </TouchableOpacity>
-                        <View style={styles.menuDivider} />
-
-                        <TouchableOpacity 
-                            style={styles.menuItem}
-                            onPress={() => {
-                                setSettingsModalVisible(false);
-                                setChangePasswordModalVisible(true);
-                            }}
-                        >
-                            <Text style={styles.menuItemText}>Alterar Senha</Text>
-                        </TouchableOpacity>
-                        <View style={styles.menuDivider} />
-
-                        <TouchableOpacity 
-                            style={styles.menuItem}
-                            onPress={() => {
-                                setSettingsModalVisible(false);
-                                Alert.alert("Em Desenvolvimento", "Esta funcionalidade estará disponível em breve.");
-                            }}
-                        >
-                            <Text style={styles.menuItemText}>Ajuda e Suporte</Text>
-                        </TouchableOpacity>
-                        <View style={styles.menuDivider} />
-
-                        <TouchableOpacity 
-                            style={styles.menuItem}
-                            onPress={() => {
-                                setSettingsModalVisible(false);
-                                Alert.alert(
-                                    "Sair da Conta",
-                                    "Tem certeza que deseja sair da sua conta?",
-                                    [
-                                        { text: "Cancelar", style: "cancel" },
-                                        { 
-                                            text: "Sair", 
-                                            style: "destructive",
-                                            onPress: handleLogout
-                                        }
-                                    ]
-                                );
-                            }}
-                        >
-                            <Text style={styles.menuItemTextDanger}>Sair da Conta</Text>
-                        </TouchableOpacity>
-                    </View>
-                </TouchableOpacity>
-            </Modal>
         </SafeAreaView>
     );
 };
@@ -1295,8 +1212,8 @@ const styles = StyleSheet.create({
     modalOverlay: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        justifyContent: 'center', // Mudado de 'flex-start' para 'center'
-        alignItems: 'center', // Mudado de 'flex-end' para 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     contextMenu: {
         width: 180,
@@ -1385,6 +1302,12 @@ const styles = StyleSheet.create({
     },
     placeholder: {
         width: 40,
+    },
+    contextMenuOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-end',
     },
 });
 
