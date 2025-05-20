@@ -10,7 +10,7 @@ export default ({ eventos }) => {
 
 
     const [username, setUsername] = useState('')
-const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const loadUser = async () => {
@@ -32,6 +32,11 @@ const [loading, setLoading] = useState(true)
     if (!loading) {
         console.log(username)
     }
+
+    // Associa CardInfo a dataSelecionada para evitar desync
+    useEffect(() => {
+        cardInfo();
+    }, [dataSelecionada]);
 
     // Controla datas selecionadas no calendário
     const [dataSelecionada, setDataSelecionada] = useState();
@@ -91,10 +96,7 @@ const [loading, setLoading] = useState(true)
         </View>
     )
 
-    // Associa CardInfo a dataSelecionada para evitar desync
-    useEffect(() => {
-        cardInfo();
-    }, [dataSelecionada]);
+
 
     return (
 

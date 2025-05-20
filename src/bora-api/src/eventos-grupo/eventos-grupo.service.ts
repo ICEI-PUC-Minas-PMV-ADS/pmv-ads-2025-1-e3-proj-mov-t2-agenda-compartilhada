@@ -15,6 +15,10 @@ export class EventosGruposService {
     private readonly model: Model<EventoGrupoDocument>,
   ) {}
 
+  async findEventosByGrupoId(grupoId: string) {
+    return this.model.find({ grupoId }).exec();
+  }
+
   async create(dto: CreateEventoGrupoDto): Promise<EventoGrupo> {
     const created = new this.model(dto);
     return created.save();

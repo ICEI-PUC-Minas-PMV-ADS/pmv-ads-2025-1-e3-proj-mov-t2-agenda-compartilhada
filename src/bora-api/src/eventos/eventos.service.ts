@@ -1,15 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { EventosRepository } from './repository/eventos.repository';
-import { Evento } from './schema/eventos.schema';
+import { Evento, EventoDocument } from './schema/eventos.schema';
 import { CreateEventoDto } from './dto/create-evento.dto';
 import { UpdateEventoDto } from './dto/update-evento.dto';
+import { EventosGruposService } from 'src/eventos-grupo/eventos-grupo.service';
 
 @Injectable()
 export class EventosService {
-  constructor(private readonly eventosRepository: EventosRepository) {}
+  constructor(
+    private readonly eventosRepository: EventosRepository,
+    private readonly eventosGrupoService: EventosGruposService
+  ) {}
 
   async create(createEventoDto: CreateEventoDto): Promise<Evento> {
-    return this.eventosRepository.create(createEventoDto);
+    const eventoCriado = await this.eventosRepository.create(createEventoDto);
+
+    if (eventoCriado.grupoId && eventoCriado.tipo === 'grupo') {
+      await this.eventosGrupoService.create({
+        eventoId: eventoCriado._id.toString(),
+        grupoId: eventoCriado.grupoId
+      })
+    }
+    return eventoCriado
   }
 
   async findAll(): Promise<Evento[]> {

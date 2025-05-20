@@ -1,9 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Appbar, Avatar, Text, Card } from 'react-native-paper';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import GroupCalendar from './GroupCalendar'
 import GroupMemberEvents from './GroupMemberEvents';
+import axios from 'axios'
+import { API_IP } from '@env';
+
 
 const eventos = [
   {
@@ -208,7 +211,7 @@ const userEventos = [
         id: 3,
         data: '2025-05-30',
         desseGrupo: false
-      }, 
+      },
       {
         id: 4,
         data: '2025-05-30',
@@ -245,7 +248,7 @@ const userEventos = [
         id: 3,
         data: '2025-05-30',
         desseGrupo: true
-      }, 
+      },
       {
         id: 4,
         data: '2025-05-30',
@@ -257,8 +260,24 @@ const userEventos = [
 
 const GroupScreen = ({ navigation }) => {
 
+  const [grupo, setGrupo] = useState([])
+  const [loading, setLoading] = useState(true)
   const [itemAtivo, setItemAtivo] = useState(0);
   const scrollViewRef = useRef(null);
+
+  useEffect(() => {
+    const loadGrupo = async () => {
+      try {
+        const grupo = await axios.get(API_IP+'/grupos/682cd139d4d38af616ae1108')
+        setGrupo(grupo.data)
+      } catch (error) {
+        console.error('Erro ao buscar dados do grupo: ', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadGrupo()
+  }, [])
 
   const menuItems = ['Calendário', 'Membros', 'Eventos'];
 
@@ -276,11 +295,15 @@ const GroupScreen = ({ navigation }) => {
     setItemAtivo(index);
   };
 
+  if (loading) {
+    return <Text>Carregando...</Text>
+  }
+
   return (
     <SafeAreaProvider >
       <Appbar.Header style={styles.appBarHeader} statusBarHeight={20} mode='center-aligned'>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content titleStyle={{ fontSize: 16, fontWeight: 'bold' }} title="Amigos do Trabalho" />
+        <Appbar.Content titleStyle={{ fontSize: 16, fontWeight: 'bold' }} title={grupo.nome} />
       </Appbar.Header>
 
       <View style={styles.body}>
@@ -290,15 +313,15 @@ const GroupScreen = ({ navigation }) => {
             style={{ backgroundColor: '#F4F4F4' }}
             labelStyle={{ fontSize: 20 }}
             size={70}
-            label="AT"
+            label={grupo.nome.split(' ').map(nome => nome[0].toUpperCase()).join('')}
             color="#9A9A9D"
           />
 
           <View style={{ flex: 1, alignItems: 'center', alignSelf: 'center' }}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-              Amigos do Trabalho
+              {grupo.nome}
             </Text>
-            <Text style={{ fontSize: 15 }}>5 membros</Text>
+            <Text style={{ fontSize: 15 }}>{(grupo.membros.length) + ' ' + (grupo.membros.length > 1 ? 'membros' : 'membro')}</Text>
           </View>
         </View>
 
