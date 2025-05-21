@@ -4,9 +4,34 @@ import CalendarComp from '../components/CalendarComp'
 import { Text } from 'react-native-paper';
 import CardInfo from '../components/CardInfo';
 import { dataEditavel, ehHoje } from '../utils/dateUtils';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default ({ eventos }) => {
+
+
+    const [username, setUsername] = useState('')
+const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const loadUser = async () => {
+            try {
+                const userString = await AsyncStorage.getItem('usuario')
+                if (userString) {
+                    const user = JSON.parse(userString)
+                    setUsername(user.name)
+                }
+            } catch (error) {
+                console.error('Error ao puxar user: ', error)
+            } finally {
+                setLoading(false)
+            }
+        }
+        loadUser();
+    }, [])
+
+    if (!loading) {
+        console.log(username)
+    }
 
     // Controla datas selecionadas no calendário
     const [dataSelecionada, setDataSelecionada] = useState();

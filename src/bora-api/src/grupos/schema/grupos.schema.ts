@@ -11,8 +11,11 @@ export class Grupo {
   @Prop()
   descricao?: string;
 
-  @Prop({ type: [String], default: [] })
+  @Prop({ required: true, type: [String] })
   membros: string[];
+
+  @Prop({ required: true, type: [String] })
+  grupoAdmins: string[];
 }
 
 export const GrupoSchema = SchemaFactory.createForClass(Grupo);
