@@ -459,6 +459,7 @@ const ProfileScreen = ({ navigation }) => {
         try {
             await AsyncStorage.removeItem('access_token');
             await AsyncStorage.removeItem('usuario');
+            await AsyncStorage.removeItem('token');
             navigation.navigate('loginScreen');
         } catch (error) {
             console.error('Erro ao fazer logout:', error);
