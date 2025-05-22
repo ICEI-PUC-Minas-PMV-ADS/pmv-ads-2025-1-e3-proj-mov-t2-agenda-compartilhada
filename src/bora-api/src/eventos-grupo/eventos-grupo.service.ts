@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
@@ -7,17 +7,17 @@ import {
 } from './schema/eventos-grupo.schema';
 import { CreateEventoGrupoDto } from './dto/create-eventos-grupo.dto';
 import { UpdateEventoGrupoDto } from './dto/update-eventos-grupo.dto';
+import { EventosService } from 'src/eventos/eventos.service';
 
 @Injectable()
 export class EventosGruposService {
   constructor(
     @InjectModel(EventoGrupo.name)
     private readonly model: Model<EventoGrupoDocument>,
+    
+    @Inject(forwardRef(()=> EventosService))
+    private readonly eventosService: EventosService
   ) {}
-
-  async findEventosByGrupoId(grupoId: string) {
-    return this.model.find({ grupoId }).exec();
-  }
 
   async create(dto: CreateEventoGrupoDto): Promise<EventoGrupo> {
     const created = new this.model(dto);
@@ -52,5 +52,17 @@ export class EventosGruposService {
       throw new NotFoundException(`EventoGrupo com ID ${id} não encontrado`);
     }
     return deleted;
+  }
+
+  async findEventosByGrupoId(grupoId: string) {
+    const eventosGrupo = await this.model.find({ grupoId }).exec()
+
+    const eventoIds = eventosGrupo.map((evento) => evento.eventoId)
+
+    const eventos = await this.eventosService.findAll({
+      _id: {$in: eventoIds}
+    })
+
+    return eventos
   }
 }

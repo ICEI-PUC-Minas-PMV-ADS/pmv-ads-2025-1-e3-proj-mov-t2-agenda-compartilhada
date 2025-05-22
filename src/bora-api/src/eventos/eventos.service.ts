@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { EventosRepository } from './repository/eventos.repository';
 import { Evento, EventoDocument } from './schema/eventos.schema';
 import { CreateEventoDto } from './dto/create-evento.dto';
@@ -9,6 +9,8 @@ import { EventosGruposService } from 'src/eventos-grupo/eventos-grupo.service';
 export class EventosService {
   constructor(
     private readonly eventosRepository: EventosRepository,
+    
+    @Inject(forwardRef(() => EventosGruposService))
     private readonly eventosGrupoService: EventosGruposService
   ) {}
 
@@ -24,8 +26,8 @@ export class EventosService {
     return eventoCriado
   }
 
-  async findAll(): Promise<Evento[]> {
-    return this.eventosRepository.findAll();
+  async findAll(filter?: any): Promise<Evento[]> {
+    return this.eventosRepository.findAll(filter);
   }
 
   async findOne(id: string): Promise<Evento> {

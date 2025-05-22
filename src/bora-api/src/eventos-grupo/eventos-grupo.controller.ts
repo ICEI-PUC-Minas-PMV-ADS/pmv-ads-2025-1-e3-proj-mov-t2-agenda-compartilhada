@@ -31,11 +31,6 @@ export class EventosGruposController {
     return this.service.findOne(id);
   }
 
-  @Get('eventosGrupo/:grupoId')
-  async findEventosByGrupoId(@Param('grupoId') grupoId: string) {
-    return this.service.findEventosByGrupoId(grupoId);
-  }
-
   @Put(':id')
   async update(
     @Param('id') id: string,
@@ -47,5 +42,10 @@ export class EventosGruposController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<EventoGrupo> {
     return this.service.remove(id);
+  }
+
+  @Get('byGrupoId/:grupoId')
+  async findEventosByGrupoId(@Param('grupoId') grupoId: string) {
+    return this.service.findEventosByGrupoId(grupoId);
   }
 }

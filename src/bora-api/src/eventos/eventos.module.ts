@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventosController } from './eventos.controller';
 import { EventosService } from './eventos.service';
@@ -9,7 +9,7 @@ import { EventosGruposModule } from 'src/eventos-grupo/eventos-grupo.module';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Evento.name, schema: EventoSchema }]),
-    EventosGruposModule
+    forwardRef(() => EventosGruposModule)
   ],
   controllers: [EventosController],
   providers: [EventosRepository, EventosService],

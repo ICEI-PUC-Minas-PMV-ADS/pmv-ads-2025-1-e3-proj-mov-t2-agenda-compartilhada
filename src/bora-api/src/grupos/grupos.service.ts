@@ -18,16 +18,16 @@ export class GruposService {
     // Valida usuários quando grupo é criado
     const { membros, grupoAdmins } = createGrupoDto;
 
-    const userIds = Array.from(new Set ([...(membros ?? []), ...(grupoAdmins ?? [])]));
+    const userEmails = Array.from(new Set ([...(membros ?? []), ...(grupoAdmins ?? [])]));
 
-    if (userIds.length == 0) {
-      throw new BadRequestException('membros e grupoAdmins devem conter ao menos um ID');
+    if (userEmails.length == 0) {
+      throw new BadRequestException('membros e grupoAdmins devem conter ao menos um email de usuário válido');
     }
 
     const userExiste = await Promise.all (
-      userIds.map(async (id) => {
+      userEmails.map(async (email) => {
         try {
-          await this.usersService.findOne(id);
+          await this.usersService.findByEmail(email);
           return true;
         } catch {
           return false;
@@ -38,7 +38,7 @@ export class GruposService {
     const userValidos = userExiste.every((existe) => existe)
 
     if (!userValidos) {
-      throw new NotFoundException(`Usuários inválidos ou inexistentes na criação do grupo`)
+      throw new NotFoundException(`Usuários inválidos na criação do grupo`)
     }
 
     return this.gruposRepository.create(createGrupoDto);

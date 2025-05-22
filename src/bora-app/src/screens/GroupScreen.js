@@ -260,15 +260,35 @@ const userEventos = [
 
 const GroupScreen = ({ navigation }) => {
 
+  const [grupoId, setGrupoId] = useState('682f2a91e4508043f94c7217')
   const [grupo, setGrupo] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [loadingGrupo, setLoadingGrupo] = useState(true)
+  const [eventos, setEventos] = useState([])
+  const [loadingEventos, setLoadingEventos] = useState(true)
   const [itemAtivo, setItemAtivo] = useState(0);
   const scrollViewRef = useRef(null);
 
+
+  // Carrega informações do grupo
   useEffect(() => {
-    const loadGrupo = async () => {
+    const carregaGrupo = async () => {
       try {
-        const grupo = await axios.get(API_IP+'/grupos/682cd139d4d38af616ae1108')
+        const grupo = await axios.get(API_IP+'/grupos/'+grupoId)
+        setGrupo(grupo.data)
+      } catch (error) {
+        console.error('Erro ao buscar dados do grupo: ', error)
+      } finally {
+        setLoadingGrupo(false)
+      }
+    }
+    carregaGrupo()
+  }, [])
+
+  // Carrega informações dos eventos
+  useEffect(() => {
+    const carregaEventos = async () => {
+      try {
+        const grupo = await axios.get(API_IP+'/eventos/'+grupoId)
         setGrupo(grupo.data)
       } catch (error) {
         console.error('Erro ao buscar dados do grupo: ', error)
@@ -276,7 +296,7 @@ const GroupScreen = ({ navigation }) => {
         setLoading(false)
       }
     }
-    loadGrupo()
+    carregaEventos()
   }, [])
 
   const menuItems = ['Calendário', 'Membros', 'Eventos'];
