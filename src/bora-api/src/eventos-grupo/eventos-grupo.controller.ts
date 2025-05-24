@@ -7,14 +7,15 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-import { EventosGruposService } from './eventos-grupo.service';
+import { EventosGrupoService } from './eventos-grupo.service';
 import { CreateEventoGrupoDto } from './dto/create-eventos-grupo.dto';
 import { EventoGrupo } from './schema/eventos-grupo.schema';
 import { UpdateEventoGrupoDto } from './dto/update-eventos-grupo.dto';
+import { Evento } from 'src/eventos/schema/eventos.schema';
 
-@Controller('eventos-grupos')
-export class EventosGruposController {
-  constructor(private readonly service: EventosGruposService) {}
+@Controller('eventos-grupo')
+export class EventosGrupoController {
+  constructor(private readonly service: EventosGrupoService) {}
 
   @Post()
   async create(@Body() dto: CreateEventoGrupoDto): Promise<EventoGrupo> {
@@ -44,8 +45,8 @@ export class EventosGruposController {
     return this.service.remove(id);
   }
 
-  @Get('byGrupoId/:grupoId')
-  async findEventosByGrupoId(@Param('grupoId') grupoId: string) {
+  @Get('by-grupoId/:grupoId')
+  async findEventosByGrupoId(@Param('grupoId') grupoId: string): Promise<Evento[]> {
     return this.service.findEventosByGrupoId(grupoId);
   }
 }

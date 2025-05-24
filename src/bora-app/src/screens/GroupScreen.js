@@ -6,7 +6,8 @@ import GroupCalendar from './GroupCalendar'
 import GroupMemberEvents from './GroupMemberEvents';
 import axios from 'axios'
 import { API_IP } from '@env';
-
+import { ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const eventos = [
   {
@@ -260,44 +261,53 @@ const userEventos = [
 
 const GroupScreen = ({ navigation }) => {
 
+  const [username, setUsername] = useState('')
+  const [loadingUser, setLoadingUser] = useState(true)
   const [grupoId, setGrupoId] = useState('682f2a91e4508043f94c7217')
   const [grupo, setGrupo] = useState([])
-  const [loadingGrupo, setLoadingGrupo] = useState(true)
   const [eventos, setEventos] = useState([])
-  const [loadingEventos, setLoadingEventos] = useState(true)
+  const [loading, setLoading] = useState(true)
   const [itemAtivo, setItemAtivo] = useState(0);
   const scrollViewRef = useRef(null);
 
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const userString = await AsyncStorage.getItem('usuario')
+        if (userString) {
+          const user = JSON.parse(userString)
+          setUsername(user.name)
+        }
+      } catch (error) {
+        console.error('Error ao puxar user: ', error)
+      } finally {
+        setLoadingUser(false)
+      }
+    }
+    loadUser();
+  }, [])
+
+  if (!loadingUser) {
+    console.log(username)
+  }
 
   // Carrega informações do grupo
   useEffect(() => {
     const carregaGrupo = async () => {
       try {
-        const grupo = await axios.get(API_IP+'/grupos/'+grupoId)
-        setGrupo(grupo.data)
-      } catch (error) {
-        console.error('Erro ao buscar dados do grupo: ', error)
-      } finally {
-        setLoadingGrupo(false)
-      }
-    }
-    carregaGrupo()
-  }, [])
-
-  // Carrega informações dos eventos
-  useEffect(() => {
-    const carregaEventos = async () => {
-      try {
-        const grupo = await axios.get(API_IP+'/eventos/'+grupoId)
-        setGrupo(grupo.data)
+        const grupoInfo = await axios.get(API_IP+'/grupos/'+grupoId)
+        const eventosGrupo = await axios.get(API_IP+'/eventos-grupo/by-grupoId/'+grupoId)
+        setGrupo(grupoInfo.data)
+        setEventos(eventosGrupo.data)
       } catch (error) {
         console.error('Erro ao buscar dados do grupo: ', error)
       } finally {
         setLoading(false)
       }
     }
-    carregaEventos()
-  }, [])
+    carregaGrupo()
+  }, [itemAtivo])
 
   const menuItems = ['Calendário', 'Membros', 'Eventos'];
 
@@ -316,7 +326,12 @@ const GroupScreen = ({ navigation }) => {
   };
 
   if (loading) {
-    return <Text>Carregando...</Text>
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#7839EE" />
+        <Text style={styles.loadingText}>Carregando informações do grupo...</Text>
+      </View>
+    )
   }
 
   return (
@@ -387,6 +402,12 @@ const GroupScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F8F9FA',
+  },
   body: {
     flex: 1,
     backgroundColor: '#fff',

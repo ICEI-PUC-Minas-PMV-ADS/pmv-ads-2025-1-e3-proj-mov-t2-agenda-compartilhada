@@ -3,15 +3,15 @@ import { EventosRepository } from './repository/eventos.repository';
 import { Evento, EventoDocument } from './schema/eventos.schema';
 import { CreateEventoDto } from './dto/create-evento.dto';
 import { UpdateEventoDto } from './dto/update-evento.dto';
-import { EventosGruposService } from 'src/eventos-grupo/eventos-grupo.service';
+import { EventosGrupoService } from 'src/eventos-grupo/eventos-grupo.service';
 
 @Injectable()
 export class EventosService {
   constructor(
     private readonly eventosRepository: EventosRepository,
     
-    @Inject(forwardRef(() => EventosGruposService))
-    private readonly eventosGrupoService: EventosGruposService
+    @Inject(forwardRef(() => EventosGrupoService))
+    private readonly eventosGrupoService: EventosGrupoService
   ) {}
 
   async create(createEventoDto: CreateEventoDto): Promise<Evento> {
@@ -39,6 +39,10 @@ export class EventosService {
   }
 
   async remove(id: string): Promise<Evento> {
+    
+    // Remove o evento em evento-grupo quando o evento é deletado
+    await this.eventosGrupoService.deleteMany({eventoId: id})
+
     return this.eventosRepository.remove(id);
   }
 }

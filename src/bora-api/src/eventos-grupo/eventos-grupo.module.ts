@@ -1,8 +1,8 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventoGrupo, EventoGrupoSchema } from './schema/eventos-grupo.schema';
-import { EventosGruposController } from './eventos-grupo.controller';
-import { EventosGruposService } from './eventos-grupo.service';
+import { EventosGrupoController } from './eventos-grupo.controller';
+import { EventosGrupoService } from './eventos-grupo.service';
 import { EventosModule } from 'src/eventos/eventos.module';
 
 @Module({
@@ -12,8 +12,8 @@ import { EventosModule } from 'src/eventos/eventos.module';
     ]),
     forwardRef(() => EventosModule)
   ],
-  controllers: [EventosGruposController],
-  providers: [EventosGruposService],
-  exports: [EventosGruposService],
+  controllers: [EventosGrupoController],
+  providers: [EventosGrupoService],
+  exports: [EventosGrupoService],
 })
 export class EventosGruposModule {}

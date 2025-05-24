@@ -8,9 +8,11 @@ import {
 import { CreateEventoGrupoDto } from './dto/create-eventos-grupo.dto';
 import { UpdateEventoGrupoDto } from './dto/update-eventos-grupo.dto';
 import { EventosService } from 'src/eventos/eventos.service';
+import { Evento } from 'src/eventos/schema/eventos.schema';
+
 
 @Injectable()
-export class EventosGruposService {
+export class EventosGrupoService {
   constructor(
     @InjectModel(EventoGrupo.name)
     private readonly model: Model<EventoGrupoDocument>,
@@ -54,7 +56,11 @@ export class EventosGruposService {
     return deleted;
   }
 
-  async findEventosByGrupoId(grupoId: string) {
+  async deleteMany(conditions: any) {
+    return this.model.deleteMany(conditions).exec()
+  }
+
+  async findEventosByGrupoId(grupoId: string): Promise<Evento[]> {
     const eventosGrupo = await this.model.find({ grupoId }).exec()
 
     const eventoIds = eventosGrupo.map((evento) => evento.eventoId)
