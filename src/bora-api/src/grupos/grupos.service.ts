@@ -101,11 +101,6 @@ export class GruposService {
     return this.gruposRepository.findOne(id);
   }
 
-  /** Busca por e-mail em minúsculo para manter consistência */
-  async findByUserEmail(email: string): Promise<Grupo[]> {
-    return this.gruposRepository.findByUserEmail(email.trim().toLowerCase());
-  }
-
   /* ────────────────────────────────────────────────────────────── */
   /** UPDATE / DELETE */
   /* ────────────────────────────────────────────────────────────── */
@@ -115,5 +110,17 @@ export class GruposService {
 
   async remove(id: string): Promise<Grupo> {
     return this.gruposRepository.remove(id);
+  }
+
+  async findByUserEmail(email: string): Promise<Grupo[]> {
+    const user = await this.usersService.findByEmail(
+      email.trim().toLowerCase(),
+    );
+    if (!user) {
+      throw new NotFoundException(`Usuário “${email}” não encontrado`);
+    }
+
+    // usa o _id do usuário para consultar grupos cujo array membros contém esse id
+    return this.gruposRepository.findByMemberId(String(user._id));
   }
 }

@@ -52,4 +52,7 @@ export class GruposRepository {
     }
     return deletedGrupo;
   }
+  async findByMemberId(userId: string): Promise<Grupo[]> {
+    return this.grupoModel.find({ membros: userId }).exec();
+  }
 }
