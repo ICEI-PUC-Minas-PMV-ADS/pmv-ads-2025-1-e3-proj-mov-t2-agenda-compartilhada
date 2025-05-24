@@ -1,5 +1,5 @@
 // src/screens/home/CreateGroup.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -14,6 +14,7 @@ import {
     Alert,
 } from 'react-native';
 import Constants from 'expo-constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Se quiser sobrescrever, defina extra.API_URL em app.json / app.config.js
 const API_URL =
@@ -22,14 +23,30 @@ const API_URL =
 const CreateGroup = ({ navigation }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [members, setMembers] = useState(''); // texto (vírgula / espaço)
+    const [members, setMembers] = useState('');       // texto digitado
     const [loading, setLoading] = useState(false);
+    const [currentUserEmail, setCurrentUserEmail] = useState(''); // <- e-mail do criador
+
+    /* ------------ carrega o usuário logado ------------ */
+    useEffect(() => {
+        (async () => {
+            try {
+                const stored = await AsyncStorage.getItem('usuario');
+                if (stored) {
+                    const { email } = JSON.parse(stored);
+                    setCurrentUserEmail(email?.trim().toLowerCase() || '');
+                }
+            } catch (err) {
+                console.error('Erro ao ler usuário do AsyncStorage:', err);
+            }
+        })();
+    }, []);
 
     /* -------------------------- helpers -------------------------- */
     const parseMembers = (txt) =>
         txt
             .split(/[,;\s]+/)
-            .map((m) => m.trim())
+            .map((m) => m.trim().toLowerCase())
             .filter(Boolean);
 
     /* --------------------- criar grupo --------------------------- */
@@ -39,11 +56,24 @@ const CreateGroup = ({ navigation }) => {
             return;
         }
 
+        if (!currentUserEmail) {
+            Alert.alert(
+                'Erro',
+                'Não foi possível obter o e-mail do usuário logado. Faça login novamente.'
+            );
+            return;
+        }
+
+        // une e-mail do criador + convidados, sem repetições
+        const membrosArray = Array.from(
+            new Set([currentUserEmail, ...parseMembers(members)])
+        );
+
         const payload = {
             nome: name.trim(),
             descricao: description.trim(),
-            membros: parseMembers(members),    // array para o backend
-            grupoAdmins: [],                  // pode ajustar depois
+            membros: membrosArray,
+            grupoAdmins: [currentUserEmail], // criador já entra como admin
         };
 
         try {
