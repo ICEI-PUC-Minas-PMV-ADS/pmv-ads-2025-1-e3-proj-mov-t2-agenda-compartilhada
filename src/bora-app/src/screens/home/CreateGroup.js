@@ -1,3 +1,4 @@
+// src/screens/home/CreateGroup.js
 import React, { useState } from 'react';
 import {
     View,
@@ -9,20 +10,70 @@ import {
     SafeAreaView,
     TouchableWithoutFeedback,
     Keyboard,
+    ActivityIndicator,
+    Alert,
 } from 'react-native';
+import Constants from 'expo-constants';
+
+// Se quiser sobrescrever, defina extra.API_URL em app.json / app.config.js
+const API_URL =
+    Constants?.expoConfig?.extra?.API_URL || 'http://localhost:3000';
 
 const CreateGroup = ({ navigation }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [members, setMembers] = useState('');
+    const [members, setMembers] = useState(''); // texto (vírgula / espaço)
+    const [loading, setLoading] = useState(false);
 
-    const handleCreateGroup = () => {
-        navigation.goBack();
+    /* -------------------------- helpers -------------------------- */
+    const parseMembers = (txt) =>
+        txt
+            .split(/[,;\s]+/)
+            .map((m) => m.trim())
+            .filter(Boolean);
+
+    /* --------------------- criar grupo --------------------------- */
+    const handleCreateGroup = async () => {
+        if (!name.trim()) {
+            Alert.alert('Erro', 'O nome do grupo é obrigatório.');
+            return;
+        }
+
+        const payload = {
+            nome: name.trim(),
+            descricao: description.trim(),
+            membros: parseMembers(members),    // array para o backend
+            grupoAdmins: [],                  // pode ajustar depois
+        };
+
+        try {
+            setLoading(true);
+
+            const res = await fetch(`${API_URL}/grupos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
+            if (!res.ok) {
+                const { message } = await res.json().catch(() => ({}));
+                throw new Error(message || 'Não foi possível criar o grupo');
+            }
+
+            Alert.alert('Sucesso', 'Grupo criado com sucesso!');
+            navigation.goBack();
+        } catch (err) {
+            Alert.alert('Erro', err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
+    /* ------------------------ UI ------------------------ */
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <SafeAreaView style={styles.container}>
+                {/* ---------- Header ---------- */}
                 <View style={styles.header}>
                     <TouchableOpacity
                         style={styles.backButton}
@@ -34,6 +85,7 @@ const CreateGroup = ({ navigation }) => {
                     <View style={styles.placeholder} />
                 </View>
 
+                {/* ---------- Conteúdo ---------- */}
                 <ScrollView style={styles.content}>
                     <View style={styles.avatarContainer}>
                         <TouchableOpacity style={styles.avatarPlaceholder}>
@@ -67,7 +119,7 @@ const CreateGroup = ({ navigation }) => {
                         <Text style={styles.label}>Convidar membros</Text>
                         <TextInput
                             style={styles.input}
-                            placeholder="Email ou nome"
+                            placeholder="Email ou nome (separe por vírgula)"
                             placeholderTextColor="#9A9A9D"
                             value={members}
                             onChangeText={setMembers}
@@ -76,8 +128,13 @@ const CreateGroup = ({ navigation }) => {
                         <TouchableOpacity
                             style={styles.createButton}
                             onPress={handleCreateGroup}
+                            disabled={loading}
                         >
-                            <Text style={styles.createButtonText}>Criar Grupo</Text>
+                            {loading ? (
+                                <ActivityIndicator color="#FFF" />
+                            ) : (
+                                <Text style={styles.createButtonText}>Criar Grupo</Text>
+                            )}
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -86,6 +143,7 @@ const CreateGroup = ({ navigation }) => {
     );
 };
 
+/* --------------------- Estilos originais --------------------- */
 const styles = StyleSheet.create({
     container: {
         flex: 1,

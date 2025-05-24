@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+// src/grupos/grupos.controller.ts
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { GruposService } from './grupos.service';
 import { CreateGrupoDto } from './dto/create-grupo.dto';
 import { UpdateGrupoDto } from './dto/update-grupo.dto';
@@ -8,10 +17,10 @@ import { Grupo } from './schema/grupos.schema';
 export class GruposController {
   constructor(private readonly gruposService: GruposService) {}
 
+  /** cria um grupo */
   @Post()
-  async create(@Body() createGrupoDto: CreateGrupoDto) {
-    const { userId, foto } = createGrupoDto;
-    return this.gruposService.create(createGrupoDto, userId, foto);
+  async create(@Body() createGrupoDto: CreateGrupoDto): Promise<Grupo> {
+    return this.gruposService.create(createGrupoDto);
   }
 
   @Get()
@@ -28,7 +37,6 @@ export class GruposController {
   async findByUserEmail(@Param('email') email: string): Promise<Grupo[]> {
     return this.gruposService.findByUserEmail(email);
   }
-
 
   @Put(':id')
   async update(
