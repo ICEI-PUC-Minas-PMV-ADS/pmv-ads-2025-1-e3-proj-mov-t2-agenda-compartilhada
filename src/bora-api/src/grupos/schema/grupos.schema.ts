@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Evento, EventoSchema } from '../../eventos/schema/eventos.schema'; // ajuste o caminho se necessário
 
 export type GrupoDocument = Grupo & Document;
 
@@ -12,11 +11,11 @@ export class Grupo {
   @Prop()
   descricao?: string;
 
-  @Prop({ type: [String], default: [] })
+  @Prop({ required: true, type: [String] })
   membros: string[];
 
-  @Prop({ type: [EventoSchema], default: [] })
-  eventos: Evento[];
+  @Prop({ required: true, type: [String] })
+  grupoAdmins: string[];
 }
 
 export const GrupoSchema = SchemaFactory.createForClass(Grupo);

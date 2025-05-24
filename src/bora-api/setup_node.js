@@ -17,13 +17,14 @@ async function runSetup() {
       validator: {
         $jsonSchema: {
           bsonType: "object",
-          required: ["nome", "email", "senha", "dataCriacao", "dataAtualizacao"],
+          required: ["name", "email", "password"], // Modificado para os nomes que o código usa
           properties: {
-            nome: { bsonType: "string" },
+            name: { bsonType: "string" },        // 'nome' alterado para 'name'
             email: { bsonType: "string" },
-            senha: { bsonType: "string" },
-            dataCriacao: { bsonType: "date" },
-            dataAtualizacao: { bsonType: "date" }
+            password: { bsonType: "string" },    // 'senha' alterado para 'password'
+            // Remova ou torne opcionais os campos que o código não inclui quando cria usuários
+            dataCriacao: { bsonType: "date", description: "Campo opcional" },
+            dataAtualizacao: { bsonType: "date", description: "Campo opcional" }
           }
         }
       }

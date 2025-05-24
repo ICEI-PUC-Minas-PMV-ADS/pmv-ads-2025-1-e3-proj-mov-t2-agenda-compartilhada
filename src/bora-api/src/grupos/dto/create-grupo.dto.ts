@@ -1,10 +1,8 @@
-import { CreateEventoDto } from '../../eventos/dto/create-evento.dto'
+import { ArrayMinSize, ArrayNotEmpty } from "class-validator";
 
 export class CreateGrupoDto {
   readonly nome: string;
-  descricao: string;
-  membros: string[];
-  eventos: CreateEventoDto[];
-  foto: string;
-  userId: string;
+  readonly descricao?: string;
+  readonly membros: string[]; // Array de IDs de usuários
+  readonly grupoAdmins: string []; // Array de IDs de admins
 }

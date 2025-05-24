@@ -59,3 +59,9 @@
 **/*.tsbuildinfo
 
 docker-compose.yaml
+/src/bora-app/android
+/src/bora-app/ios
+/src/bora-api/public/uploads
+src/gerar_sumario_codigo.js
+src/projeto_filtrado.txt
+/src/bora-app/ios

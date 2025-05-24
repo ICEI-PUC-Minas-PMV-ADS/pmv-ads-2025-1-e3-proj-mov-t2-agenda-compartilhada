@@ -1,34 +1,48 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { GruposRepository } from './repository/grupos.repository';
-import { Grupo, GrupoDocument } from './schema/grupos.schema';
+import { Grupo } from './schema/grupos.schema';
 import { CreateGrupoDto } from './dto/create-grupo.dto';
 import { UpdateGrupoDto } from './dto/update-grupo.dto';
-import { PerfisService } from '../perfis/perfis.service';
-import { CreatePerfilDto } from '../perfis/dto/create-perfil.dto';
-import { Types } from 'mongoose';
+import { UsersService } from '../users/users.service'
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class GruposService {
   constructor(
     private readonly gruposRepository: GruposRepository,
-    private readonly perfisService: PerfisService,
+    private readonly usersService: UsersService
   ) {}
 
-  async create(createGrupoDto: CreateGrupoDto, userId: string, pathFoto: string): Promise<GrupoDocument> {
-  const novoGrupo = await this.gruposRepository.create(createGrupoDto);
+  async create(createGrupoDto: CreateGrupoDto): Promise<Grupo> {
+    
+    // Valida usuários quando grupo é criado
+    const { membros, grupoAdmins } = createGrupoDto;
 
-  const perfilDto: CreatePerfilDto = {
-    _id: novoGrupo._id as Types.ObjectId,
-    nome: novoGrupo.nome,
-    foto: pathFoto,
-    tipoDono: 'grupo',
-    userId: new Types.ObjectId(userId),
-  };
+    const userIds = Array.from(new Set ([...(membros ?? []), ...(grupoAdmins ?? [])]));
 
-  await this.perfisService.create(perfilDto);
+    if (userIds.length == 0) {
+      throw new BadRequestException('membros e grupoAdmins devem conter ao menos um ID');
+    }
 
-  return novoGrupo;
-}
+    const userExiste = await Promise.all (
+      userIds.map(async (id) => {
+        try {
+          await this.usersService.findOne(id);
+          return true;
+        } catch {
+          return false;
+        }
+      })
+    )
+
+    const userValidos = userExiste.every((existe) => existe)
+
+    if (!userValidos) {
+      throw new NotFoundException(`Usuários inválidos ou inexistentes na criação do grupo`)
+    }
+
+    return this.gruposRepository.create(createGrupoDto);
+  }
 
   async findAll(): Promise<Grupo[]> {
     return this.gruposRepository.findAll();
@@ -36,10 +50,6 @@ export class GruposService {
 
   async findOne(id: string): Promise<Grupo> {
     return this.gruposRepository.findOne(id);
-  }
-
-  async findByUserEmail(email: string): Promise<Grupo[]> {
-    return this.gruposRepository.findByUserEmail(email);
   }
 
   async update(id: string, updateGrupoDto: UpdateGrupoDto): Promise<Grupo> {
