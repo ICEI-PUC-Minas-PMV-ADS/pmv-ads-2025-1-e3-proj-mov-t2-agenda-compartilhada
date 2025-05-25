@@ -1,5 +1,5 @@
 // src/screens/home/GroupDetails.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     View,
     Text,
@@ -35,55 +35,86 @@ const GroupDetails = ({ navigation, route }) => {
             .slice(0, 2)
             .toUpperCase();
 
-    useEffect(() => {
-        const loadGroup = async () => {
-            try {
-                // 1) carrega dados do grupo
-                const res = await fetch(`${BASE_URL}/grupos/${groupId}`);
-                if (!res.ok) throw new Error('Não foi possível carregar o grupo');
-                const grp = await res.json();
-                setGroup(grp);
+    /* ------------------------------------------------------------
+       Helpers de busca
+    ------------------------------------------------------------ */
+    const fetchGroup = useCallback(async () => {
+        setLoading(true);
+        try {
+            // 1) carrega dados do grupo
+            const res = await fetch(`${BASE_URL}/grupos/${groupId}`);
+            if (!res.ok) throw new Error('Não foi possível carregar o grupo');
+            const grp = await res.json();
+            setGroup(grp);
 
-                // 2) carrega lista de membros com detalhe e flag isAdmin
-                const rem = await fetch(`${BASE_URL}/grupos/${groupId}/membros`);
-                if (!rem.ok) throw new Error('Não foi possível carregar os membros');
-                const members = await rem.json();
+            // 2) carrega lista de membros com detalhe e flag isAdmin
+            const rem = await fetch(`${BASE_URL}/grupos/${groupId}/membros`);
+            if (!rem.ok) throw new Error('Não foi possível carregar os membros');
+            const members = await rem.json();
 
-                // monta array no formato esperado pelo componente
-                const list = members.map(({ user, isAdmin }) => ({
-                    id: user._id,
-                    name: user.name,
-                    initials: getInitials(user.name),
-                    admin: isAdmin,
-                }));
-                setMembersList(list);
-            } catch (err) {
-                console.error(err);
-                Alert.alert('Erro', err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadGroup();
+            // monta array no formato esperado pelo componente
+            const list = members.map(({ user, isAdmin }) => ({
+                id: user._id,
+                name: user.name,
+                initials: getInitials(user.name),
+                admin: isAdmin,
+            }));
+            setMembersList(list);
+        } catch (err) {
+            console.error(err);
+            Alert.alert('Erro', err.message);
+        } finally {
+            setLoading(false);
+        }
     }, [groupId]);
 
-    const handleSaveEmails = () => {
-        // Remove espaços em branco, separa por vírgula e converte para minúsculas
+    useEffect(() => {
+        fetchGroup();
+    }, [fetchGroup]);
+
+    /* ------------------------------------------------------------
+       Adicionar membros
+    ------------------------------------------------------------ */
+    const handleSaveEmails = async () => {
+        // Remove espaços, separa por vírgula e converte para minúsculas
         const emailsArray = emailsText
             .split(',')
             .map(email => email.trim().toLowerCase())
             .filter(email => email.length > 0);
 
-        console.log('Emails digitados:', emailsArray);
+        if (emailsArray.length === 0) {
+            Alert.alert('Atenção', 'Digite ao menos um e-mail.');
+            return;
+        }
 
-        // Aqui você pode adicionar validação de emails se necessário
-        // e fazer a chamada para API para adicionar os membros
+        try {
+            // Opcional: se usar JWT, inclua o header abaixo
+            // const token = await AsyncStorage.getItem('token');
+            const res = await fetch(`${BASE_URL}/grupos/${groupId}/membros`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ members: emailsArray }),
+            });
 
-        // Fecha o modal e limpa o campo
-        setAddMembersModalVisible(false);
-        setEmailsText('');
-        setMenuVisible(false);
+            if (!res.ok) {
+                const { message } = await res.json();
+                throw new Error(message || 'Não foi possível adicionar membros');
+            }
+
+            // Recarrega grupo + membros
+            await fetchGroup();
+
+            // Fecha modal e limpa campo
+            setAddMembersModalVisible(false);
+            setEmailsText('');
+            setMenuVisible(false);
+        } catch (err) {
+            console.error(err);
+            Alert.alert('Erro', err.message);
+        }
     };
 
     const handleAddMembersPress = () => {
@@ -94,6 +125,9 @@ const GroupDetails = ({ navigation, route }) => {
         }, 300);
     };
 
+    /* ------------------------------------------------------------
+       Renderização condicional
+    ------------------------------------------------------------ */
     if (loading) {
         return (
             <View style={styles.center}>
@@ -110,7 +144,9 @@ const GroupDetails = ({ navigation, route }) => {
         );
     }
 
-    // Context menu
+    /* ------------------------------------------------------------
+       Menus e modais
+    ------------------------------------------------------------ */
     const ContextMenu = () => (
         <Modal
             transparent
@@ -130,7 +166,7 @@ const GroupDetails = ({ navigation, route }) => {
                     <View style={styles.menuDivider} />
                     <TouchableOpacity
                         style={styles.menuItem}
-                        onPress={(e) => {
+                        onPress={e => {
                             e.stopPropagation();
                             handleAddMembersPress();
                         }}
@@ -150,6 +186,9 @@ const GroupDetails = ({ navigation, route }) => {
         </Modal>
     );
 
+    /* ------------------------------------------------------------
+       JSX principal
+    ------------------------------------------------------------ */
     return (
         <SafeAreaView style={styles.container}>
             <ContextMenu />
@@ -209,10 +248,7 @@ const GroupDetails = ({ navigation, route }) => {
                     <Text style={styles.backButtonText}>←</Text>
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>Detalhes do grupo</Text>
-                <TouchableOpacity
-                    style={styles.menuButton}
-                    onPress={() => setMenuVisible(true)}
-                >
+                <TouchableOpacity style={styles.menuButton} onPress={() => setMenuVisible(true)}>
                     <Text style={styles.menuButtonText}>⋮</Text>
                 </TouchableOpacity>
             </View>
@@ -224,9 +260,7 @@ const GroupDetails = ({ navigation, route }) => {
                         <Text style={styles.groupInitials}>{getInitials(group.nome)}</Text>
                     </View>
                     <Text style={styles.groupName}>{group.nome}</Text>
-                    <Text style={styles.groupMembers}>
-                        {group.membros.length} membros
-                    </Text>
+                    <Text style={styles.groupMembers}>{group.membros.length} membros</Text>
                 </View>
 
                 {/* Descrição */}
@@ -243,18 +277,14 @@ const GroupDetails = ({ navigation, route }) => {
                     {membersList.map(member => (
                         <View key={member.id} style={styles.memberCard}>
                             <View style={styles.memberAvatar}>
-                                <Text style={styles.memberInitials}>
-                                    {member.initials}
-                                </Text>
+                                <Text style={styles.memberInitials}>{member.initials}</Text>
                             </View>
                             <View style={styles.memberInfo}>
                                 <Text style={styles.memberName}>{member.name}</Text>
                                 <Text
                                     style={[
                                         styles.memberStatus,
-                                        member.admin
-                                            ? styles.memberAdmin
-                                            : styles.memberRegular,
+                                        member.admin ? styles.memberAdmin : styles.memberRegular,
                                     ]}
                                 >
                                     {member.admin ? 'Administrador' : 'Membro'}
@@ -272,6 +302,9 @@ const GroupDetails = ({ navigation, route }) => {
     );
 };
 
+/* ------------------------------------------------------------
+   Styles
+------------------------------------------------------------ */
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#FFFFFF' },
     center: { flex: 1, justifyContent: 'center', alignItems: 'center' },

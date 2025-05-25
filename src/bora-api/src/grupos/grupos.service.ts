@@ -37,7 +37,7 @@ export class GruposService {
   /* ────────────────────────────────────────────────────────────── */
   async create(createGrupoDto: CreateGrupoDto): Promise<Grupo> {
     /* ----------------------------------------------------------------
-       1. Copiamos as listas (evita mutação do DTO “readonly”)
+       1. Copiamos as listas (evita mutação do DTO "readonly")
     ---------------------------------------------------------------- */
     const membrosRef = [...(createGrupoDto.membros ?? [])];
     const adminsRef = [...(createGrupoDto.grupoAdmins ?? [])];
@@ -67,7 +67,7 @@ export class GruposService {
 
       const user = await this.usersService.findByEmail(email);
       if (!user) {
-        throw new NotFoundException(`Usuário “${refOriginal}” não encontrado`);
+        throw new NotFoundException(`Usuário "${refOriginal}" não encontrado`);
       }
 
       refToId.set(refOriginal, String(user._id));
@@ -118,12 +118,13 @@ export class GruposService {
       email.trim().toLowerCase(),
     );
     if (!user) {
-      throw new NotFoundException(`Usuário “${email}” não encontrado`);
+      throw new NotFoundException(`Usuário "${email}" não encontrado`);
     }
 
     // usa o _id do usuário para consultar grupos cujo array membros contém esse id
     return this.gruposRepository.findByMemberId(String(user._id));
   }
+
   async getMembersWithDetails(
     groupId: string,
   ): Promise<Array<{ user: User; isAdmin: boolean }>> {
@@ -151,5 +152,52 @@ export class GruposService {
     );
 
     return membersWithDetails;
+  }
+
+  /* ────────────────────────────────────────────────────────────── */
+  /** ADD MEMBERS */
+  /* ────────────────────────────────────────────────────────────── */
+  async addMembers(groupId: string, newMembers: string[]): Promise<Grupo> {
+    // 1) Busca o grupo existente
+    const grupo = await this.gruposRepository.findOne(groupId);
+
+    // 2) Processa os novos membros (emails/IDs)
+    const newMemberIds: string[] = [];
+
+    for (const memberRef of newMembers) {
+      // Se já for ObjectId válido, usa direto
+      if (this.isObjectId(memberRef)) {
+        // Verifica se o usuário existe
+        const user = await this.usersService.findOne(memberRef);
+        if (!user) {
+          throw new NotFoundException(
+            `Usuário com ID "${memberRef}" não encontrado`,
+          );
+        }
+        newMemberIds.push(memberRef);
+        continue;
+      }
+
+      // Caso contrário, trata como email (minúsculo)
+      const email = this.normalizeRef(memberRef);
+      const user = await this.usersService.findByEmail(email);
+      if (!user) {
+        throw new NotFoundException(
+          `Usuário com email "${memberRef}" não encontrado`,
+        );
+      }
+
+      newMemberIds.push(String(user._id));
+    }
+
+    // 3) Remove duplicatas: combina membros existentes + novos
+    const currentMemberIds = grupo.membros || [];
+    const allMemberIds = [...currentMemberIds, ...newMemberIds];
+    const uniqueMemberIds = Array.from(new Set(allMemberIds));
+
+    // 4) Atualiza o grupo com a nova lista de membros
+    return this.gruposRepository.update(groupId, {
+      membros: uniqueMemberIds,
+    });
   }
 }

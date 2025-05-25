@@ -4,13 +4,12 @@ import { Model } from 'mongoose';
 import { Grupo, GrupoDocument } from '../schema/grupos.schema';
 import { CreateGrupoDto } from '../dto/create-grupo.dto';
 import { UpdateGrupoDto } from '../dto/update-grupo.dto';
-import { Types } from 'mongoose';
 
 @Injectable()
 export class GruposRepository {
   constructor(
     @InjectModel(Grupo.name)
-    private readonly grupoModel: Model<GrupoDocument>,  // Note GrupoDocument aqui
+    private readonly grupoModel: Model<GrupoDocument>, // Note GrupoDocument aqui
   ) {}
 
   // Aqui o retorno deve ser GrupoDocument para garantir o _id
@@ -52,7 +51,25 @@ export class GruposRepository {
     }
     return deletedGrupo;
   }
+
   async findByMemberId(userId: string): Promise<Grupo[]> {
     return this.grupoModel.find({ membros: userId }).exec();
+  }
+
+  // Método opcional para adicionar membros usando operador MongoDB
+  async addMembers(groupId: string, memberIds: string[]): Promise<Grupo> {
+    const updatedGrupo = await this.grupoModel
+      .findByIdAndUpdate(
+        groupId,
+        { $addToSet: { membros: { $each: memberIds } } }, // $addToSet evita duplicatas
+        { new: true },
+      )
+      .exec();
+
+    if (!updatedGrupo) {
+      throw new NotFoundException(`Grupo com ID ${groupId} não encontrado`);
+    }
+
+    return updatedGrupo;
   }
 }

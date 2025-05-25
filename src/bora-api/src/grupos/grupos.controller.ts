@@ -1,4 +1,3 @@
-// src/grupos/grupos.controller.ts
 import {
   Controller,
   Get,
@@ -11,6 +10,7 @@ import {
 import { GruposService } from './grupos.service';
 import { CreateGrupoDto } from './dto/create-grupo.dto';
 import { UpdateGrupoDto } from './dto/update-grupo.dto';
+import { AddMembersDto } from './dto/add-members.dto';
 import { Grupo } from './schema/grupos.schema';
 import { User } from '../users/schema/user.schema';
 
@@ -28,11 +28,20 @@ export class GruposController {
   async findAll(): Promise<Grupo[]> {
     return this.gruposService.findAll();
   }
+
   @Get(':id/membros')
   async getMembersWithDetails(
     @Param('id') id: string,
   ): Promise<Array<{ user: User; isAdmin: boolean }>> {
     return this.gruposService.getMembersWithDetails(id);
+  }
+
+  @Post(':id/membros')
+  async addMembers(
+    @Param('id') id: string,
+    @Body() addMembersDto: AddMembersDto,
+  ): Promise<Grupo> {
+    return this.gruposService.addMembers(id, addMembersDto.members);
   }
 
   @Get(':id')
