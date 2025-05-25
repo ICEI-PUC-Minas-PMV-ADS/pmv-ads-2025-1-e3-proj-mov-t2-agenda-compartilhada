@@ -56,7 +56,12 @@ Os testes de usabilidade foram projetados para avaliar a facilidade de uso, a re
 |Passos| 1. Usuário busca e convida novos membros. <br> 2. Verifica recebimento de notificações. <br> 3. Testa diferentes tipos de notificações. <br> 4. Avalia clareza das mensagens recebidas.|
 |Critério de Êxito|Convites enviados com sucesso, notificações claras e recebidas no tempo adequado|
 
-
+|Caso de Teste   |UT-08 – Verificar performance e responsividade          |
+|------|-------------------------------------------------------|
+|Requisito Associado| RNF-07 (Tempo de resposta ≤ 5 segundos) + RNF-09 (Compatibilidade com telas)|
+|Objetivo do Teste| Medir desempenho e adaptabilidade em diferentes dispositivos.|
+|Passos| 1. Cronometrar tempo de carregamento das telas principais. <br> 2. Testar em dispositivos com telas de diferentes tamanhos. <br> 3. Verificar fluidez nas transições entre telas. <br> 4. Avaliar responsividade durante uso intenso.|
+|Critério de Êxito|Aplicativo responde em até 5 segundos e mantém usabilidade em todos os tamanhos de tela testados.|
 
 
 
