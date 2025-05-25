@@ -7,7 +7,7 @@ Os requisitos foram definidos com base na análise de necessidades dos usuários
 **Requisitos Funcionais**
 
 |ID    | Descrição do Requisito                                | Prioridade |
-|------|-------------------------------------------------------|------------|------------|
+|------|-------------------------------------------------------|------------|
 |RF-001| Sistema de cadastro e login de usuários (email/senha) | Alta |
 |RF-002| O sistema deve permitir o usuário criação e edição de perfil de usuário (nome e foto) | Alta |
 |RF-003| Visualização de calendário individual em formatos mensal| Alta |
