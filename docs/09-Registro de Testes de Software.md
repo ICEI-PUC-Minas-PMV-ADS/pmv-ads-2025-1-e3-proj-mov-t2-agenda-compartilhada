@@ -177,7 +177,7 @@ Garantir que o frontend apresente todas as informações e ações, mesmo sem ba
 
 ## Caso de Teste 5: Visualização de Perfil
 
-**Requisitos Referentes:** Tela Perfil (frontend apenas)<br/>
+**Requisitos Referentes:** Tela Perfil.
 **Descrição:**
 A tela de perfil exibiu corretamente todas as informações do usuário, incluindo nome e foto de perfil. A interface está de acordo com o design proposto.<br/>
 **Objetivo do Teste:**
@@ -194,7 +194,7 @@ Garantir que o usuário visualize corretamente seus dados de perfil.
 
 ## Caso de Teste 6: Edição de Informações do Perfil
 
-**Requisitos Referentes:** Tela Perfil (frontend apenas)<br/>
+**Requisitos Referentes:** Tela Perfil 
 **Descrição:**
 A funcionalidade de edição de perfil permitiu alterar o nome do usuário corretamente. Após salvar, as alterações foram refletidas na tela de visualização do perfil.<br/>
 **Objetivo do Teste:**
@@ -207,13 +207,15 @@ Assegurar que o usuário consiga modificar seus dados de perfil sem problemas.
 **Aprovado**
 
 
-https://github.com/user-attachments/assets/29e12fa6-543c-494e-92dd-effac1d42b37
+
+https://github.com/user-attachments/assets/e1bb9d6d-0210-42d6-9f1a-6a1f2f120ff9
 
 
 
-## Caso de Teste 7: Upload de foto de perfil
 
-**Requisitos Referentes:** Tela Perfil (frontend apenas)<br/>
+## Caso de Teste 7: Upload de foto de perfil.
+
+**Requisitos Referentes:** Tela Perfil 
 **Descrição:**
 A funcionalidade de edição de perfil permitiu alterar a foto do usuário corretamente. Após salvar, as alterações foram refletidas na tela de visualização do perfil.<br/>
 **Objetivo do Teste:**
@@ -226,7 +228,30 @@ Assegurar que o usuário consiga atualizar sua foto de perfil.
 **Aprovado**
 
 
-https://github.com/user-attachments/assets/29e12fa6-543c-494e-92dd-effac1d42b37
+https://github.com/user-attachments/assets/ef92d294-544d-4463-98ae-1c4fffee0cd1
+
+
+
+
+## Caso de Teste 8: Alteração de Senha
+
+**Requisitos Referentes:** Tela Perfil.
+**Descrição:**
+A funcionalidade de edição de perfil permitiu alterar a senha do usuário. Após salvar, a mensagem "Sua senha foi alterada com sucesso!" foi exibida.
+**Objetivo do Teste:**
+Assegurar que o usuário consiga atualizar a senha para acesso ao aplicativo corretamente.
+
+**Critérios de Êxito:**
+* Após fazer logout e tentar login com a nova senha, o login realizado com sucesso.
+
+**Resultados:**
+**Aprovado**
+
+
+
+https://github.com/user-attachments/assets/8c35504b-215b-420b-9601-8fa24770da5a
+
+
 
 
 ## Caso de Teste 8: Envio de Convite de Grupo por Nome de Usuário
