@@ -74,9 +74,22 @@
 | 5. Salvar as alterações.      | 5. Uma mensagem de confirmação é exibida.                         |
 | 6.  Retornar à tela de visualização do perfil.               | 6. O nome atualizado é exibido corretamente.                     |
 
+| **Caso de Teste 7: Edição de Informações do Perfil** |                                                                                                                                      |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Requisito Referente**                                           | RF 06 - Upload de foto de perfil                                                                                                                    |
+| **Descrição**                                                     |Verificar se o usuário consegue fazer upload e salvar uma nova foto de perfil. |
+| **Objetivo do Teste**                                             | Assegurar que o usuário consiga atualizar sua foto de perfil.                                        |
+| **Passos**                                                        | **Critérios de Êxito**                                                                                                               |
+| 1.  Fazer login no aplicativo.                                    | 1. Login é realizado com sucesso.                               |
+| 2. Navegar até a seção de perfil.         | 2.  A tela de perfil é carregada sem erros.                                           |
+| 3. Tocar na área da foto de perfil ou no botão de alteração de foto.    | 3. Menu de opções de upload é exibido.                           |
+| 4. Selecionar a opção "Galeria".      | 4. O seletor de imagens do dispositivo é aberto.                              |
+| 5. Escolher uma nova imagem.    | 5. A imagem é selecionada e exibida para confirmação.                 |
+| 6. Confirmar a seleção da imagem.          | 6. A nova foto é processada e salva como foto de perfil.                    |
+| 7. Verificar a tela de perfil.          | 7. A nova foto é exibida no perfil do usuário.            |
 
 
-| **Caso de Teste 7: Envio de Convite de Grupo por Nome de Usuário** |                                                                                                                                      |
+| **Caso de Teste 8: Envio de Convite de Grupo por Nome de Usuário** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | **Requisito Referente**                                           | RF 07 - Compartilhamento de agendas com outros usuários via email ou nome de usuário.     |
 | **Descrição**                                                     | Verificar se o sistema permite enviar convites para novos membros buscando por nome de usuário. |
@@ -93,7 +106,7 @@
 
 
 
-| **Caso de Teste 8: Visualizar eventos em agendas compartilhadas** |                                                                                                                                      |
+| **Caso de Teste 9: Visualizar eventos em agendas compartilhadas** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | **Requisito Referente**                                           | RF 09 - Visualização de eventos em agendas compartilhadas     |
 | **Descrição**                                                     | Verificar se o sistema permite a visualização dos eventos presentes na agenda compartilhada |
