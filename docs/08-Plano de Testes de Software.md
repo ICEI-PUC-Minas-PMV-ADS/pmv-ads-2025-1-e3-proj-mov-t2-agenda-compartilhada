@@ -76,8 +76,8 @@
 
 | **Caso de Teste 7: Upload de Foto de Perfil** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **Requisito Referente**                                           | RF 06 - Upload de foto de perfil                                                                                                                    |
-| **Descrição**                                                     |Verificar se o usuário consegue fazer upload e salvar uma nova foto de perfil. |
+| **Requisito Referente**                                           | RF 07 - Upload de foto de perfil                                                                                                                    |
+| **Descrição**                                                     | Verificar se o usuário consegue fazer upload e salvar uma nova foto de perfil. |
 | **Objetivo do Teste**                                             | Assegurar que o usuário consiga atualizar sua foto de perfil.                                        |
 | **Passos**                                                        | **Critérios de Êxito**                                                                                                               |
 | 1.  Fazer login no aplicativo.                                    | 1. Login é realizado com sucesso.                               |
@@ -88,10 +88,25 @@
 | 6. Confirmar a seleção da imagem.          | 6. A nova foto é processada e salva como foto de perfil.                    |
 | 7. Verificar a tela de perfil.          | 7. A nova foto é exibida no perfil do usuário.            |
 
-
-| **Caso de Teste 8: Envio de Convite de Grupo por Nome de Usuário** |                                                                                                                                      |
+| **Caso de Teste 8: Upload de Foto de Perfil** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **Requisito Referente**                                           | RF 07 - Compartilhamento de agendas com outros usuários via email ou nome de usuário.     |
+| **Requisito Referente**                                           | RF 08 - Alteração de Senha com Sucesso                                                                                                                |
+| **Descrição**                                                     | Verificar se o usuário consegue alterar a senha se acesso ao perfil. |
+| **Objetivo do Teste**                                             | Assegurar que o usuário consiga alterar a senha com sucesso.                                        |
+| **Passos**                                                        | **Critérios de Êxito**                                                                                                               |
+| 1.  Acessar o menu de perfil do usuário.    |1. Menu de perfil é exibido                      |
+| 2. Selecionar a opção "Configurações" e em seguida "Alterar Senha"  | 2.  Tela de alteração de senha é carregada.                                       |
+| 3. Inserir a senha atual no campo "Senha Atual"    | 3. Campo aceita a entrada.                      |
+| 4. Inserir nova senha válida no campo "Nova Senha".      | 4. Campo aceita a entrada.                              |
+| 5. Confirmar a nova senha no campo "Confirmar Nova Senha".   | 5. Campo aceita a entrada.                |
+| 6. Clicar no botão "Alterar Senha".         | 6. Sistema processa a solicitação.            |
+| 7. Verificar mensagem de confirmação.         | Mensagem "Senha alterada com sucesso" é exibida.   |
+| 8. Fazer logout e tentar login com a nova senha.       | 8. Login realizado com sucesso.   |
+
+
+| **Caso de Teste 9: Envio de Convite de Grupo por Nome de Usuário** |                                                                                                                                      |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Requisito Referente**                                           | RF 09 - Compartilhamento de agendas com outros usuários via email ou nome de usuário.     |
 | **Descrição**                                                     | Verificar se o sistema permite enviar convites para novos membros buscando por nome de usuário. |
 | **Objetivo do Teste**                                             | Assegurar que a funcionalidade de convite por nome de usuário funcione corretamente.   |
 | **Passos**                                                        | **Critérios de Êxito**    |
@@ -106,9 +121,9 @@
 
 
 
-| **Caso de Teste 9: Visualizar eventos em agendas compartilhadas** |                                                                                                                                      |
+| **Caso de Teste 10: Visualizar eventos em agendas compartilhadas** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **Requisito Referente**                                           | RF 09 - Visualização de eventos em agendas compartilhadas     |
+| **Requisito Referente**                                           | RF 10 - Visualização de eventos em agendas compartilhadas     |
 | **Descrição**                                                     | Verificar se o sistema permite a visualização dos eventos presentes na agenda compartilhada |
 | **Objetivo do Teste**                                             | Verificar se todos os eventos estarão visíveis na tela de grupo   |
 | **Passos**                                                        | **Critérios de Êxito**    |
