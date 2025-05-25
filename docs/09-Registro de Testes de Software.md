@@ -189,7 +189,7 @@ Garantir que o usuário visualize corretamente seus dados de perfil.
 **Resultados:**
 **Aprovado**
 
-<img width="251" alt="Gerenciamento do perfil do usuário3" src="https://github.com/user-attachments/assets/cfb3f919-1421-4e87-af3e-b73c4af1ea2c" />
+<img width="426" alt="perfil1" src="https://github.com/user-attachments/assets/b4ed7620-5506-4035-b0a7-cbad700cfd17" />
 
 
 ## Caso de Teste 6: Edição de Informações do Perfil
