@@ -11,6 +11,7 @@ import { Grupo } from './schema/grupos.schema';
 import { CreateGrupoDto } from './dto/create-grupo.dto';
 import { UpdateGrupoDto } from './dto/update-grupo.dto';
 import { UsersService } from '../users/users.service';
+import { User } from '../users/schema/user.schema';
 
 @Injectable()
 export class GruposService {
@@ -122,5 +123,33 @@ export class GruposService {
 
     // usa o _id do usuário para consultar grupos cujo array membros contém esse id
     return this.gruposRepository.findByMemberId(String(user._id));
+  }
+  async getMembersWithDetails(
+    groupId: string,
+  ): Promise<Array<{ user: User; isAdmin: boolean }>> {
+    // 1) busca o grupo
+    const grupo = await this.gruposRepository.findOne(groupId);
+
+    // 2) para cada membro, busca o usuário pelo ID e calcula a flag isAdmin
+    const membersWithDetails = await Promise.all(
+      grupo.membros.map(async (memberId) => {
+        // usa o método findOne (existente no UsersService) para buscar por ID
+        const user = await this.usersService.findOne(memberId);
+        if (!user) {
+          throw new NotFoundException(
+            `Usuário com ID ${memberId} não encontrado`,
+          );
+        }
+
+        return {
+          user,
+          isAdmin:
+            Array.isArray(grupo.grupoAdmins) &&
+            grupo.grupoAdmins.includes(memberId),
+        };
+      }),
+    );
+
+    return membersWithDetails;
   }
 }

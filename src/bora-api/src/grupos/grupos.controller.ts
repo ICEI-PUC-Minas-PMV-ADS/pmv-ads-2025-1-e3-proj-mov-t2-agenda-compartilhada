@@ -12,6 +12,7 @@ import { GruposService } from './grupos.service';
 import { CreateGrupoDto } from './dto/create-grupo.dto';
 import { UpdateGrupoDto } from './dto/update-grupo.dto';
 import { Grupo } from './schema/grupos.schema';
+import { User } from '../users/schema/user.schema';
 
 @Controller('grupos')
 export class GruposController {
@@ -26,6 +27,12 @@ export class GruposController {
   @Get()
   async findAll(): Promise<Grupo[]> {
     return this.gruposService.findAll();
+  }
+  @Get(':id/membros')
+  async getMembersWithDetails(
+    @Param('id') id: string,
+  ): Promise<Array<{ user: User; isAdmin: boolean }>> {
+    return this.gruposService.getMembersWithDetails(id);
   }
 
   @Get(':id')
