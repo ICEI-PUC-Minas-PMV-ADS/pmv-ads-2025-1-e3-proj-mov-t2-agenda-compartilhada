@@ -88,7 +88,7 @@
 | 6. Confirmar a seleção da imagem.          | 6. A nova foto é processada e salva como foto de perfil.                    |
 | 7. Verificar a tela de perfil.          | 7. A nova foto é exibida no perfil do usuário.            |
 
-| **Caso de Teste 8: Upload de Foto de Perfil** |                                                                                                                                      |
+| **Caso de Teste 8: Alteração de Senha** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | **Requisito Referente**                                           | RF 08 - Alteração de Senha com Sucesso                                                                                                                |
 | **Descrição**                                                     | Verificar se o usuário consegue alterar a senha se acesso ao perfil. |
