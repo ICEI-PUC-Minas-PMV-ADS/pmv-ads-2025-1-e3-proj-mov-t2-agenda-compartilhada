@@ -10,6 +10,7 @@ import {
   UploadedFile,
   BadRequestException,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -18,11 +19,9 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schema/user.schema';
-import { promises as fs } from 'fs'; // Import para manipulação de arquivos
+import { promises as fs } from 'fs';
 import { config } from 'dotenv';
 config();
-
-
 
 @Controller('usuarios')
 export class UsersController {
@@ -41,6 +40,12 @@ export class UsersController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.usersService.findOne(id);
+  }
+
+  // Novo endpoint para buscar usuário por email
+  @Get('email/:email')
+  async findByEmail(@Param('email') email: string): Promise<User | null> {
+    return this.usersService.findByEmail(email);
   }
 
   @Put(':id')
@@ -64,10 +69,7 @@ export class UsersController {
         filename: (req, file, callback) => {
           const ext = extname(file.originalname);
           const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-          
-          // Nome padrão se não houver displayName
           const filename = `image-${uniqueSuffix}${ext}`;
-          
           callback(null, filename);
         },
       }),
@@ -82,21 +84,20 @@ export class UsersController {
   )
   async uploadImageWithName(
     @UploadedFile() file: Express.Multer.File,
-    @Body() body: { displayName?: string }, // Captura todo o body
+    @Body() body: { displayName?: string },
   ) {
     if (!file) {
       throw new BadRequestException('Nenhum arquivo foi enviado.');
     }
 
-    // Renomeia o arquivo após o upload, se displayName existir
     if (body.displayName) {
       const ext = extname(file.filename);
       const newFilename = `${body.displayName}${ext}`;
       const oldPath = `./public/uploads/${file.filename}`;
       const newPath = `./public/uploads/${newFilename}`;
-      
-      await fs.rename(oldPath, newPath); // Usar fs.promises ou importar 'fs/promises'
-      
+
+      await fs.rename(oldPath, newPath);
+
       file.filename = newFilename;
     }
 
@@ -110,7 +111,4 @@ export class UsersController {
       url,
     };
   }
-
-
-
 }

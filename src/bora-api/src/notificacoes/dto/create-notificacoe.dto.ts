@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsBoolean, IsDate } from 'class-validator';
+import { IsString, IsNotEmpty, IsBoolean, IsDate, IsIn, IsOptional, IsObject } from 'class-validator';
 
 export class CreateNotificacaoDto {
   @IsString()
@@ -18,4 +18,12 @@ export class CreateNotificacaoDto {
 
   @IsBoolean()
   readonly lido: boolean;
+
+  @IsString()
+  @IsIn(['comum', 'convite'])
+  readonly tipo: string;
+
+  @IsOptional()
+  @IsObject()
+  readonly dadosExtras?: Record<string, any>;
 }
