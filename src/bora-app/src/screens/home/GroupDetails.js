@@ -10,6 +10,7 @@ import {
     ActivityIndicator,
     Alert,
     Modal,
+    TextInput,
 } from 'react-native';
 import Constants from 'expo-constants';
 
@@ -22,6 +23,8 @@ const GroupDetails = ({ navigation, route }) => {
     const [membersList, setMembersList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [menuVisible, setMenuVisible] = useState(false);
+    const [addMembersModalVisible, setAddMembersModalVisible] = useState(false);
+    const [emailsText, setEmailsText] = useState('');
 
     // extrai iniciais do nome
     const getInitials = nome =>
@@ -65,6 +68,32 @@ const GroupDetails = ({ navigation, route }) => {
         loadGroup();
     }, [groupId]);
 
+    const handleSaveEmails = () => {
+        // Remove espaços em branco, separa por vírgula e converte para minúsculas
+        const emailsArray = emailsText
+            .split(',')
+            .map(email => email.trim().toLowerCase())
+            .filter(email => email.length > 0);
+
+        console.log('Emails digitados:', emailsArray);
+
+        // Aqui você pode adicionar validação de emails se necessário
+        // e fazer a chamada para API para adicionar os membros
+
+        // Fecha o modal e limpa o campo
+        setAddMembersModalVisible(false);
+        setEmailsText('');
+        setMenuVisible(false);
+    };
+
+    const handleAddMembersPress = () => {
+        setMenuVisible(false);
+        // Aguarda o modal do menu fechar completamente antes de abrir o próximo
+        setTimeout(() => {
+            setAddMembersModalVisible(true);
+        }, 300);
+    };
+
     if (loading) {
         return (
             <View style={styles.center}>
@@ -99,7 +128,13 @@ const GroupDetails = ({ navigation, route }) => {
                         <Text style={styles.menuItemText}>Editar grupo</Text>
                     </TouchableOpacity>
                     <View style={styles.menuDivider} />
-                    <TouchableOpacity style={styles.menuItem}>
+                    <TouchableOpacity
+                        style={styles.menuItem}
+                        onPress={(e) => {
+                            e.stopPropagation();
+                            handleAddMembersPress();
+                        }}
+                    >
                         <Text style={styles.menuItemText}>Adicionar membros</Text>
                     </TouchableOpacity>
                     <View style={styles.menuDivider} />
@@ -118,6 +153,52 @@ const GroupDetails = ({ navigation, route }) => {
     return (
         <SafeAreaView style={styles.container}>
             <ContextMenu />
+
+            {/* Modal para adicionar membros */}
+            {!menuVisible && (
+                <Modal
+                    transparent
+                    visible={addMembersModalVisible}
+                    animationType="slide"
+                    onRequestClose={() => setAddMembersModalVisible(false)}
+                >
+                    <View style={styles.addMembersModalOverlay}>
+                        <View style={styles.addMembersModalContent}>
+                            <Text style={styles.addMembersTitle}>Adicione os novos membros</Text>
+
+                            <TextInput
+                                style={styles.emailsTextArea}
+                                placeholder="Digite os emails separados por vírgula"
+                                placeholderTextColor="#9A9A9D"
+                                multiline
+                                numberOfLines={4}
+                                value={emailsText}
+                                onChangeText={setEmailsText}
+                                textAlignVertical="top"
+                            />
+
+                            <View style={styles.modalButtons}>
+                                <TouchableOpacity
+                                    style={[styles.modalButton, styles.cancelButton]}
+                                    onPress={() => {
+                                        setAddMembersModalVisible(false);
+                                        setEmailsText('');
+                                    }}
+                                >
+                                    <Text style={styles.cancelButtonText}>Cancelar</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={[styles.modalButton, styles.saveButton]}
+                                    onPress={handleSaveEmails}
+                                >
+                                    <Text style={styles.saveButtonText}>Salvar</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+            )}
 
             {/* Header */}
             <View style={styles.header}>
@@ -191,7 +272,6 @@ const GroupDetails = ({ navigation, route }) => {
     );
 };
 
-// (mantive seus estilos originais)
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#FFFFFF' },
     center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
@@ -313,6 +393,69 @@ const styles = StyleSheet.create({
     menuItemText: { fontSize: 12, color: '#333333' },
     menuItemTextDanger: { fontSize: 12, color: '#FF4B4B' },
     menuDivider: { height: 1, backgroundColor: '#EEEEEE' },
+    // Estilos do modal de adicionar membros
+    addMembersModalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    addMembersModalContent: {
+        width: '90%',
+        backgroundColor: '#FFF',
+        borderRadius: 12,
+        padding: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    addMembersTitle: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#333333',
+        marginBottom: 16,
+        textAlign: 'center',
+    },
+    emailsTextArea: {
+        borderWidth: 1,
+        borderColor: '#EEEEEE',
+        borderRadius: 8,
+        padding: 12,
+        minHeight: 100,
+        fontSize: 14,
+        color: '#333333',
+        marginBottom: 20,
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    modalButton: {
+        flex: 1,
+        paddingVertical: 12,
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    cancelButton: {
+        backgroundColor: '#F4F4F4',
+        marginRight: 8,
+    },
+    saveButton: {
+        backgroundColor: '#7839EE',
+        marginLeft: 8,
+    },
+    cancelButtonText: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#666666',
+    },
+    saveButtonText: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#FFFFFF',
+    },
 });
 
 export default GroupDetails;
