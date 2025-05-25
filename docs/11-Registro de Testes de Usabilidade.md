@@ -31,26 +31,60 @@ Após realizar os testes de usabilidade, obtém-se um relatório a partir das an
 | **Resultado** | |
 | **Evidência** | colar link do arquivo aqui |
 
-| Caso de Teste |UT-02 – Testar  |
+| Caso de Teste |UT-04 – Avaliar criação e configuração de grupo colaborativo  |
 | :---- | :---- |
-| **Requisito Associado** | |
-| **Objetivo do Teste** | |
-| **Passos** | |
-| **Critério de Êxito** ||
+| **Requisito Associado** |RF-06 (Criação de agendas compartilhadas) + RF-12 (Gerenciamento de membros) |
+| **Objetivo do Teste** |Testar a facilidade de criar grupos e adicionar membros. |
+| **Passos** |1. Usuário navega para área de grupos. <br> 2. Cria novo grupo com nome e descrição. <br> 3. Adiciona pelo menos 2 membros usando busca. <br> 4. Configura permissões básicas do grupo. |
+| **Critério de Êxito** |Processo completado em até 5 minutos com grupo funcional e membros adicionados com sucesso.|
+| **Resultado** |Todos os usuários completaram a criação de grupos. Fluxo considerado intuitivo. |
+| **Evidência** | colar link do arquivo aqui |
+
+| Caso de Teste |UT-05 – Testar colaboração em eventos de grupo |
+| :---- | :---- |
+| **Requisito Associado** |RF-09 (Criação de eventos compartilhados) + RF-08 (Visualização de eventos compartilhados) |
+| **Objetivo do Teste** |Avaliar a experiência de criação e visualização de eventos colaborativos. |
+| **Passos** |1. Usuário acessa grupo existente. <br> 2. Cria evento para o grupo. <br> 3. Verifica se outros membros podem visualizar. <br> 4. Testa edição de evento compartilhado. |
+| **Critério de Êxito** |Evento criado e compartilhado com sucesso, visível para todos os membros em tempo real.|
+| **Resultado** |Eventos foram criados e sincronizados corretamente entre todos os membros. Diferenciação clara entre eventos pessoais e compartilhados. |
+| **Evidência** | colar link do arquivo aqui |
+
+| Caso de Teste |UT-06 – Testar gestão de disponibilidade pessoal |
+| :---- | :---- |
+| **Requisito Associado** |RF-04 (Marcação de disponibilidade) + RF-10 (Sugestão automática de datas) |
+| **Objetivo do Teste** |Verificar se o sistema de disponibilidade é compreensível e útil. |
+| **Passos** | 1. Usuário marca horários como disponível/indisponível. <br> 2. Verifica como isso afeta sugestões de horários. <br> 3. Testa diferentes cenários de disponibilidade. <br> 4. Observa sugestões automáticas do sistema.|
+| **Critério de Êxito** |Sistema fornece sugestões relevantes baseadas na disponibilidade e usuário compreende o funcionamento.|
 | **Resultado** | |
 | **Evidência** | colar link do arquivo aqui |
 
-| Caso de Teste |UT-02 – Testar compatibilidade entre dispositivos Android e iOS |
+| Caso de Teste |UT-07 – Avaliar sistema de convites e notificações |
 | :---- | :---- |
-| **Requisito Associado** | |
-| **Objetivo do Teste** | |
-| **Passos** | |
-| **Critério de Êxito** ||
+| **Requisito Associado** |RF-07 (Compartilhamento de agendas) + RF-11 (Notificações) + RF-14 (Busca de usuários) |
+| **Objetivo do Teste** |Testar a eficácia do sistema de convites e comunicação. |
+| **Passos** |1. Usuário busca e convida novos membros. <br> 2. Verifica recebimento de notificações. <br> 3. Testa diferentes tipos de notificações. <br> 4. Avalia clareza das mensagens recebidas. |
+| **Critério de Êxito** |Convites enviados com sucesso, notificações claras e recebidas no tempo adequado.|
 | **Resultado** | |
 | **Evidência** | colar link do arquivo aqui |
 
 
+**Avaliação**
 
+Pontos Fortes:
+
+Interface de cadastro e login intuitiva, permitindo acesso rápido e fácil ao aplicativo.
+Compatibilidade multiplataforma eficiente, mantendo consistência entre Android e iOS.
+Sistema de criação de grupos e eventos bem estruturado e compreensível.
+Sincronização em tempo real dos eventos compartilhados funcionando corretamente.
+Performance dentro dos parâmetros estabelecidos, com carregamento rápido das telas.
+Sistema de convites e notificações eficaz, com entrega rápida das mensagens.
+
+Pontos Fracos:
+Necessidade de ajustes na responsividade para garantir visualização ideal em diferentes tamanhos de tela.
+
+
+Conclusão:
+Os testes de usabilidade demonstram que o aplicativo Agenda Compartilhada possui uma base sólida de usabilidade. As funcionalidades principais (cadastro, criação de eventos e grupos) funcionam de forma intuitiva. Os problemas identificados são de severidade baixa a média e podem ser corrigidos com ajustes pontuais. O aplicativo está aprovado para lançamento com as melhorias recomendadas sendo implementadas na próxima versão.
 
 
 As referências abaixo irão auxiliá-lo na geração do artefato “Registro de Testes de Usabilidade”.
