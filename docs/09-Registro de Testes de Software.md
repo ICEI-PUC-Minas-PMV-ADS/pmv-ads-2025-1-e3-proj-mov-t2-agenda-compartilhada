@@ -207,11 +207,29 @@ Assegurar que o usuário consiga modificar seus dados de perfil sem problemas.
 **Aprovado**
 
 
-https://github.com/user-attachments/assets/695887af-f20b-48dc-8db4-712668ba1b9a
+https://github.com/user-attachments/assets/29e12fa6-543c-494e-92dd-effac1d42b37
 
 
 
-## Caso de Teste 7: Envio de Convite de Grupo por Nome de Usuário
+## Caso de Teste 7: Upload de foto de perfil
+
+**Requisitos Referentes:** Tela Perfil (frontend apenas)<br/>
+**Descrição:**
+A funcionalidade de edição de perfil permitiu alterar a foto do usuário corretamente. Após salvar, as alterações foram refletidas na tela de visualização do perfil.<br/>
+**Objetivo do Teste:**
+Assegurar que o usuário consiga atualizar sua foto de perfil.
+
+**Critérios de Êxito:**
+* A mensagem de confirmação após salvar as alterações é clara e informativa.
+
+**Resultados:**
+**Aprovado**
+
+
+https://github.com/user-attachments/assets/29e12fa6-543c-494e-92dd-effac1d42b37
+
+
+## Caso de Teste 8: Envio de Convite de Grupo por Nome de Usuário
 
 **Requisitos Referentes:** Tela Perfil (frontend apenas)<br/>
 **Descrição:**
@@ -242,7 +260,7 @@ https://github.com/user-attachments/assets/0d8a29da-ee75-4ff4-ad85-21f8cb1f2590
 
 ---
 
-## Caso de Teste 8: Visualizar eventos em agendas compartilhadas
+## Caso de Teste 9: Visualizar eventos em agendas compartilhadas
 
 **Requisitos Referentes:** RF 09 - Visualização de eventos em agendas compartilhadas (frontend apenas) <br/>
 **Descrição:**
