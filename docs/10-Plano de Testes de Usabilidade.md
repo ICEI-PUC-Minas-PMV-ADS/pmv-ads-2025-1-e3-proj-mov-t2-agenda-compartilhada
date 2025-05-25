@@ -7,9 +7,9 @@ Os testes de usabilidade foram projetados para avaliar a facilidade de uso, a re
 |Caso de Teste   |UT-01 – Testar a usabilidade da interface de cadastro e login                             |
 |------|-------------------------------------------------------|
 |Requisito Associado| RF-01 (Sistema de cadastro e login de usuários - email/senha|
-
-
-
+|Objetivo do Teste| Avaliar a facilidade de cadastro e login no aplicativo para novos usuários.|
+|Passos| 1. Simular o primeiro acesso ao aplicativo com cada persona. 2. Realizar cadastro usando email/senha. 3. Testar login com as credenciais criadas. 4. Verificar clareza das mensagens de erro e sucesso.|
+|Critério de Êxito| Todos os perfis de usuário devem completar o cadastro e login em até 3 minutos sem dificuldades significativas.|
 
 
 
