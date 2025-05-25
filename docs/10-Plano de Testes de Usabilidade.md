@@ -12,6 +12,20 @@ Os testes de usabilidade foram projetados para avaliar a facilidade de uso, a re
 |Critério de Êxito| Todos os perfis de usuário devem completar o cadastro e login em até 3 minutos sem dificuldades significativas.|
 
 
+|Caso de Teste   |UT-02 – Testar compatibilidade entre dispositivos Android e iOS                            |
+|------|-------------------------------------------------------|
+|Requisito Associado| RNF-01 (Desenvolvimento do frontend em React Native para suporte multiplataforma)|
+|Objetivo do Teste| Verificar se o aplicativo funciona corretamente em dispositivos Android e iOS.|
+|Passos| 1. Instalar e executar o aplicativo em dispositivo Android. <br> 2. Navegar por diferentes telas e verificar funcionalidades principais. <br> 3. Repetir o processo em dispositivo iOS. <br> 4. Comparar a consistência da interface entre plataformas.|
+|Critério de Êxito| O aplicativo deve funcionar corretamente e manter a mesma funcionalidade em ambas as plataformas.|
+
+
+
+
+
+
+
+
 
 > **Links Úteis**:
 > - [Teste De Usabilidade: O Que É e Como Fazer Passo a Passo (neilpatel.com)](https://neilpatel.com/br/blog/teste-de-usabilidade/)
