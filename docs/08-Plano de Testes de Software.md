@@ -74,7 +74,7 @@
 | 5. Salvar as alterações.      | 5. Uma mensagem de confirmação é exibida.                         |
 | 6.  Retornar à tela de visualização do perfil.               | 6. O nome atualizado é exibido corretamente.                     |
 
-| **Caso de Teste 7: Edição de Informações do Perfil** |                                                                                                                                      |
+| **Caso de Teste 7: Upload de Foto de Perfil** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | **Requisito Referente**                                           | RF 06 - Upload de foto de perfil                                                                                                                    |
 | **Descrição**                                                     |Verificar se o usuário consegue fazer upload e salvar uma nova foto de perfil. |
