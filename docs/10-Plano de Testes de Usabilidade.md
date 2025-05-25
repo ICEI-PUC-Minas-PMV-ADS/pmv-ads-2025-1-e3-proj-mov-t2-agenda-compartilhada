@@ -1,6 +1,6 @@
 # Plano de Testes de Usabilidade
 
-Os testes de usabilidade são projetados para avaliar a facilidade de uso, a responsividade da interface e a clareza das funcionalidades do aplicativo Agenda Compartilhada, garantindo que o sistema seja acessível e intuitivo para diferentes perfis de usuários.
+Os testes de usabilidade foram projetados para avaliar a facilidade de uso, a responsividade da interface e a clareza das funcionalidades do aplicativo Agenda Compartilhada, garantindo que o sistema seja acessível e intuitivo para diferentes perfis de usuários.
 
 
 
