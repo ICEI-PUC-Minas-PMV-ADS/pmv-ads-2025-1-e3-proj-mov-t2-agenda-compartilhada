@@ -20,6 +20,43 @@ Os testes de usabilidade foram projetados para avaliar a facilidade de uso, a re
 |Critério de Êxito| O aplicativo deve funcionar corretamente e manter a mesma funcionalidade em ambas as plataformas.|
 
 
+|Caso de Teste   |UT-03 – Testar fluxo de criação do primeiro evento                |
+|------|-------------------------------------------------------|
+|Requisito Associado| RF-05 (Criação de eventos pessoais) + RF-03 (Visualização do calendário)|
+|Objetivo do Teste| Verificar se o usuário consegue criar seu primeiro evento de forma intuitiva.|
+|Passos| 1. Usuário acessa o calendário principal. <br> 2. Procura e encontra a opção de criar evento. <br> 3. Preenche todas as informações necessárias. <br> 4. Salva o evento e verifica se aparece no calendário.|
+|Critério de Êxito| Usuário cria evento pessoal em até 5 minutos sem solicitar ajuda e o evento é exibido corretamente no calendário.|
+
+|Caso de Teste   |UT-04 – Avaliar criação e configuração de grupo colaborativo               |
+|------|-------------------------------------------------------|
+|Requisito Associado| RF-06 (Criação de agendas compartilhadas) + RF-12 (Gerenciamento de membros)|
+|Objetivo do Teste| Testar a facilidade de criar grupos e adicionar membros.|
+|Passos| 1. Usuário navega para área de grupos. <br> 2. Cria novo grupo com nome e descrição. <br> 3. Adiciona pelo menos 2 membros usando busca. <br> 4. Configura permissões básicas do grupo.|
+|Critério de Êxito| Processo completado em até 4 minutos com grupo funcional e membros adicionados com sucesso.|
+
+
+|Caso de Teste   |UT-05 – Testar colaboração em eventos de grupo               |
+|------|-------------------------------------------------------|
+|Requisito Associado| RF-09 (Criação de eventos compartilhados) + RF-08 (Visualização de eventos compartilhados)|
+|Objetivo do Teste| Avaliar a experiência de criação e visualização de eventos colaborativos.|
+|Passos| 1. Usuário acessa grupo existente. <br> 2. Cria evento para o grupo. <br> 3. Verifica se outros membros podem visualizar. <br> 4. Testa edição de evento compartilhado.|
+|Critério de Êxito|Evento criado e compartilhado com sucesso, visível para todos os membros em tempo real.|
+
+|Caso de Teste   |UT-06 – Testar gestão de disponibilidade pessoal             |
+|------|-------------------------------------------------------|
+|Requisito Associado| RF-07 (Compartilhamento de agendas) + RF-11 (Notificações) + RF-14 (Busca de usuários)|
+|Objetivo do Teste| Testar a eficácia do sistema de convites e comunicação.|
+|Passos| 1. Usuário marca horários como disponível/indisponível. <br> 2. Verifica como isso afeta sugestões de horários. <br> 3. Testa diferentes cenários de disponibilidade. <br> 4. Observa sugestões automáticas do sistema.|
+|Critério de Êxito|Sistema fornece sugestões relevantes baseadas na disponibilidade e usuário compreende o funcionamento.|
+
+|Caso de Teste   |UT-07 – Avaliar sistema de convites e notificações           |
+|------|-------------------------------------------------------|
+|Requisito Associado| RF-04 (Marcação de disponibilidade) + RF-10 (Sugestão automática de datas)|
+|Objetivo do Teste| Verificar se o sistema de disponibilidade é compreensível e útil.|
+|Passos| 1. Usuário busca e convida novos membros. <br> 2. Verifica recebimento de notificações. <br> 3. Testa diferentes tipos de notificações. <br> 4. Avalia clareza das mensagens recebidas.|
+|Critério de Êxito|Convites enviados com sucesso, notificações claras e recebidas no tempo adequado|
+
+
 
 
 
