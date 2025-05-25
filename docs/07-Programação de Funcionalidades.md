@@ -4,7 +4,9 @@ O Agenda Compartilhada é um aplicativo móvel para organização colaborativa d
 Desenvolvido com React Native (frontend), NestJS (backend) e MongoDB (banco de dados), o aplicativo oferece funcionalidades como criação de grupos, agendamento colaborativo, confirmação de presença e notificações em tempo real.
 Os requisitos foram definidos com base na análise de necessidades dos usuários e seguem padrões de qualidade da ISO 9126, organizados por prioridade para desenvolvimento incremental usando metodologia SCRUM. 
 
-**Requisitos Funcionais**
+
+
+**Requisitos Funcionais:**
 
 |ID    | Descrição do Requisito                                | Prioridade |
 |------|-------------------------------------------------------|------------|
@@ -24,7 +26,8 @@ Os requisitos foram definidos com base na análise de necessidades dos usuários
 |RF-14| Funcionalidade de busca por usuários para convites | Média |
 
 
-**Requisitos Não Funcionais**
+
+**Requisitos Não Funcionais: **
 |ID    | Descrição do Requisito                                | Prioridade |
 |------|-------------------------------------------------------|------------|
 |RNF-01| Desenvolvimento do frontend em React Native para suporte multiplataforma (iOS/Android) | Alta |
