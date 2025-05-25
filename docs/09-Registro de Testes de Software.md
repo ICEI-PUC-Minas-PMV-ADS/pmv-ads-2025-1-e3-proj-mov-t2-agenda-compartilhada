@@ -167,10 +167,9 @@ Garantir que o frontend apresente todas as informações e ações, mesmo sem ba
 
 **Informações Gerais:**
 
-* **Data:** 10/05/2025
+* **Data:** 10/05/2025 e 25/05/2025
 * **Responsável pelos Testes:** Grace Santos
-* **Versão da Aplicação Testada:** 1.0.0 (Frontend)
-* **Backend:** em desenvolvimento 
+* **Versão da Aplicação Testada:** 1.0.0 
 * **Plano de Testes:** Perfil e Convite de Grupo
 
 ---
@@ -179,7 +178,7 @@ Garantir que o frontend apresente todas as informações e ações, mesmo sem ba
 
 **Requisitos Referentes:** Tela Perfil.
 **Descrição:**
-A tela de perfil exibiu corretamente todas as informações do usuário, incluindo nome e foto de perfil. A interface está de acordo com o design proposto.<br/>
+A tela de perfil exibiu corretamente todas as informações do usuário, incluindo nome e foto de perfil. A interface está de acordo com o design proposto.
 **Objetivo do Teste:**
 Garantir que o usuário visualize corretamente seus dados de perfil.
 
