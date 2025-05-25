@@ -92,7 +92,7 @@ const CreateEventScreen = ({ navigation }) => {
       {/* Botão Próximo */}
       <TouchableOpacity 
         style={styles.nextButton}
-        onPress={() => navigation.navigate('EventTime', { title })}
+        onPress={() => navigation.navigate('EventList')}
       >
         <Text style={styles.nextButtonText}>Próximo</Text>
       </TouchableOpacity>
