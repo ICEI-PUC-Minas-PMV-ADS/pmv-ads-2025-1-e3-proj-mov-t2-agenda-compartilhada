@@ -9,6 +9,11 @@ export class EventosService {
   constructor(private readonly eventosRepository: EventosRepository) {}
 
   async create(createEventoDto: CreateEventoDto): Promise<Evento> {
+
+    const inicio = new Date(createEventoDto.dataEvento);
+    const dataFimEvento = new Date(inicio.getTime() + createEventoDto.duration * 60000);
+    createEventoDto.dataFimEvento = dataFimEvento
+    console.log('dataFimEvento', dataFimEvento);
     return this.eventosRepository.create(createEventoDto);
   }
 

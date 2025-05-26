@@ -27,36 +27,42 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen 
-          name="Home" 
-          component={HomeScreen} 
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
           options={{ title: 'Tela Inicial' }}
         />
-        <Stack.Screen 
-          name="EventList" 
-          component={EventList} 
+        <Stack.Screen
+          name="EventList"
+          component={EventList}
           options={{ title: 'Lista de Eventos' }}
         />
-        <Stack.Screen 
-          name="Group" 
-          component={Group} 
+        <Stack.Screen
+          name="Group"
+          component={Group}
           options={{ title: 'Tela do Grupo' }}
         />
         <Stack.Screen
-          name="CreateEventScreen" 
-          component={CreateEventScreen} 
-          options={{ title: 'Criar Evento' }} 
-          />
+          name="CreateEventScreen"
+          component={CreateEventScreen}
+          options={{ title: 'Criar Evento' }}
+        />
         <Stack.Screen
-          name="EventTimeScreen" 
-          component={EventTimeScreen} 
-          options={{ title: 'Horário do Evento' }} 
-          />
+          name="EventTimeScreen"
+          component={EventTimeScreen}
+          options={{ title: 'Horário do Evento' }}
+        />
         <Stack.Screen
-          name="EventInfo" 
-          component={EventInfo} 
+          name="EventInfo"
+          component={EventInfo}
           options={{ title: 'Informações de Eventos' }}
         />
+        <Stack.Screen
+          name="CalendarScreen"
+          component={CalendarScreen}
+          options={{ title: 'Calendário' }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -4,4 +4,6 @@ export class CreateEventoDto {
   readonly dataEvento: Date;
   readonly tipo: 'individual' | 'grupo';
   readonly grupoId?: string;
+  dataFimEvento?: Date;
+  readonly duration: number;
 }

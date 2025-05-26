@@ -19,6 +19,12 @@ export class Evento {
 
   @Prop()
   grupoId?: string;
+  
+  @Prop()
+  dataFimEvento?: Date; 
+
+  @Prop({ required: true })
+  duration: number;
 }
 
 export const EventoSchema = SchemaFactory.createForClass(Evento);

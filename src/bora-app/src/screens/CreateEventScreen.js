@@ -13,7 +13,6 @@ const CreateEventScreen = ({ navigation }) => {
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('02/04/2025');
   const [duration, setDuration] = useState('');
-  const [selectedGroup, setSelectedGroup] = useState(null);
 
   return (
     <View style={styles.container}>
@@ -76,17 +75,7 @@ const CreateEventScreen = ({ navigation }) => {
             onChangeText={setDuration}
           />
         </View>
-
-        {/* Seleção de Grupo */}
-        <View style={styles.inputGroup}>
-          <Text style={styles.label}>Criar evento no Grupo:</Text>
-          <TouchableOpacity style={styles.groupSelector}>
-            <Text style={styles.groupSelectorText}>
-              {selectedGroup || 'Selecione um grupo'}
-            </Text>
-            <Ionicons name="chevron-down" size={24} color="#666" />
-          </TouchableOpacity>
-        </View>
+        
       </ScrollView>
 
       {/* Botão Próximo */}

@@ -4,7 +4,7 @@ import { Text } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
 import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
-export default function CalendarScreen() {
+const CalendarScreen = ({ navigation }) => {
   const [selectedDate, setSelectedDate] = useState(null);
 
   const eventos = {
@@ -52,16 +52,12 @@ export default function CalendarScreen() {
         )}
       />
 
-      <TouchableOpacity style={styles.botaoAdd}>
+      <TouchableOpacity style={styles.botaoAdd}
+        onPress={() => navigation.navigate('CreateEventScreen')}>
         <AntDesign name="plus" size={24} color="#fff" />
       </TouchableOpacity>
 
-      <View style={styles.footer}>
-        <MaterialIcons name="home" size={28} color="#8e44ad" />
-        <FontAwesome name="calendar" size={28} color="#8e44ad" />
-        <MaterialIcons name="notifications" size={28} color="#8e44ad" />
-        <FontAwesome name="user" size={28} color="#8e44ad" />
-      </View>
+      
     </View>
   );
 }
@@ -109,12 +105,5 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     elevation: 4,
   },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 14,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderColor: '#ddd',
-  },
 });
+export default CalendarScreen;
