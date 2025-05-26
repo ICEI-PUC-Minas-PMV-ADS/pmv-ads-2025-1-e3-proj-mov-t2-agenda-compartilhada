@@ -259,16 +259,17 @@ const userEventos = [
   }
 ];
 
-const GroupScreen = ({ navigation }) => {
+const GroupScreen = ({ navigation, route }) => {
 
   const [username, setUsername] = useState('')
   const [loadingUser, setLoadingUser] = useState(true)
-  const [grupoId, setGrupoId] = useState('682f2a91e4508043f94c7217')
+  const { groupId } = route.params
   const [grupo, setGrupo] = useState([])
   const [eventos, setEventos] = useState([])
   const [loading, setLoading] = useState(true)
   const [itemAtivo, setItemAtivo] = useState(0);
   const scrollViewRef = useRef(null);
+  console.log(groupId)
 
 
   useEffect(() => {
@@ -295,15 +296,18 @@ const GroupScreen = ({ navigation }) => {
   // Carrega informações do grupo
   useEffect(() => {
     const carregaGrupo = async () => {
-      try {
-        const grupoInfo = await axios.get(API_IP+'/grupos/'+grupoId)
-        const eventosGrupo = await axios.get(API_IP+'/eventos-grupo/by-grupoId/'+grupoId)
-        setGrupo(grupoInfo.data)
-        setEventos(eventosGrupo.data)
-      } catch (error) {
-        console.error('Erro ao buscar dados do grupo: ', error)
-      } finally {
-        setLoading(false)
+      if (itemAtivo == 0) {
+        try {
+          const grupoInfo = await axios.get(API_IP + '/grupos/' + groupId)
+          const eventosGrupo = await axios.get(API_IP + '/eventos-grupo/by-grupoId/' + groupId)
+          setGrupo(grupoInfo.data)
+          setEventos(eventosGrupo.data)
+          console.log(grupoInfo)
+        } catch (error) {
+          console.error('Erro ao buscar dados do grupo: ', error)
+        } finally {
+          setLoading(false)
+        }
       }
     }
     carregaGrupo()
@@ -336,30 +340,31 @@ const GroupScreen = ({ navigation }) => {
 
   return (
     <SafeAreaProvider >
-      <Appbar.Header style={styles.appBarHeader} statusBarHeight={20} mode='center-aligned'>
+      <Appbar.Header style={styles.appBarHeader} statusBarHeight={16} mode='center-aligned'>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content titleStyle={{ fontSize: 16, fontWeight: 'bold' }} title={grupo.nome} />
       </Appbar.Header>
 
       <View style={styles.body}>
 
-        <View style={styles.groupName}>
-          <Avatar.Text
-            style={{ backgroundColor: '#F4F4F4' }}
-            labelStyle={{ fontSize: 20 }}
-            size={70}
-            label={grupo.nome.split(' ').map(nome => nome[0].toUpperCase()).join('')}
-            color="#9A9A9D"
-          />
+        <TouchableOpacity onPress={() => navigation.navigate('GroupDetails', { groupId: groupId })}>
+          <View style={styles.groupName}>
+            <Avatar.Text
+              style={{ backgroundColor: '#F4F4F4' }}
+              labelStyle={{ fontSize: 20 }}
+              size={70}
+              label={grupo.nome.split(' ').map(nome => nome[0].toUpperCase()).slice(0, 2).join('')}
+              color="#9A9A9D"
+            />
 
-          <View style={{ flex: 1, alignItems: 'center', alignSelf: 'center' }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-              {grupo.nome}
-            </Text>
-            <Text style={{ fontSize: 15 }}>{(grupo.membros.length) + ' ' + (grupo.membros.length > 1 ? 'membros' : 'membro')}</Text>
+            <View style={{ flex: 1, alignItems: 'center', alignSelf: 'center' }}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                {grupo.nome}
+              </Text>
+              <Text style={{ fontSize: 15 }}>{(grupo.membros.length) + ' ' + (grupo.membros.length > 1 ? 'membros' : 'membro')}</Text>
+            </View>
           </View>
-        </View>
-
+        </TouchableOpacity>
         <View>
           <ScrollView
             ref={scrollViewRef}

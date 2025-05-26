@@ -13,6 +13,7 @@ import {
     TextInput,
 } from 'react-native';
 import Constants from 'expo-constants';
+import { API_IP } from '@env'
 
 const BASE_URL =
     Constants?.expoConfig?.extra?.API_URL || 'http://localhost:3000';
@@ -42,13 +43,13 @@ const GroupDetails = ({ navigation, route }) => {
         setLoading(true);
         try {
             // 1) carrega dados do grupo
-            const res = await fetch(`${BASE_URL}/grupos/${groupId}`);
+            const res = await fetch(`${API_IP}/grupos/${groupId}`);
             if (!res.ok) throw new Error('Não foi possível carregar o grupo');
             const grp = await res.json();
             setGroup(grp);
 
             // 2) carrega lista de membros com detalhe e flag isAdmin
-            const rem = await fetch(`${BASE_URL}/grupos/${groupId}/membros`);
+            const rem = await fetch(`${API_IP}/grupos/${groupId}/membros`);
             if (!rem.ok) throw new Error('Não foi possível carregar os membros');
             const members = await rem.json();
 
@@ -90,7 +91,7 @@ const GroupDetails = ({ navigation, route }) => {
         try {
             // Opcional: se usar JWT, inclua o header abaixo
             // const token = await AsyncStorage.getItem('token');
-            const res = await fetch(`${BASE_URL}/grupos/${groupId}/membros`, {
+            const res = await fetch(`${API_IP}/grupos/${groupId}/membros`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

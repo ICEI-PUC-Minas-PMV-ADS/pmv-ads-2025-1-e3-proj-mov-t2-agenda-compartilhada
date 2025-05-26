@@ -159,7 +159,7 @@ const HomeDashboard = ({ navigation }) => {
                                         group={group}
                                         onPress={() =>
                                             navigation.navigate('myGroups', {
-                                                screen: 'GroupDetails',
+                                                screen: 'GroupScreen',
                                                 params: { groupId: group.id }
                                             })
                                         }

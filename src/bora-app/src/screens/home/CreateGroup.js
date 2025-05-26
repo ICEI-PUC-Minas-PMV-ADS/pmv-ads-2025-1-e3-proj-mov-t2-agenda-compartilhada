@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_IP } from '@env';
 
 // Se quiser sobrescrever, defina extra.API_URL em app.json / app.config.js
 const API_URL =
@@ -79,7 +80,7 @@ const CreateGroup = ({ navigation }) => {
         try {
             setLoading(true);
 
-            const res = await fetch(`${API_URL}/grupos`, {
+            const res = await fetch(`${API_IP}/grupos`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),

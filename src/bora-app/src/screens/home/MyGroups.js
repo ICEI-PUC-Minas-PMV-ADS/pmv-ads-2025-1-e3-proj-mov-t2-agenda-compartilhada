@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from "expo-constants";
+import { API_IP } from '@env';
 
 const BASE_URL =
     Constants?.expoConfig?.extra?.API_URL || 'http://localhost:3000';
@@ -41,7 +42,7 @@ const MyGroups = ({ navigation }) => {
                 const userId = parsed._id || parsed.id; // ajuste se for outra key
 
                 const res = await fetch(
-                    `${BASE_URL}/grupos/usuario/${encodeURIComponent(email)}`
+                    `${API_IP}/grupos/usuario/${encodeURIComponent(email)}`
                 );
                 if (!res.ok) throw new Error('Falha ao carregar grupos');
                 const data = await res.json();
@@ -110,7 +111,7 @@ const MyGroups = ({ navigation }) => {
                         key={group._id}
                         group={group}
                         onPress={() =>
-                            navigation.navigate('GroupDetails', { groupId: group._id })
+                            navigation.navigate('GroupScreen', { groupId: group._id })
                         }
                     />
                 ))
