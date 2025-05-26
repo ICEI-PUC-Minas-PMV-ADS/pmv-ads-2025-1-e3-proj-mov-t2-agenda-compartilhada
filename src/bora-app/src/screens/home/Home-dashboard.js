@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     View,
@@ -7,51 +7,60 @@ import {
     ScrollView,
     SafeAreaView,
     Dimensions,
+    ActivityIndicator,
+    Alert
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { API_IP } from '@env';
 
 // Get screen width to calculate spacing
 const { width } = Dimensions.get('window');
 
 const HomeDashboard = ({ navigation }) => {
-    // Mock data
-    const upcomingEvents = [
-        {
-            id: 1,
-            title: 'Happy Hour',
-            group: 'Amigos do Trabalho',
-            date: 'Hoje',
-            time: '19:00',
-            participants: 5,
-            colorCode: '#7839EE',
-        },
-        {
-            id: 2,
-            title: 'Jantar em família',
-            group: 'Família',
-            date: 'Amanhã',
-            time: '20:30',
-            participants: 8,
-            colorCode: '#53E88B',
-        },
-    ];
+    // Estados para armazenar dados
+    const [userName, setUserName] = useState('');
+    const [userGroups, setUserGroups] = useState([]);
+    const [upcomingEvents, setUpcomingEvents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [userId, setUserId] = useState('');
 
-    const userGroups = [
-        {
-            id: 1,
-            name: 'Amigos',
-            initials: 'AT',
-        },
-        {
-            id: 2,
-            name: 'Família',
-            initials: 'F',
-        },
-        {
-            id: 3,
-            name: 'Trabalho',
-            initials: 'T',
-        },
-    ];
+    // Buscar dados do usuário ao carregar a tela
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                setLoading(true);
+                // Obter dados do usuário do AsyncStorage
+                const userJson = await AsyncStorage.getItem('usuario');
+                if (!userJson) {
+                    throw new Error('Usuário não encontrado no storage');
+                }
+
+                const userData = JSON.parse(userJson);
+                setUserName(userData.name);
+                setUserId(userData._id);
+
+                // Buscar os grupos do usuário
+                const groupsResponse = await axios.get(`${API_IP}/dashboard/groups/${userData._id}`);
+                if (groupsResponse.data) {
+                    setUserGroups(groupsResponse.data);
+                }
+
+                // Buscar próximos eventos
+                const eventsResponse = await axios.get(`${API_IP}/dashboard/events/${userData._id}`);
+                if (eventsResponse.data) {
+                    setUpcomingEvents(eventsResponse.data);
+                }
+            } catch (error) {
+                console.error('Erro ao buscar dados do usuário:', error);
+                Alert.alert('Erro', 'Não foi possível carregar seus dados');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, []);
 
     // Event card component
     const EventCard = ({ event, onPress }) => (
@@ -61,7 +70,18 @@ const HomeDashboard = ({ navigation }) => {
         >
             <View style={[styles.eventColorBar, { backgroundColor: event.colorCode }]} />
             <View style={styles.eventContent}>
-                <Text style={styles.eventDateTime}>{event.date}, {event.time}</Text>
+                <Text style={styles.eventDateTime}>
+                    {typeof event.date === 'string'
+                        ? event.date
+                        : new Date(event.date).toLocaleDateString('pt-BR')}
+                    {', '}
+                    {typeof event.time === 'string'
+                        ? event.time
+                        : new Date(event.time).toLocaleTimeString('pt-BR', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}
+                </Text>
                 <Text style={styles.eventTitle}>{event.title}</Text>
                 <Text style={styles.eventGroup}>{event.group}</Text>
             </View>
@@ -84,6 +104,15 @@ const HomeDashboard = ({ navigation }) => {
         </View>
     );
 
+    if (loading) {
+        return (
+            <View style={[styles.container, styles.loadingContainer]}>
+                <ActivityIndicator size="large" color="#7839EE" />
+                <Text style={styles.loadingText}>Carregando...</Text>
+            </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
             <SafeAreaView style={styles.safeArea}>
@@ -92,24 +121,30 @@ const HomeDashboard = ({ navigation }) => {
                     <View style={styles.headerLine} />
 
                     {/* Greeting */}
-                    <Text style={styles.greeting}>Olá, Pedro!</Text>
+                    <Text style={styles.greeting}>Olá, {userName}!</Text>
 
                     {/* Upcoming events section */}
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Próximos eventos</Text>
                         <View style={styles.eventsContainer}>
-                            {upcomingEvents.map((event) => (
-                                <EventCard
-                                    key={event.id}
-                                    event={event}
-                                    onPress={() =>
-                                        navigation.navigate('myGroups', {
-                                            screen: 'GroupDetails',
-                                            params: { groupId: event.id }
-                                        })
-                                    }
-                                />
-                            ))}
+                            {upcomingEvents.length > 0 ? (
+                                upcomingEvents.map((event) => (
+                                    <EventCard
+                                        key={event.id}
+                                        event={event}
+                                        onPress={() =>
+                                            navigation.navigate('myGroups', {
+                                                screen: 'GroupDetails',
+                                                params: { groupId: event.id }
+                                            })
+                                        }
+                                    />
+                                ))
+                            ) : (
+                                <Text style={styles.emptyStateText}>
+                                    Nenhum evento próximo encontrado
+                                </Text>
+                            )}
                         </View>
                     </View>
 
@@ -117,22 +152,26 @@ const HomeDashboard = ({ navigation }) => {
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Meus grupos</Text>
                         <View style={styles.groupsContainer}>
-                            {userGroups.map((group) => (
-                                <GroupCircle
-                                    key={group.id}
-                                    group={group}
-                                    onPress={() =>
-                                        navigation.navigate('myGroups', {
-                                            screen: group.id === 1 ? 'GroupScreen' : 'GroupDetails',
-                                            params: { groupId: group.id }
-                                        })
-                                    }
-                                />
-                            ))}
+                            {userGroups.length > 0 ? (
+                                userGroups.map((group) => (
+                                    <GroupCircle
+                                        key={group.id}
+                                        group={group}
+                                        onPress={() =>
+                                            navigation.navigate('myGroups', {
+                                                screen: 'GroupDetails',
+                                                params: { groupId: group.id }
+                                            })
+                                        }
+                                    />
+                                ))
+                            ) : null}
                             <View style={styles.groupCircleContainer}>
                                 <TouchableOpacity
                                     style={styles.addGroupButton}
-                                    onPress={() => navigation.navigate('CreateGroup')}
+                                    onPress={() => navigation.navigate('myGroups', {
+                                        screen: 'CreateGroupScreen' // Nome correto da tela
+                                    })}
                                 >
                                     <Text style={styles.addGroupButtonText}>+</Text>
                                 </TouchableOpacity>
@@ -150,6 +189,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#FFFFFF',
+    },
+    loadingContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loadingText: {
+        marginTop: 12,
+        fontSize: 14,
+        color: '#666',
     },
     safeArea: {
         flex: 1,
@@ -240,12 +288,15 @@ const styles = StyleSheet.create({
     },
     groupsContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 20,
+        flexWrap: 'wrap',
+        justifyContent: 'flex-start',
+        paddingHorizontal: 10,
     },
     groupCircleContainer: {
         alignItems: 'center',
-        marginHorizontal: 5,
+        marginHorizontal: 10,
+        marginBottom: 15,
+        width: 70,
     },
     groupCircle: {
         width: 50,
@@ -281,6 +332,12 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: '#7839EE',
         fontWeight: '500',
+    },
+    emptyStateText: {
+        textAlign: 'center',
+        color: '#9A9A9D',
+        fontStyle: 'italic',
+        paddingVertical: 20,
     },
 });
 

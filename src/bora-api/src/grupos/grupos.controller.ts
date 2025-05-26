@@ -18,7 +18,6 @@ import { User } from '../users/schema/user.schema';
 export class GruposController {
   constructor(private readonly gruposService: GruposService) {}
 
-  /** cria um grupo */
   @Post()
   async create(@Body() createGrupoDto: CreateGrupoDto): Promise<Grupo> {
     return this.gruposService.create(createGrupoDto);

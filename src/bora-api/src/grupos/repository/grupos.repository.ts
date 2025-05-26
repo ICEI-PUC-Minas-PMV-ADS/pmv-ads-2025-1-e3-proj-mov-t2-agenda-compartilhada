@@ -12,7 +12,6 @@ export class GruposRepository {
     private readonly grupoModel: Model<GrupoDocument>, // Note GrupoDocument aqui
   ) {}
 
-  // Aqui o retorno deve ser GrupoDocument para garantir o _id
   async create(createGrupoDto: CreateGrupoDto): Promise<GrupoDocument> {
     const createdGrupo = new this.grupoModel(createGrupoDto);
     return createdGrupo.save();
@@ -56,7 +55,6 @@ export class GruposRepository {
     return this.grupoModel.find({ membros: userId }).exec();
   }
 
-  // Método opcional para adicionar membros usando operador MongoDB
   async addMembers(groupId: string, memberIds: string[]): Promise<Grupo> {
     const updatedGrupo = await this.grupoModel
       .findByIdAndUpdate(
