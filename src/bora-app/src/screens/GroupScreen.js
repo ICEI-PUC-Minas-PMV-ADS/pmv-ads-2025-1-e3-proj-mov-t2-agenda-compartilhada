@@ -1,9 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Appbar, Avatar, Text, Card } from 'react-native-paper';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import GroupCalendar from './GroupCalendar'
 import GroupMemberEvents from './GroupMemberEvents';
+import axios from 'axios'
+import { API_IP } from '@env';
+import { ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const eventos = [
   {
@@ -208,7 +212,7 @@ const userEventos = [
         id: 3,
         data: '2025-05-30',
         desseGrupo: false
-      }, 
+      },
       {
         id: 4,
         data: '2025-05-30',
@@ -245,7 +249,7 @@ const userEventos = [
         id: 3,
         data: '2025-05-30',
         desseGrupo: true
-      }, 
+      },
       {
         id: 4,
         data: '2025-05-30',
@@ -257,8 +261,53 @@ const userEventos = [
 
 const GroupScreen = ({ navigation }) => {
 
+  const [username, setUsername] = useState('')
+  const [loadingUser, setLoadingUser] = useState(true)
+  const [grupoId, setGrupoId] = useState('682f2a91e4508043f94c7217')
+  const [grupo, setGrupo] = useState([])
+  const [eventos, setEventos] = useState([])
+  const [loading, setLoading] = useState(true)
   const [itemAtivo, setItemAtivo] = useState(0);
   const scrollViewRef = useRef(null);
+
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const userString = await AsyncStorage.getItem('usuario')
+        if (userString) {
+          const user = JSON.parse(userString)
+          setUsername(user.name)
+        }
+      } catch (error) {
+        console.error('Error ao puxar user: ', error)
+      } finally {
+        setLoadingUser(false)
+      }
+    }
+    loadUser();
+  }, [])
+
+  if (!loadingUser) {
+    console.log(username)
+  }
+
+  // Carrega informações do grupo
+  useEffect(() => {
+    const carregaGrupo = async () => {
+      try {
+        const grupoInfo = await axios.get(API_IP+'/grupos/'+grupoId)
+        const eventosGrupo = await axios.get(API_IP+'/eventos-grupo/by-grupoId/'+grupoId)
+        setGrupo(grupoInfo.data)
+        setEventos(eventosGrupo.data)
+      } catch (error) {
+        console.error('Erro ao buscar dados do grupo: ', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    carregaGrupo()
+  }, [itemAtivo])
 
   const menuItems = ['Calendário', 'Membros', 'Eventos'];
 
@@ -276,11 +325,20 @@ const GroupScreen = ({ navigation }) => {
     setItemAtivo(index);
   };
 
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#7839EE" />
+        <Text style={styles.loadingText}>Carregando informações do grupo...</Text>
+      </View>
+    )
+  }
+
   return (
     <SafeAreaProvider >
       <Appbar.Header style={styles.appBarHeader} statusBarHeight={20} mode='center-aligned'>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content titleStyle={{ fontSize: 16, fontWeight: 'bold' }} title="Amigos do Trabalho" />
+        <Appbar.Content titleStyle={{ fontSize: 16, fontWeight: 'bold' }} title={grupo.nome} />
       </Appbar.Header>
 
       <View style={styles.body}>
@@ -290,15 +348,15 @@ const GroupScreen = ({ navigation }) => {
             style={{ backgroundColor: '#F4F4F4' }}
             labelStyle={{ fontSize: 20 }}
             size={70}
-            label="AT"
+            label={grupo.nome.split(' ').map(nome => nome[0].toUpperCase()).join('')}
             color="#9A9A9D"
           />
 
           <View style={{ flex: 1, alignItems: 'center', alignSelf: 'center' }}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-              Amigos do Trabalho
+              {grupo.nome}
             </Text>
-            <Text style={{ fontSize: 15 }}>5 membros</Text>
+            <Text style={{ fontSize: 15 }}>{(grupo.membros.length) + ' ' + (grupo.membros.length > 1 ? 'membros' : 'membro')}</Text>
           </View>
         </View>
 
@@ -344,6 +402,12 @@ const GroupScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F8F9FA',
+  },
   body: {
     flex: 1,
     backgroundColor: '#fff',
