@@ -1,27 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, View } from 'react-native';
-import CalendarComp from '../components/CalendarComp'
+import CalendarComp from '../../components/CalendarComp'
 import { Text } from 'react-native-paper';
-import CardInfo from '../components/CardInfo';
-import { dataEditavel, ehHoje } from '../utils/dateUtils';
-
+import CardInfo from '../../components/CardInfo';
+import { dataEditavel, ehHoje } from '../../utils/dateUtils';
 
 export default ({ eventos }) => {
 
     // Controla datas selecionadas no calendário
-    const [dataSelecionada, setDataSelecionada] = useState();
-
-    // Retorna os eventos do dia selecionado, para serem exibidos nos cards
-    const cardInfo = () => {
-        if (!dataSelecionada) {
-            return [];
-        } else {
-            const eventosCard = eventos.filter(
-                (evento) => evento.data === dataSelecionada.dateString
-            );
-            return eventosCard;
-        }
-    };
+    const [dataSelecionada, setDataSelecionada] = useState('');
 
     const exibeLabelDiaSelecionado = () => {
         if (!dataSelecionada) {
@@ -34,7 +21,7 @@ export default ({ eventos }) => {
         return hoje ? (
             <Text style={styles.txtLabelDiaSelecionado}>Eventos de hoje</Text>
         ) : (
-            <Text style={styles.txtLabelDiaSelecionado}> Eventos do dia {data.toLocaleDateString('pt-Br', {
+            <Text style={styles.txtLabelDiaSelecionado}> Eventos do dia {data.toLocaleDateString('pt-BR', {
                 day: 'numeric',
                 month: 'short'
             })}
@@ -42,16 +29,23 @@ export default ({ eventos }) => {
         )
     }
 
-    const exibirCardList = ({ item }) => (
-        <View key={item.id}>
+    // Retorna os eventos do dia selecionado, para serem exibidos nos cards
+    const cardInfo = () => {
+        if (!dataSelecionada) return []
+        return eventos.filter((evento) => 
+            new Date(evento.dataEvento).toLocaleDateString('sv-SE') == new Date(dataEditavel(dataSelecionada.dateString)).toLocaleDateString('sv-SE')
+    )}
+
+    const exibirCardList = ({ item: evento }) => (
+        <View key={evento.id}>
             <CardInfo>
                 <Text style={styles.cardTitulo}>
-                    {item.titulo}
+                    {evento.titulo}
                 </Text>
-                {ehHoje(dataEditavel(item.data)) ? (
+                {ehHoje(dataEditavel(evento.dataEvento)) ? (
                     <Text style={styles.dataEventoCard}> Hoje </Text>
                 ) : (
-                    <Text style={styles.dataEventoCard}> {dataEditavel(item.data).toLocaleDateString('pt-Br', {
+                    <Text style={styles.dataEventoCard}> {dataEditavel(evento.dataEvento).toLocaleDateString('pt-BR', {
                         day: 'numeric',
                         month: 'numeric'
                     })}
@@ -60,7 +54,7 @@ export default ({ eventos }) => {
                 }
 
                 <Text style={styles.cofirmadosEventoCard}>
-                    {item.subtitulo}
+                    {evento.subtitulo}
                 </Text>
             </CardInfo>
         </View>
@@ -70,6 +64,7 @@ export default ({ eventos }) => {
     useEffect(() => {
         cardInfo();
     }, [dataSelecionada]);
+
 
     return (
 
@@ -92,7 +87,7 @@ export default ({ eventos }) => {
                     <FlatList
                         data={cardInfo()}
                         renderItem={exibirCardList}
-                        keyExtractor={evento => evento.id}
+                        keyExtractor={evento => evento._id}
                         showsVerticalScrollIndicator={false}
                     />
                 ) : (

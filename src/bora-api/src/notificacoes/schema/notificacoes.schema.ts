@@ -24,6 +24,12 @@ export class Notificacao {
 
   @Prop({ default: uuidv4, unique: true })
   notificationId: string;
+
+  @Prop({ type: String, enum: ['comum', 'convite'], required: true, default: 'comum' })
+  tipo: string;
+
+  @Prop({ type: Object, default: {} })
+  dadosExtras: Record<string, any>;
 }
 
 export const NotificacaoSchema = SchemaFactory.createForClass(Notificacao);

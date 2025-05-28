@@ -9,10 +9,10 @@ import { UpdateGrupoDto } from '../dto/update-grupo.dto';
 export class GruposRepository {
   constructor(
     @InjectModel(Grupo.name)
-    private readonly grupoModel: Model<GrupoDocument>,
+    private readonly grupoModel: Model<GrupoDocument>, // Note GrupoDocument aqui
   ) {}
 
-  async create(createGrupoDto: CreateGrupoDto): Promise<Grupo> {
+  async create(createGrupoDto: CreateGrupoDto): Promise<GrupoDocument> {
     const createdGrupo = new this.grupoModel(createGrupoDto);
     return createdGrupo.save();
   }
@@ -27,6 +27,10 @@ export class GruposRepository {
       throw new NotFoundException(`Grupo com ID ${id} não encontrado`);
     }
     return grupo;
+  }
+
+  async findByUserEmail(email: string): Promise<Grupo[]> {
+    return this.grupoModel.find({ membros: email }).exec();
   }
 
   async update(id: string, updateGrupoDto: UpdateGrupoDto): Promise<Grupo> {
@@ -45,5 +49,25 @@ export class GruposRepository {
       throw new NotFoundException(`Grupo com ID ${id} não encontrado`);
     }
     return deletedGrupo;
+  }
+
+  async findByMemberId(userId: string): Promise<Grupo[]> {
+    return this.grupoModel.find({ membros: userId }).exec();
+  }
+
+  async addMembers(groupId: string, memberIds: string[]): Promise<Grupo> {
+    const updatedGrupo = await this.grupoModel
+      .findByIdAndUpdate(
+        groupId,
+        { $addToSet: { membros: { $each: memberIds } } }, // $addToSet evita duplicatas
+        { new: true },
+      )
+      .exec();
+
+    if (!updatedGrupo) {
+      throw new NotFoundException(`Grupo com ID ${groupId} não encontrado`);
+    }
+
+    return updatedGrupo;
   }
 }

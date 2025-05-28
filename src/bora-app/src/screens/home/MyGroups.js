@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -7,31 +7,116 @@ import {
     TextInput,
     ScrollView,
     SafeAreaView,
+    ActivityIndicator,
+    Alert,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Constants from "expo-constants";
+import { API_IP } from '@env';
+
+const BASE_URL =
+    Constants?.expoConfig?.extra?.API_URL || 'http://localhost:3000';
 
 const MyGroups = ({ navigation }) => {
-    const managedGroups = [
-        { id: 1, name: 'Amigos do Trabalho', members: 5, initials: 'AT' },
-        { id: 2, name: 'Família', members: 8, initials: 'F' },
-    ];
+    const [adminGroups, setAdminGroups] = useState([]);
+    const [participantGroups, setParticipantGroups] = useState([]);
+    const [search, setSearch] = useState('');
+    const [loading, setLoading] = useState(true);
 
-    const participantGroups = [
-        { id: 3, name: 'Clube de Corrida', members: 12, initials: 'CC' },
-    ];
+    // Gera iniciais
+    const getInitials = nome =>
+        nome
+            .split(' ')
+            .map(w => w[0])
+            .join('')
+            .slice(0, 2)
+            .toUpperCase();
+
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const raw = await AsyncStorage.getItem('usuario');
+                if (!raw) throw new Error('Usuário não encontrado no storage');
+                const parsed = JSON.parse(raw);
+                const email = parsed.email.trim().toLowerCase();
+                const userId = parsed._id || parsed.id; // ajuste se for outra key
+
+                const res = await fetch(
+                    `${API_IP}/grupos/usuario/${encodeURIComponent(email)}`
+                );
+                if (!res.ok) throw new Error('Falha ao carregar grupos');
+                const data = await res.json();
+
+                // separa em administrados x participados
+                const admins = data.filter(g =>
+                    Array.isArray(g.grupoAdmins) && g.grupoAdmins.includes(userId)
+                );
+                const participants = data.filter(
+                    g =>
+                        Array.isArray(g.membros) &&
+                        g.membros.includes(userId) &&
+                        !admins.some(a => a._id === g._id)
+                );
+
+                setAdminGroups(admins);
+                setParticipantGroups(participants);
+            } catch (err) {
+                console.error(err);
+                Alert.alert('Erro', err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        load();
+    }, []);
+
+    if (loading) {
+        return (
+            <View style={styles.center}>
+                <ActivityIndicator size="large" color="#7839EE" />
+            </View>
+        );
+    }
+
+    // Aplica filtro de busca em cada lista
+    const filterByName = list =>
+        list.filter(g =>
+            g.nome.toLowerCase().includes(search.trim().toLowerCase())
+        );
 
     const GroupCard = ({ group, onPress }) => (
-        <TouchableOpacity
-            style={styles.groupCard}
-            onPress={onPress}
-        >
+        <TouchableOpacity style={styles.groupCard} onPress={onPress}>
             <View style={styles.groupAvatar}>
-                <Text style={styles.groupInitials}>{group.initials}</Text>
+                <Text style={styles.groupInitials}>{getInitials(group.nome)}</Text>
             </View>
             <View style={styles.groupInfo}>
-                <Text style={styles.groupName}>{group.name}</Text>
-                <Text style={styles.groupMembers}>{group.members} membros</Text>
+                <Text style={styles.groupName}>{group.nome}</Text>
+                <Text style={styles.groupMembers}>
+                    {group.membros.length} membros
+                </Text>
             </View>
         </TouchableOpacity>
+    );
+
+    const renderSection = (title, list) => (
+        <View style={styles.sectionContainer}>
+            <Text style={styles.sectionTitle}>{title}</Text>
+            {list.length === 0 ? (
+                <Text style={{ color: '#9A9A9D', fontStyle: 'italic' }}>
+                    Nenhum grupo encontrado.
+                </Text>
+            ) : (
+                list.map(group => (
+                    <GroupCard
+                        key={group._id}
+                        group={group}
+                        onPress={() =>
+                            navigation.navigate('GroupScreen', { groupId: group._id })
+                        }
+                    />
+                ))
+            )}
+        </View>
     );
 
     return (
@@ -56,49 +141,24 @@ const MyGroups = ({ navigation }) => {
                 </TouchableOpacity>
 
                 <View style={styles.searchBar}>
-                    <Text style={styles.searchIcon}>🔍</Text>
                     <TextInput
                         style={styles.searchInput}
                         placeholder="Buscar grupo"
                         placeholderTextColor="#9A9A9D"
+                        value={search}
+                        onChangeText={setSearch}
                     />
                 </View>
 
-                <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Grupos que administro</Text>
-                    <View style={styles.cardsContainer}>
-                        {managedGroups.map((group) => (
-                            <GroupCard
-                                key={group.id}
-                                group={group}
-                                onPress={() => navigation.navigate(group.id === 1 ? 'GroupScreen' : 'GroupDetails', { groupId: group.id })}
-                            />
-                        ))}
-                    </View>
-                </View>
-
-                <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Grupos que participo</Text>
-                    <View style={styles.cardsContainer}>
-                        {participantGroups.map((group) => (
-                            <GroupCard
-                                key={group.id}
-                                group={group}
-                                onPress={() => navigation.navigate('GroupDetails', { groupId: group.id })}
-                            />
-                        ))}
-                    </View>
-                </View>
+                {renderSection('Grupos que administro', filterByName(adminGroups))}
+                {renderSection('Grupos que participo', filterByName(participantGroups))}
             </ScrollView>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFFFFF',
-    },
+    container: { flex: 1, backgroundColor: '#FFFFFF' },
     header: {
         height: 60,
         borderBottomWidth: 1,
@@ -107,17 +167,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 16,
     },
-    headerTitle: {
-        flex: 1,
-        textAlign: 'center',
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#333333',
-    },
-    content: {
-        flex: 1,
-        padding: 16,
-    },
+    backButton: { width: 30, height: 30, justifyContent: 'center', alignItems: 'center' },
+    backButtonText: { fontSize: 20, color: '#9A9A9D' },
+    headerTitle: { flex: 1, textAlign: 'center', fontSize: 16, fontWeight: '600', color: '#333333' },
+    placeholder: { width: 30 },
+    content: { flex: 1, padding: 16 },
     createGroupBtn: {
         backgroundColor: '#7839EE',
         height: 40,
@@ -126,11 +180,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 16,
     },
-    createGroupText: {
-        color: '#FFFFFF',
-        fontSize: 14,
-        fontWeight: '500',
-    },
+    createGroupText: { color: '#FFFFFF', fontSize: 14, fontWeight: '500' },
     searchBar: {
         flexDirection: 'row',
         height: 40,
@@ -140,26 +190,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         marginBottom: 16,
     },
-    searchIcon: {
-        marginRight: 8,
-    },
-    searchInput: {
-        flex: 1,
-        fontSize: 12,
-        color: '#333333',
-    },
-    sectionContainer: {
-        marginBottom: 16,
-    },
-    sectionTitle: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#333333',
-        marginBottom: 8,
-    },
-    cardsContainer: {
-        gap: 8,
-    },
+    searchInput: { flex: 1, fontSize: 12, color: '#333333' },
+    sectionContainer: { marginBottom: 16 },
+    sectionTitle: { fontSize: 14, fontWeight: '600', color: '#333333', marginBottom: 8 },
     groupCard: {
         backgroundColor: '#FFFFFF',
         borderRadius: 12,
@@ -168,6 +201,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 1,
         borderColor: '#EEEEEE',
+        marginBottom: 8,
     },
     groupAvatar: {
         width: 50,
@@ -178,32 +212,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginRight: 12,
     },
-    groupInitials: {
-        fontSize: 12,
-        color: '#9A9A9D',
-    },
-    groupInfo: {
-        flex: 1,
-    },
-    groupName: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#333333',
-    },
-    groupMembers: {
-        fontSize: 12,
-        color: '#9A9A9D',
-    },
-    backButton: {
-        width: 30,
-        height: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    backButtonText: {
-        fontSize: 20,
-        color: '#9A9A9D',
-    },
+    groupInitials: { fontSize: 12, color: '#9A9A9D' },
+    groupInfo: { flex: 1 },
+    groupName: { fontSize: 14, fontWeight: '600', color: '#333333' },
+    groupMembers: { fontSize: 12, color: '#9A9A9D' },
+    center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 });
 
 export default MyGroups;

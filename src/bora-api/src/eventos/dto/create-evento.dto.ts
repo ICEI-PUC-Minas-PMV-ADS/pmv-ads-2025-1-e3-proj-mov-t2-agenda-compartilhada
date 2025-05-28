@@ -6,4 +6,5 @@ export class CreateEventoDto {
   readonly grupoId?: string;
   dataFimEvento?: Date;
   readonly duration: number;
+  readonly donoId: string;
 }

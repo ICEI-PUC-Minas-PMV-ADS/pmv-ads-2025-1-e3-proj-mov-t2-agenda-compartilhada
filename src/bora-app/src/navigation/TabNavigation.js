@@ -12,7 +12,7 @@ import HomeDashboard from "../screens/home/Home-dashboard";
 import MyGroups from "../screens/home/MyGroups";
 import GroupDetails from "../screens/home/GroupDetails";
 import CreateGroup from "../screens/home/CreateGroup";
-import GroupScreen from '../screens/GroupScreen';
+import GroupScreen from "../screens/grupo/GroupScreen"
 
 // Telas Daianne
 import CalendarScreen from '../screens/CalendarScreen'

@@ -39,9 +39,9 @@ export default ({ nome, role, eventos }) => {
                         <Text
                             key={evento.id}
                             style={[styles.eventsDate, evento.desseGrupo ? styles.eventsDateInGroup : styles.eventsDateOutGroup]}>
-                            {dataEditavel(evento.data).toLocaleDateString('pt-Br', {
-                                day: 'numeric',
-                                month: 'numeric'
+                            {dataEditavel(evento.data).toLocaleDateString('pt-BR', {
+                                day: '2-digit',
+                                month: '2-digit'
                             })}
                         </Text>
                     )}

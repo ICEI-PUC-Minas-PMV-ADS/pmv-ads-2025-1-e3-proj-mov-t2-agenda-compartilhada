@@ -17,6 +17,7 @@ import { CalendariosModule } from './calendarios/calendarios.module';
 import { CalendariosEventosModule } from './calendarios-eventos/calendarios-eventos.module';
 import { RecoveryModule } from './recuperacao-senha/recuperacao-senha.module';
 import { AuthModule } from './auth/auth.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { AuthModule } from './auth/auth.module';
     CalendariosModule,
     CalendariosEventosModule,
     RecoveryModule,
+    DashboardModule,
   ],
   controllers: [],
   providers: [],

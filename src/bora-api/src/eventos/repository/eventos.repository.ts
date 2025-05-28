@@ -17,8 +17,8 @@ export class EventosRepository {
     return createdEvento.save();
   }
 
-  async findAll(): Promise<Evento[]> {
-    return this.eventoModel.find().exec();
+  async findAll(filter?: any): Promise<Evento[]> {
+    return this.eventoModel.find(filter).exec();
   }
 
   async findOne(id: string): Promise<Evento> {
