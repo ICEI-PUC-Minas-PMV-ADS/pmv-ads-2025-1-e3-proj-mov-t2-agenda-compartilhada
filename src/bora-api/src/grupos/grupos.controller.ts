@@ -65,4 +65,9 @@ export class GruposController {
   async remove(@Param('id') id: string): Promise<Grupo> {
     return this.gruposService.remove(id);
   }
+
+  @Get(':id/membrosEmail')
+  async getEmailsDosMembros(@Param('id') groupId: string) {
+    return this.gruposService.getEmailsDosMembros(groupId);
+  }
 }

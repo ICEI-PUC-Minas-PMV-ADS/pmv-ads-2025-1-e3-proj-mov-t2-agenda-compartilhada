@@ -3,5 +3,5 @@ export class CreateEventoDto {
   readonly descricao?: string;
   readonly dataEvento: Date;
   readonly tipo: 'individual' | 'grupo';
-  readonly grupoId?: string;
+  readonly donoId: string;
 }
