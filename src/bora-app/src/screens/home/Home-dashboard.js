@@ -60,7 +60,7 @@ const HomeDashboard = ({ navigation }) => {
         };
 
         fetchUserData();
-    }, []);
+    }, [navigation]);
 
     // Event card component
     const EventCard = ({ event, onPress }) => (
@@ -170,7 +170,7 @@ const HomeDashboard = ({ navigation }) => {
                                 <TouchableOpacity
                                     style={styles.addGroupButton}
                                     onPress={() => navigation.navigate('myGroups', {
-                                        screen: 'CreateGroupScreen' // Nome correto da tela
+                                        screen: 'CreateGroup' // Nome correto da tela
                                     })}
                                 >
                                     <Text style={styles.addGroupButtonText}>+</Text>

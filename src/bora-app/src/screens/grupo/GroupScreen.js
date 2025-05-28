@@ -9,256 +9,6 @@ import { API_IP } from '@env';
 import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const eventos = [
-  {
-    id: 1,
-    data: '2025-04-29',
-    titulo: 'Happy Hour',
-    subtitulo: 'Amigos do Trabalho',
-  },
-  {
-    id: 2,
-    data: '2025-04-30',
-    titulo: 'Jantar em família',
-    subtitulo: 'Família',
-  },
-  {
-    id: 3,
-    data: '2025-05-30',
-    titulo: 'Jantar em família',
-    subtitulo: 'Família',
-  },
-  {
-    id: 4,
-    data: '2025-04-30',
-    titulo: 'Jantar em família',
-    subtitulo: 'Família',
-  },
-  {
-    id: 5,
-    data: '2025-04-30',
-    titulo: 'Jantar em família',
-    subtitulo: 'Família',
-  },
-  {
-    id: 6,
-    data: '2025-04-30',
-    titulo: 'Jantar em família',
-    subtitulo: 'Família',
-  },
-  {
-    id: 7,
-    data: '2025-04-30',
-    titulo: 'Jantar em família',
-    subtitulo: 'Família',
-  },
-  {
-    id: 8,
-    data: '2025-04-30',
-    titulo: 'Jantar em família',
-    subtitulo: 'Família',
-  },
-  {
-    id: 9,
-    data: '2025-04-30',
-    titulo: 'Jantar em família',
-    subtitulo: 'Família',
-  },
-  {
-    id: 10,
-    data: '2025-05-04',
-    titulo: 'Jantar em família',
-    subtitulo: 'Família',
-  },
-
-];
-
-const userEventos = [
-  {
-    id: 1,
-    nome: 'Pedro Pereira (Você)',
-    role: 'Administrador',
-    eventos: [
-      {
-        id: 1,
-        data: '2025-04-30',
-        desseGrupo: true
-      },
-      {
-        id: 2,
-        data: '2025-05-02',
-        desseGrupo: true
-      },
-      {
-        id: 3,
-        data: '2025-05-13',
-        desseGrupo: true
-      },
-      {
-        id: 4,
-        data: '2025-05-27',
-        desseGrupo: false
-      },
-      {
-        id: 6,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-      {
-        id: 7,
-        data: '2025-05-30',
-        desseGrupo: false
-      },
-      {
-        id: 8,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-      {
-        id: 9,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-      {
-        id: 10,
-        data: '2025-05-30',
-        desseGrupo: false
-      },
-      {
-        id: 11,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-    ]
-  },
-
-  {
-    id: 2,
-    nome: 'João Silva',
-    role: 'Membro',
-    eventos: [
-      {
-        id: 1,
-        data: '2025-04-30',
-        desseGrupo: false
-      },
-      {
-        id: 2,
-        data: '2025-05-02',
-        desseGrupo: true
-      },
-      {
-        id: 3,
-        data: '2025-05-13',
-        desseGrupo: false
-      },
-      {
-        id: 4,
-        data: '2025-05-27',
-        desseGrupo: false
-      },
-      {
-        id: 6,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-      {
-        id: 7,
-        data: '2025-05-30',
-        desseGrupo: false
-      },
-    ]
-  },
-
-  {
-    id: 3,
-    nome: 'José Antonio',
-    role: 'Membro',
-    eventos: [
-      {
-        id: 1,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-      {
-        id: 2,
-        data: '2025-05-30',
-        desseGrupo: false
-      },
-      {
-        id: 3,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-    ]
-  },
-
-  {
-    id: 4,
-    nome: 'Maria Costa',
-    role: 'Membro',
-    eventos: [
-      {
-        id: 1,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-      {
-        id: 2,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-      {
-        id: 3,
-        data: '2025-05-30',
-        desseGrupo: false
-      },
-      {
-        id: 4,
-        data: '2025-05-30',
-        desseGrupo: false
-      },
-      {
-        id: 5,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-      {
-        id: 6,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-    ]
-  },
-  {
-    id: 5,
-    nome: 'Rogério Pena',
-    role: 'Membro',
-    eventos: [
-      {
-        id: 1,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-      {
-        id: 2,
-        data: '2025-05-30',
-        desseGrupo: false
-      },
-      {
-        id: 3,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-      {
-        id: 4,
-        data: '2025-05-30',
-        desseGrupo: true
-      },
-    ]
-  }
-];
-
 const GroupScreen = ({ navigation, route }) => {
 
   const [username, setUsername] = useState('')
@@ -266,12 +16,12 @@ const GroupScreen = ({ navigation, route }) => {
   const { groupId } = route.params
   const [grupo, setGrupo] = useState([])
   const [eventos, setEventos] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [loadingGrupo, setLoadingGrupo] = useState(true)
   const [itemAtivo, setItemAtivo] = useState(0);
+  const [membrosGrupoInfo, setMembrosGrupoInfo] = useState([])
   const scrollViewRef = useRef(null);
-  console.log(groupId)
 
-
+  //Carrega informações do usuário
   useEffect(() => {
     const loadUser = async () => {
       try {
@@ -289,36 +39,63 @@ const GroupScreen = ({ navigation, route }) => {
     loadUser();
   }, [])
 
-  if (!loadingUser) {
-    console.log(username)
-  }
-
   // Carrega informações do grupo
   useEffect(() => {
     const carregaGrupo = async () => {
+      
       if (itemAtivo == 0) {
         try {
           const grupoInfo = await axios.get(API_IP + '/grupos/' + groupId)
           const eventosGrupo = await axios.get(API_IP + '/eventos-grupo/by-grupoId/' + groupId)
           setGrupo(grupoInfo.data)
           setEventos(eventosGrupo.data)
-          console.log(grupoInfo)
         } catch (error) {
           console.error('Erro ao buscar dados do grupo: ', error)
         } finally {
-          setLoading(false)
+          setLoadingGrupo(false)
+        }
+      }
+      
+      if (itemAtivo == 1) {
+        try {
+          const membrosGrupoInfoResponse = await axios.get(API_IP + '/grupos/' + groupId + '/membros')
+          
+          const membrosGrupoInfoData = membrosGrupoInfoResponse.data
+    
+          const membrosGrupoInfoFormat = membrosGrupoInfoData.map((membro) => {
+            return {
+              id: membro.user._id,
+              nome: membro.user.name,
+              role: membro.isAdmin ? 'Administrador' : 'Membro',
+              eventos: []
+            }
+          })
+          setMembrosGrupoInfo(membrosGrupoInfoFormat)
+        } catch (error) {
+          console.error('Erro ao buscar dados dos membros do grupo: ', error)
+        } finally {
+          setLoadingGrupo(false)
         }
       }
     }
     carregaGrupo()
-  }, [itemAtivo])
+  }, [itemAtivo, groupId])
+
+  if (loadingUser || loadingGrupo) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#7839EE" />
+        <Text style={styles.loadingText}>Carregando informações do grupo...</Text>
+      </View>
+    )
+  }
 
   const menuItems = ['Calendário', 'Membros', 'Eventos'];
 
   const content = [
     <GroupCalendar eventos={eventos} />,
 
-    <GroupMemberEvents userEventos={userEventos} />,
+    <GroupMemberEvents userEventos={membrosGrupoInfo} />,
 
     <View style={styles.contentItem}>
       <Text>Content for Item 3</Text>
@@ -329,18 +106,9 @@ const GroupScreen = ({ navigation, route }) => {
     setItemAtivo(index);
   };
 
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#7839EE" />
-        <Text style={styles.loadingText}>Carregando informações do grupo...</Text>
-      </View>
-    )
-  }
-
   return (
     <SafeAreaProvider >
-      <Appbar.Header style={styles.appBarHeader} statusBarHeight={16} mode='center-aligned'>
+      <Appbar.Header style={styles.appBarHeader} mode='center-aligned'>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content titleStyle={{ fontSize: 16, fontWeight: 'bold' }} title={grupo.nome} />
       </Appbar.Header>
