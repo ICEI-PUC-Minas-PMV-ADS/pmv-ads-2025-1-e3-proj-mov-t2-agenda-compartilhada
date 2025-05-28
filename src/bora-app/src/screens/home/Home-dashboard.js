@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     StyleSheet,
     View,
@@ -13,6 +13,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { API_IP } from '@env';
+import { useFocusEffect } from '@react-navigation/native';
 
 // Get screen width to calculate spacing
 const { width } = Dimensions.get('window');
@@ -26,41 +27,43 @@ const HomeDashboard = ({ navigation }) => {
     const [userId, setUserId] = useState('');
 
     // Buscar dados do usuário ao carregar a tela
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                setLoading(true);
-                // Obter dados do usuário do AsyncStorage
-                const userJson = await AsyncStorage.getItem('usuario');
-                if (!userJson) {
-                    throw new Error('Usuário não encontrado no storage');
+    useFocusEffect(
+        React.useCallback(() => {
+            const fetchUserData = async () => {
+                try {
+                    setLoading(true);
+                    // Obter dados do usuário do AsyncStorage
+                    const userJson = await AsyncStorage.getItem('usuario');
+                    if (!userJson) {
+                        throw new Error('Usuário não encontrado no storage');
+                    }
+
+                    const userData = JSON.parse(userJson);
+                    setUserName(userData.name);
+                    setUserId(userData._id);
+
+                    // Buscar os grupos do usuário
+                    const groupsResponse = await axios.get(`${API_IP}/dashboard/groups/${userData._id}`);
+                    if (groupsResponse.data) {
+                        setUserGroups(groupsResponse.data);
+                    }
+
+                    // Buscar próximos eventos
+                    const eventsResponse = await axios.get(`${API_IP}/dashboard/events/${userData._id}`);
+                    if (eventsResponse.data) {
+                        setUpcomingEvents(eventsResponse.data);
+                    }
+                    console.log(upcomingEvents)
+                } catch (error) {
+                    console.error('Erro ao buscar dados do usuário:', error);
+                    Alert.alert('Erro', 'Não foi possível carregar seus dados');
+                } finally {
+                    setLoading(false);
                 }
-
-                const userData = JSON.parse(userJson);
-                setUserName(userData.name);
-                setUserId(userData._id);
-
-                // Buscar os grupos do usuário
-                const groupsResponse = await axios.get(`${API_IP}/dashboard/groups/${userData._id}`);
-                if (groupsResponse.data) {
-                    setUserGroups(groupsResponse.data);
-                }
-
-                // Buscar próximos eventos
-                const eventsResponse = await axios.get(`${API_IP}/dashboard/events/${userData._id}`);
-                if (eventsResponse.data) {
-                    setUpcomingEvents(eventsResponse.data);
-                }
-            } catch (error) {
-                console.error('Erro ao buscar dados do usuário:', error);
-                Alert.alert('Erro', 'Não foi possível carregar seus dados');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUserData();
-    }, [navigation]);
+            };
+            fetchUserData();
+        }, [])
+    )
 
     // Event card component
     const EventCard = ({ event, onPress }) => (
@@ -71,11 +74,11 @@ const HomeDashboard = ({ navigation }) => {
             <View style={[styles.eventColorBar, { backgroundColor: event.colorCode }]} />
             <View style={styles.eventContent}>
                 <Text style={styles.eventDateTime}>
-                    {typeof event.date === 'string'
+                    {!new Date(event.date)
                         ? event.date
                         : new Date(event.date).toLocaleDateString('pt-BR')}
                     {', '}
-                    {typeof event.time === 'string'
+                    {!new Date(event.time)
                         ? event.time
                         : new Date(event.time).toLocaleTimeString('pt-BR', {
                             hour: '2-digit',

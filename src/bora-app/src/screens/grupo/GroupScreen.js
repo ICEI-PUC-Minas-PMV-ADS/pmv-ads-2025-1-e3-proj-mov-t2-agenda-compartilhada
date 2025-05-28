@@ -4,6 +4,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import GroupCalendar from './GroupCalendar'
 import GroupMemberEvents from './GroupMemberEvents';
+import GroupEvents from './GroupEvents'
 import axios from 'axios'
 import { API_IP } from '@env';
 import { ActivityIndicator } from 'react-native';
@@ -11,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GroupScreen = ({ navigation, route }) => {
 
-  const [username, setUsername] = useState('')
+  const [userData, setUserData] = useState('')
   const [loadingUser, setLoadingUser] = useState(true)
   const { groupId } = route.params
   const [grupo, setGrupo] = useState([])
@@ -19,7 +20,6 @@ const GroupScreen = ({ navigation, route }) => {
   const [loadingGrupo, setLoadingGrupo] = useState(true)
   const [itemAtivo, setItemAtivo] = useState(0);
   const [membrosGrupoInfo, setMembrosGrupoInfo] = useState([])
-  const scrollViewRef = useRef(null);
 
   //Carrega informações do usuário
   useEffect(() => {
@@ -28,7 +28,7 @@ const GroupScreen = ({ navigation, route }) => {
         const userString = await AsyncStorage.getItem('usuario')
         if (userString) {
           const user = JSON.parse(userString)
-          setUsername(user.name)
+          setUserData(user)
         }
       } catch (error) {
         console.error('Error ao puxar user: ', error)
@@ -45,8 +45,8 @@ const GroupScreen = ({ navigation, route }) => {
       
       if (itemAtivo == 0) {
         try {
-          const grupoInfo = await axios.get(API_IP + '/grupos/' + groupId)
-          const eventosGrupo = await axios.get(API_IP + '/eventos-grupo/by-grupoId/' + groupId)
+          const grupoInfo = await axios.get(`${API_IP}/grupos/${groupId}`)
+          const eventosGrupo = await axios.get(`${API_IP}/eventos-grupo/by-grupoId/${groupId}`)
           setGrupo(grupoInfo.data)
           setEventos(eventosGrupo.data)
         } catch (error) {
@@ -58,14 +58,16 @@ const GroupScreen = ({ navigation, route }) => {
       
       if (itemAtivo == 1) {
         try {
-          const membrosGrupoInfoResponse = await axios.get(API_IP + '/grupos/' + groupId + '/membros')
+          const membrosGrupoInfoResponse = await axios.get(`${API_IP}/grupos/${groupId}/membros`)
           
           const membrosGrupoInfoData = membrosGrupoInfoResponse.data
     
           const membrosGrupoInfoFormat = membrosGrupoInfoData.map((membro) => {
             return {
               id: membro.user._id,
-              nome: membro.user.name,
+              nome: membro.user._id == userData._id ?
+                membro.user.name + ' (Você)'
+                : membro.user.name,
               role: membro.isAdmin ? 'Administrador' : 'Membro',
               eventos: []
             }
@@ -97,9 +99,7 @@ const GroupScreen = ({ navigation, route }) => {
 
     <GroupMemberEvents userEventos={membrosGrupoInfo} />,
 
-    <View style={styles.contentItem}>
-      <Text>Content for Item 3</Text>
-    </View>,
+    <GroupEvents />,
   ];
 
   const handleMenuItemPress = (index) => {
@@ -135,7 +135,6 @@ const GroupScreen = ({ navigation, route }) => {
         </TouchableOpacity>
         <View>
           <ScrollView
-            ref={scrollViewRef}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.menuContainer}>

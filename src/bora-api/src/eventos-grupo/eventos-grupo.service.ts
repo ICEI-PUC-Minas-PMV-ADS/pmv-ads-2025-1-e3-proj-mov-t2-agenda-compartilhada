@@ -68,6 +68,9 @@ export class EventosGrupoService {
     const eventos = await this.eventosService.findAll({
       _id: {$in: eventoIds}
     })
+    eventos.sort((a, b) => new Date(a.dataEvento).getTime() - new Date(b.dataEvento).getTime());
+
+    console.log(eventos)
 
     return eventos
   }
