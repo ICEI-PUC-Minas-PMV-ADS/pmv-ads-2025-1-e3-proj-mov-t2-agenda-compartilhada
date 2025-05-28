@@ -8,4 +8,5 @@ export interface Evento extends Document {
   grupoId?: string;
   dataFimEvento?: Date;
   duration: number;
+  donoId: string;
 }
