@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
 
 
-export function ModalNotificacoes({ title, message, date, handleClose}) {
+export function ModalNotificacoes({ title, message, date}) {
     return(
         <View style={styles.container}>
             <View style={styles.titleView}>
@@ -13,9 +13,6 @@ export function ModalNotificacoes({ title, message, date, handleClose}) {
             <View style={styles.dateView}>
                 <Text style={styles.dateText}>{date}</Text>
             </View>
-            <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
-                <Text style={styles.closeButtonText}>Fechar</Text>
-            </TouchableOpacity>
         </View>
     )    
 }

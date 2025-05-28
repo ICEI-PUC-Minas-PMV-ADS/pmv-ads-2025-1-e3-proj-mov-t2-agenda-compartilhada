@@ -1,47 +1,71 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { Types } from 'mongoose';
+
 import { GruposRepository } from './repository/grupos.repository';
 import { Grupo } from './schema/grupos.schema';
 import { CreateGrupoDto } from './dto/create-grupo.dto';
 import { UpdateGrupoDto } from './dto/update-grupo.dto';
-import { UsersService } from '../users/users.service'
-import { NotFoundException } from '@nestjs/common';
+import { UsersService } from '../users/users.service';
+import { User } from '../users/schema/user.schema';
 
 @Injectable()
 export class GruposService {
   constructor(
     private readonly gruposRepository: GruposRepository,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
   ) {}
 
+  private isObjectId(ref: string): boolean {
+    return Types.ObjectId.isValid(ref);
+  }
+
+  private normalizeRef(ref: string): string {
+    return this.isObjectId(ref) ? ref : ref.trim().toLowerCase();
+  }
+
   async create(createGrupoDto: CreateGrupoDto): Promise<Grupo> {
-    
-    // Valida usuários quando grupo é criado
-    const { membros, grupoAdmins } = createGrupoDto;
+    const membrosRef = [...(createGrupoDto.membros ?? [])];
+    const adminsRef = [...(createGrupoDto.grupoAdmins ?? [])];
 
-    const userIds = Array.from(new Set ([...(membros ?? []), ...(grupoAdmins ?? [])]));
-
-    if (userIds.length == 0) {
-      throw new BadRequestException('membros e grupoAdmins devem conter ao menos um ID');
+    if (membrosRef.length === 0 && adminsRef.length === 0) {
+      throw new BadRequestException(
+        'membros e/ou grupoAdmins devem conter ao menos um ID ou e-mail',
+      );
     }
 
-    const userExiste = await Promise.all (
-      userIds.map(async (id) => {
-        try {
-          await this.usersService.findOne(id);
-          return true;
-        } catch {
-          return false;
-        }
-      })
-    )
+    const refs = Array.from(new Set([...membrosRef, ...adminsRef]));
+    const refToId = new Map<string, string>();
 
-    const userValidos = userExiste.every((existe) => existe)
+    for (const refOriginal of refs) {
+      if (this.isObjectId(refOriginal)) {
+        refToId.set(refOriginal, refOriginal);
+        continue;
+      }
 
-    if (!userValidos) {
-      throw new NotFoundException(`Usuários inválidos ou inexistentes na criação do grupo`)
+      const email = this.normalizeRef(refOriginal);
+
+      const user = await this.usersService.findByEmail(email);
+      if (!user) {
+        throw new NotFoundException(`Usuário "${refOriginal}" não encontrado`);
+      }
+
+      refToId.set(refOriginal, String(user._id));
     }
 
-    return this.gruposRepository.create(createGrupoDto);
+    const membrosIds = membrosRef.map((r) => refToId.get(r)!);
+    const grupoAdminsIds = adminsRef.map((r) => refToId.get(r)!);
+
+    const payload: CreateGrupoDto = {
+      ...createGrupoDto,
+      membros: membrosIds,
+      grupoAdmins: grupoAdminsIds,
+    };
+
+    return this.gruposRepository.create(payload);
   }
 
   async findAll(): Promise<Grupo[]> {
@@ -58,5 +82,93 @@ export class GruposService {
 
   async remove(id: string): Promise<Grupo> {
     return this.gruposRepository.remove(id);
+  }
+
+  async findByUserEmail(email: string): Promise<Grupo[]> {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const user = await this.usersService.findByEmail(normalizedEmail);
+    if (!user) {
+      throw new NotFoundException(`Usuário "${email}" não encontrado`);
+    }
+
+    return this.gruposRepository.findByUserEmail(normalizedEmail);
+  }
+
+  async getMembersWithDetails(
+    groupId: string,
+  ): Promise<Array<{ user: User; isAdmin: boolean }>> {
+    const grupo = await this.gruposRepository.findOne(groupId);
+
+    const membersWithDetails = await Promise.all(
+      grupo.membros.map(async (memberId) => {
+        const user = await this.usersService.findOne(memberId);
+        if (!user) {
+          throw new NotFoundException(
+            `Usuário com ID ${memberId} não encontrado`,
+          );
+        }
+
+        return {
+          user,
+          isAdmin:
+            Array.isArray(grupo.grupoAdmins) &&
+            grupo.grupoAdmins.includes(memberId),
+        };
+      }),
+    );
+
+    return membersWithDetails;
+  }
+
+  async addMembers(groupId: string, newMembers: string[]): Promise<Grupo> {
+    const grupo = await this.gruposRepository.findOne(groupId);
+
+    const newMemberIds: string[] = [];
+
+    for (const memberRef of newMembers) {
+      if (this.isObjectId(memberRef)) {
+        const user = await this.usersService.findOne(memberRef);
+        if (!user) {
+          throw new NotFoundException(
+            `Usuário com ID "${memberRef}" não encontrado`,
+          );
+        }
+        newMemberIds.push(memberRef);
+        continue;
+      }
+
+      const email = this.normalizeRef(memberRef);
+      const user = await this.usersService.findByEmail(email);
+      if (!user) {
+        throw new NotFoundException(
+          `Usuário com email "${memberRef}" não encontrado`,
+        );
+      }
+
+      newMemberIds.push(String(user._id));
+    }
+
+    const currentMemberIds = grupo.membros || [];
+    const allMemberIds = [...currentMemberIds, ...newMemberIds];
+    const uniqueMemberIds = Array.from(new Set(allMemberIds));
+
+    return this.gruposRepository.update(groupId, {
+      membros: uniqueMemberIds,
+    });
+  }
+
+  async getEmailsDosMembros(groupId: string): Promise<string[]> {
+    const grupo = await this.gruposRepository.findOne(groupId);
+
+    if (!grupo) {
+      throw new NotFoundException(`Grupo com ID ${groupId} não encontrado`);
+    }
+
+    if (!Array.isArray(grupo.membros) || grupo.membros.length === 0) {
+      return [];
+    }
+
+    return grupo.membros;
   }
 }

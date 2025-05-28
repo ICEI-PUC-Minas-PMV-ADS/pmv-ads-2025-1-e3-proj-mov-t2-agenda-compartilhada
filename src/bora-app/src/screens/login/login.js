@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_IP } from '@env';
 import { Ionicons } from '@expo/vector-icons';
 
+
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -35,6 +36,12 @@ export default function LoginScreen({ navigation }) {
       if (response.data.user) {
         await AsyncStorage.setItem('usuario', JSON.stringify(response.data.user));
       }
+
+      const token = await AsyncStorage.getItem('access_token');
+      const usuario = await  AsyncStorage.getItem('usuario');
+      const usuarioId = JSON.parse(usuario)._id;
+      const usuarioName = JSON.parse(usuario).name;
+      const usuarioEmail = JSON.parse(usuario).email;
 
       navigation.replace('mainTab');
     } catch (error) {

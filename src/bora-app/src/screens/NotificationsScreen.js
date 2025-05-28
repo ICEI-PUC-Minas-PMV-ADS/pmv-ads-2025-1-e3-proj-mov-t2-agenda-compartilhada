@@ -5,7 +5,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     SafeAreaView,
-    FlatList, // FlatList não é usado diretamente, mas SectionList é. Pode remover se não for usar.
+    FlatList,
     ActivityIndicator,
     RefreshControl,
     SectionList,

@@ -1,52 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, View } from 'react-native';
-import CalendarComp from '../components/CalendarComp'
+import CalendarComp from '../../components/CalendarComp'
 import { Text } from 'react-native-paper';
-import CardInfo from '../components/CardInfo';
-import { dataEditavel, ehHoje } from '../utils/dateUtils';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import CardInfo from '../../components/CardInfo';
+import { dataEditavel, ehHoje } from '../../utils/dateUtils';
 
 export default ({ eventos }) => {
 
-
-    const [username, setUsername] = useState('')
-const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        const loadUser = async () => {
-            try {
-                const userString = await AsyncStorage.getItem('usuario')
-                if (userString) {
-                    const user = JSON.parse(userString)
-                    setUsername(user.name)
-                }
-            } catch (error) {
-                console.error('Error ao puxar user: ', error)
-            } finally {
-                setLoading(false)
-            }
-        }
-        loadUser();
-    }, [])
-
-    if (!loading) {
-        console.log(username)
-    }
-
     // Controla datas selecionadas no calendário
-    const [dataSelecionada, setDataSelecionada] = useState();
-
-    // Retorna os eventos do dia selecionado, para serem exibidos nos cards
-    const cardInfo = () => {
-        if (!dataSelecionada) {
-            return [];
-        } else {
-            const eventosCard = eventos.filter(
-                (evento) => evento.data === dataSelecionada.dateString
-            );
-            return eventosCard;
-        }
-    };
+    const [dataSelecionada, setDataSelecionada] = useState('');
 
     const exibeLabelDiaSelecionado = () => {
         if (!dataSelecionada) {
@@ -59,7 +21,7 @@ const [loading, setLoading] = useState(true)
         return hoje ? (
             <Text style={styles.txtLabelDiaSelecionado}>Eventos de hoje</Text>
         ) : (
-            <Text style={styles.txtLabelDiaSelecionado}> Eventos do dia {data.toLocaleDateString('pt-Br', {
+            <Text style={styles.txtLabelDiaSelecionado}> Eventos do dia {data.toLocaleDateString('pt-BR', {
                 day: 'numeric',
                 month: 'short'
             })}
@@ -67,16 +29,23 @@ const [loading, setLoading] = useState(true)
         )
     }
 
-    const exibirCardList = ({ item }) => (
-        <View key={item.id}>
+    // Retorna os eventos do dia selecionado, para serem exibidos nos cards
+    const cardInfo = () => {
+        if (!dataSelecionada) return []
+        return eventos.filter((evento) => 
+            new Date(evento.dataEvento).toLocaleDateString('sv-SE') == new Date(dataEditavel(dataSelecionada.dateString)).toLocaleDateString('sv-SE')
+    )}
+
+    const exibirCardList = ({ item: evento }) => (
+        <View key={evento.id}>
             <CardInfo>
                 <Text style={styles.cardTitulo}>
-                    {item.titulo}
+                    {evento.titulo}
                 </Text>
-                {ehHoje(dataEditavel(item.data)) ? (
+                {ehHoje(dataEditavel(evento.dataEvento)) ? (
                     <Text style={styles.dataEventoCard}> Hoje </Text>
                 ) : (
-                    <Text style={styles.dataEventoCard}> {dataEditavel(item.data).toLocaleDateString('pt-Br', {
+                    <Text style={styles.dataEventoCard}> {dataEditavel(evento.dataEvento).toLocaleDateString('pt-BR', {
                         day: 'numeric',
                         month: 'numeric'
                     })}
@@ -85,7 +54,7 @@ const [loading, setLoading] = useState(true)
                 }
 
                 <Text style={styles.cofirmadosEventoCard}>
-                    {item.subtitulo}
+                    {evento.subtitulo}
                 </Text>
             </CardInfo>
         </View>
@@ -95,6 +64,7 @@ const [loading, setLoading] = useState(true)
     useEffect(() => {
         cardInfo();
     }, [dataSelecionada]);
+
 
     return (
 
@@ -117,7 +87,7 @@ const [loading, setLoading] = useState(true)
                     <FlatList
                         data={cardInfo()}
                         renderItem={exibirCardList}
-                        keyExtractor={evento => evento.id}
+                        keyExtractor={evento => evento._id}
                         showsVerticalScrollIndicator={false}
                     />
                 ) : (

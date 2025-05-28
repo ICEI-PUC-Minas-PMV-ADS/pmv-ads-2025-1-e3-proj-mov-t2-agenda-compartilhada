@@ -8,6 +8,7 @@ import {
   Alert,
   ImageBackground,
   Image,
+  FlatList,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
@@ -22,9 +23,10 @@ export default function CadastroScreen({ navigation }) {
   const [image, setImage] = useState(null);
   const [senhaVisivel, setSenhaVisivel] = useState(false);
   const [confirmSenhaVisivel, setConfirmSenhaVisivel] = useState(false);
+  const [feedbackSenhaVisible, setFeedbackSenhaVisible] = useState(false)
 
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).+$/;
+  const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{5,}$/;
 
   useEffect(() => {
     (async () => {
@@ -104,7 +106,10 @@ export default function CadastroScreen({ navigation }) {
       return Alert.alert('Digite um e-mail válido.');
     }
     if (senha.length < 5 || !regexSenha.test(senha)) {
+      setFeedbackSenhaVisible(true);
       return Alert.alert('Digite uma senha válida.');
+    } else {
+      setFeedbackSenhaVisible(false);
     }
     if (senha !== confirmSenha) {
       return Alert.alert('As senhas devem ser iguais.');
@@ -228,7 +233,21 @@ export default function CadastroScreen({ navigation }) {
               />
             </TouchableOpacity>
           </View>
-
+          {feedbackSenhaVisible && (
+            <View style={styles.feedbackSenhaView}>
+              <Text style={styles.feedbackSenhaText}>A senha deve conter:</Text>
+              <FlatList
+                style={styles.feedbackSenhaList}
+                data={[
+                  {key: 'Letra minúscula'},
+                  {key: 'Letra maiúscula'},
+                  {key: 'Caractere especial'},
+                  {key: 'Mais de 4 caracteres'},
+                ]}
+                renderItem={({item}) => <Text style={styles.itemFeedbackSenhaList}>{item.key}</Text>}
+              />
+            </View>
+          )}
           <TouchableOpacity style={styles.button} onPress={handleCadastro}>
             <Text style={styles.buttonText}>Cadastrar</Text>
           </TouchableOpacity>
@@ -308,4 +327,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  feedbackSenhaList: {
+    marginLeft: 20
+  },
+  itemFeedbackSenhaList: {
+    color: 'red'
+  },
+  feedbackSenhaText: {
+    color: 'red',
+    fontWeight: 'bold',
+    marginLeft: 5
+  }
 });

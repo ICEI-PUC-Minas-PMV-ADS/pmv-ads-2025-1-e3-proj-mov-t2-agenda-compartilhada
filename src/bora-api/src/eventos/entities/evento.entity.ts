@@ -6,4 +6,7 @@ export interface Evento extends Document {
   dataEvento: Date;
   tipo: 'individual' | 'grupo';
   grupoId?: string;
+  dataFimEvento?: Date;
+  duration: number;
+  donoId: string;
 }
