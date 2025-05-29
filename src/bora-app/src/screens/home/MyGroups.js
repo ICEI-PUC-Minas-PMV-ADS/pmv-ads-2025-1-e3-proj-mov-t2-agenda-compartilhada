@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+// src/screens/home/MyGroups.js
+import React, { useState, useCallback } from 'react';
 import {
     View,
     Text,
@@ -11,7 +12,8 @@ import {
     Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Constants from "expo-constants";
+import Constants from 'expo-constants';
+import { useFocusEffect } from '@react-navigation/native';
 
 const BASE_URL =
     Constants?.expoConfig?.extra?.API_URL || 'http://localhost:3000';
@@ -22,52 +24,46 @@ const MyGroups = ({ navigation }) => {
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
 
-    // Gera iniciais
-    const getInitials = nome =>
-        nome
-            .split(' ')
-            .map(w => w[0])
-            .join('')
-            .slice(0, 2)
-            .toUpperCase();
+    const loadGroups = useCallback(async () => {
+        try {
+            setLoading(true);
+            const raw = await AsyncStorage.getItem('usuario');
+            if (!raw) throw new Error('Usuário não encontrado no storage');
+            const parsed = JSON.parse(raw);
+            const email = parsed.email.trim().toLowerCase();
+            const userId = parsed._id || parsed.id;
 
-    useEffect(() => {
-        const load = async () => {
-            try {
-                const raw = await AsyncStorage.getItem('usuario');
-                if (!raw) throw new Error('Usuário não encontrado no storage');
-                const parsed = JSON.parse(raw);
-                const email = parsed.email.trim().toLowerCase();
-                const userId = parsed._id || parsed.id; // ajuste se for outra key
+            const res = await fetch(
+                `${BASE_URL}/grupos/usuario/${encodeURIComponent(email)}`
+            );
+            if (!res.ok) throw new Error('Falha ao carregar grupos');
+            const data = await res.json();
 
-                const res = await fetch(
-                    `${BASE_URL}/grupos/usuario/${encodeURIComponent(email)}`
-                );
-                if (!res.ok) throw new Error('Falha ao carregar grupos');
-                const data = await res.json();
+            const admins = data.filter(g =>
+                Array.isArray(g.grupoAdmins) && g.grupoAdmins.includes(userId)
+            );
+            const participants = data.filter(
+                g =>
+                    Array.isArray(g.membros) &&
+                    g.membros.includes(userId) &&
+                    !admins.some(a => a._id === g._id)
+            );
 
-                // separa em administrados x participados
-                const admins = data.filter(g =>
-                    Array.isArray(g.grupoAdmins) && g.grupoAdmins.includes(userId)
-                );
-                const participants = data.filter(
-                    g =>
-                        Array.isArray(g.membros) &&
-                        g.membros.includes(userId) &&
-                        !admins.some(a => a._id === g._id)
-                );
-
-                setAdminGroups(admins);
-                setParticipantGroups(participants);
-            } catch (err) {
-                console.error(err);
-                Alert.alert('Erro', err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        load();
+            setAdminGroups(admins);
+            setParticipantGroups(participants);
+        } catch (err) {
+            console.error(err);
+            Alert.alert('Erro', err.message);
+        } finally {
+            setLoading(false);
+        }
     }, []);
+
+    useFocusEffect(
+        useCallback(() => {
+            loadGroups();
+        }, [loadGroups])
+    );
 
     if (loading) {
         return (
@@ -77,7 +73,6 @@ const MyGroups = ({ navigation }) => {
         );
     }
 
-    // Aplica filtro de busca em cada lista
     const filterByName = list =>
         list.filter(g =>
             g.nome.toLowerCase().includes(search.trim().toLowerCase())
@@ -86,13 +81,18 @@ const MyGroups = ({ navigation }) => {
     const GroupCard = ({ group, onPress }) => (
         <TouchableOpacity style={styles.groupCard} onPress={onPress}>
             <View style={styles.groupAvatar}>
-                <Text style={styles.groupInitials}>{getInitials(group.nome)}</Text>
+                <Text style={styles.groupInitials}>
+                    {group.nome
+                        .split(' ')
+                        .map(w => w[0])
+                        .join('')
+                        .slice(0, 2)
+                        .toUpperCase()}
+                </Text>
             </View>
             <View style={styles.groupInfo}>
                 <Text style={styles.groupName}>{group.nome}</Text>
-                <Text style={styles.groupMembers}>
-                    {group.membros.length} membros
-                </Text>
+                <Text style={styles.groupMembers}>{group.membros.length} membros</Text>
             </View>
         </TouchableOpacity>
     );

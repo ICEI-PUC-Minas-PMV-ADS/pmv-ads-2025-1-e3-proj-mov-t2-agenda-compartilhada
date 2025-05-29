@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// src/screens/home/HomeDashboard.js
+import React, { useState, useCallback } from 'react';
 import {
     StyleSheet,
     View,
@@ -12,96 +13,43 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 import { API_IP } from '@env';
 
-// Get screen width to calculate spacing
 const { width } = Dimensions.get('window');
 
 const HomeDashboard = ({ navigation }) => {
-    // Estados para armazenar dados
     const [userName, setUserName] = useState('');
     const [userGroups, setUserGroups] = useState([]);
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [userId, setUserId] = useState('');
 
-    // Buscar dados do usuário ao carregar a tela
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                setLoading(true);
-                // Obter dados do usuário do AsyncStorage
-                const userJson = await AsyncStorage.getItem('usuario');
-                if (!userJson) {
-                    throw new Error('Usuário não encontrado no storage');
-                }
+    const fetchUserData = useCallback(async () => {
+        try {
+            setLoading(true);
+            const userJson = await AsyncStorage.getItem('usuario');
+            if (!userJson) throw new Error('Usuário não encontrado no storage');
 
-                const userData = JSON.parse(userJson);
-                setUserName(userData.name);
-                setUserId(userData._id);
+            const userData = JSON.parse(userJson);
+            setUserName(userData.name);
 
-                // Buscar os grupos do usuário
-                const groupsResponse = await axios.get(`${API_IP}/dashboard/groups/${userData._id}`);
-                if (groupsResponse.data) {
-                    setUserGroups(groupsResponse.data);
-                }
+            const groupsRes = await axios.get(`${API_IP}/dashboard/groups/${userData._id}`);
+            setUserGroups(groupsRes.data || []);
 
-                // Buscar próximos eventos
-                const eventsResponse = await axios.get(`${API_IP}/dashboard/events/${userData._id}`);
-                if (eventsResponse.data) {
-                    setUpcomingEvents(eventsResponse.data);
-                }
-            } catch (error) {
-                console.error('Erro ao buscar dados do usuário:', error);
-                Alert.alert('Erro', 'Não foi possível carregar seus dados');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUserData();
+            const eventsRes = await axios.get(`${API_IP}/dashboard/events/${userData._id}`);
+            setUpcomingEvents(eventsRes.data || []);
+        } catch (error) {
+            console.error('Erro ao buscar dados do usuário:', error);
+            Alert.alert('Erro', 'Não foi possível carregar seus dados');
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
-    // Event card component
-    const EventCard = ({ event, onPress }) => (
-        <TouchableOpacity
-            style={styles.eventCard}
-            onPress={onPress}
-        >
-            <View style={[styles.eventColorBar, { backgroundColor: event.colorCode }]} />
-            <View style={styles.eventContent}>
-                <Text style={styles.eventDateTime}>
-                    {typeof event.date === 'string'
-                        ? event.date
-                        : new Date(event.date).toLocaleDateString('pt-BR')}
-                    {', '}
-                    {typeof event.time === 'string'
-                        ? event.time
-                        : new Date(event.time).toLocaleTimeString('pt-BR', {
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        })}
-                </Text>
-                <Text style={styles.eventTitle}>{event.title}</Text>
-                <Text style={styles.eventGroup}>{event.group}</Text>
-            </View>
-            <View style={styles.participantsCircle}>
-                <Text style={styles.participantsCount}>{event.participants}</Text>
-            </View>
-        </TouchableOpacity>
-    );
-
-    // Group circle component
-    const GroupCircle = ({ group, onPress }) => (
-        <View style={styles.groupCircleContainer}>
-            <TouchableOpacity
-                style={styles.groupCircle}
-                onPress={onPress}
-            >
-                <Text style={styles.groupInitials}>{group.initials}</Text>
-            </TouchableOpacity>
-            <Text style={styles.groupName}>{group.name}</Text>
-        </View>
+    useFocusEffect(
+        useCallback(() => {
+            fetchUserData();
+        }, [fetchUserData])
     );
 
     if (loading) {
@@ -113,22 +61,49 @@ const HomeDashboard = ({ navigation }) => {
         );
     }
 
+    const EventCard = ({ event, onPress }) => (
+        <TouchableOpacity style={styles.eventCard} onPress={onPress}>
+            <View style={[styles.eventColorBar, { backgroundColor: event.colorCode }]} />
+            <View style={styles.eventContent}>
+                <Text style={styles.eventDateTime}>
+                    {typeof event.date === 'string'
+                        ? event.date
+                        : new Date(event.date).toLocaleDateString('pt-BR')}
+                    {', '}
+                    {typeof event.time === 'string'
+                        ? event.time
+                        : new Date(event.time).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                </Text>
+                <Text style={styles.eventTitle}>{event.title}</Text>
+                <Text style={styles.eventGroup}>{event.group}</Text>
+            </View>
+            <View style={styles.participantsCircle}>
+                <Text style={styles.participantsCount}>{event.participants}</Text>
+            </View>
+        </TouchableOpacity>
+    );
+
+    const GroupCircle = ({ group, onPress }) => (
+        <View style={styles.groupCircleContainer}>
+            <TouchableOpacity style={styles.groupCircle} onPress={onPress}>
+                <Text style={styles.groupInitials}>{group.initials}</Text>
+            </TouchableOpacity>
+            <Text style={styles.groupName}>{group.name}</Text>
+        </View>
+    );
+
     return (
         <View style={styles.container}>
             <SafeAreaView style={styles.safeArea}>
                 <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-                    {/* Header line */}
                     <View style={styles.headerLine} />
-
-                    {/* Greeting */}
                     <Text style={styles.greeting}>Olá, {userName}!</Text>
 
-                    {/* Upcoming events section */}
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Próximos eventos</Text>
                         <View style={styles.eventsContainer}>
                             {upcomingEvents.length > 0 ? (
-                                upcomingEvents.map((event) => (
+                                upcomingEvents.map(event => (
                                     <EventCard
                                         key={event.id}
                                         event={event}
@@ -148,34 +123,33 @@ const HomeDashboard = ({ navigation }) => {
                         </View>
                     </View>
 
-                    {/* Groups section */}
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Meus grupos</Text>
                         <View style={styles.groupsContainer}>
-                            {userGroups.length > 0 ? (
-                                userGroups.map((group) => (
-                                    <GroupCircle
-                                        key={group.id}
-                                        group={group}
-                                        onPress={() =>
-                                            navigation.navigate('myGroups', {
-                                                screen: 'GroupDetails',
-                                                params: { groupId: group.id }
-                                            })
-                                        }
-                                    />
-                                ))
-                            ) : null}
+                            {userGroups.map(group => (
+                                <GroupCircle
+                                    key={group.id}
+                                    group={group}
+                                    onPress={() =>
+                                        navigation.navigate('myGroups', {
+                                            screen: 'GroupDetails',
+                                            params: { groupId: group.id }
+                                        })
+                                    }
+                                />
+                            ))}
                             <View style={styles.groupCircleContainer}>
                                 <TouchableOpacity
                                     style={styles.addGroupButton}
-                                    onPress={() => navigation.navigate('myGroups', {
-                                        screen: 'CreateGroupScreen' // Nome correto da tela
-                                    })}
+                                    onPress={() =>
+                                        navigation.navigate('myGroups', {
+                                            screen: 'CreateGroupScreen'
+                                        })
+                                    }
                                 >
                                     <Text style={styles.addGroupButtonText}>+</Text>
                                 </TouchableOpacity>
-                                <Text style={styles.groupName}></Text>
+                                <Text style={styles.groupName} />
                             </View>
                         </View>
                     </View>
@@ -222,14 +196,14 @@ const styles = StyleSheet.create({
     section: {
         marginBottom: 30,
     },
-    eventsContainer: {
-        marginTop: 10,
-    },
     sectionTitle: {
         fontSize: 18,
         fontWeight: '600',
         color: '#333333',
         marginBottom: 15,
+    },
+    eventsContainer: {
+        marginTop: 10,
     },
     eventCard: {
         flexDirection: 'row',
