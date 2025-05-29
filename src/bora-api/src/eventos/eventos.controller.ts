@@ -3,10 +3,14 @@ import { EventosService } from './eventos.service';
 import { CreateEventoDto } from './dto/create-evento.dto';
 import { UpdateEventoDto } from './dto/update-evento.dto';
 import { Evento } from './schema/eventos.schema';
+import { GruposRepository } from 'src/grupos/repository/grupos.repository';
 
 @Controller('eventos')
 export class EventosController {
-  constructor(private readonly eventosService: EventosService) {}
+  constructor(
+    private readonly eventosService: EventosService,
+    private readonly gruposRepository: GruposRepository,
+  ) {}
 
   @Post()
   async create(@Body() createEventoDto: CreateEventoDto): Promise<Evento> {
@@ -34,5 +38,27 @@ export class EventosController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Evento> {
     return this.eventosService.remove(id);
+  }
+
+  @Get('donoId/:id')
+  async findByDonoId(@Param('id') donoId: string): Promise<Evento[]> {
+    return this.eventosService.findAll({ donoId });
+  }
+
+  @Get('individuais/usuario/:id')
+  async findEventosIndividuaisPorUsuario(@Param('id') id: string): Promise<Evento[]> {
+    return this.eventosService.findAll({ donoId: id, tipo: 'individual' });
+  }
+
+  @Get('grupo/usuario/:id')
+  async findEventosDeGruposPorUsuario(@Param('id') id: string): Promise<Evento[]> {
+    const grupos = await this.gruposRepository.findByMemberId(id);
+    const grupoIds = grupos.map(grupo => grupo._id.toString());
+    return this.eventosService.findAll({ donoId: { $in: grupoIds }, tipo: 'grupo' });
+  }
+
+  @Get('todos-eventos/:id')
+  async getTodosEventosDoGrupo(@Param('id') grupoId: string) {
+    return this.eventosService.getEventosCompletosDoGrupo(grupoId);
   }
 }
