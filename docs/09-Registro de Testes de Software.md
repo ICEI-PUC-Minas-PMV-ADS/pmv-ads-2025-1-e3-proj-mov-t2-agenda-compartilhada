@@ -159,9 +159,8 @@ Garantir que o frontend apresente todas as informações e ações, mesmo sem ba
 
 **Observações de Backend:**
 
-* Endpoints de detalhes de grupo, eventos e membros pendentes; 
-
----
+* Vídeo de registro de teste mostrando as seguintes telas Home-dashboard, meus grupos,criar grupo e detalhes do grupo; 
+[Screen Recording 2025-05-28 at 22.06.22.mov](img/v%C3%ADdeo/Screen%20Recording%202025-05-28%20at%2022.06.22.mov)
 
 # Registro de Testes de Software
 
