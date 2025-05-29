@@ -11,13 +11,13 @@ import { EventosService } from './eventos.service';
 import { CreateEventoDto } from './dto/create-evento.dto';
 import { UpdateEventoDto } from './dto/update-evento.dto';
 import { Evento } from './schema/eventos.schema';
-import { GruposService } from 'src/grupos/grupos.service';
+import { GruposRepository } from 'src/grupos/repository/grupos.repository';
 
 @Controller('eventos')
 export class EventosController {
   constructor(
     private readonly eventosService: EventosService,
-    private readonly gruposService: GruposService,
+    private readonly gruposRepository: GruposRepository,
   ) {}
 
   @Post()
@@ -58,16 +58,11 @@ export class EventosController {
     return this.eventosService.findAll({ donoId: id, tipo: 'individual' });
   }
 
-  @Get('grupo/usuario/:email')
-  async findEventosDeGruposPorUsuario(@Param('email') email: string): Promise<Evento[]> {
-    const grupos = await this.gruposService.findByUserEmail(email);
+  @Get('grupo/usuario/:id')
+  async findEventosDeGruposPorUsuario(@Param('id') id: string): Promise<Evento[]> {
+    const grupos = await this.gruposRepository.findByMemberId(id);
     const grupoIds = grupos.map(grupo => grupo._id.toString());
     return this.eventosService.findAll({ donoId: { $in: grupoIds }, tipo: 'grupo' });
-  }
-
-  @Get('individuais/email/:email')
-  async findEventosIndividuaisPorEmail(@Param('email') email: string): Promise<Evento[]> {
-    return this.eventosService.findIndividuaisByEmail(email);
   }
 
   @Get('todos-eventos/:id')

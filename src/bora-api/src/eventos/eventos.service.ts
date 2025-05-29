@@ -50,11 +50,11 @@ export class EventosService {
     return this.eventosRepository.findOne(id);
   }
 
-  async findIndividuaisByEmail(email: string): Promise<Evento[]> {
-    const user = await this.usersService.findByEmail(email.trim().toLowerCase());
+  async findIndividuaisById(id: string): Promise<Evento[]> {
+    const user = await this.usersService.findOne(id.trim().toLowerCase());
 
     if (!user) {
-      throw new NotFoundException(`Usuário com email "${email}" não encontrado`);
+      throw new NotFoundException(`Usuário com id "${id}" não encontrado`);
     }
 
     return this.findAll({ donoId: user._id.toString(), tipo: 'individual' });
@@ -66,11 +66,11 @@ export class EventosService {
 
   async getEventosCompletosDoGrupo(grupoId: string) {
   
-    const emails = await this.gruposService.getEmailsDosMembros(grupoId);
+    const users = await this.gruposService.getMembersWithDetails(grupoId);
 
     const eventosIndividuais = (
       await Promise.all(
-        emails.map(email => this.findIndividuaisByEmail(email))
+        users.map(userData => this.findIndividuaisById(userData.user._id.toString()))
       )
     ).flat();
 
