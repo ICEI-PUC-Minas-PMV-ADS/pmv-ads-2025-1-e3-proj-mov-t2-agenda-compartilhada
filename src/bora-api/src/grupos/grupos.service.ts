@@ -85,14 +85,14 @@ export class GruposService {
   }
 
   async findByUserEmail(email: string): Promise<Grupo[]> {
-    const normalizedEmail = email.trim().toLowerCase();
-
-    const user = await this.usersService.findByEmail(normalizedEmail);
+    const user = await this.usersService.findByEmail(
+      email.trim().toLowerCase(),
+    );
     if (!user) {
       throw new NotFoundException(`Usuário "${email}" não encontrado`);
     }
 
-    return this.gruposRepository.findByUserEmail(normalizedEmail);
+    return this.gruposRepository.findByMemberId(String(user._id));
   }
 
   async getMembersWithDetails(
@@ -156,19 +156,5 @@ export class GruposService {
     return this.gruposRepository.update(groupId, {
       membros: uniqueMemberIds,
     });
-  }
-
-  async getEmailsDosMembros(groupId: string): Promise<string[]> {
-    const grupo = await this.gruposRepository.findOne(groupId);
-
-    if (!grupo) {
-      throw new NotFoundException(`Grupo com ID ${groupId} não encontrado`);
-    }
-
-    if (!Array.isArray(grupo.membros) || grupo.membros.length === 0) {
-      return [];
-    }
-
-    return grupo.membros;
   }
 }

@@ -17,20 +17,20 @@ export class Evento {
   @Prop({ required: true })
   dataEvento: Date;
 
+  @Prop()
+  dataFimEvento?: Date;
+
   @Prop({ required: true, enum: ['individual', 'grupo'] })
   tipo: string;
 
-  @Prop()
-  grupoId?: string;
-  
-  @Prop()
-  dataFimEvento?: Date; 
+  @Prop({required: true})
+  donoId: string; //GrupoId ou UserId
 
-  @Prop({ required: true })
-  duration: number;
-  
-  @Prop({ required: true })
-  donoId?: string;
+  @Prop()
+  confirmados: string[];
+
+  @Prop()
+  recusas: string[];
 }
 
 export const EventoSchema = SchemaFactory.createForClass(Evento);

@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GroupScreen = ({ navigation, route }) => {
 
-  const [username, setUsername] = useState('')
+  const [user, setUser] = useState('')
   const [loadingUser, setLoadingUser] = useState(true)
   const { groupId } = route.params
   const [grupo, setGrupo] = useState([])
@@ -28,7 +28,7 @@ const GroupScreen = ({ navigation, route }) => {
         const userString = await AsyncStorage.getItem('usuario')
         if (userString) {
           const user = JSON.parse(userString)
-          setUsername(user.name)
+          setUser(user)
         }
       } catch (error) {
         console.error('Error ao puxar user: ', error)
