@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,8 +12,29 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { API_IP } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CreateEventScreen = ({ navigation }) => {
+
+  //Carrega informações do usuário
+  const[user, setUser] = useState('')
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const userString = await AsyncStorage.getItem('usuario')
+        if (userString) {
+          const user = JSON.parse(userString)
+          setUser(user)
+        }
+      } catch (error) {
+        console.error('Error ao puxar user: ', error)
+      } finally {
+        setLoadingUser(false)
+      }
+    }
+    loadUser();
+  }, [])
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [dateText, setDateText] = useState('');    // DD/MM/YYYY
@@ -55,9 +76,8 @@ const CreateEventScreen = ({ navigation }) => {
           descricao: payload.descricao,
           dataEvento: payload.dataEvento,
           tipo: payload.tipo,
-          grupoId: payload.grupoId,
+          donoId: payload.donoId,
           dataFimEvento: payload.dataFimEvento,
-          duration: payload.duration
         }),
       });
 
@@ -90,7 +110,7 @@ const CreateEventScreen = ({ navigation }) => {
       dataEvento: isoDate,
       duration: duration,
       tipo: 'individual',
-      grupoId: null
+      donoId: user._id
     }
 
     console.log(payload)

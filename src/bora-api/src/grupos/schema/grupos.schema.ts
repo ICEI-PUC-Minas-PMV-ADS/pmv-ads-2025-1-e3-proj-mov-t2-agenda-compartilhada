@@ -1,12 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 export type GrupoDocument = Grupo & Document;
 
 @Schema({ timestamps: true })
 export class Grupo {
-  _id: Types.ObjectId;
-
   @Prop({ required: true })
   nome: string;
 

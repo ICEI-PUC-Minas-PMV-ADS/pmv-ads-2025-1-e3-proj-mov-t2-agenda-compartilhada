@@ -2,9 +2,9 @@ export class CreateEventoDto {
   readonly titulo: string;
   readonly descricao?: string;
   readonly dataEvento: Date;
+  readonly dataFimEvento?: Date;
   readonly tipo: 'individual' | 'grupo';
-  readonly grupoId?: string;
-  dataFimEvento?: Date;
-  readonly duration: number;
-  readonly donoId: string;
+  readonly donoId?: string;
+  readonly confirmados: string[];
+  readonly recusas: string[];
 }
