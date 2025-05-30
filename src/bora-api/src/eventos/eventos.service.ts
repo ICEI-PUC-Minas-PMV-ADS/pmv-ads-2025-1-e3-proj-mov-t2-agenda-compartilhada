@@ -91,7 +91,6 @@ export class EventosService {
     // Remove o evento em evento-grupo quando o evento é deletado
     await this.eventosGrupoService.deleteMany({eventoId: id})
 
-
     // Remove o evento em evento-grupo quando o evento é deletado
     await this.eventosIndividuaisService.deleteMany({eventoId: id})
 

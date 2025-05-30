@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Appbar, Avatar, Text, Card } from 'react-native-paper';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState, useEffect } from 'react';
+import { Appbar, Avatar, Text } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import GroupCalendar from './GroupCalendar';
 import GroupMemberEvents from './GroupMemberEvents';
@@ -130,7 +130,7 @@ const GroupScreen = ({ navigation, route }) => {
             <Appbar.Header style={styles.appBarHeader} mode="center-aligned">
                 <Appbar.BackAction onPress={() => navigation.goBack()} />
                 <Appbar.Content
-                    titleStyle={{ fontSize: 16, fontWeight: 'bold' }}
+                    titleStyle={styles.appBarTitle}
                     title={grupo.nome}
                 />
             </Appbar.Header>
@@ -140,10 +140,10 @@ const GroupScreen = ({ navigation, route }) => {
                     onPress={() =>
                         navigation.navigate('GroupDetails', { groupId: groupId })
                     }>
-                    <View style={styles.groupName}>
+                    <View style={styles.groupNameContainer}>
                         <Avatar.Text
-                            style={{ backgroundColor: '#F4F4F4' }}
-                            labelStyle={{ fontSize: 20 }}
+                            style={styles.avatarStyle}
+                            labelStyle={styles.avatarLabelStyle}
                             size={70}
                             label={grupo.nome
                                 .split(' ')
@@ -153,12 +153,11 @@ const GroupScreen = ({ navigation, route }) => {
                             color="#9A9A9D"
                         />
 
-                        <View
-                            style={{ flex: 1, alignItems: 'center', alignSelf: 'center' }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                        <View style={styles.groupName}>
+                            <Text style={styles.groupNameText}>
                                 {grupo.nome}
                             </Text>
-                            <Text style={{ fontSize: 15 }}>
+                            <Text style={styles.membrosText}>
                                 {grupo.membros.length +
                                     ' ' +
                                     (grupo.membros.length > 1 ? 'membros' : 'membro')}
@@ -220,9 +219,32 @@ const styles = StyleSheet.create({
         borderBottomColor: '#EEEEEE',
         borderBottomWidth: 1,
     },
-    groupName: {
+    appBarTitle: {
+        fontSize: 16, 
+        fontWeight: 'bold'
+    },
+    groupNameContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        paddingBottom: 8
+    },
+    avatarStyle: {
+        backgroundColor: '#F4F4F4'
+    },
+    avatarLabelStyle: {
+        fontSize: 20
+    },
+    groupName: {
+        flex: 1, 
+        alignItems: 'center', 
+        alignSelf: 'center'
+    },
+    groupNameText: {
+        fontSize: 20, 
+        fontWeight: 'bold'
+    },
+    membrosText: {
+        fontSize: 15
     },
     menuContainer: {
         flex: 1,

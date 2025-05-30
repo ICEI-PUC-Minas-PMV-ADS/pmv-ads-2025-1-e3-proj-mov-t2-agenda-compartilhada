@@ -26,8 +26,17 @@ export class EventosGrupoService {
     return created.save();
   }
 
-  async findAll(): Promise<EventoGrupo[]> {
-    return this.model.find().exec();
+  async findAll(): Promise<Evento[]> {
+    const eventosGrupo = await this.model.find().exec()
+    const eventoIds = eventosGrupo.map((eventoGrupo) => eventoGrupo.eventoId)
+    const eventos = await this.eventosService.findAll({
+      _id: { $in: eventoIds },
+      tipo: 'grupo'
+    })
+    eventos.sort(
+      (a, b) => new Date(a.dataEvento).getTime() - new Date(b.dataEvento).getTime()
+    );
+    return eventos;
   }
 
   async findOne(id: string): Promise<EventoGrupo> {

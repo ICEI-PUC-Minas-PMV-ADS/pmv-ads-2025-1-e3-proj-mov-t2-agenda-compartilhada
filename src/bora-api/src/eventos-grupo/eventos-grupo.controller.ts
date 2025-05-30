@@ -23,7 +23,7 @@ export class EventosGrupoController {
   }
 
   @Get()
-  async findAll(): Promise<EventoGrupo[]> {
+  async findAll(): Promise<Evento[]> {
     return this.service.findAll();
   }
 

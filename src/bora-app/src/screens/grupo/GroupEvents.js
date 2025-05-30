@@ -1,19 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Appbar, Avatar, Text, Card } from 'react-native-paper';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import {
-    StyleSheet,
-    View,
-    ScrollView,
-    TouchableOpacity,
-    FlatList,
-} from 'react-native';
-import GroupCalendar from './GroupCalendar';
-import GroupMemberEvents from './GroupMemberEvents';
-import axios from 'axios';
-import { API_IP } from '@env';
-import { ActivityIndicator } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
+import { Text} from 'react-native-paper';
+import { StyleSheet, View, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import CardInfo from '../../components/CardInfo';
 import { ehHoje, dataEditavel } from '../../utils/dateUtils';
 
@@ -185,7 +172,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: '#9A9A9D',
         borderRadius: 32,
-        paddingHorizontal: 24,
+        paddingHorizontal: 20,
         paddingVertical: 8,
     },
     activeMenuText: {

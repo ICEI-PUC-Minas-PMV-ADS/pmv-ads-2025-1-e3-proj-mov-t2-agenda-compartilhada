@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
@@ -7,21 +7,35 @@ import {
 } from './schema/eventos-individuais.schema';
 import { CreateEventoIndividualDto } from './dto/create-eventos-individuai.dto';
 import { UpdateEventoIndividualDto } from './dto/update-eventos-individuai.dto';
+import { EventosService } from 'src/eventos/eventos.service';
+import { Evento } from 'src/eventos/schema/eventos.schema';
 
 @Injectable()
 export class EventosIndividuaisService {
   constructor(
     @InjectModel(EventoIndividual.name)
     private readonly model: Model<EventoIndividualDocument>,
-  ) {}
+
+    @Inject(forwardRef(() => EventosService))
+    private readonly eventosService: EventosService
+  ) { }
 
   async create(dto: CreateEventoIndividualDto): Promise<EventoIndividual> {
     const created = new this.model(dto);
     return created.save();
   }
 
-  async findAll(): Promise<EventoIndividual[]> {
-    return this.model.find().exec();
+  async findAll(): Promise<Evento[]> {
+    const eventosIndividuais = await this.model.find().exec()
+    const eventoIds = eventosIndividuais.map((eventoIndividual) => eventoIndividual.eventoId)
+    const eventos = await this.eventosService.findAll({
+      _id: { $in: eventoIds },
+      tipo: 'individual'
+    })
+    eventos.sort(
+      (a, b) => new Date(a.dataEvento).getTime() - new Date(b.dataEvento).getTime()
+    );
+    return eventos;
   }
 
   async findOne(id: string): Promise<EventoIndividual> {
@@ -61,5 +75,18 @@ export class EventosIndividuaisService {
 
   async deleteMany(conditions: any) {
     return this.model.deleteMany(conditions).exec()
+  }
+
+  async findEventosIndividuaisByUserId(usuarioId: string): Promise<Evento[]> {
+    const eventosIndividuais = await this.model.find({ usuarioId }).exec()
+
+    const eventoIds = eventosIndividuais.map((evento) => evento.eventoId)
+
+    const eventos = await this.eventosService.findAll({
+      _id: { $in: eventoIds }
+    })
+    eventos.sort((a, b) => new Date(a.dataEvento).getTime() - new Date(b.dataEvento).getTime());
+
+    return eventos
   }
 }

@@ -11,6 +11,7 @@ import { EventosIndividuaisService } from './eventos-individuais.service';
 import { CreateEventoIndividualDto } from './dto/create-eventos-individuai.dto';
 import { EventoIndividual } from './schema/eventos-individuais.schema';
 import { UpdateEventoIndividualDto } from './dto/update-eventos-individuai.dto';
+import { Evento } from 'src/eventos/schema/eventos.schema';
 
 @Controller('eventos-individuais')
 export class EventosIndividuaisController {
@@ -24,7 +25,7 @@ export class EventosIndividuaisController {
   }
 
   @Get()
-  async findAll(): Promise<EventoIndividual[]> {
+  async findAll(): Promise<Evento[]> {
     return this.service.findAll();
   }
 
@@ -44,5 +45,10 @@ export class EventosIndividuaisController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<EventoIndividual> {
     return this.service.remove(id);
+  }
+
+  @Get('by-usuarioId/:usuarioId')
+  async findEventosIndividuaisByUserId(@Param('usuarioId') usuarioId: string): Promise<Evento[]> {
+    return this.service.findEventosIndividuaisByUserId(usuarioId);
   }
 }
