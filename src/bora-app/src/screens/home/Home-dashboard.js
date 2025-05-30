@@ -53,7 +53,6 @@ const HomeDashboard = ({ navigation }) => {
                     if (eventsResponse.data) {
                         setUpcomingEvents(eventsResponse.data);
                     }
-                    console.log(upcomingEvents)
                 } catch (error) {
                     console.error('Erro ao buscar dados do usuário:', error);
                     Alert.alert('Erro', 'Não foi possível carregar seus dados');

@@ -26,7 +26,7 @@ interface EventoWithId extends Document {
   titulo: string;
   dataEvento: Date;
   tipo: 'grupo' | 'individual';
-  grupoId?: {
+  donoId: {
     toString(): string;
   };
   _id: {
@@ -115,8 +115,8 @@ export class DashboardService {
       const grupoEvents = eventsWithId.filter((evento) => {
         return (
           evento.tipo === 'grupo' &&
-          evento.grupoId != null &&
-          grupoIds.includes(String(evento.grupoId)) &&
+          evento.donoId != null &&
+          grupoIds.includes(String(evento.donoId)) &&
           evento.dataEvento instanceof Date &&
           evento.dataEvento.getTime() >= now.getTime()
         );
@@ -158,8 +158,8 @@ export class DashboardService {
         const grupo = gruposWithId.find((g) => {
           return (
             g._id &&
-            evento.grupoId &&
-            g._id.toString() === evento.grupoId.toString()
+            evento.donoId &&
+            g._id.toString() === evento.donoId.toString()
           );
         });
 

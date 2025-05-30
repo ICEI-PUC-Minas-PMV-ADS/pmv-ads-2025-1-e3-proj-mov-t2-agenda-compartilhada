@@ -70,8 +70,6 @@ export class EventosGrupoService {
     })
     eventos.sort((a, b) => new Date(a.dataEvento).getTime() - new Date(b.dataEvento).getTime());
 
-    console.log(eventos)
-
     return eventos
   }
 }

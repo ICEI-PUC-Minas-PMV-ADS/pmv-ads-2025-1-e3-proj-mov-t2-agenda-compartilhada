@@ -5,7 +5,7 @@ import { Text } from 'react-native-paper';
 import CardInfo from '../../components/CardInfo';
 import { dataEditavel, ehHoje } from '../../utils/dateUtils';
 
-export default ({ eventos }) => {
+export default ({ eventos, qntMembrosGrupo }) => {
 
     // Controla datas selecionadas no calendário
     const [dataSelecionada, setDataSelecionada] = useState('');
@@ -30,11 +30,29 @@ export default ({ eventos }) => {
     }
 
     // Retorna os eventos do dia selecionado, para serem exibidos nos cards
-    const cardInfo = () => {
+    const eventosDataSelecionada = () => {
         if (!dataSelecionada) return []
         return eventos.filter((evento) => 
             new Date(evento.dataEvento).toLocaleDateString('sv-SE') == new Date(dataEditavel(dataSelecionada.dateString)).toLocaleDateString('sv-SE')
     )}
+
+    const insereConfirmados = ( eventosDataSelecionada ) => {
+        
+        const eventosProcessados = []
+
+        eventosDataSelecionada.forEach(evento => {
+
+            eventosProcessados.push({
+                confirmadosPorEvento: `${evento.confirmados.length}/${qntMembrosGrupo}`,
+                ...evento
+            })
+        })
+        return eventosProcessados
+    }
+
+    const cardInfo = () => {
+        return insereConfirmados(eventosDataSelecionada())
+    }
 
     const exibirCardList = ({ item: evento }) => (
         <View key={evento.id}>
@@ -46,15 +64,15 @@ export default ({ eventos }) => {
                     <Text style={styles.dataEventoCard}> Hoje </Text>
                 ) : (
                     <Text style={styles.dataEventoCard}> {dataEditavel(evento.dataEvento).toLocaleDateString('pt-BR', {
-                        day: 'numeric',
-                        month: 'numeric'
+                        day: '2-digit',
+                        month: '2-digit'
                     })}
                     </Text>
                 )
                 }
 
-                <Text style={styles.cofirmadosEventoCard}>
-                    {evento.subtitulo}
+                <Text style={styles.confirmadosEventoCard}>
+                    {evento.confirmadosPorEvento} confirmados
                 </Text>
             </CardInfo>
         </View>
@@ -63,13 +81,12 @@ export default ({ eventos }) => {
     // Associa CardInfo a dataSelecionada para evitar desync
     useEffect(() => {
         cardInfo();
-    }, [dataSelecionada]);
+    }, [dataSelecionada])
 
 
     return (
 
         <View style={styles.container}>
-
             <View>
                 <CalendarComp
                     eventos={eventos}
@@ -82,21 +99,20 @@ export default ({ eventos }) => {
             <View>
                 {exibeLabelDiaSelecionado()}
             </View>
-
-                {cardInfo().length > 0 ? (
-                    <FlatList
-                        data={cardInfo()}
-                        renderItem={exibirCardList}
-                        keyExtractor={evento => evento._id}
-                        showsVerticalScrollIndicator={false}
-                    />
-                ) : (
-                    <CardInfo>
-                        <Text style={styles.cardTitulo}>
-                            Sem eventos no dia
-                        </Text>
-                    </CardInfo>
-                )}
+            {cardInfo().length > 0 ? (
+                <FlatList
+                    data={cardInfo()}
+                    renderItem={exibirCardList}
+                    keyExtractor={evento => evento._id}
+                    showsVerticalScrollIndicator={false}
+                />
+            ) : (
+                <CardInfo>
+                    <Text style={styles.cardTitulo}>
+                        Sem eventos no dia
+                    </Text>
+                </CardInfo>
+            )}
 
         </View>
     );
@@ -116,7 +132,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#9A9A9D'
     },
-    cofirmadosEventoCard: {
+    confirmadosEventoCard: {
         fontSize: 14,
         color: '#7839EE'
     },

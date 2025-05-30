@@ -16,8 +16,9 @@ const GroupScreen = ({ navigation, route }) => {
   const [loadingUser, setLoadingUser] = useState(true)
   const { groupId } = route.params
   const [grupo, setGrupo] = useState([])
-  const [eventos, setEventos] = useState([])
   const [loadingGrupo, setLoadingGrupo] = useState(true)
+  const [eventos, setEventos] = useState([])
+  const [loadingEventos, setLoadingEventos] = useState(false)
   const [itemAtivo, setItemAtivo] = useState(0);
   const [membrosGrupoInfo, setMembrosGrupoInfo] = useState([])
 
@@ -79,11 +80,22 @@ const GroupScreen = ({ navigation, route }) => {
           setLoadingGrupo(false)
         }
       }
+
+      if (itemAtivo == 2) {
+        try {
+          const eventosGrupo = await axios.get(`${API_IP}/eventos-grupo/by-grupoId/${groupId}`)
+          setEventos(eventosGrupo.data)
+        } catch (error) {
+          console.error('Erro ao buscar eventos do grupo: ', error)
+        } finally {
+          setLoadingEventos(false)
+        }
+      }
     }
     carregaGrupo()
   }, [itemAtivo, groupId])
 
-  if (loadingUser || loadingGrupo) {
+  if (loadingUser || loadingGrupo || loadingEventos) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#7839EE" />
@@ -95,11 +107,11 @@ const GroupScreen = ({ navigation, route }) => {
   const menuItems = ['Calendário', 'Membros', 'Eventos'];
 
   const content = [
-    <GroupCalendar eventos={eventos} />,
+    <GroupCalendar eventos={eventos} qntMembrosGrupo={grupo.membros.length}/>,
 
     <GroupMemberEvents userEventos={membrosGrupoInfo} />,
 
-    <GroupEvents />,
+    <GroupEvents eventos={eventos} qntMembrosGrupo={grupo.membros.length}/>,
   ];
 
   const handleMenuItemPress = (index) => {
