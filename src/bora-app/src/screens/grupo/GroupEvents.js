@@ -35,7 +35,8 @@ const GroupEvents = ({ eventos, qntMembrosGrupo }) => {
                 eventosAgrupados.push({
                     uso: 'cabecalho',
                     _id: mesAtual,
-                    label: mesAtual
+                    label: mesAtual,
+                    dataEvento: evento.dataEvento
                 })
                 mesAnterior = mesAtual
             }
@@ -60,12 +61,25 @@ const GroupEvents = ({ eventos, qntMembrosGrupo }) => {
                     {evento.titulo}
                 </Text>
                 {ehHoje(dataEditavel(evento.dataEvento)) ? (
-                    <Text style={styles.dataEventoCard}> Hoje </Text>
+                    <Text style={styles.dataEventoCard}>
+                        Hoje
+                        {' - '}
+                        {dataEditavel(evento.dataEvento).toLocaleTimeString('pt-BR', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}
+                    </Text>
                 ) : (
-                    <Text style={styles.dataEventoCard}> {dataEditavel(evento.dataEvento).toLocaleDateString('pt-BR', {
-                        day: '2-digit',
-                        month: '2-digit'
-                    })}
+                    <Text style={styles.dataEventoCard}>
+                        {dataEditavel(evento.dataEvento).toLocaleDateString('pt-BR', {
+                            day: '2-digit',
+                            month: '2-digit'
+                        })}
+                        {' - '}
+                        {dataEditavel(evento.dataEvento).toLocaleTimeString('pt-BR', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}
                     </Text>
                 )
                 }
@@ -76,17 +90,59 @@ const GroupEvents = ({ eventos, qntMembrosGrupo }) => {
             </CardInfo>
     )
 
+    const todosEventos = () => {
+        return (
+            <FlatList
+                data={processarEventos()}
+                renderItem={exibirCardList}
+                keyExtractor={evento => evento._id}
+                showsVerticalScrollIndicator={false}
+            />
+        )
+    }
+
+    const proximosEventos = () => {
+
+        const calculaProximosEventos = () => {
+            return processarEventos().filter((evento) =>
+                new Date(evento.dataEvento).getTime() > new Date().getTime()
+            )
+        }
+
+        return (
+            <FlatList
+                data={calculaProximosEventos()}
+                renderItem={exibirCardList}
+                keyExtractor={evento => evento._id}
+                showsVerticalScrollIndicator={false}
+            />
+        )
+    }
+
+    const antigosEventos = () => {
+
+        const calculaAntigosEventos = () => {
+            return processarEventos().filter((evento) =>
+                new Date(evento.dataEvento).getTime() < new Date().getTime()
+            )
+        }
+
+        return (
+            <FlatList
+                data={calculaAntigosEventos()}
+                renderItem={exibirCardList}
+                keyExtractor={evento => evento._id}
+                showsVerticalScrollIndicator={false}
+            />
+        )
+    }
+
     const content = [
-        <FlatList
-            data={processarEventos()}
-            renderItem={exibirCardList}
-            keyExtractor={evento => evento._id}
-            showsVerticalScrollIndicator={false}
-        />,
+        todosEventos(),
 
-        <Text>Tela 2</Text>,
+        proximosEventos(),
 
-        <Text>Tela 3</Text>,
+        antigosEventos(),
     ];
 
     const handleMenuItemPress = (index) => {
@@ -136,7 +192,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginTop: 16
+        marginVertical: 16
     },
     menuText: {
         backgroundColor: '#F4F4F4',

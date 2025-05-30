@@ -32,12 +32,13 @@ export default ({ eventos, qntMembrosGrupo }) => {
     // Retorna os eventos do dia selecionado, para serem exibidos nos cards
     const eventosDataSelecionada = () => {
         if (!dataSelecionada) return []
-        return eventos.filter((evento) => 
+        return eventos.filter((evento) =>
             new Date(evento.dataEvento).toLocaleDateString('sv-SE') == new Date(dataEditavel(dataSelecionada.dateString)).toLocaleDateString('sv-SE')
-    )}
+        )
+    }
 
-    const insereConfirmados = ( eventosDataSelecionada ) => {
-        
+    const insereConfirmados = (eventosDataSelecionada) => {
+
         const eventosProcessados = []
 
         eventosDataSelecionada.forEach(evento => {
@@ -61,12 +62,25 @@ export default ({ eventos, qntMembrosGrupo }) => {
                     {evento.titulo}
                 </Text>
                 {ehHoje(dataEditavel(evento.dataEvento)) ? (
-                    <Text style={styles.dataEventoCard}> Hoje </Text>
+                    <Text style={styles.dataEventoCard}>
+                        Hoje
+                        {' - '}
+                        {dataEditavel(evento.dataEvento).toLocaleTimeString('pt-BR', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}
+                    </Text>
                 ) : (
-                    <Text style={styles.dataEventoCard}> {dataEditavel(evento.dataEvento).toLocaleDateString('pt-BR', {
-                        day: '2-digit',
-                        month: '2-digit'
-                    })}
+                    <Text style={styles.dataEventoCard}>
+                        {dataEditavel(evento.dataEvento).toLocaleDateString('pt-BR', {
+                            day: '2-digit',
+                            month: '2-digit'
+                        })}
+                        {' - '}
+                        {dataEditavel(evento.dataEvento).toLocaleTimeString('pt-BR', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}
                     </Text>
                 )
                 }
