@@ -1,19 +1,64 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
-import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { API_IP } from '@env';
 
 const CalendarScreen = ({ navigation }) => {
   const [selectedDate, setSelectedDate] = useState(null);
+  const [eventos, setEventos] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  const eventos = {
-    '2025-04-02': [
-      { id: '1', titulo: 'Reunião de Equipe', horario: '12:00 - 13:00' },
-      { id: '2', titulo: 'Happy Hour', horario: '19:00 - 21:00' },
-    ],
-    // adicione mais datas/eventos se quiser
-  };
+  // Busca eventos do backend
+  useEffect(() => {
+    const fetchEventos = async () => {
+      try {
+        const response = await fetch(`${API_IP}/eventos`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        console.log(response)
+
+        const data = await response.json();
+
+        // Organiza eventos por data no formato YYYY-MM-DD
+        const eventosPorData = {};
+        data.forEach(ev => {
+          // Ajuste conforme o nome do campo de data no seu backend
+          const dataEvento = ev.dataEvento?.slice(0, 10); // 'YYYY-MM-DD'
+          if (dataEvento) {
+            if (!eventosPorData[dataEvento]) eventosPorData[dataEvento] = [];
+            eventosPorData[dataEvento].push(ev);
+          }
+        });
+        setEventos(eventosPorData);
+      } catch (error) {
+        console.error('Erro ao buscar eventos:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEventos();
+  }, []);
+
+  // Marca os dias com eventos em verde, o selecionado em roxo
+  const markedDates = {};
+  Object.keys(eventos).forEach(date => {
+    markedDates[date] = {
+      marked: true,
+      dotColor: '#27ae60', // verde
+      selected: selectedDate === date,
+      selectedColor: selectedDate === date ? '#8e44ad' : undefined,
+    };
+  });
+  if (selectedDate && !markedDates[selectedDate]) {
+    markedDates[selectedDate] = {
+      selected: true,
+      selectedColor: '#8e44ad',
+    };
+  }
 
   const eventosDoDia = selectedDate ? eventos[selectedDate] || [] : [];
 
@@ -21,46 +66,53 @@ const CalendarScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.titulo}>Calendário</Text>
 
-      <Calendar
-        onDayPress={day => setSelectedDate(day.dateString)}
-        markedDates={{
-          [selectedDate]: {
-            selected: true,
-            selectedColor: '#8e44ad',
-          },
-        }}
-        theme={{
-          todayTextColor: '#8e44ad',
-          selectedDayBackgroundColor: '#8e44ad',
-          arrowColor: '#8e44ad',
-          monthTextColor: '#333',
-        }}
-      />
+      {loading ? (
+        <ActivityIndicator size="large" color="#8e44ad" />
+      ) : (
+        <Calendar
+          onDayPress={day => setSelectedDate(day.dateString)}
+          markedDates={markedDates}
+          theme={{
+            todayTextColor: '#8e44ad',
+            selectedDayBackgroundColor: '#8e44ad',
+            arrowColor: '#8e44ad',
+            monthTextColor: '#333',
+          }}
+        />
+      )}
 
-      <Text style={styles.subtitulo}>
-        Eventos de hoje ({selectedDate || '---'})
-      </Text>
-
-      <FlatList
-        data={eventosDoDia}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.cardTitulo}>{item.titulo}</Text>
-            <Text style={styles.cardHorario}>{item.horario}</Text>
-          </View>
-        )}
-      />
+      {selectedDate && (
+        <View style={styles.eventosContainer}>
+          <Text style={styles.subtitulo}>
+            Eventos de {selectedDate}
+          </Text>
+          {eventosDoDia.length === 0 ? (
+            <Text style={{ color: '#888', marginTop: 8 }}>Nenhum evento.</Text>
+          ) : (
+            <FlatList
+              data={eventosDoDia}
+              keyExtractor={item => item._id || item.id}
+              renderItem={({ item }) => (
+                <View style={styles.card}>
+                  <Text style={styles.cardTitulo}>{item.titulo}</Text>
+                  <Text style={styles.cardHorario}>
+                    {item.horario || item.dataEvento?.slice(11, 16)}
+                  </Text>
+                </View>
+              )}
+            />
+          )}
+        </View>
+      )}
 
       <TouchableOpacity style={styles.botaoAdd}
         onPress={() => navigation.navigate('CreateEventScreen')}>
         <AntDesign name="plus" size={24} color="#fff" />
       </TouchableOpacity>
-
-      
     </View>
   );
-}
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -105,5 +157,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     elevation: 4,
   },
+  eventosContainer: {
+    marginTop: 16,
+    backgroundColor: '#f2f2f2',
+    borderRadius: 8,
+    padding: 12,
+  },
 });
+
 export default CalendarScreen;
