@@ -20,10 +20,12 @@ export default function EventList() {
       
       const data = await response.json();
       
+      console.log(data)
+
       // Processa os dados para o formato esperado pelo componente
       const eventosProcessados = data.map(evento => ({
-        key: evento.$oid,
-        id: evento._id.$oid,
+        key: evento._id,
+        id: evento._id,
         data: formatarData(evento.dataEvento),
         titulo: evento.titulo,
         subtitulo: evento.descricao || (evento.tipo === 'grupo' ? 'Evento em grupo' : 'Evento individual'),

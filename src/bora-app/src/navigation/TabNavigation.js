@@ -25,6 +25,7 @@ import ConviteScreen from '../screens/ConviteScreen'
 
 // Telas Letícia
 import EventInfo from '../screens/EventInfo'
+import EventList from '../screens/EventList';
 
 // Criar um Stack Navigator para telas relacionadas a grupos
 const GroupStack = createStackNavigator();
@@ -172,6 +173,13 @@ const TabNavigation = () => {
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="construct-outline" size={size} color={color} />
                     ),
+                }}
+            />
+            <Tab.Screen
+                name="eventList"
+                component={EventList}
+                options={{
+                    tabBarButton: () => null, // Remove do tab bar
                 }}
             />
         </Tab.Navigator>
