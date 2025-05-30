@@ -4,6 +4,9 @@ export interface Evento extends Document {
   titulo: string;
   descricao?: string;
   dataEvento: Date;
+  dataFimEvento?: Date;
   tipo: 'individual' | 'grupo';
-  grupoId?: string;
+  donoId: string;
+  confirmados: string[];
+  recusas: string[];
 }

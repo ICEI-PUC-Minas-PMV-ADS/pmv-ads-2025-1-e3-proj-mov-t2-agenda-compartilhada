@@ -58,4 +58,8 @@ export class EventosIndividuaisService {
     }
     return deleted;
   }
+
+  async deleteMany(conditions: any) {
+    return this.model.deleteMany(conditions).exec()
+  }
 }
