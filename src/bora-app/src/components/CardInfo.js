@@ -1,5 +1,5 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
 
 
@@ -11,7 +11,7 @@ export default ({ children }) => {
                 {children}
             </View>
         </View>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
     cardContent: {
         padding: 8
     }
-});
+})
