@@ -2,30 +2,59 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { API_IP } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function EventList() {
-  const [eventos, setEventos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const EventList = ({ navigation }) => {
+  useEffect(() => {
+    const carregarDados = async () => {
+      try {
+        const userString = await AsyncStorage.getItem('usuario');
+        console.log('AsyncStorage:', userString);
+
+        if (!userString) {
+          throw new Error('Usuário não encontrado no AsyncStorage');
+        }
+
+        const parsedUser = JSON.parse(userString);
+        console.log('Usuário carregado:', parsedUser);
+
+        if (!parsedUser._id) {
+          throw new Error('Usuário inválido (sem _id)');
+        }
+
+        setUser(parsedUser); // atualiza estado (para renderização)
+        await fetchEventos(parsedUser._id); // ✅ CHAMA AQUI DIRETO
+
+      } catch (error) {
+        setLoading(false);
+        console.error('Erro ao carregar dados:', error);
+        setError('Erro ao carregar usuário ou eventos');
+      }
+    };
+    
+    carregarDados();
+  }, []);
+
+  const[user, setUser] = useState(null)
+  const[eventos, setEventos] = useState([]);
+  const[loading, setLoading] = useState(true);
+  const[error, setError] = useState(null);
 
   // Função para buscar eventos do backend
-  const fetchEventos = async () => {
+  const fetchEventos = async (userId) => {
     try {
-      setLoading(true);
-      const response = await fetch(`${API_IP}/eventos`);
-      
+      const response = await fetch(`${API_IP}/eventos/donoId/${userId}`);
+
       if (!response.ok) {
         throw new Error(`Erro na requisição: ${response.status}`);
       }
-      
-      const data = await response.json();
-      
-      console.log(data)
 
-      // Processa os dados para o formato esperado pelo componente
+      const data = await response.json();
+
       const eventosProcessados = data.map(evento => ({
         key: evento._id,
         id: evento._id,
+        donoId: evento.donoId,
         data: formatarData(evento.dataEvento),
         titulo: evento.titulo,
         subtitulo: evento.descricao || (evento.tipo === 'grupo' ? 'Evento em grupo' : 'Evento individual'),
@@ -33,7 +62,7 @@ export default function EventList() {
         tipo: evento.tipo,
         grupoId: evento.grupoId || null
       }));
-      
+
       setEventos(eventosProcessados);
       setError(null);
     } catch (err) {
@@ -43,6 +72,11 @@ export default function EventList() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Função para recarregar dados
+  const handleRefresh = () => {
+    fetchEventos();
   };
 
   // Função para formatar a data
@@ -90,16 +124,6 @@ export default function EventList() {
     return coresGrupos[grupoId] || coresGrupos.default;
   };
 
-  // Hook para carregar dados quando o componente monta
-  useEffect(() => {
-    fetchEventos();
-  }, []);
-
-  // Função para recarregar dados
-  const handleRefresh = () => {
-    fetchEventos();
-  };
-
   if (loading) {
     return (
       <SafeAreaView style={[styles.container, styles.centerContent]}>
@@ -121,7 +145,7 @@ export default function EventList() {
       </SafeAreaView>
     );
   }
-
+    
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
@@ -181,6 +205,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#e8e8e8',
     alignItems: 'center',
     paddingTop: 40,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F8F9FA',
   },
   centerContent: {
     justifyContent: 'center',
@@ -317,3 +347,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default EventList;

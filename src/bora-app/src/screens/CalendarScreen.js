@@ -89,18 +89,21 @@ const CalendarScreen = ({ navigation }) => {
           {eventosDoDia.length === 0 ? (
             <Text style={{ color: '#888', marginTop: 8 }}>Nenhum evento.</Text>
           ) : (
-            <FlatList
-              data={eventosDoDia}
-              keyExtractor={item => item._id || item.id}
-              renderItem={({ item }) => (
-                <View style={styles.card}>
-                  <Text style={styles.cardTitulo}>{item.titulo}</Text>
-                  <Text style={styles.cardHorario}>
-                    {item.horario || item.dataEvento?.slice(11, 16)}
-                  </Text>
-                </View>
-              )}
-            />
+            <View>
+              <FlatList
+                data={eventosDoDia}
+                keyExtractor={item => item._id || item.id}
+                renderItem={({ item }) => (
+                  <View style={styles.card}>
+                    <Text style={styles.cardTitulo}>{item.titulo}</Text>
+                    <Text style={styles.cardHorario}>
+                      {item.horario || item.dataEvento?.slice(11, 16)}
+                    </Text>
+                  </View>
+                )}
+                contentContainerStyle={styles.listaConteudo}
+              />
+            </View>
           )}
         </View>
       )}

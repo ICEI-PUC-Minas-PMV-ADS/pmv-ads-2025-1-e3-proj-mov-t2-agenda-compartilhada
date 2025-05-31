@@ -42,6 +42,17 @@ const GroupStackScreen = () => {
     );
 };
 
+const EventStack = createStackNavigator();
+
+const EventStackScreen = () => {
+    return (
+        <EventStack.Navigator screenOptions={{ headerShown: false }}>
+            <EventStack.Screen name="createEventScreen" component={CreateEventScreen} />
+            <EventStack.Screen name="eventList" component={EventList} />
+        </EventStack.Navigator>
+    );
+};
+
 const Tab = createBottomTabNavigator();
 
 const TabNavigation = () => {
@@ -126,10 +137,10 @@ const TabNavigation = () => {
                 }}
             />
             <Tab.Screen
-                name="createEventScreen"
-                component={CreateEventScreen}
+                name="eventStack"
+                component={EventStackScreen}
                 options={{
-                    tabBarLabel: 'Criar Evento',
+                    tabBarLabel: 'Eventos',
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="construct-outline" size={size} color={color} />
                     ),
@@ -173,13 +184,6 @@ const TabNavigation = () => {
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="construct-outline" size={size} color={color} />
                     ),
-                }}
-            />
-            <Tab.Screen
-                name="eventList"
-                component={EventList}
-                options={{
-                    tabBarButton: () => null, // Remove do tab bar
                 }}
             />
         </Tab.Navigator>

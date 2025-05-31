@@ -18,7 +18,6 @@ const Routes = () => {
             <Stack.Screen name="recuperarSenhaScreen" component={RecuperarSenhaScreen} />
             <Stack.Screen name="cadastroScreen" component={CadastroScreen} />
             <Stack.Screen name="mainTab" component={TabNavigation} />
-            <Stack.Screen name="EventList" component={EventList} options={{ title: 'Lista de Eventos' }} />
             <Stack.Screen name="CreateEventScreen" component={CreateEventScreen} />
             <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
         </Stack.Navigator>

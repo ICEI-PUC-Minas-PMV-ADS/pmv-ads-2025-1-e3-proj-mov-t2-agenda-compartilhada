@@ -84,7 +84,7 @@ const CreateEventScreen = ({ navigation }) => {
       const data = await response.json();
       if (response.ok) {
         Alert.alert('Cadastro de Evento realizado com sucesso!');
-        navigation.navigate('EventList');
+        navigation.navigate('eventStack', { screen: 'eventList' });
       } else {
         Alert.alert('Erro ao cadastrar Evento', data.message || 'Erro desconhecido');
       }
