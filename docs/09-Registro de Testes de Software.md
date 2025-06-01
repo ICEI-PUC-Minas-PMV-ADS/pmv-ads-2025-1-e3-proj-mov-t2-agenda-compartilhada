@@ -162,7 +162,7 @@ Garantir que o frontend apresente todas as informações e ações, mesmo sem ba
 * Vídeo de registro de teste mostrando as seguintes telas Home-dashboard, meus grupos,criar grupo e detalhes do grupo; 
 [Screen Recording 2025-05-28 at 22.06.22.mov](img/v%C3%ADdeo/Screen%20Recording%202025-05-28%20at%2022.06.22.mov)
 
-# Registro de Testes de Software
+---
 
 **Informações Gerais:**
 
@@ -271,7 +271,6 @@ https://github.com/user-attachments/assets/0d8a29da-ee75-4ff4-ad85-21f8cb1f2590
 
 ---
 
-# Registro de Testes de Software
 
 **Informações Gerais:**
 
@@ -285,7 +284,7 @@ https://github.com/user-attachments/assets/0d8a29da-ee75-4ff4-ad85-21f8cb1f2590
 
 ## Caso de Teste 9: Visualizar eventos em agendas compartilhadas
 
-**Requisitos Referentes:** RF 09 - Visualização de eventos em agendas compartilhadas (frontend apenas) <br/>
+**Requisitos Referentes:** RF 09 - Visualização de eventos em agendas compartilhadas <br/>
 **Descrição:**
 Verificar se o sistema permite a visualização dos eventos presentes na agenda compartilhada<br/>
 **Objetivo do Teste:**
@@ -304,7 +303,7 @@ Garantir que os eventos do grupo serão exibidos de forma clara
 * A tela do grupo exibe marcações para as datas que possuem eventos.
 * Datas com vários eventos marcados no grupo são sinalizadas
 * Ao selecionar datas com eventos, os cards dos eventos são exibidos
-* O clique no card de um evento não exibe as informações do evento
+* O clique no card de um evento não exibe mais detalhes do evento
 
 **Resultados:**
 
