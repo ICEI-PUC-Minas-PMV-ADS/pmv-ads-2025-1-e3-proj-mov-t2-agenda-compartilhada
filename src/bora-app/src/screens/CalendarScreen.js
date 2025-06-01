@@ -62,6 +62,23 @@ const CalendarScreen = ({ navigation }) => {
 
   const eventosDoDia = selectedDate ? eventos[selectedDate] || [] : [];
 
+  // Função para lidar com o clique no evento
+  const handleEventPress = (eventoClicado) => {
+    // Mapeamento dos campos para o que ConfirmedEventDetailsScreen espera:
+    // Adapte isso conforme os nomes exatos dos campos no seu objeto 'eventoClicado'
+    // e o que ConfirmedEventDetailsScreen espera.
+    const eventoParaDetalhes = {
+      id: eventoClicado._id || eventoClicado.id,
+      name: eventoClicado.titulo, // Assumindo que 'titulo' é o nome do evento
+      time: eventoClicado.horario || eventoClicado.dataEvento?.slice(11, 16), // Assumindo que 'horario' é o tempo
+      location: eventoClicado.local || "Local não informado", // << PRECISA VIR DO BACKEND
+      group: eventoClicado.grupo || "Grupo não informado",   // << PRECISA VIR DO BACKEND
+      description: eventoClicado.descricao || "Descrição não informada", // << PRECISA VIR DO BACKEND
+      // ... quaisquer outros campos que 'eventoClicado' tenha e sejam úteis
+    };
+    navigation.navigate('ConfirmedEventDetailsScreen', { event: eventoParaDetalhes });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Calendário</Text>
@@ -93,12 +110,18 @@ const CalendarScreen = ({ navigation }) => {
               data={eventosDoDia}
               keyExtractor={item => item._id || item.id}
               renderItem={({ item }) => (
-                <View style={styles.card}>
-                  <Text style={styles.cardTitulo}>{item.titulo}</Text>
-                  <Text style={styles.cardHorario}>
-                    {item.horario || item.dataEvento?.slice(11, 16)}
-                  </Text>
-                </View>
+                <TouchableOpacity onPress={() => handleEventPress(item)}>
+                  <View style={styles.card}>
+                    <Text style={styles.cardTitulo}>{item.titulo}</Text>
+                    <Text style={styles.cardHorario}>
+                      {item.horario || item.dataEvento?.slice(11, 16)}
+                    </Text>
+                    {/* Se você quiser mostrar mais detalhes aqui, pode adicionar,
+                        mas lembre-se que todos os dados serão passados para a próxima tela.
+                        Ex: <Text>{item.local}</Text>
+                    */}
+                  </View>
+                </TouchableOpacity>
               )}
             />
           )}
@@ -124,11 +147,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 8,
+    color: '#333', // Adicionando cor para melhor contraste
   },
   subtitulo: {
     marginTop: 16,
     fontSize: 16,
     fontWeight: '600',
+    color: '#444', // Adicionando cor
   },
   card: {
     backgroundColor: '#fff',
@@ -143,6 +168,7 @@ const styles = StyleSheet.create({
   cardTitulo: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#333', // Adicionando cor
   },
   cardHorario: {
     fontSize: 14,
@@ -159,9 +185,10 @@ const styles = StyleSheet.create({
   },
   eventosContainer: {
     marginTop: 16,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#f2f2f2', // Levemente diferente do fundo principal
     borderRadius: 8,
     padding: 12,
+    flex: 1, // Para permitir scroll se a lista for grande
   },
 });
 

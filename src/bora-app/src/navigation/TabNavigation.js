@@ -160,8 +160,11 @@ const TabNavigation = () => {
                 component={ProfileScreen}
                 options={{
                     tabBarLabel: 'Perfil',
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="construct-outline" size={size} color={color} />
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <Ionicons 
+                            name={focused ? "person-circle" : "person-circle-outline"}
+                            size={size} 
+                            color={color} />
                     ),
                 }}
             />
