@@ -498,6 +498,47 @@ Garantir que o usuário consiga visualizar os eventos em seu calendário individ
 https://github.com/user-attachments/assets/13f65c23-a060-44b1-a5f1-3d891ee877ae
 
 
+# Caso de Teste 17: Criação de eventos individuais
+
+**Requisitos Referentes:** Criação, edição e exclusão de eventos pessoais <br/>
+**Descrição:**
+O usuário deve conseguir criar eventos individuais, que constarão apenas em sua agenda, editar estes eventos e excluir.<br/>
+**Objetivo do Teste:**
+Garantir que o usuário consiga criar, editar e excluir eventos individuais, logado em seu perfil<br/>
+
+**Passos:**
+1. Acessar a tela de eventos na tab navigator
+2. Preencher o título, descrição, data, hora e duração do evento;
+3. Clicar em "próximo". Procedimento que criará o evento no banco de dados e alimentará a listagem de eventos e também o calendário individual.
+
+**Critérios de Êxito:**
+
+*Criação bem-sucedida:
+O evento foi salvo corretamente no banco de dados após o clique em "próximo".
+
+*Persistência e listagem:
+O evento criado apareceu na listagem de eventos do usuário logado.
+
+*Integração com o calendário:
+O evento refletiu corretamente no calendário individual, com marcação visual na data correspondente (ex: pontinho verde).
+
+*Edição funcional:
+O usuário deve conseguir editar o evento, e as alterações devem ser refletidas tanto na listagem quanto no calendário.
+
+*Exclusão funcional:
+O usuário deve conseguir excluir o evento, e ele deve ser removido tanto da listagem quanto do calendário.
+
+*Escopo individual:
+O evento deve estar vinculado exclusivamente ao usuário logado, sem aparecer para outros usuários.
+
+
+**Resultados:**
+
+* Passos 1-3: **Aprovado**
+
+* Passos edição e exclusão: Não há implementação dessas duas funcionalidades **Reprovado**
+  
+https://github.com/user-attachments/assets/13f65c23-a060-44b1-a5f1-3d891ee877ae
 
 
 
