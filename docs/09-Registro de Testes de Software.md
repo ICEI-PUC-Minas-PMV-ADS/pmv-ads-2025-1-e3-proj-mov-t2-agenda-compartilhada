@@ -282,7 +282,7 @@ https://github.com/user-attachments/assets/0d8a29da-ee75-4ff4-ad85-21f8cb1f2590
 
 ---
 
-## Caso de Teste 9: Visualizar eventos em agendas compartilhadas
+## Caso de Teste 10: Visualizar eventos em agendas compartilhadas
 
 **Requisitos Referentes:** RF 09 - Visualização de eventos em agendas compartilhadas <br/>
 **Descrição:**
@@ -308,20 +308,87 @@ Garantir que os eventos do grupo serão exibidos de forma clara
 **Resultados:**
 
 * Passos 1-4: **Aprovado** (frontend exibiu informações e navegou conforme esperado)
-  
-![image](https://github.com/user-attachments/assets/8dbf3ff7-50c4-4553-8de8-3e94350477bf)
 
-![image](https://github.com/user-attachments/assets/8e5c5239-a7c2-4798-b465-1f3fd5945cb1)
+https://github.com/user-attachments/assets/b322cd57-6559-4766-a5cf-0861797a9732
 
 * Passos 5-6: **Reprovado** (frontend não exibiu informações do evento clicado)
 
 **Observações de Backend:**
 
-* Integração com APIs de eventos e grupos pendente; 
+* Tela de grupo conectada ao backend e funcionando normalmente
+
+
+
+* **Backend:** em desenvolvimento 
+* **Plano de Testes:** Visualização da agenda compartilhada
+
+## Caso de Teste 11: Criar e editar eventos e agendas compartilhadas
+
+**Requisitos Referentes:** RF 10 - Criação, edição e exclusão de eventos em agendas compartilhadas <br/>
+**Descrição:**
+Verificar se o sistema permite a criação e edição de eventos em agendas compartilhadas<br/>
+**Objetivo do Teste:**
+Verificar se as criações e edições de evento ocorrerão normalmente
+
+**Passos:**
+1. Acessar a tela de um grupo
+2. Clicar no botão "+" para criação de novo evento de grupo
+3. Preencher informações do evento
+4. Clicar no botão para cadastrar o evento de grupo
+5. Clicar sobre o card do evento cadastrado
+6. Clicar no botão para editar o evento
+7. Editar o evento e salvar
+8. Checar se alterações serão exibidas após edição do evento de grupo
+
+**Critérios de Êxito:**
+
+* Deve-se exibir uma mensagem de confirmação de evento de grupo criado
+* O evento de grupo deve aparecer marcado no calendário do grupo
+* Ao selecionar um evento deve-se exibir informações do evento
+* As alterações realizadas no evento devem ser mostradas ao clicar no card do evento de grupo
+
+**Resultados:**
+
+* Passos 1-4: **Aprovado** (cadastro de evento de grupo realizado normalmente, frontend exibiu informações e navegou conforme esperado)
+
+https://github.com/user-attachments/assets/d0575794-8c85-4cad-9d7b-615fc65c8d2a
+
+* Passos 5-8: **Reprovado** (frontend não exibiu informações do evento clicado, não exibindo também o botão para editar as informações do evento)
+
+**Observações de Backend:**
+
+* Tela de grupo conectada ao backend e funcionando normalmente
+
+
+## Caso de Teste 12: Sugerir datas baseada na disponibilidade dos participantess
+
+**Requisitos Referentes:** RF 12 - Sugestão automática de datas baseada na disponibilidade dos participantes <br/>
+**Descrição:**
+Verificar se o sistema sugere melhores datas para marcação de eventos em agendas compartilhadas<br/>
+**Objetivo do Teste:**
+Verificar se ao acessar a tela de um grupo, as melhores datas para marcação de eventos serão perceptíveis
+
+**Passos:**
+1. Acessar a tela de um grupo
+2. Observar se o calendário do grupo sugere melhores datas para marcação de evento
+
+**Critérios de Êxito:**
+
+* O calendário do grupo deve auxiliar na escolha de uma data para marcação de evento utilizando cores para distinguir as datas
+
+**Resultados:**
+
+* Passos 1-2: **Reprovado** (tela de grupo não distuingue melhores e / ou piores datas com cores)
+
+https://github.com/user-attachments/assets/bdb27cb5-444b-4c7a-ba61-2c4073cfbe29
+
+**Observações de Backend:**
+
+* Tela de grupo conectada ao backend e funcionando normalmente
 
 ---
 
-## Caso de Teste 10: Cadastro
+## Caso de Teste 13: Cadastro
 
 **Requisitos Referentes:** RF 01 - Sistema de cadastro e login de usuários (email/senha ou redes sociais) <br/>
 **Descrição:**
@@ -346,7 +413,7 @@ Garantir que o sistema de cadastro esteja funcionando corretamente<br/>
   
 https://github.com/user-attachments/assets/c67ee91a-dce3-40a8-8f53-f5b2ddf21414
 
-## Caso de Teste 11: Login
+## Caso de Teste 14: Login
 
 **Requisitos Referentes:** RF 01 - Sistema de cadastro e login de usuários (email/senha ou redes sociais) <br/>
 **Descrição:**
@@ -373,7 +440,7 @@ Garantir que o usuário consiga realizar login no sistema<br/>
   
 https://github.com/user-attachments/assets/fba4ba51-9280-468e-ad63-2cae975d49af
 
-## Caso de Teste 12: Notificações
+## Caso de Teste 15: Notificações
 
 **Requisitos Referentes:** RF15 - Notificações de novos eventos compartilhados e RF16 - Notificações de alterações em eventos existentes <br/>
 **Descrição:**
