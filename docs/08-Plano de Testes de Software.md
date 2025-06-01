@@ -123,7 +123,7 @@
 
 | **Caso de Teste 10: Visualizar eventos em agendas compartilhadas** |                                                                                                                                      |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **Requisito Referente**                                           | RF 10 - Visualização de eventos em agendas compartilhadas     |
+| **Requisito Referente**                                           | RF 09 - Visualização de eventos em agendas compartilhadas     |
 | **Descrição**                                                     | Verificar se o sistema permite a visualização dos eventos presentes na agenda compartilhada |
 | **Objetivo do Teste**                                             | Verificar se todos os eventos estarão visíveis na tela de grupo   |
 | **Passos**                                                        | **Critérios de Êxito**    |
@@ -133,7 +133,32 @@
 | 4. Analisar informações dos cards de eventos exibidos ao clicar em datas marcadas no grupo                          
 | 5. Clicar no card de eventos marcados no grupo
 | 6. Verificar informações do evento clicado
-                          
+
+
+| **Caso de Teste 11: Criar e editar eventos e agendas compartilhadas** |                                                                                                                                      |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Requisito Referente**                                           | RF 10 - Criação, edição e exclusão de eventos em agendas compartilhadas     |
+| **Descrição**                                                     | Verificar se o sistema permite a criação e edição de eventos em agendas compartilhadas |
+| **Objetivo do Teste**                                             | Verificar se as criações e edições de evento ocorrerão normalmente   |
+| **Passos**                                                        | **Critérios de Êxito**    |
+| 1.  Acessar a tela de um grupo                                    | 1. Deve-se exibir uma mensagem de confirmação de evento de grupo criado |
+| 2. Clicar no botão "+" para criação de novo evento de grupo       | 2. O evento de grupo deve aparecer marcado no calendário do grupo   |
+| 3. Preencher informações do evento                                | 3. Ao selecionar um evento deve-se exibir informações do evento  |
+| 4. Clicar no botão para cadastrar o evento de grupo  | 4. As alterações realizadas no evento devem ser mostradas ao clicar no card do evento de grupo                         
+| 5. Clicar sobre o card do evento cadastrado
+| 6. Clicar no botão para editar o evento
+| 7. Editar o evento e salvar
+| 8. Checar se alterações serão exibidas após edição do evento de grupo
+
+
+| **Caso de Teste 12: Sugerir datas baseada na disponibilidade dos participantes** |                                                                                                                                      |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Requisito Referente**                                           | RF 12 - Sugestão automática de datas baseada na disponibilidade dos participantes	     |
+| **Descrição**                                                     | Verificar se o sistema sugere melhores datas para marcação de eventos em agendas compartilhadas |
+| **Objetivo do Teste**                                             | Verificar se ao acessar a tela de um grupo, as melhores datas para marcação de eventos serão perceptíveis   |
+| **Passos**                                                        | **Critérios de Êxito**    |
+| 1.  Acessar a tela de um grupo                                    | 1. O calendário do grupo deve auxiliar na escolha de uma data para marcação de evento utilizando cores para distinguir as datas |
+| 2. Observar se o calendário do grupo sugere melhores datas para marcação de evento   |
 
 
 
