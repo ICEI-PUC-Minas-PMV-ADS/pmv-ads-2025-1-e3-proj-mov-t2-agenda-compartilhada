@@ -167,9 +167,9 @@
 | **Descrição**                                                                      | O usuário deve conseguir criar uma nova conta no sistema através da tela de cadastro                                                                                                          |
 | **Objetivo do Teste**                                                              | Garantir que o sistema de cadastro esteja funcionando corretamente                                                                                                                            |
 | **Passos**                                                                         | **Critérios de Êxito**                                                                                                                                                                        |
-| 1. Acessar a tela de Cadastro|                                                      |1. Um novo usuário e um novo perfil são criados no banco de dados.|     
-|2. Inserir suas credenciais |                                                        |2. O usuário é direcionado para a tela de login. |
-|3. Clicar em cadastrar |                                                             |3. O usuário consegue realizar login usando as credenciais cadastradas. |  
+| 1. Acessar a tela de Cadastro                                                      |1. Um novo usuário e um novo perfil são criados no banco de dados.|     
+|2. Inserir suas credenciais                                                         |2. O usuário é direcionado para a tela de login. |
+|3. Clicar em cadastrar                                                              |3. O usuário consegue realizar login usando as credenciais cadastradas. |  
 
 
 | **Caso de Teste 14: Login** | 
