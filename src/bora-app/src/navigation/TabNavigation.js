@@ -12,7 +12,7 @@ import HomeDashboard from "../screens/home/Home-dashboard";
 import MyGroups from "../screens/home/MyGroups";
 import GroupDetails from "../screens/home/GroupDetails";
 import CreateGroup from "../screens/home/CreateGroup";
-import GroupScreen from "../screens/grupo/GroupScreen"
+
 
 // Telas Daianne
 import CalendarScreen from '../screens/CalendarScreen'
@@ -27,6 +27,10 @@ import ConviteScreen from '../screens/ConviteScreen'
 import EventInfo from '../screens/EventInfo'
 import EventList from '../screens/EventList';
 
+// Telas Milton
+import GroupScreen from "../screens/grupo/GroupScreen"
+import CreateGroupEvent from '../screens/grupo/CreateGroupEvent';
+
 // Criar um Stack Navigator para telas relacionadas a grupos
 const GroupStack = createStackNavigator();
 
@@ -38,6 +42,7 @@ const GroupStackScreen = () => {
             <GroupStack.Screen name="GroupDetails" component={GroupDetails} />
             <GroupStack.Screen name="CreateGroup" component={CreateGroup} />
             <GroupStack.Screen name="GroupScreen" component={GroupScreen} />
+            <GroupStack.Screen name="CreateGroupEvent" component={CreateGroupEvent} />
         </GroupStack.Navigator>
     );
 };

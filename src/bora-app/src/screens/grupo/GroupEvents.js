@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Text} from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import { StyleSheet, View, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import CardInfo from '../../components/CardInfo';
 import { ehHoje, dataEditavel } from '../../utils/dateUtils';
 
-const GroupEvents = ({ eventos, qntMembrosGrupo }) => {
+export default ({ eventos, qntMembrosGrupo }) => {
     const [itemAtivo, setItemAtivo] = useState(0)
     const menuItems = ['Todos', 'Próximos', 'Passados']
 
@@ -202,5 +202,3 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 })
-
-export default GroupEvents

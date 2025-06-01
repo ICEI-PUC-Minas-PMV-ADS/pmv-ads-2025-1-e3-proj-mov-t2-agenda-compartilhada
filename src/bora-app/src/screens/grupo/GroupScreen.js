@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Appbar, Avatar, Text } from 'react-native-paper';
+import { StyleSheet, View, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Appbar, Avatar, Text, FAB } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import GroupCalendar from './GroupCalendar';
 import GroupMemberEvents from './GroupMemberEvents';
 import GroupEvents from './GroupEvents';
 import axios from 'axios';
 import { API_IP } from '@env';
-import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const GroupScreen = ({ navigation, route }) => {
+export default ({ navigation, route }) => {
     const [userData, setUserData] = useState('')
     const [loadingUser, setLoadingUser] = useState(true)
     const { groupId } = route.params
@@ -111,7 +110,90 @@ const GroupScreen = ({ navigation, route }) => {
         )
     }
 
+    const appBarHeader =
+        <Appbar.Header style={styles.appBarHeader} mode="center-aligned">
+            <Appbar.BackAction onPress={() => navigation.goBack()} />
+            <Appbar.Content
+                titleStyle={styles.appBarTitle}
+                title={grupo.nome}
+            />
+        </Appbar.Header>
+
+    const groupNameArea =
+        <TouchableOpacity
+            onPress={() =>
+                navigation.navigate('GroupDetails', { groupId: groupId })
+            }>
+            <View style={styles.groupNameContainer}>
+                <Avatar.Text
+                    style={styles.avatarStyle}
+                    labelStyle={styles.avatarLabelStyle}
+                    size={70}
+                    label={grupo.nome
+                        .split(' ')
+                        .map((nome) => nome[0].toUpperCase())
+                        .slice(0, 2)
+                        .join('')}
+                    color="#9A9A9D"
+                />
+
+                <View style={styles.groupName}>
+                    <Text style={styles.groupNameText}>
+                        {grupo.nome}
+                    </Text>
+                    <Text style={styles.membrosText}>
+                        {grupo.membros.length +
+                            ' ' +
+                            (grupo.membros.length > 1 ? 'membros' : 'membro')}
+                    </Text>
+                </View>
+            </View>
+        </TouchableOpacity>
+
     const menuItems = ['Calendário', 'Membros', 'Eventos']
+
+    const groupTabs =
+        <View>
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.menuContainer}>
+                {menuItems.map((item, index) => (
+                    <TouchableOpacity
+                        key={index}
+                        onPress={() => handleMenuItemPress(index)}>
+                        <Text
+                            style={
+                                itemAtivo === index
+                                    ? [styles.menuText, styles.activeMenuText]
+                                    : styles.menuText
+                            }>
+                            {item}
+                        </Text>
+
+                        <View
+                            style={
+                                itemAtivo === index
+                                    ? [styles.underline, styles.activeUnderline]
+                                    : styles.underline
+                            }
+                        />
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
+        </View>
+
+    const criarEventoButton =
+        <>
+            {grupo.grupoAdmins.includes(userData._id) ?
+                <FAB
+                    icon='plus'
+                    style={styles.criarEventoButton}
+                    color='white'
+                    onPress={() =>
+                        navigation.navigate('CreateGroupEvent', { grupoInfo: grupo })}
+                /> : null}
+        </>
 
     const content = [
         <GroupCalendar eventos={eventos} qntMembrosGrupo={grupo.membros.length} />,
@@ -127,75 +209,19 @@ const GroupScreen = ({ navigation, route }) => {
 
     return (
         <SafeAreaProvider>
-            <Appbar.Header style={styles.appBarHeader} mode="center-aligned">
-                <Appbar.BackAction onPress={() => navigation.goBack()} />
-                <Appbar.Content
-                    titleStyle={styles.appBarTitle}
-                    title={grupo.nome}
-                />
-            </Appbar.Header>
+
+            {appBarHeader}
 
             <View style={styles.body}>
-                <TouchableOpacity
-                    onPress={() =>
-                        navigation.navigate('GroupDetails', { groupId: groupId })
-                    }>
-                    <View style={styles.groupNameContainer}>
-                        <Avatar.Text
-                            style={styles.avatarStyle}
-                            labelStyle={styles.avatarLabelStyle}
-                            size={70}
-                            label={grupo.nome
-                                .split(' ')
-                                .map((nome) => nome[0].toUpperCase())
-                                .slice(0, 2)
-                                .join('')}
-                            color="#9A9A9D"
-                        />
 
-                        <View style={styles.groupName}>
-                            <Text style={styles.groupNameText}>
-                                {grupo.nome}
-                            </Text>
-                            <Text style={styles.membrosText}>
-                                {grupo.membros.length +
-                                    ' ' +
-                                    (grupo.membros.length > 1 ? 'membros' : 'membro')}
-                            </Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <View>
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.menuContainer}>
-                        {menuItems.map((item, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                onPress={() => handleMenuItemPress(index)}>
-                                <Text
-                                    style={
-                                        itemAtivo === index
-                                            ? [styles.menuText, styles.activeMenuText]
-                                            : styles.menuText
-                                    }>
-                                    {item}
-                                </Text>
+                {groupNameArea}
 
-                                <View
-                                    style={
-                                        itemAtivo === index
-                                            ? [styles.underline, styles.activeUnderline]
-                                            : styles.underline
-                                    }
-                                />
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                </View>
+                {groupTabs}
 
                 {content[itemAtivo]}
+
+                {criarEventoButton}
+
             </View>
         </SafeAreaProvider>
     )
@@ -220,7 +246,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     appBarTitle: {
-        fontSize: 16, 
+        fontSize: 16,
         fontWeight: 'bold'
     },
     groupNameContainer: {
@@ -235,12 +261,12 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     groupName: {
-        flex: 1, 
-        alignItems: 'center', 
+        flex: 1,
+        alignItems: 'center',
         alignSelf: 'center'
     },
     groupNameText: {
-        fontSize: 20, 
+        fontSize: 20,
         fontWeight: 'bold'
     },
     membrosText: {
@@ -273,6 +299,13 @@ const styles = StyleSheet.create({
     activeUnderline: {
         backgroundColor: '#7839EE',
     },
+    criarEventoButton: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
+        backgroundColor: '#7839EE',
+        borderRadius: 40
+    }
 })
 
-export default GroupScreen
