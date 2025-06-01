@@ -161,8 +161,7 @@
 | 2. Observar se o calendário do grupo sugere melhores datas para marcação de evento   |
 
 
-| **Caso de Teste 13: Cadastro** |
-                                          |
+ **Caso de Teste 13: Cadastro** 
 | **Requisito Referente**                                                            | RF 01 - Sistema de cadastro e login de usuários (email/senha ou redes sociais)                                                                                                                |
 | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Descrição**                                                                      | O usuário deve conseguir criar uma nova conta no sistema através da tela de cadastro                                                                                                          |
@@ -173,8 +172,7 @@
 |3. Clicar em cadastrar                                                              |3. O usuário consegue realizar login usando as credenciais cadastradas. |  
 
 
-| **Caso de Teste 14: Login** |
-                                                             |
+ **Caso de Teste 14: Login**
 | **Requisito Referente**                                                                       | RF 01 - Sistema de cadastro e login de usuários (email/senha ou redes sociais)                                                        |
 | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | **Descrição**                                                                                 | O usuário deve conseguir criar uma sessão e acessar os seus dados ao inserir suas credenciais na tela de login                        |
@@ -183,8 +181,7 @@
 | 1. Acessar a tela de login  2. Inserir seu email  3. Inserir sua senha  4. Clicar em conectar | 1. Uma sessão é criada.  2. O usuário é direcionado para a tela home.  3. O usuário tem acesso aos seus dados registrados no sistema. |
 
 
-| **Caso de Teste 15: Notificações** | 
-                                                   |
+**Caso de Teste 15: Notificações** 
 | **Requisito Referente**                                                                      | RF15 - Notificações de novos eventos compartilhados e RF16 - Notificações de alterações em eventos existentes                                      |
 | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Descrição**                                                                                | O usuário deve ter acesso a suas notificações geradas pelo sistema                                                                                 |
@@ -193,7 +190,7 @@
 | 1. Acessar a tela de notificações  2. Visualizar uma notificação  3. Excluir uma notificação | 1. O usuário consegue receber notificações.  2. O usuário consegue visualizar suas notificações.  3. O usuário consegue excluir suas notificações. |
 
 
-| **Caso de Teste 16: Calendário Individual** | 
+**Caso de Teste 16: Calendário Individual** 
                                                         |
 | **Requisito Referente**                                                                                                                                                                            | Visualização de Calendário individual em formato mensal                                                                                                                                                                                                                                                                                                                                                                         |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -212,19 +209,13 @@
 | **Passos**                                                                                                                                                                                                                                                                                                                                    | **Critérios de Êxito**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | 1. Acessar a tela de eventos na tab navigator  2. Preencher o título, descrição, data, hora e duração do evento  3. Clicar em "próximo". Procedimento que criará o evento no banco de dados e alimentará a listagem de eventos e também o calendário individual  4. Possibilidade de edição do evento  5. Possibilidade de exclusão do evento | 1. Criação bem-sucedida: O evento foi salvo corretamente no banco de dados após o clique em "próximo"  2. Persistência e listagem: O evento criado apareceu na listagem de eventos do usuário logado  3. Integração com o calendário: O evento refletiu corretamente no calendário individual, com marcação visual na data correspondente (ex: pontinho verde)  4. Edição funcional: O usuário deve conseguir editar o evento, e as alterações devem ser refletidas tanto na listagem quanto no calendário  5. Exclusão funcional: O usuário deve conseguir excluir o evento, e ele deve ser removido tanto da listagem quanto do calendário  6. Escopo individual: O evento deve estar vinculado exclusivamente ao usuário logado, sem aparecer para outros usuários |
 
-
-| **Caso de Teste 18: Criação, edição e exclusão de eventos individuais** |
-                                                       |
+**Caso de Teste 17: Criação, edição e exclusão de eventos individuais**
 | **Requisito Referente**                                                                                                                                                                                                                                                                                            | Visualização de eventos em agendas individuais e compartilhadas                                                                                                                                                                                                                               |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Descrição**                                                                                                                                                                                                                                                                                                      | O usuário deve conseguir visualizar eventos individuais e de grupos                                                                                                                                                                                                                           |
 | **Objetivo do Teste**                                                                                                                                                                                                                                                                                              | Garantir que o usuário visualize uma lista de eventos individuais e de grupos, logado em seu perfil                                                                                                                                                                                           |
 | **Passos**                                                                                                                                                                                                                                                                                                         | **Critérios de Êxito**                                                                                                                                                                                                                                                                        |
-| 1. Acessar a tela de eventos na tab navigator                                            | 1. O usuário logado visualiza corretamente seus eventos individuais e de grupos
-2. Preencher o título, descrição, data, hora e duração do evento                           |2. Os eventos são identificáveis por tipo (ícone) 
-3. Clicar em "próximo". Procedimento que criará o evento no banco de dados e alimentará a listagem de eventos e também o calendário individual |3. A listagem exibe título, data, hora e tipo 
-4. Visualizar o evento criado na lista de eventos                                           |4. O evento aparece na lista após ser criado, sem erros  5. Os dados são recuperados corretamente do banco |
-
+| 1. Acessar a tela de eventos na tab navigator  2. Preencher o título, descrição, data, hora e duração do evento  3. Clicar em "próximo". Procedimento que criará o evento no banco de dados e alimentará a listagem de eventos e também o calendário individual  4. Visualizar o evento criado na lista de eventos | 1. O usuário logado visualiza corretamente seus eventos individuais e de grupos  2. Os eventos são identificáveis por tipo (ícone)  3. A listagem exibe título, data, hora e tipo  4. O evento aparece na lista após ser criado, sem erros  5. Os dados são recuperados corretamente do banco |
 
 
 
