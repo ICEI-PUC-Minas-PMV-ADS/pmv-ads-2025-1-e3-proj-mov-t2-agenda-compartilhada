@@ -161,7 +161,12 @@
 | 2. Observar se o calendário do grupo sugere melhores datas para marcação de evento   |
 
 
-
+Caso de Teste 13: Cadastro
+Requisito Referente	RF 01 - Sistema de cadastro e login de usuários (email/senha ou redes sociais)
+Descrição	O usuário deve conseguir criar uma nova conta no sistema através da tela de cadastro
+Objetivo do Teste	Garantir que o sistema de cadastro esteja funcionando corretamente
+Passos	Critérios de Êxito
+1. Acessar a tela de Cadastro 2. Inserir suas credenciais 3. Clicar em cadastrar	1. Um novo usuário e um novo perfil são criados no banco de dados. 2. O usuário é direcionado para a tela de login. 3. O usuário consegue realizar login usando as credenciais cadastradas.
 
 
 
