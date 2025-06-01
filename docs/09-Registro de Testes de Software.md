@@ -387,7 +387,13 @@ https://github.com/user-attachments/assets/bdb27cb5-444b-4c7a-ba61-2c4073cfbe29
 * Tela de grupo conectada ao backend e funcionando normalmente
 
 ---
+**Informações Gerais:**
 
+* **Data:** 31/05/2025
+* **Responsável pelos Testes:** Nikolas Victor Mota
+* **Versão da Aplicação Testada:** 1.0.0 
+* **Plano de Testes:** Cadastro, Login e Notificações
+  
 ## Caso de Teste 13: Cadastro
 
 **Requisitos Referentes:** RF 01 - Sistema de cadastro e login de usuários (email/senha ou redes sociais) <br/>
