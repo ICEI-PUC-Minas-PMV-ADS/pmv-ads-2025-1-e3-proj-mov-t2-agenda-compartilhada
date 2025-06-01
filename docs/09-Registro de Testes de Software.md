@@ -466,7 +466,35 @@ Garantir que o usuário consiga visualizar e gerenciar suas notificações<br/>
 https://github.com/user-attachments/assets/79574b53-613b-4733-9ee3-3c91d97292f2
 
 
+# Caso de Teste 16: Calendário individual
 
+**Requisitos Referentes:** Visualização de Calendário individual em formato mensal <br/>
+**Descrição:**
+O usuário deve conseguir visualizar os eventos em um calendário individual em formato mensal ao clicar no dia<br/>
+**Objetivo do Teste:**
+Garantir que o usuário consiga visualizar os eventos em seu calendário individual, logado em seu perfil<br/>
+
+**Passos:**
+1. Acessar a tela de calendário na tab navigator
+2. Clicar em um dia que possua evento;
+3. Visualizar na mesma tela o evento agendado para aquele dia, que estará destacado com um pontinho verde
+
+**Critérios de Êxito:**
+
+*O calendário deve ser exibido em formato mensal, com os eventos do usuário logado carregados automaticamente.
+
+*Dias com eventos devem ser destacados com um pontinho verde.
+
+*Ao clicar em um dia com evento, ele deve ser exibido na mesma tela, sem redirecionamento.
+
+*Os eventos exibidos devem ser exclusivos do usuário logado.
+
+*A resposta ao clique deve ser rápida (sem travamentos) e sem erros visuais.
+
+**Resultados:**
+
+* Passos 1-3: **Aprovado**
+https://github.com/user-attachments/assets/13f65c23-a060-44b1-a5f1-3d891ee877ae
 
 
 
