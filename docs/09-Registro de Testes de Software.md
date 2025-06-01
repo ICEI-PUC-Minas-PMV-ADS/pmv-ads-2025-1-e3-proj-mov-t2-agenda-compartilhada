@@ -274,7 +274,7 @@ https://github.com/user-attachments/assets/0d8a29da-ee75-4ff4-ad85-21f8cb1f2590
 
 **Informações Gerais:**
 
-* **Data:** 11/05/2025
+* **Data:** 01/06/2025
 * **Responsável pelos Testes:** Milton Ventura
 * **Versão da Aplicação Testada:** 1.0.0 (Frontend)
 * **Backend:** em desenvolvimento 
