@@ -494,6 +494,7 @@ Garantir que o usuário consiga visualizar os eventos em seu calendário individ
 **Resultados:**
 
 * Passos 1-3: **Aprovado**
+  
 https://github.com/user-attachments/assets/13f65c23-a060-44b1-a5f1-3d891ee877ae
 
 
