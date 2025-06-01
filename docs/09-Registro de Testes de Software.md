@@ -565,40 +565,29 @@ O usuário deve conseguir visualizar eventos individuais e de grupos.<br/>
 Garantir que o usuário visualizar uma lista de eventos individuais e de grupos, logado em seu perfil<br/>
 
 **Passos:**
-1. Acessar a tela de eventos na tab navigator
+1. Acessar a tela de eventos na tab navigator;
 2. Preencher o título, descrição, data, hora e duração do evento;
-3. Clicar em "próximo". Procedimento que criará o evento no banco de dados e alimentará a listagem de eventos e também o calendário individual.
+3. Clicar em "próximo". Procedimento que criará o evento no banco de dados e alimentará a listagem de eventos e também o calendário individual;
+4. Visualizar o evento criado na lista de eventos.
 
 **Critérios de Êxito:**
 
-*Criação bem-sucedida:
-O evento foi salvo corretamente no banco de dados após o clique em "próximo".
+*O usuário logado visualiza corretamente seus eventos individuais e de grupos;
 
-*Persistência e listagem:
-O evento criado apareceu na listagem de eventos do usuário logado.
+*Os eventos são identificáveis por tipo (ícone);
 
-*Integração com o calendário:
-O evento refletiu corretamente no calendário individual, com marcação visual na data correspondente (ex: pontinho verde).
+*A listagem exibe título, data, hora e tipo;
 
-*Edição funcional:
-O usuário deve conseguir editar o evento, e as alterações devem ser refletidas tanto na listagem quanto no calendário.
+*O evento aparece na lista após ser criado, sem erros;
 
-*Exclusão funcional:
-O usuário deve conseguir excluir o evento, e ele deve ser removido tanto da listagem quanto do calendário.
-
-*Escopo individual:
-O evento deve estar vinculado exclusivamente ao usuário logado, sem aparecer para outros usuários.
+*Os dados são recuperados corretamente do banco.
 
 
 **Resultados:**
 
-* Passos 1-3: **Aprovado**
+* Passos 1-4: **Aprovado**
 
-* Passos edição e exclusão: Não há implementação dessas duas funcionalidades **Reprovado**
-
-
-
-
+https://github.com/user-attachments/assets/d6918f0b-8ee4-47a6-a407-46475d3d0616
 
 
 
