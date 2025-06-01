@@ -320,6 +320,87 @@ Garantir que os eventos do grupo serão exibidos de forma clara
 
 * Integração com APIs de eventos e grupos pendente; 
 
+---
+
+## Caso de Teste 10: Cadastro
+
+**Requisitos Referentes:** RF 01 - Sistema de cadastro e login de usuários (email/senha ou redes sociais) <br/>
+**Descrição:**
+O usuário deve conseguir criar uma nova conta no sistema através da tela de cadastro<br/>
+**Objetivo do Teste:**
+Garantir que o sistema de cadastro esteja funcionando corretamente<br/>
+
+**Passos:**
+1. Acessar a tela de Cadastro
+2. Inserir suas credenciais
+3. Clicar em cadastrar
+
+**Critérios de Êxito:**
+
+* Um movo usuário e um novo perfil são criados no banco de dados.
+* O usuário é direcionado para a tela de login.
+* O usuário consegue realizar login usando as credenciais cadastradas.
+**Resultados:**
+
+
+* Passos 1-3: **Aprovado**
+  
+https://github.com/user-attachments/assets/c67ee91a-dce3-40a8-8f53-f5b2ddf21414
+
+## Caso de Teste 11: Login
+
+**Requisitos Referentes:** RF 01 - Sistema de cadastro e login de usuários (email/senha ou redes sociais) <br/>
+**Descrição:**
+O usuário deve conseguir criar uma sessão e acessar os seus dados ao inserir suas credenciais na tela de login<br/>
+**Objetivo do Teste:**
+Garantir que o usuário consiga realizar login no sistema<br/>
+
+**Passos:**
+1. Acessar a tela de login
+2. Inserir seu email
+3. Inserir sua senha
+4. Clicar em conectar
+
+**Critérios de Êxito:**
+
+* Uma sessão é criada.
+* O usuário é direcionado para a tela home.
+* O usuário tem acesso aos seus dados registrados no sistema.
+
+**Resultados:**
+
+
+* Passos 1-4: **Aprovado**
+  
+https://github.com/user-attachments/assets/fba4ba51-9280-468e-ad63-2cae975d49af
+
+## Caso de Teste 12: Notificações
+
+**Requisitos Referentes:** RF15 - Notificações de novos eventos compartilhados e RF16 - Notificações de alterações em eventos existentes <br/>
+**Descrição:**
+O usuário deve ter acesso a suas notificações geradas pelo sistema<br/>
+**Objetivo do Teste:**
+Garantir que o usuário consiga visualizar e gerenciar suas notificações<br/>
+
+**Passos:**
+1. Acessar a tela de notificações
+2. Visualizar uma notificação
+3. Excluir uma notificação
+
+**Critérios de Êxito:**
+
+* O usuário consegue receber notificações.
+* O usuário consegue visualizar suas notificações.
+* O usuário consegue excluir suas notificações.
+
+**Resultados:**
+
+* Passos 1-3: **Aprovado**
+
+https://github.com/user-attachments/assets/79574b53-613b-4733-9ee3-3c91d97292f2
+
+
+
 
 
 
