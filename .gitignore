@@ -65,3 +65,8 @@ docker-compose.yaml
 src/gerar_sumario_codigo.js
 src/projeto_filtrado.txt
 /src/bora-app/ios
+src/bora-app/package-lock.json
+src/bora-api/package-lock.json
+src/bora-api/package-lock.json
+src/bora-app/package-lock.json
+src/bora-api/package-lock.json
