@@ -58,7 +58,7 @@ export default ({ navigation, route }) => {
             if (response.ok) {
                 Alert.alert('Cadastro de Evento realizado com sucesso!');
                 navigation.navigate('myGroups', {
-                    screen: 'MyGroups' // Nome correto da tela
+                    screen: 'MyGroups'
                 });
             } else {
                 Alert.alert('Erro ao cadastrar Evento', data.message || 'Erro desconhecido');

@@ -19,8 +19,6 @@ const CalendarScreen = ({ navigation }) => {
           headers: { 'Content-Type': 'application/json' },
         });
 
-        console.log(response)
-
         const data = await response.json();
 
         // Organiza eventos por data no formato YYYY-MM-DD

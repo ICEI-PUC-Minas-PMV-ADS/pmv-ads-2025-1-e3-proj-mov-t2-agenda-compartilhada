@@ -191,7 +191,10 @@ export default ({ navigation, route }) => {
                     style={styles.criarEventoButton}
                     color='white'
                     onPress={() =>
-                        navigation.navigate('CreateGroupEvent', { grupoInfo: grupo })}
+                        navigation.navigate('calendarEvent', { 
+                            screen: 'CreateEventScreen',
+                            params: {groupId: groupId}
+                         })}
                 /> : null}
         </>
 

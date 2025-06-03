@@ -49,10 +49,11 @@ const GroupStackScreen = () => {
 
 const EventStack = createStackNavigator();
 
-const EventStackScreen = () => {
+const CalendarEventStack = () => {
     return (
-        <EventStack.Navigator screenOptions={{ headerShown: false }}>
-            <EventStack.Screen name="createEventScreen" component={CreateEventScreen} />
+        <EventStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="CalendarScreen">
+            <EventStack.Screen name="CalendarScreen" component={CalendarScreen} />
+            <EventStack.Screen name="CreateEventScreen" component={CreateEventScreen} />
             <EventStack.Screen name="eventList" component={EventList} />
         </EventStack.Navigator>
     );
@@ -131,7 +132,32 @@ const TabNavigation = () => {
                     ),
                 }}
             />*/}
+
             <Tab.Screen
+                name="calendarEvent"
+                component={CalendarEventStack}
+                options={{
+                    tabBarLabel: 'Calendário',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="calendar-number-outline" size={size} color={color} />
+                    ),
+
+                    // Garante que "CalendarScreen" será acionado ao pressionar o botão na navbar
+                    tabBarButton: (props) => {
+                        const navigation = useNavigation();
+                        return (
+                            <TouchableOpacity
+                                {...props}
+                                onPress={() => {
+                                    navigation.navigate('calendarEvent', {screen: 'CalendarScreen'})
+                                }}
+                            />
+                        )
+                    }
+                }}
+            />
+
+            {/* <Tab.Screen
                 name="calendarScreen"
                 component={CalendarScreen}
                 options={{
@@ -140,27 +166,7 @@ const TabNavigation = () => {
                         <Ionicons name="calendar-number-outline" size={size} color={color} />
                     ),
                 }}
-            />
-            <Tab.Screen
-                name="eventStack"
-                component={EventStackScreen}
-                options={{
-                    tabBarLabel: 'Eventos',
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="construct-outline" size={size} color={color} />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="createTimeScreen"
-                component={EventTimeScreen}
-                options={{
-                    tabBarLabel: 'Evento',
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="construct-outline" size={size} color={color} />
-                    ),
-                }}
-            />
+            /> */}
             <Tab.Screen
                 name="conviteScreen"
                 component={ConviteScreen}

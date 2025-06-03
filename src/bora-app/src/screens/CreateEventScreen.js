@@ -17,7 +17,8 @@ import { API_IP } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-const CreateEventScreen = ({ navigation }) => {
+const CreateEventScreen = ({ navigation, route }) => {
+  const groupId = route.params?.groupId ?? null; // <--- Utilizado para receber o Id de um grupo que solicita a criação de evento
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
   const [token, setToken] = useState(null);
@@ -71,6 +72,7 @@ const CreateEventScreen = ({ navigation }) => {
           });
           if (response.data && Array.isArray(response.data)) {
             setUserGroups(response.data);
+            console.log(groupId)
           } else {
             setUserGroups([]);
           }
@@ -85,6 +87,13 @@ const CreateEventScreen = ({ navigation }) => {
     }
   }, [user, token]);
 
+  // useEffect para selecionar o valor inicial no Picker caso seja passado algum grupoId como parâmetro
+  useEffect(() => {
+    const initialValue = (groupId === null || groupId === undefined) 
+      ? "" 
+      : String(groupId);
+    setSelectedGroupId(initialValue);
+  }, [groupId])
 
   const showMode = mode => {
     setPickerMode(mode);
@@ -112,10 +121,10 @@ const CreateEventScreen = ({ navigation }) => {
       Alert.alert('Erro', 'Autenticação ou informações do usuário ausentes.');
       return;
     }
-    const finalPayload = { ...payload, donoId: user._id };
+    // const finalPayload = { ...payload, donoId: user._id };
 
     try {
-      const response = await axios.post(`${API_IP}/eventos`, finalPayload, {
+      const response = await axios.post(`${API_IP}/eventos`, payload, {
         headers: { 
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}` 
@@ -157,8 +166,8 @@ const CreateEventScreen = ({ navigation }) => {
       dataEvento: isoDateString,
       dataFimEvento: dataFimEventoISO,
       local: location,
-      tipo: selectedGroupId && selectedGroupId !== "" ? 'grupo' : 'individual', // <<<< ALTERADO para verificar string vazia
-      ...(selectedGroupId && selectedGroupId !== "" && { grupoId: selectedGroupId }), // <<<< ALTERADO para verificar string vazia
+      tipo: selectedGroupId && selectedGroupId !== "" ? 'grupo' : 'individual', // <<<< ALTERADO para verificar string vazia 
+      donoId: selectedGroupId && selectedGroupId !== "" ? selectedGroupId : user._id
     };
     
     await criaEvento(payload);
@@ -230,7 +239,7 @@ const CreateEventScreen = ({ navigation }) => {
                 prompt="Selecione um grupo"
               >
                 {/* Item padrão para "Nenhum" */}
-                <Picker.Item label="Nenhum (Evento Individual)" value="" style={styles.pickerItemBase} />
+                <Picker.Item label={"Nenhum (Evento Individual)"} value="" style={styles.pickerItemBase} />
 
                 {/* Mapeia os grupos do usuário, garantindo dados válidos */}
                 {userGroups && userGroups
@@ -291,7 +300,7 @@ const styles = StyleSheet.create({
     placeholderText: { fontSize: 16, color: '#A0A0A0', },
     textArea: { minHeight: 100, textAlignVertical: 'top', },
     pickerContainer: { borderWidth: 1, borderColor: '#DEDEDE', borderRadius: 8, backgroundColor: '#FFFFFF', minHeight: 48, justifyContent: 'center', },
-    picker: { height: Platform.OS === 'ios' ? undefined : 48, width: '100%', color: '#333', },
+    picker: { height: Platform.OS === 'ios' ? undefined : 55, width: '100%', color: '#333', },
     pickerItemBase: { fontSize: 16, },
     pickerItem: { fontSize: 16, color: '#333', },
     pickerItemDisabled: { fontSize: 16, color: '#A0A0A0', },
