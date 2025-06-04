@@ -167,7 +167,7 @@ const TabNavigation = () => {
                     ),
                 }}
             /> */}
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="conviteScreen"
                 component={ConviteScreen}
                 options={{
@@ -176,7 +176,7 @@ const TabNavigation = () => {
                         <Ionicons name="construct-outline" size={size} color={color} />
                     ),
                 }}
-            />
+            /> */}
             <Tab.Screen
                 name="profileScreen"
                 component={ProfileScreen}
@@ -190,7 +190,7 @@ const TabNavigation = () => {
                     ),
                 }}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="eventInfo"
                 component={EventInfo}
                 options={{
@@ -199,7 +199,7 @@ const TabNavigation = () => {
                         <Ionicons name="construct-outline" size={size} color={color} />
                     ),
                 }}
-            />
+            /> */}
         </Tab.Navigator>
     );
 };
