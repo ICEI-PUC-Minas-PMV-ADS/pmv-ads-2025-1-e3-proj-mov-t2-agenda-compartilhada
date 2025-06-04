@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
 
 import NotificacoesScreen from '../screens/login/notificacoes';
-import TelaTesteScreen from '../screens/login/tela_teste';
 import HomeDashboard from "../screens/home/Home-dashboard";
 import MyGroups from "../screens/home/MyGroups";
 import GroupDetails from "../screens/home/GroupDetails";
