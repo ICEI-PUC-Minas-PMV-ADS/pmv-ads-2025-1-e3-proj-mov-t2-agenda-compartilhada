@@ -43,6 +43,14 @@ export class GruposController {
     return this.gruposService.addMembers(id, addMembersDto.members);
   }
 
+  @Delete(':id/membros/:memberRef')
+  async removeMember(
+    @Param('id') id: string,
+    @Param('memberRef') memberRef: string,
+  ): Promise<Grupo> {
+    return this.gruposService.removeMember(id, decodeURIComponent(memberRef));
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Grupo> {
     return this.gruposService.findOne(id);

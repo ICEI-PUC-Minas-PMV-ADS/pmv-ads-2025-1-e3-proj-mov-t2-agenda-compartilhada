@@ -9,7 +9,7 @@ import { UpdateGrupoDto } from '../dto/update-grupo.dto';
 export class GruposRepository {
   constructor(
     @InjectModel(Grupo.name)
-    private readonly grupoModel: Model<GrupoDocument>, // Note GrupoDocument aqui
+    private readonly grupoModel: Model<GrupoDocument>,
   ) {}
 
   async create(createGrupoDto: CreateGrupoDto): Promise<GrupoDocument> {
@@ -61,6 +61,27 @@ export class GruposRepository {
         groupId,
         { $addToSet: { membros: { $each: memberIds } } }, // $addToSet evita duplicatas
         { new: true },
+      )
+      .exec();
+
+    if (!updatedGrupo) {
+      throw new NotFoundException(`Grupo com ID ${groupId} não encontrado`);
+    }
+
+    return updatedGrupo;
+  }
+
+  async removeMember(groupId: string, userId: string): Promise<Grupo> {
+    const updatedGrupo = await this.grupoModel
+      .findByIdAndUpdate(
+        groupId,
+        {
+          $pull: {
+            membros: userId,
+            grupoAdmins: userId // Remove também dos admins se for admin
+          }
+        },
+        { new: true }
       )
       .exec();
 

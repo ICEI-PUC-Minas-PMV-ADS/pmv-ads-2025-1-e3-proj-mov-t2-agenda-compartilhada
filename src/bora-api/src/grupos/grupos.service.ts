@@ -157,4 +157,35 @@ export class GruposService {
       membros: uniqueMemberIds,
     });
   }
+
+  async removeMember(groupId: string, memberRef: string): Promise<Grupo> {
+    let userId: string;
+
+    if (this.isObjectId(memberRef)) {
+      const user = await this.usersService.findOne(memberRef);
+      if (!user) {
+        throw new NotFoundException(
+          `Usuário com ID "${memberRef}" não encontrado`,
+        );
+      }
+      userId = memberRef;
+    } else {
+      const email = this.normalizeRef(memberRef);
+      const user = await this.usersService.findByEmail(email);
+      if (!user) {
+        throw new NotFoundException(
+          `Usuário com email "${memberRef}" não encontrado`,
+        );
+      }
+      userId = String(user._id);
+    }
+
+    // Verificar se o grupo existe e se o usuário é membro
+    const grupo = await this.gruposRepository.findOne(groupId);
+    if (!grupo.membros.includes(userId)) {
+      throw new BadRequestException('Usuário não é membro deste grupo');
+    }
+
+    return this.gruposRepository.removeMember(groupId, userId);
+  }
 }
