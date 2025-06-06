@@ -15,6 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { API_IP } from '@env';
 import { useFocusEffect } from '@react-navigation/native';
+import EventoModal from '../../components/EventoModal'; // Importação do modal
 
 // Get screen width to calculate spacing
 const { width } = Dimensions.get('window');
@@ -27,6 +28,10 @@ const HomeDashboard = ({ navigation }) => {
     const [loading, setLoading] = useState(true);
     const [userId, setUserId] = useState('');
 
+    // Estado para controlar o modal
+    const [modalVisivel, setModalVisivel] = useState(false);
+    const [eventoSelecionado, setEventoSelecionado] = useState(null);
+
     // Helper para gerar iniciais
     const getInitials = (name) => {
         if (!name) return '';
@@ -36,6 +41,12 @@ const HomeDashboard = ({ navigation }) => {
             .join('')
             .slice(0, 2)
             .toUpperCase();
+    };
+
+    // Função para abrir o modal com os dados do evento
+    const abrirModalEvento = (event) => {
+        setEventoSelecionado(event);
+        setModalVisivel(true);
     };
 
     // Buscar dados do usuário ao carregar a tela
@@ -161,12 +172,7 @@ const HomeDashboard = ({ navigation }) => {
                                     <EventCard
                                         key={event.id}
                                         event={event}
-                                        onPress={() =>
-                                            navigation.navigate('myGroups', {
-                                                screen: 'GroupDetails',
-                                                params: { groupId: event.id }
-                                            })
-                                        }
+                                        onPress={() => abrirModalEvento(event)}
                                     />
                                 ))
                             ) : (
@@ -209,6 +215,19 @@ const HomeDashboard = ({ navigation }) => {
                         </View>
                     </View>
                 </ScrollView>
+
+                {/* Modal do Evento */}
+                {eventoSelecionado && (
+                    <EventoModal
+                        titulo={eventoSelecionado.title}
+                        descricao={eventoSelecionado.description || 'Sem descrição disponível'}
+                        dataEvento={eventoSelecionado.date}
+                        dataFimEvento={eventoSelecionado.endDate || eventoSelecionado.date}
+                        tipo={eventoSelecionado.type || 'grupo'}
+                        visibilidade={modalVisivel}
+                        onClose={() => setModalVisivel(false)}
+                    />
+                )}
             </SafeAreaView>
         </View>
     );
