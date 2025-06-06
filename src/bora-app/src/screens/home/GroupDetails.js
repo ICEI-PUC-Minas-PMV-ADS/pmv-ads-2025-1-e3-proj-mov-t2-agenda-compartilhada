@@ -14,6 +14,7 @@ import {
     LayoutAnimation,
     Platform,
     UIManager,
+    Image,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Buffer } from 'buffer'; // decodificar JWT sem libs externas
@@ -406,7 +407,15 @@ const GroupDetails = ({ navigation, route }) => {
                 {/* info grupo */}
                 <View style={styles.groupInfoContainer}>
                     <View style={styles.groupAvatar}>
-                        <Text style={styles.groupInitials}>{getInitials(group.nome)}</Text>
+                        {group.foto ? (
+                            <Image
+                                source={{ uri: group.foto }}
+                                style={styles.groupAvatarImage}
+                                onError={() => console.log('Erro ao carregar imagem do grupo')}
+                            />
+                        ) : (
+                            <Text style={styles.groupInitials}>{getInitials(group.nome)}</Text>
+                        )}
                     </View>
                     <Text style={styles.groupName}>{group.nome}</Text>
                     <Text style={styles.groupMembers}>{group.membros.length} membros</Text>
@@ -489,7 +498,7 @@ const GroupDetails = ({ navigation, route }) => {
 };
 
 /* ------------------------------------------------------------------
-   STYLES (mesmos estilos já utilizados anteriormente)
+   STYLES
 ------------------------------------------------------------------ */
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#FFFFFF' },
@@ -531,6 +540,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#EEEEEE',
         marginBottom: 12,
+        overflow: 'hidden',
+    },
+    groupAvatarImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 50,
     },
     groupInitials: { fontSize: 24, color: '#9A9A9D' },
     groupName: { fontSize: 18, fontWeight: '600', color: '#333333', marginBottom: 4 },

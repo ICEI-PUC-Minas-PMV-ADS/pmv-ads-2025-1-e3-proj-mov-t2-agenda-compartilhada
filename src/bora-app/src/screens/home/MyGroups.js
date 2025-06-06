@@ -9,6 +9,7 @@ import {
     SafeAreaView,
     ActivityIndicator,
     Alert,
+    Image,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from "expo-constants";
@@ -87,7 +88,15 @@ const MyGroups = ({ navigation }) => {
     const GroupCard = ({ group, onPress }) => (
         <TouchableOpacity style={styles.groupCard} onPress={onPress}>
             <View style={styles.groupAvatar}>
-                <Text style={styles.groupInitials}>{getInitials(group.nome)}</Text>
+                {group.foto ? (
+                    <Image
+                        source={{ uri: group.foto }}
+                        style={styles.groupAvatarImage}
+                        onError={() => console.log('Erro ao carregar imagem do grupo')}
+                    />
+                ) : (
+                    <Text style={styles.groupInitials}>{getInitials(group.nome)}</Text>
+                )}
             </View>
             <View style={styles.groupInfo}>
                 <Text style={styles.groupName}>{group.nome}</Text>
@@ -211,6 +220,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 12,
+        overflow: 'hidden',
+    },
+    groupAvatarImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 25,
     },
     groupInitials: { fontSize: 12, color: '#9A9A9D' },
     groupInfo: { flex: 1 },

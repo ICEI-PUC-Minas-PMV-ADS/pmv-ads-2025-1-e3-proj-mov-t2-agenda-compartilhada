@@ -1,3 +1,4 @@
+// src/grupos/repository/grupos.repository.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -71,17 +72,17 @@ export class GruposRepository {
     return updatedGrupo;
   }
 
-  async removeMember(groupId: string, userId: string): Promise<Grupo> {
+  async removeMember(groupId: string, memberId: string): Promise<Grupo> {
     const updatedGrupo = await this.grupoModel
       .findByIdAndUpdate(
         groupId,
         {
           $pull: {
-            membros: userId,
-            grupoAdmins: userId // Remove também dos admins se for admin
-          }
+            membros: memberId,
+            grupoAdmins: memberId,
+          },
         },
-        { new: true }
+        { new: true },
       )
       .exec();
 

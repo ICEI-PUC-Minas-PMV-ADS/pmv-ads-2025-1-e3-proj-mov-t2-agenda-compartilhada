@@ -8,7 +8,8 @@ import {
     SafeAreaView,
     Dimensions,
     ActivityIndicator,
-    Alert
+    Alert,
+    Image
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -26,6 +27,17 @@ const HomeDashboard = ({ navigation }) => {
     const [loading, setLoading] = useState(true);
     const [userId, setUserId] = useState('');
 
+    // Helper para gerar iniciais
+    const getInitials = (name) => {
+        if (!name) return '';
+        return name
+            .split(' ')
+            .map(w => w[0])
+            .join('')
+            .slice(0, 2)
+            .toUpperCase();
+    };
+
     // Buscar dados do usuário ao carregar a tela
     useFocusEffect(
         React.useCallback(() => {
@@ -42,10 +54,17 @@ const HomeDashboard = ({ navigation }) => {
                     setUserName(userData.name);
                     setUserId(userData._id);
 
-                    // Buscar os grupos do usuário
-                    const groupsResponse = await axios.get(`${API_IP}/dashboard/groups/${userData._id}`);
+                    // Buscar os grupos do usuário com detalhes completos (incluindo foto)
+                    const groupsResponse = await axios.get(`${API_IP}/grupos/usuario/${userData.email}`);
                     if (groupsResponse.data) {
-                        setUserGroups(groupsResponse.data);
+                        // Mapear grupos com informações necessárias para o dashboard
+                        const groupsWithDetails = groupsResponse.data.map(group => ({
+                            id: group._id,
+                            name: group.nome,
+                            initials: getInitials(group.nome),
+                            foto: group.foto || null, // Incluir a foto do grupo
+                        }));
+                        setUserGroups(groupsWithDetails);
                     }
 
                     // Buscar próximos eventos
@@ -93,14 +112,22 @@ const HomeDashboard = ({ navigation }) => {
         </TouchableOpacity>
     );
 
-    // Group circle component
+    // Group circle component - atualizado para mostrar foto
     const GroupCircle = ({ group, onPress }) => (
         <View style={styles.groupCircleContainer}>
             <TouchableOpacity
                 style={styles.groupCircle}
                 onPress={onPress}
             >
-                <Text style={styles.groupInitials}>{group.initials}</Text>
+                {group.foto ? (
+                    <Image
+                        source={{ uri: group.foto }}
+                        style={styles.groupCircleImage}
+                        onError={() => console.log('Erro ao carregar imagem do grupo')}
+                    />
+                ) : (
+                    <Text style={styles.groupInitials}>{group.initials}</Text>
+                )}
             </TouchableOpacity>
             <Text style={styles.groupName}>{group.name}</Text>
         </View>
@@ -308,6 +335,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 8,
+        overflow: 'hidden',
+    },
+    groupCircleImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 25,
     },
     groupInitials: {
         fontSize: 14,

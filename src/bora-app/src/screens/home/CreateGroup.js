@@ -97,12 +97,15 @@ const CreateGroup = ({ navigation }) => {
                 name: `group_${Date.now()}.${fileType}`,
                 type: `image/${fileType}`,
             });
-            formData.append('displayName', 'group');
+            formData.append('displayName', `group_${Date.now()}`);
 
-            // *** alteração aqui: usando rota /usuarios/upload-image ***
-            const response = await fetch(`${API_IP}/usuarios/upload-image`, {
+            // *** usando endpoint específico para grupos ***
+            const response = await fetch(`${API_IP}/grupos/upload-image`, {
                 method: 'POST',
                 body: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
 
             if (!response.ok) {
@@ -155,6 +158,8 @@ const CreateGroup = ({ navigation }) => {
                 ...(fotoUrl && { foto: fotoUrl }),
             };
 
+            console.log('Payload enviado:', payload); // Debug
+
             const res = await fetch(`${API_IP}/grupos`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -165,6 +170,9 @@ const CreateGroup = ({ navigation }) => {
                 const { message } = await res.json().catch(() => ({}));
                 throw new Error(message || 'Não foi possível criar o grupo');
             }
+
+            const createdGroup = await res.json();
+            console.log('Grupo criado:', createdGroup); // Debug
 
             Alert.alert('Sucesso', 'Grupo criado com sucesso!');
             navigation.goBack();

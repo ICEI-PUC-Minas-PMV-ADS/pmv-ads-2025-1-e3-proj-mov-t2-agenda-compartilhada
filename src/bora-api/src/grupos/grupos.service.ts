@@ -1,3 +1,4 @@
+// src/grupos/grupos.service.ts
 import {
   BadRequestException,
   Injectable,
@@ -21,6 +22,41 @@ export class GruposService {
 
   private isObjectId(ref: string): boolean {
     return Types.ObjectId.isValid(ref);
+  }
+
+  async removeMember(groupId: string, memberRef: string): Promise<Grupo> {
+    const grupo = await this.gruposRepository.findOne(groupId);
+
+    let memberIdToRemove: string | null = null;
+
+    // Se é um ObjectId, usa diretamente
+    if (this.isObjectId(memberRef)) {
+      memberIdToRemove = memberRef;
+    } else {
+      // Se é um email, busca o usuário
+      const email = this.normalizeRef(memberRef);
+      const user = await this.usersService.findByEmail(email);
+      if (user) {
+        memberIdToRemove = String(user._id);
+      }
+    }
+
+    if (!memberIdToRemove) {
+      throw new NotFoundException(`Membro "${memberRef}" não encontrado`);
+    }
+
+    // Remove das duas listas: membros e admins
+    const updatedMembros = grupo.membros.filter(
+      (id) => id !== memberIdToRemove,
+    );
+    const updatedAdmins = grupo.grupoAdmins.filter(
+      (id) => id !== memberIdToRemove,
+    );
+
+    return this.gruposRepository.update(groupId, {
+      membros: updatedMembros,
+      grupoAdmins: updatedAdmins,
+    });
   }
 
   private normalizeRef(ref: string): string {
@@ -156,36 +192,5 @@ export class GruposService {
     return this.gruposRepository.update(groupId, {
       membros: uniqueMemberIds,
     });
-  }
-
-  async removeMember(groupId: string, memberRef: string): Promise<Grupo> {
-    let userId: string;
-
-    if (this.isObjectId(memberRef)) {
-      const user = await this.usersService.findOne(memberRef);
-      if (!user) {
-        throw new NotFoundException(
-          `Usuário com ID "${memberRef}" não encontrado`,
-        );
-      }
-      userId = memberRef;
-    } else {
-      const email = this.normalizeRef(memberRef);
-      const user = await this.usersService.findByEmail(email);
-      if (!user) {
-        throw new NotFoundException(
-          `Usuário com email "${memberRef}" não encontrado`,
-        );
-      }
-      userId = String(user._id);
-    }
-
-    // Verificar se o grupo existe e se o usuário é membro
-    const grupo = await this.gruposRepository.findOne(groupId);
-    if (!grupo.membros.includes(userId)) {
-      throw new BadRequestException('Usuário não é membro deste grupo');
-    }
-
-    return this.gruposRepository.removeMember(groupId, userId);
   }
 }
