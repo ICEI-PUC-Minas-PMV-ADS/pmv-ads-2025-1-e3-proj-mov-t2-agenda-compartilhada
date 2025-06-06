@@ -38,16 +38,16 @@ Após realizar os testes de usabilidade, obtém-se um relatório a partir das an
 | **Passos** |1. Usuário navega para área de grupos. <br> 2. Cria novo grupo com nome e descrição. <br> 3. Adiciona pelo menos 2 membros usando busca. <br> 4. Configura permissões básicas do grupo. |
 | **Critério de Êxito** |Processo completado em até 5 minutos com grupo funcional e membros adicionados com sucesso.|
 | **Resultado** |Todos os usuários completaram a criação de grupos. Fluxo considerado intuitivo. |
-| **Evidência** | colar link do arquivo aqui |
+| **Evidência** | [Criar grupo 2025-06-06 at 09.35.35.mov](img/v%C3%ADdeo/Criar%20grupo%202025-06-06%20at%2009.35.35.mov) |
 
-| Caso de Teste |UT-05 – Testar colaboração em eventos de grupo |
-| :---- | :---- |
-| **Requisito Associado** |RF-09 (Criação de eventos compartilhados) + RF-08 (Visualização de eventos compartilhados) |
-| **Objetivo do Teste** |Avaliar a experiência de criação e visualização de eventos colaborativos. |
-| **Passos** |1. Usuário acessa grupo existente. <br> 2. Cria evento para o grupo. <br> 3. Verifica se outros membros podem visualizar. <br> 4. Testa edição de evento compartilhado. |
-| **Critério de Êxito** |Evento criado e compartilhado com sucesso, visível para todos os membros em tempo real.|
-| **Resultado** |Eventos foram criados e sincronizados corretamente entre todos os membros. Diferenciação clara entre eventos pessoais e compartilhados. |
-| **Evidência** | colar link do arquivo aqui |
+| Caso de Teste | UT-05 – Testar colaboração em eventos de grupo                                                                                                                         |
+| :---- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Requisito Associado** | RF-09 (Criação de eventos compartilhados) + RF-08 (Visualização de eventos compartilhados)                                                                             |
+| **Objetivo do Teste** | Avaliar a experiência de criação e visualização de eventos colaborativos.                                                                                              |
+| **Passos** | 1. Usuário acessa grupo existente. <br> 2. Cria evento para o grupo. <br> 3. Verifica se outros membros podem visualizar. <br> 4. Testa edição de evento compartilhado.|
+| **Critério de Êxito** | Evento criado e compartilhado com sucesso, visível para todos os membros em tempo real.                                                                                |
+| **Resultado** | Eventos foram criados e sincronizados corretamente entre todos os membros. Diferenciação clara entre eventos pessoais e compartilhados.                                |
+| **Evidência** | [evento de grupo 2025-06-06 at 10.24.01.mov](img/v%C3%ADdeo/evento%20de%20grupo%202025-06-06%20at%2010.24.01.mov)    [Adicionar membro 2025-06-06 at 10.22.44.mov](img/v%C3%ADdeo/Adicionar%20membro%202025-06-06%20at%2010.22.44.mov)                                                  |
 
 | Caso de Teste |UT-06 – Testar gestão de disponibilidade pessoal |
 | :---- | :---- |
