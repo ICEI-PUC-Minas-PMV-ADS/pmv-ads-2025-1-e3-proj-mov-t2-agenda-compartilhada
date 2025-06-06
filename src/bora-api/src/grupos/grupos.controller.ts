@@ -31,7 +31,15 @@ export class GruposController {
 
   @Post()
   async create(@Body() createGrupoDto: CreateGrupoDto): Promise<Grupo> {
-    return this.gruposService.create(createGrupoDto);
+    console.log('Controller - create group called with:', createGrupoDto);
+    try {
+      const result = await this.gruposService.create(createGrupoDto);
+      console.log('Group created successfully:', result._id);
+      return result;
+    } catch (error) {
+      console.error('Error creating group:', error);
+      throw error;
+    }
   }
 
   @Get()
@@ -43,7 +51,15 @@ export class GruposController {
   async getMembersWithDetails(
     @Param('id') id: string,
   ): Promise<Array<{ user: User; isAdmin: boolean }>> {
-    return this.gruposService.getMembersWithDetails(id);
+    console.log('Controller - getMembersWithDetails called for group:', id);
+    try {
+      const result = await this.gruposService.getMembersWithDetails(id);
+      console.log('Members retrieved successfully, count:', result.length);
+      return result;
+    } catch (error) {
+      console.error('Error getting members:', error);
+      throw error;
+    }
   }
 
   @Post(':id/membros')
@@ -51,7 +67,32 @@ export class GruposController {
     @Param('id') id: string,
     @Body() addMembersDto: AddMembersDto,
   ): Promise<Grupo> {
-    return this.gruposService.addMembers(id, addMembersDto.members);
+    console.log('Controller - addMembers called with:', {
+      id,
+      members: addMembersDto.members,
+    });
+
+    if (!addMembersDto.members || !Array.isArray(addMembersDto.members)) {
+      throw new BadRequestException(
+        'O campo "members" deve ser um array de emails ou IDs',
+      );
+    }
+
+    if (addMembersDto.members.length === 0) {
+      throw new BadRequestException('Pelo menos um membro deve ser fornecido');
+    }
+
+    try {
+      const result = await this.gruposService.addMembers(
+        id,
+        addMembersDto.members,
+      );
+      console.log('Members added successfully to group:', id);
+      return result;
+    } catch (error) {
+      console.error('Error adding members:', error);
+      throw error;
+    }
   }
 
   @Delete(':id/membros/:memberRef')
@@ -59,17 +100,48 @@ export class GruposController {
     @Param('id') id: string,
     @Param('memberRef') memberRef: string,
   ): Promise<Grupo> {
-    return this.gruposService.removeMember(id, decodeURIComponent(memberRef));
+    console.log('Controller - removeMember called with:', { id, memberRef });
+
+    const decodedMemberRef = decodeURIComponent(memberRef);
+    console.log('Decoded member ref:', decodedMemberRef);
+
+    try {
+      const result = await this.gruposService.removeMember(
+        id,
+        decodedMemberRef,
+      );
+      console.log('Member removed successfully from group:', id);
+      return result;
+    } catch (error) {
+      console.error('Error removing member:', error);
+      throw error;
+    }
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Grupo> {
-    return this.gruposService.findOne(id);
+    console.log('Controller - findOne called for group:', id);
+    try {
+      const result = await this.gruposService.findOne(id);
+      console.log('Group found:', result.nome);
+      return result;
+    } catch (error) {
+      console.error('Error finding group:', error);
+      throw error;
+    }
   }
 
   @Get('usuario/:email')
   async findByUserEmail(@Param('email') email: string): Promise<Grupo[]> {
-    return this.gruposService.findByUserEmail(email);
+    console.log('Controller - findByUserEmail called with:', email);
+    try {
+      const result = await this.gruposService.findByUserEmail(email);
+      console.log('Groups found for user:', result.length);
+      return result;
+    } catch (error) {
+      console.error('Error finding groups by user email:', error);
+      throw error;
+    }
   }
 
   @Put(':id')
@@ -77,12 +149,31 @@ export class GruposController {
     @Param('id') id: string,
     @Body() updateGrupoDto: UpdateGrupoDto,
   ): Promise<Grupo> {
-    return this.gruposService.update(id, updateGrupoDto);
+    console.log('Controller - update group called with:', {
+      id,
+      updateGrupoDto,
+    });
+    try {
+      const result = await this.gruposService.update(id, updateGrupoDto);
+      console.log('Group updated successfully:', id);
+      return result;
+    } catch (error) {
+      console.error('Error updating group:', error);
+      throw error;
+    }
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Grupo> {
-    return this.gruposService.remove(id);
+    console.log('Controller - remove group called for:', id);
+    try {
+      const result = await this.gruposService.remove(id);
+      console.log('Group removed successfully:', id);
+      return result;
+    } catch (error) {
+      console.error('Error removing group:', error);
+      throw error;
+    }
   }
 
   // Endpoint específico para upload de imagem de grupo
@@ -115,28 +206,37 @@ export class GruposController {
     @UploadedFile() file: Express.Multer.File,
     @Body() body: { displayName?: string },
   ) {
+    console.log('Controller - uploadGroupImage called');
+
     if (!file) {
       throw new BadRequestException('Nenhum arquivo foi enviado.');
     }
 
-    if (body.displayName) {
-      const ext = extname(file.filename);
-      const newFilename = `${body.displayName}${ext}`;
-      const oldPath = `./public/uploads/${file.filename}`;
-      const newPath = `./public/uploads/${newFilename}`;
+    try {
+      if (body.displayName) {
+        const ext = extname(file.filename);
+        const newFilename = `${body.displayName}${ext}`;
+        const oldPath = `./public/uploads/${file.filename}`;
+        const newPath = `./public/uploads/${newFilename}`;
 
-      await fs.rename(oldPath, newPath);
-      file.filename = newFilename;
+        await fs.rename(oldPath, newPath);
+        file.filename = newFilename;
+      }
+
+      const baseUrl = process.env.API_IP ?? 'http://localhost:3000';
+      const url = `${baseUrl}/uploads/${file.filename}`;
+
+      console.log('Group image uploaded successfully:', url);
+
+      return {
+        message: 'Imagem do grupo enviada com sucesso!',
+        filename: file.filename,
+        displayName: body.displayName,
+        url,
+      };
+    } catch (error) {
+      console.error('Error uploading group image:', error);
+      throw error;
     }
-
-    const baseUrl = process.env.API_IP ?? 'http://localhost:3000';
-    const url = `${baseUrl}/uploads/${file.filename}`;
-
-    return {
-      message: 'Imagem do grupo enviada com sucesso!',
-      filename: file.filename,
-      displayName: body.displayName,
-      url,
-    };
   }
 }

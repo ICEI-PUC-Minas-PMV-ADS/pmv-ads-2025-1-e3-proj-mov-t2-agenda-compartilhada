@@ -22,7 +22,7 @@ import Constants from 'expo-constants';
 import { API_IP } from '@env';
 
 const BASE_URL =
-    Constants?.expoConfig?.extra?.API_URL || 'http://localhost:3000';
+    Constants?.expoConfig?.extra?.API_URL || API_IP || 'http://localhost:3000';
 
 // Habilita animações no Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -91,12 +91,13 @@ const GroupDetails = ({ navigation, route }) => {
     const fetchGroup = useCallback(async () => {
         setLoading(true);
         try {
-            const resGrp = await fetch(`${API_IP}/grupos/${groupId}`);
+            console.log('Fetching group data for:', groupId);
+            const resGrp = await fetch(`${BASE_URL}/grupos/${groupId}`);
             if (!resGrp.ok) throw new Error('Não foi possível carregar o grupo');
             const grp = await resGrp.json();
             setGroup(grp);
 
-            const resMem = await fetch(`${API_IP}/grupos/${groupId}/membros`);
+            const resMem = await fetch(`${BASE_URL}/grupos/${groupId}/membros`);
             if (!resMem.ok) throw new Error('Não foi possível carregar os membros');
             const members = await resMem.json();
 
@@ -115,7 +116,9 @@ const GroupDetails = ({ navigation, route }) => {
                 }
             });
             setMembersList(Array.from(unique.values()));
+            console.log('Group data loaded successfully');
         } catch (err) {
+            console.error('Error fetching group:', err);
             Alert.alert('Erro', err.message);
         } finally {
             setLoading(false);
@@ -138,20 +141,34 @@ const GroupDetails = ({ navigation, route }) => {
         }
 
         try {
-            const res = await fetch(`${API_IP}/grupos/${groupId}/membros`, {
+            console.log('Sending request to:', `${BASE_URL}/grupos/${groupId}/membros`);
+            console.log('Members to add:', arr);
+
+            const res = await fetch(`${BASE_URL}/grupos/${groupId}/membros`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ members: arr }),
             });
+
+            console.log('Response status:', res.status);
+
             if (!res.ok) {
-                const { message } = await res.json();
-                throw new Error(message || 'Erro ao adicionar membros');
+                const errorData = await res.json();
+                console.log('Error response:', errorData);
+                throw new Error(errorData.message || 'Erro ao adicionar membros');
             }
-            await fetchGroup();
+
+            const result = await res.json();
+            console.log('Success response:', result);
+
+            await fetchGroup(); // Recarrega os dados do grupo
             setAddMembersModalVisible(false);
             setEmailsText('');
             setMenuVisible(false);
+
+            Alert.alert('Sucesso', 'Membros adicionados com sucesso!');
         } catch (err) {
+            console.error('Error adding members:', err);
             Alert.alert('Erro', err.message);
         }
     };
@@ -253,7 +270,7 @@ const GroupDetails = ({ navigation, route }) => {
                 try {
                     const token = await AsyncStorage.getItem('token');
                     if (token) {
-                        const response = await fetch(`${API_IP}/auth/me`, {
+                        const response = await fetch(`${BASE_URL}/auth/me`, {
                             method: 'GET',
                             headers: {
                                 'Authorization': `Bearer ${token}`,
@@ -300,10 +317,10 @@ const GroupDetails = ({ navigation, route }) => {
 
             console.log('Final ref value:', ref);
 
-            console.log('Making DELETE request to:', `${API_IP}/grupos/${groupId}/membros/${encodeURIComponent(ref)}`);
+            console.log('Making DELETE request to:', `${BASE_URL}/grupos/${groupId}/membros/${encodeURIComponent(ref)}`);
 
             const res = await fetch(
-                `${API_IP}/grupos/${groupId}/membros/${encodeURIComponent(ref)}`,
+                `${BASE_URL}/grupos/${groupId}/membros/${encodeURIComponent(ref)}`,
                 { method: 'DELETE' },
             );
 
