@@ -1,3 +1,4 @@
+// src/grupos/grupos.service.ts
 import {
   BadRequestException,
   Injectable,
@@ -27,7 +28,40 @@ export class GruposService {
     return this.isObjectId(ref) ? ref : ref.trim().toLowerCase();
   }
 
+  async removeMember(groupId: string, memberRef: string): Promise<Grupo> {
+    console.log('Service - removeMember called with:', { groupId, memberRef });
+
+    const grupo = await this.gruposRepository.findOne(groupId);
+
+    let memberIdToRemove: string | null = null;
+
+    // Se é um ObjectId, usa diretamente
+    if (this.isObjectId(memberRef)) {
+      console.log('Member ref is ObjectId:', memberRef);
+      memberIdToRemove = memberRef;
+    } else {
+      // Se é um email, busca o usuário
+      const email = this.normalizeRef(memberRef);
+      console.log('Looking for user with email:', email);
+      const user = await this.usersService.findByEmail(email);
+      if (user) {
+        memberIdToRemove = String(user._id);
+        console.log('Found user, ID:', memberIdToRemove);
+      }
+    }
+
+    if (!memberIdToRemove) {
+      throw new NotFoundException(`Membro "${memberRef}" não encontrado`);
+    }
+
+    // Usar o método do repository que usa operadores MongoDB
+    console.log('Removing member with ID:', memberIdToRemove);
+    return this.gruposRepository.removeMember(groupId, memberIdToRemove);
+  }
+
   async create(createGrupoDto: CreateGrupoDto): Promise<Grupo> {
+    console.log('Service - create group called with:', createGrupoDto);
+
     const membrosRef = [...(createGrupoDto.membros ?? [])];
     const adminsRef = [...(createGrupoDto.grupoAdmins ?? [])];
 
@@ -65,6 +99,7 @@ export class GruposService {
       grupoAdmins: grupoAdminsIds,
     };
 
+    console.log('Creating group with payload:', payload);
     return this.gruposRepository.create(payload);
   }
 
@@ -98,6 +133,8 @@ export class GruposService {
   async getMembersWithDetails(
     groupId: string,
   ): Promise<Array<{ user: User; isAdmin: boolean }>> {
+    console.log('Service - getMembersWithDetails called for group:', groupId);
+
     const grupo = await this.gruposRepository.findOne(groupId);
 
     const membersWithDetails = await Promise.all(
@@ -118,16 +155,23 @@ export class GruposService {
       }),
     );
 
+    console.log('Returning members with details:', membersWithDetails.length);
     return membersWithDetails;
   }
 
   async addMembers(groupId: string, newMembers: string[]): Promise<Grupo> {
+    console.log('Service - addMembers called with:', { groupId, newMembers });
+
     const grupo = await this.gruposRepository.findOne(groupId);
+    console.log('Found group:', grupo.nome);
 
     const newMemberIds: string[] = [];
 
     for (const memberRef of newMembers) {
+      console.log('Processing member ref:', memberRef);
+
       if (this.isObjectId(memberRef)) {
+        console.log('Member ref is ObjectId, finding user by ID');
         const user = await this.usersService.findOne(memberRef);
         if (!user) {
           throw new NotFoundException(
@@ -135,10 +179,13 @@ export class GruposService {
           );
         }
         newMemberIds.push(memberRef);
+        console.log('Added user by ID:', user.name);
         continue;
       }
 
       const email = this.normalizeRef(memberRef);
+      console.log('Looking for user with email:', email);
+
       const user = await this.usersService.findByEmail(email);
       if (!user) {
         throw new NotFoundException(
@@ -146,15 +193,25 @@ export class GruposService {
         );
       }
 
-      newMemberIds.push(String(user._id));
+      const userId = String(user._id);
+      newMemberIds.push(userId);
+      console.log('Added user by email:', user.name, 'ID:', userId);
     }
 
     const currentMemberIds = grupo.membros || [];
+    console.log('Current members count:', currentMemberIds.length);
+    console.log('New members to add:', newMemberIds.length);
+
     const allMemberIds = [...currentMemberIds, ...newMemberIds];
     const uniqueMemberIds = Array.from(new Set(allMemberIds));
 
-    return this.gruposRepository.update(groupId, {
+    console.log('Total unique members after addition:', uniqueMemberIds.length);
+
+    const updatedGroup = await this.gruposRepository.update(groupId, {
       membros: uniqueMemberIds,
     });
+
+    console.log('Group updated successfully');
+    return updatedGroup;
   }
 }

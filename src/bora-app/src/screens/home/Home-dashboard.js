@@ -8,12 +8,14 @@ import {
     SafeAreaView,
     Dimensions,
     ActivityIndicator,
-    Alert
+    Alert,
+    Image
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { API_IP } from '@env';
 import { useFocusEffect } from '@react-navigation/native';
+import EventoModal from '../../components/EventoModal'; // Importação do modal
 
 // Get screen width to calculate spacing
 const { width } = Dimensions.get('window');
@@ -25,6 +27,27 @@ const HomeDashboard = ({ navigation }) => {
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [userId, setUserId] = useState('');
+
+    // Estado para controlar o modal
+    const [modalVisivel, setModalVisivel] = useState(false);
+    const [eventoSelecionado, setEventoSelecionado] = useState(null);
+
+    // Helper para gerar iniciais
+    const getInitials = (name) => {
+        if (!name) return '';
+        return name
+            .split(' ')
+            .map(w => w[0])
+            .join('')
+            .slice(0, 2)
+            .toUpperCase();
+    };
+
+    // Função para abrir o modal com os dados do evento
+    const abrirModalEvento = (event) => {
+        setEventoSelecionado(event);
+        setModalVisivel(true);
+    };
 
     // Buscar dados do usuário ao carregar a tela
     useFocusEffect(
@@ -42,10 +65,17 @@ const HomeDashboard = ({ navigation }) => {
                     setUserName(userData.name);
                     setUserId(userData._id);
 
-                    // Buscar os grupos do usuário
-                    const groupsResponse = await axios.get(`${API_IP}/dashboard/groups/${userData._id}`);
+                    // Buscar os grupos do usuário com detalhes completos (incluindo foto)
+                    const groupsResponse = await axios.get(`${API_IP}/grupos/usuario/${userData.email}`);
                     if (groupsResponse.data) {
-                        setUserGroups(groupsResponse.data);
+                        // Mapear grupos com informações necessárias para o dashboard
+                        const groupsWithDetails = groupsResponse.data.map(group => ({
+                            id: group._id,
+                            name: group.nome,
+                            initials: getInitials(group.nome),
+                            foto: group.foto || null, // Incluir a foto do grupo
+                        }));
+                        setUserGroups(groupsWithDetails);
                     }
 
                     // Buscar próximos eventos
@@ -93,14 +123,22 @@ const HomeDashboard = ({ navigation }) => {
         </TouchableOpacity>
     );
 
-    // Group circle component
+    // Group circle component - atualizado para mostrar foto
     const GroupCircle = ({ group, onPress }) => (
         <View style={styles.groupCircleContainer}>
             <TouchableOpacity
                 style={styles.groupCircle}
                 onPress={onPress}
             >
-                <Text style={styles.groupInitials}>{group.initials}</Text>
+                {group.foto ? (
+                    <Image
+                        source={{ uri: group.foto }}
+                        style={styles.groupCircleImage}
+                        onError={() => console.log('Erro ao carregar imagem do grupo')}
+                    />
+                ) : (
+                    <Text style={styles.groupInitials}>{group.initials}</Text>
+                )}
             </TouchableOpacity>
             <Text style={styles.groupName}>{group.name}</Text>
         </View>
@@ -134,12 +172,7 @@ const HomeDashboard = ({ navigation }) => {
                                     <EventCard
                                         key={event.id}
                                         event={event}
-                                        onPress={() =>
-                                            navigation.navigate('myGroups', {
-                                                screen: 'GroupDetails',
-                                                params: { groupId: event.id }
-                                            })
-                                        }
+                                        onPress={() => abrirModalEvento(event)}
                                     />
                                 ))
                             ) : (
@@ -182,6 +215,19 @@ const HomeDashboard = ({ navigation }) => {
                         </View>
                     </View>
                 </ScrollView>
+
+                {/* Modal do Evento */}
+                {eventoSelecionado && (
+                    <EventoModal
+                        titulo={eventoSelecionado.title}
+                        descricao={eventoSelecionado.description || 'Sem descrição disponível'}
+                        dataEvento={eventoSelecionado.date}
+                        dataFimEvento={eventoSelecionado.endDate || eventoSelecionado.date}
+                        tipo={eventoSelecionado.type || 'grupo'}
+                        visibilidade={modalVisivel}
+                        onClose={() => setModalVisivel(false)}
+                    />
+                )}
             </SafeAreaView>
         </View>
     );
@@ -308,6 +354,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 8,
+        overflow: 'hidden',
+    },
+    groupCircleImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 25,
     },
     groupInitials: {
         fontSize: 14,

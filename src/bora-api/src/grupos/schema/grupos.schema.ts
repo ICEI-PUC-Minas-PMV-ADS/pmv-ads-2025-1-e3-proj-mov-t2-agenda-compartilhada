@@ -1,3 +1,4 @@
+// src/grupos/schema/grupos.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
@@ -12,6 +13,9 @@ export class Grupo {
 
   @Prop()
   descricao?: string;
+
+  @Prop({ type: String, default: null })
+  foto?: string; // URL da foto do grupo
 
   @Prop({ required: true, type: [String] })
   membros: string[];
