@@ -14,7 +14,7 @@ O usuário quer que o Registro de Testes de Software seja revisado, com a inclus
 * **Data:** 09/05/2025
 * **Responsável pelos Testes:** Yasmim Nunes
 * **Versão da Aplicação Testada:** 1.0.0 (Frontend)
-* **Backend:** em desenvolvimento 
+* **Backend:** Finalizado 
 * **Plano de Testes:** Home-dashboard, MyGroups, CreateGroup e GroupDetails
 
 ---
@@ -52,7 +52,7 @@ Assegurar que o frontend exiba e navegue corretamente, mesmo sem integração co
 
 **Observações de Backend:**
 
-* Integração com APIs de eventos e grupos pendente; 
+* Integração com APIs de eventos e grupos funcionando; 
 
 ---
 
@@ -62,7 +62,7 @@ Assegurar que o frontend exiba e navegue corretamente, mesmo sem integração co
 **Descrição:**
 Verificar listagem das seções “Grupos que administro” e “Grupos que participo”, funcionamento da busca por nome, e botão “Criar Grupo” navegando ao formulário, tudo com dados mockados.<br/>
 **Objetivo do Teste:**
-Garantir que o frontend filtre, liste e navegue corretamente sem backend.
+Garantir que o frontend filtre, liste e navegue corretamente com backend.
 
 **Passos:**
 
@@ -81,7 +81,7 @@ Garantir que o frontend filtre, liste e navegue corretamente sem backend.
 
 **Resultados:**
 
-* Passos 1–5: **Aprovado** (busca, listagem e navegação do frontend OK)
+* Passos 1–5: **Aprovado** (busca, listagem e navegação do frontend e backend OK)
   
 ![MeusGrupos 2025-05-05 at 11.06.56.png](img/MeusGrupos%202025-05-05%20at%2011.06.56.png)
 
@@ -97,7 +97,7 @@ Garantir que o frontend filtre, liste e navegue corretamente sem backend.
 **Descrição:**
 Verificar campos do formulário de criação de grupo (nome, descrição, convite e foto opcional), submissão e retorno à MyGroups, usando mocks de submissão.<br/>
 **Objetivo do Teste:**
-Assegurar funcionalidade completa do formulário no frontend, apesar da API de criação ainda não estar pronta.
+Assegurar funcionalidade completa do formulário no frontend e backend funcionando perfeitamente.
 
 **Passos:**
 
@@ -122,7 +122,7 @@ Assegurar funcionalidade completa do formulário no frontend, apesar da API de c
 
 **Observações de Backend:**
 
-* Endpoint POST /groups em desenvolvimento; 
+* Endpoint POST /groups funcionando; 
 
 ---
 
@@ -132,7 +132,7 @@ Assegurar funcionalidade completa do formulário no frontend, apesar da API de c
 **Descrição:**
 Verificar exibição de detalhes do grupo (avatar, nome, membros), listas de eventos e membros, menu de contexto e botão “Novo Evento”, com dados mockados.<br/>
 **Objetivo do Teste:**
-Garantir que o frontend apresente todas as informações e ações, mesmo sem backend disponível.
+Garantir que o frontend apresente todas as informações e ações do backend  disponível.
 
 **Passos:**
 
@@ -153,7 +153,7 @@ Garantir que o frontend apresente todas as informações e ações, mesmo sem ba
 * “Novo Evento” navega para formulário de evento.
 
 **Resultados:**
-* Passos 1–7: **Aprovado** (frontend exibiu e executou ações mockadas)
+* Passos 1–7: **Aprovado** (frontend e backend exibiu e executou ações )
 * 
 ![DetalhesGrupos 2025-05-05 at 11.07.23.png](img/DetalhesGrupos%202025-05-05%20at%2011.07.23.png)
 
