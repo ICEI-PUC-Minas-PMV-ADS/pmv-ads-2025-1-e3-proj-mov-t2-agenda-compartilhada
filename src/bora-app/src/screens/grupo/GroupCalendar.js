@@ -63,7 +63,7 @@ export default ({ eventos, qntMembrosGrupo }) => {
 
     const exibirCardList = ({ item: evento }) => (
         <View key={evento.id}>
-            <CardInfo>
+            <CardInfo evento={evento}>
                 <Text style={styles.cardTitulo}>{evento.titulo}</Text>
                 {ehHoje(dataEditavel(evento.dataEvento)) ? (
                     <Text style={styles.dataEventoCard}>

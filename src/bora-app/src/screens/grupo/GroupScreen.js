@@ -191,14 +191,16 @@ export default ({ navigation, route }) => {
                     style={styles.criarEventoButton}
                     color='white'
                     onPress={() =>
-                        navigation.navigate('calendarEvent', { 
+                        navigation.navigate('calendarEvent', {
                             screen: 'CreateEventScreen',
-                            params: {groupId: groupId}
-                         })}
+                            params: { groupId: groupId }
+                        })}
                 /> : null}
         </>
 
+
     const content = [
+
         <GroupCalendar eventos={eventos} qntMembrosGrupo={grupo.membros.length} />,
 
         <GroupMemberEvents userEventos={membrosGrupoInfo} />,
