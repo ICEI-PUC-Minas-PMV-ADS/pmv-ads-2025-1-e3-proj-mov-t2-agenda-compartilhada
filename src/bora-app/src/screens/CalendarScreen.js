@@ -69,6 +69,30 @@ const CalendarScreen = ({ navigation }) => {
     setModalVisivel(true);
   };
 
+  // Função para deletar evento
+  const handleDeleteEvento = async (eventoId) => {
+    try {
+      await fetch(`${API_IP}/eventos/${eventoId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      // Remove o evento do estado local
+      setEventos(prevEventos => {
+        const novaLista = { ...prevEventos };
+        Object.keys(novaLista).forEach(date => {
+          novaLista[date] = novaLista[date].filter(ev => (ev._id || ev.id) !== eventoId);
+          // Remove a data se não houver mais eventos
+          if (novaLista[date].length === 0) delete novaLista[date];
+        });
+        return novaLista;
+      });
+      setModalVisivel(false);
+      setEventoSelecionado(null);
+    } catch (error) {
+      console.error('Erro ao deletar evento:', error);
+    }
+  };
+
   return (
     <>
       <View style={styles.container}>
@@ -134,6 +158,7 @@ const CalendarScreen = ({ navigation }) => {
             setModalVisivel(false);
             setEventoSelecionado(null);
           }}
+          onDelete={() => handleDeleteEvento(eventoSelecionado._id || eventoSelecionado.id)}
         />
       )}
     </>
