@@ -4,11 +4,14 @@ import { Text } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
 import { AntDesign } from '@expo/vector-icons';
 import { API_IP } from '@env';
+import EventoModal from '../components/EventoModal'; // Importação do modal
 
 const CalendarScreen = ({ navigation }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [eventos, setEventos] = useState({});
   const [loading, setLoading] = useState(true);
+  const [eventoSelecionado, setEventoSelecionado] = useState(null);
+  const [modalVisivel, setModalVisivel] = useState(false);
 
   // Busca eventos do backend
   useEffect(() => {
@@ -62,75 +65,78 @@ const CalendarScreen = ({ navigation }) => {
 
   // Função para lidar com o clique no evento
   const handleEventPress = (eventoClicado) => {
-    // Mapeamento dos campos para o que ConfirmedEventDetailsScreen espera:
-    // Adapte isso conforme os nomes exatos dos campos no seu objeto 'eventoClicado'
-    // e o que ConfirmedEventDetailsScreen espera.
-    const eventoParaDetalhes = {
-      id: eventoClicado._id || eventoClicado.id,
-      name: eventoClicado.titulo, // Assumindo que 'titulo' é o nome do evento
-      time: eventoClicado.horario || eventoClicado.dataEvento?.slice(11, 16), // Assumindo que 'horario' é o tempo
-      location: eventoClicado.local || "Local não informado", // << PRECISA VIR DO BACKEND
-      group: eventoClicado.grupo || "Grupo não informado",   // << PRECISA VIR DO BACKEND
-      description: eventoClicado.descricao || "Descrição não informada", // << PRECISA VIR DO BACKEND
-      // ... quaisquer outros campos que 'eventoClicado' tenha e sejam úteis
-    };
-    navigation.navigate('ConfirmedEventDetailsScreen', { event: eventoParaDetalhes });
+    setEventoSelecionado(eventoClicado);
+    setModalVisivel(true);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>Calendário</Text>
+    <>
+      <View style={styles.container}>
+        <Text style={styles.titulo}>Calendário</Text>
 
-      {loading ? (
-        <ActivityIndicator size="large" color="#8e44ad" />
-      ) : (
-        <Calendar
-          onDayPress={day => setSelectedDate(day.dateString)}
-          markedDates={markedDates}
-          theme={{
-            todayTextColor: '#8e44ad',
-            selectedDayBackgroundColor: '#8e44ad',
-            arrowColor: '#8e44ad',
-            monthTextColor: '#333',
+        {loading ? (
+          <ActivityIndicator size="large" color="#8e44ad" />
+        ) : (
+          <Calendar
+            onDayPress={day => setSelectedDate(day.dateString)}
+            markedDates={markedDates}
+            theme={{
+              todayTextColor: '#8e44ad',
+              selectedDayBackgroundColor: '#8e44ad',
+              arrowColor: '#8e44ad',
+              monthTextColor: '#333',
+            }}
+          />
+        )}
+
+        {selectedDate && (
+          <View style={styles.eventosContainer}>
+            <Text style={styles.subtitulo}>
+              Eventos de {selectedDate}
+            </Text>
+            {eventosDoDia.length === 0 ? (
+              <Text style={{ color: '#888', marginTop: 8 }}>Nenhum evento.</Text>
+            ) : (
+              <FlatList
+                data={eventosDoDia}
+                keyExtractor={item => item._id || item.id}
+                renderItem={({ item }) => (
+                  <TouchableOpacity onPress={() => handleEventPress(item)}>
+                    <View style={styles.card}>
+                      <Text style={styles.cardTitulo}>{item.titulo}</Text>
+                      <Text style={styles.cardHorario}>
+                        {item.horario || item.dataEvento?.slice(11, 16)}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
+            )}
+          </View>
+        )}
+
+        <TouchableOpacity style={styles.botaoAdd}
+          onPress={() => navigation.navigate('CreateEventScreen')}>
+          <AntDesign name="plus" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Renderize o modal FORA do container principal */}
+      {eventoSelecionado && (
+        <EventoModal
+          titulo={eventoSelecionado.titulo}
+          descricao={eventoSelecionado.descricao}
+          dataEvento={eventoSelecionado.dataEvento}
+          dataFimEvento={eventoSelecionado.dataFimEvento}
+          tipo={eventoSelecionado.tipo}
+          visibilidade={modalVisivel}
+          onClose={() => {
+            setModalVisivel(false);
+            setEventoSelecionado(null);
           }}
         />
       )}
-
-      {selectedDate && (
-        <View style={styles.eventosContainer}>
-          <Text style={styles.subtitulo}>
-            Eventos de {selectedDate}
-          </Text>
-          {eventosDoDia.length === 0 ? (
-            <Text style={{ color: '#888', marginTop: 8 }}>Nenhum evento.</Text>
-          ) : (
-            <FlatList
-              data={eventosDoDia}
-              keyExtractor={item => item._id || item.id}
-              renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => handleEventPress(item)}>
-                  <View style={styles.card}>
-                    <Text style={styles.cardTitulo}>{item.titulo}</Text>
-                    <Text style={styles.cardHorario}>
-                      {item.horario || item.dataEvento?.slice(11, 16)}
-                    </Text>
-                    {/* Se você quiser mostrar mais detalhes aqui, pode adicionar,
-                        mas lembre-se que todos os dados serão passados para a próxima tela.
-                        Ex: <Text>{item.local}</Text>
-                    */}
-                  </View>
-                </TouchableOpacity>
-              )}
-            />
-          )}
-        </View>
-      )}
-
-      <TouchableOpacity style={styles.botaoAdd}
-        onPress={() => navigation.navigate('CreateEventScreen')}>
-        <AntDesign name="plus" size={24} color="#fff" />
-      </TouchableOpacity>
-    </View>
+    </>
   );
 };
 
