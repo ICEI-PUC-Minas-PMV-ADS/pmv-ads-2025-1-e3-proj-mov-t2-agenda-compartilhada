@@ -18,15 +18,15 @@ const CalendarScreen = ({ navigation }) => {
     const fetchEventos = async () => {
       try {
         const response = await fetch(`${API_IP}/eventos`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
         });
 
         const data = await response.json();
 
         // Organiza eventos por data no formato YYYY-MM-DD
         const eventosPorData = {};
-        data.forEach(ev => {
+        data.forEach((ev) => {
           // Ajuste conforme o nome do campo de data no seu backend
           const dataEvento = ev.dataEvento?.slice(0, 10); // 'YYYY-MM-DD'
           if (dataEvento) {
@@ -36,7 +36,7 @@ const CalendarScreen = ({ navigation }) => {
         });
         setEventos(eventosPorData);
       } catch (error) {
-        console.error('Erro ao buscar eventos:', error);
+        console.error("Erro ao buscar eventos:", error);
       } finally {
         setLoading(false);
       }
@@ -46,18 +46,18 @@ const CalendarScreen = ({ navigation }) => {
 
   // Marca os dias com eventos em verde, o selecionado em roxo
   const markedDates = {};
-  Object.keys(eventos).forEach(date => {
+  Object.keys(eventos).forEach((date) => {
     markedDates[date] = {
       marked: true,
-      dotColor: '#27ae60', // verde
+      dotColor: "#27ae60", // verde
       selected: selectedDate === date,
-      selectedColor: selectedDate === date ? '#8e44ad' : undefined,
+      selectedColor: selectedDate === date ? "#7839EE" : undefined,
     };
   });
   if (selectedDate && !markedDates[selectedDate]) {
     markedDates[selectedDate] = {
       selected: true,
-      selectedColor: '#8e44ad',
+      selectedColor: "#7839EE",
     };
   }
 
@@ -139,8 +139,19 @@ const CalendarScreen = ({ navigation }) => {
           </View>
         )}
 
-        <TouchableOpacity style={styles.botaoAdd}
-          onPress={() => navigation.navigate('CreateEventScreen')}>
+        {/* Botão para listar eventos*/}
+        <TouchableOpacity
+          style={styles.allEventsBtn}
+          onPress={() => navigation.navigate("EventList")}
+        >
+          <Text style={styles.allEventsText}>Todos Eventos</Text>
+        </TouchableOpacity>
+
+        {/* Botão para criar evento*/}
+        <TouchableOpacity
+          style={styles.botaoAdd}
+          onPress={() => navigation.navigate("CreateEventScreen")}
+        >
           <AntDesign name="plus" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -161,6 +172,34 @@ const CalendarScreen = ({ navigation }) => {
           onDelete={() => handleDeleteEvento(eventoSelecionado._id || eventoSelecionado.id)}
         />
       )}
+
+      {selectedDate && (
+        <View style={styles.eventosContainer}>
+          <Text style={styles.subtitulo}>Eventos de {selectedDate}</Text>
+          {eventosDoDia.length === 0 ? (
+            <Text style={{ color: "#888", marginTop: 8 }}>Nenhum evento.</Text>
+          ) : (
+            <FlatList
+              data={eventosDoDia}
+              keyExtractor={(item) => item._id || item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => handleEventPress(item)}>
+                  <View style={styles.card}>
+                    <Text style={styles.cardTitulo}>{item.titulo}</Text>
+                    <Text style={styles.cardHorario}>
+                      {item.horario || item.dataEvento?.slice(11, 16)}
+                    </Text>
+                    {/* Se você quiser mostrar mais detalhes aqui, pode adicionar,
+                        mas lembre-se que todos os dados serão passados para a próxima tela.
+                        Ex: <Text>{item.local}</Text>
+                    */}
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          )}
+        </View>
+      )}
     </>
   );
 };
@@ -169,44 +208,45 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#f9f9f9",
+    paddingBottom: 80
   },
   titulo: {
     fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 8,
-    color: '#333', // Adicionando cor para melhor contraste
+    color: "#333", // Adicionando cor para melhor contraste
   },
   subtitulo: {
     marginTop: 16,
     fontSize: 16,
-    fontWeight: '600',
-    color: '#444', // Adicionando cor
+    fontWeight: "600",
+    color: "#444", // Adicionando cor
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 8,
     padding: 12,
     marginTop: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
   cardTitulo: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333', // Adicionando cor
+    fontWeight: "bold",
+    color: "#333", // Adicionando cor
   },
   cardHorario: {
     fontSize: 14,
-    color: '#555',
+    color: "#555",
   },
   botaoAdd: {
-    backgroundColor: '#8e44ad',
-    position: 'absolute',
-    bottom: 70,
+    backgroundColor: "#7839EE",
+    position: "absolute",
+    bottom: 20,
     right: 20,
     padding: 14,
     borderRadius: 50,
@@ -214,10 +254,28 @@ const styles = StyleSheet.create({
   },
   eventosContainer: {
     marginTop: 16,
-    backgroundColor: '#f2f2f2', // Levemente diferente do fundo principal
+    backgroundColor: "#f2f2f2", // Levemente diferente do fundo principal
     borderRadius: 8,
     padding: 12,
     flex: 1, // Para permitir scroll se a lista for grande
+  },
+  allEventsBtn: {
+    backgroundColor: "#7839EE",
+    height: 40,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 80, // Deixa espaço para o botão de adicionar (+)
+    elevation: 4,
+  },
+  allEventsText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "600",
+    textAlign: "center",
   },
 });
 
