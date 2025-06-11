@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Text } from 'react-native-paper';
-import { Calendar } from 'react-native-calendars';
-import { AntDesign } from '@expo/vector-icons';
-import { API_IP } from '@env';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import { Text } from "react-native-paper";
+import { Calendar } from "react-native-calendars";
+import { AntDesign } from "@expo/vector-icons";
+import { API_IP } from "@env";
 
 const CalendarScreen = ({ navigation }) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -15,15 +21,15 @@ const CalendarScreen = ({ navigation }) => {
     const fetchEventos = async () => {
       try {
         const response = await fetch(`${API_IP}/eventos`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
         });
 
         const data = await response.json();
 
         // Organiza eventos por data no formato YYYY-MM-DD
         const eventosPorData = {};
-        data.forEach(ev => {
+        data.forEach((ev) => {
           // Ajuste conforme o nome do campo de data no seu backend
           const dataEvento = ev.dataEvento?.slice(0, 10); // 'YYYY-MM-DD'
           if (dataEvento) {
@@ -33,7 +39,7 @@ const CalendarScreen = ({ navigation }) => {
         });
         setEventos(eventosPorData);
       } catch (error) {
-        console.error('Erro ao buscar eventos:', error);
+        console.error("Erro ao buscar eventos:", error);
       } finally {
         setLoading(false);
       }
@@ -43,18 +49,18 @@ const CalendarScreen = ({ navigation }) => {
 
   // Marca os dias com eventos em verde, o selecionado em roxo
   const markedDates = {};
-  Object.keys(eventos).forEach(date => {
+  Object.keys(eventos).forEach((date) => {
     markedDates[date] = {
       marked: true,
-      dotColor: '#27ae60', // verde
+      dotColor: "#27ae60", // verde
       selected: selectedDate === date,
-      selectedColor: selectedDate === date ? '#8e44ad' : undefined,
+      selectedColor: selectedDate === date ? "#7839EE" : undefined,
     };
   });
   if (selectedDate && !markedDates[selectedDate]) {
     markedDates[selectedDate] = {
       selected: true,
-      selectedColor: '#8e44ad',
+      selectedColor: "#7839EE",
     };
   }
 
@@ -70,11 +76,13 @@ const CalendarScreen = ({ navigation }) => {
       name: eventoClicado.titulo, // Assumindo que 'titulo' é o nome do evento
       time: eventoClicado.horario || eventoClicado.dataEvento?.slice(11, 16), // Assumindo que 'horario' é o tempo
       location: eventoClicado.local || "Local não informado", // << PRECISA VIR DO BACKEND
-      group: eventoClicado.grupo || "Grupo não informado",   // << PRECISA VIR DO BACKEND
+      group: eventoClicado.grupo || "Grupo não informado", // << PRECISA VIR DO BACKEND
       description: eventoClicado.descricao || "Descrição não informada", // << PRECISA VIR DO BACKEND
       // ... quaisquer outros campos que 'eventoClicado' tenha e sejam úteis
     };
-    navigation.navigate('ConfirmedEventDetailsScreen', { event: eventoParaDetalhes });
+    navigation.navigate("ConfirmedEventDetailsScreen", {
+      event: eventoParaDetalhes,
+    });
   };
 
   return (
@@ -82,31 +90,29 @@ const CalendarScreen = ({ navigation }) => {
       <Text style={styles.titulo}>Calendário</Text>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#8e44ad" />
+        <ActivityIndicator size="large" color="#7839EE" />
       ) : (
         <Calendar
-          onDayPress={day => setSelectedDate(day.dateString)}
+          onDayPress={(day) => setSelectedDate(day.dateString)}
           markedDates={markedDates}
           theme={{
-            todayTextColor: '#8e44ad',
-            selectedDayBackgroundColor: '#8e44ad',
-            arrowColor: '#8e44ad',
-            monthTextColor: '#333',
+            todayTextColor: "#7839EE",
+            selectedDayBackgroundColor: "#7839EE",
+            arrowColor: "#7839EE",
+            monthTextColor: "#333",
           }}
         />
       )}
 
       {selectedDate && (
         <View style={styles.eventosContainer}>
-          <Text style={styles.subtitulo}>
-            Eventos de {selectedDate}
-          </Text>
+          <Text style={styles.subtitulo}>Eventos de {selectedDate}</Text>
           {eventosDoDia.length === 0 ? (
-            <Text style={{ color: '#888', marginTop: 8 }}>Nenhum evento.</Text>
+            <Text style={{ color: "#888", marginTop: 8 }}>Nenhum evento.</Text>
           ) : (
             <FlatList
               data={eventosDoDia}
-              keyExtractor={item => item._id || item.id}
+              keyExtractor={(item) => item._id || item.id}
               renderItem={({ item }) => (
                 <TouchableOpacity onPress={() => handleEventPress(item)}>
                   <View style={styles.card}>
@@ -125,9 +131,19 @@ const CalendarScreen = ({ navigation }) => {
           )}
         </View>
       )}
+      {/* Botão para listar eventos*/}
+      <TouchableOpacity
+        style={styles.allEventsBtn}
+        onPress={() => navigation.navigate("EventList")}
+      >
+        <Text style={styles.allEventsText}>Todos Eventos</Text>
+      </TouchableOpacity>
 
-      <TouchableOpacity style={styles.botaoAdd}
-        onPress={() => navigation.navigate('CreateEventScreen')}>
+      {/* Botão para criar evento*/}
+      <TouchableOpacity
+        style={styles.botaoAdd}
+        onPress={() => navigation.navigate("CreateEventScreen")}
+      >
         <AntDesign name="plus" size={24} color="#fff" />
       </TouchableOpacity>
     </View>
@@ -138,44 +154,45 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#f9f9f9",
+    paddingBottom: 80
   },
   titulo: {
     fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 8,
-    color: '#333', // Adicionando cor para melhor contraste
+    color: "#333", // Adicionando cor para melhor contraste
   },
   subtitulo: {
     marginTop: 16,
     fontSize: 16,
-    fontWeight: '600',
-    color: '#444', // Adicionando cor
+    fontWeight: "600",
+    color: "#444", // Adicionando cor
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 8,
     padding: 12,
     marginTop: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
   cardTitulo: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333', // Adicionando cor
+    fontWeight: "bold",
+    color: "#333", // Adicionando cor
   },
   cardHorario: {
     fontSize: 14,
-    color: '#555',
+    color: "#555",
   },
   botaoAdd: {
-    backgroundColor: '#8e44ad',
-    position: 'absolute',
-    bottom: 70,
+    backgroundColor: "#7839EE",
+    position: "absolute",
+    bottom: 20,
     right: 20,
     padding: 14,
     borderRadius: 50,
@@ -183,10 +200,28 @@ const styles = StyleSheet.create({
   },
   eventosContainer: {
     marginTop: 16,
-    backgroundColor: '#f2f2f2', // Levemente diferente do fundo principal
+    backgroundColor: "#f2f2f2", // Levemente diferente do fundo principal
     borderRadius: 8,
     padding: 12,
     flex: 1, // Para permitir scroll se a lista for grande
+  },
+  allEventsBtn: {
+    backgroundColor: "#7839EE",
+    height: 40,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 80, // Deixa espaço para o botão de adicionar (+)
+    elevation: 4,
+  },
+  allEventsText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "600",
+    textAlign: "center",
   },
 });
 

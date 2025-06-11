@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity, Act
 import { StatusBar } from 'expo-status-bar';
 import { API_IP } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import EventoModal from '../components/EventoModal'; // Importação do modal
 
 const EventList = ({ navigation }) => {
   useEffect(() => {
@@ -39,19 +40,22 @@ const EventList = ({ navigation }) => {
   const[eventos, setEventos] = useState([]);
   const[loading, setLoading] = useState(true);
   const[error, setError] = useState(null);
+  const[modalVisivel, setModalVisivel] = useState(false);
 
   // Função para buscar eventos do backend
   const fetchEventos = async (userId) => {
     try {
-      const response = await fetch(`${API_IP}/eventos/donoId/${userId}`);
+      const responseEventosIndividuais = await fetch(`${API_IP}/eventos/donoId/${userId}`);
+      const responseEventosGrupos = await fetch(`${API_IP}/eventos/grupo/usuario/${userId}`);
 
-      if (!response.ok) {
-        throw new Error(`Erro na requisição: ${response.status}`);
+      if (!responseEventosIndividuais.ok) {
+        throw new Error(`Erro na requisição: ${responseEventosIndividuais.status}`);
       }
 
-      const data = await response.json();
-
-      const eventosProcessados = data.map(evento => ({
+      const dataIndividuais = await responseEventosIndividuais.json();
+      const dataGrupos = await responseEventosGrupos.json();
+      
+      const eventosIndividuaisProcessados = dataIndividuais.map(evento => ({
         key: evento._id,
         id: evento._id,
         donoId: evento.donoId,
@@ -62,6 +66,23 @@ const EventList = ({ navigation }) => {
         tipo: evento.tipo,
         grupoId: evento.grupoId || null
       }));
+
+      const eventosGruposProcessados = dataGrupos.map(evento => ({
+        key: evento._id,
+        id: evento._id,
+        grupoId: evento.donoId,
+        data: formatarData(evento.dataEvento),
+        titulo: evento.titulo,
+        subtitulo: evento.descricao || (evento.tipo === 'grupo' ? 'Evento em grupo' : 'Evento individual'),
+        cor: gerarCorPorTipo(evento.tipo, evento.grupoId),
+        tipo: evento.tipo,
+        grupoId: evento.grupoId || null
+      }));
+
+      const eventosProcessados = [
+        ...eventosIndividuaisProcessados,
+        ...eventosGruposProcessados
+      ]
 
       setEventos(eventosProcessados);
       setError(null);
@@ -202,7 +223,7 @@ const EventList = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e8e8e8',
+    backgroundColor: '#fff',
     alignItems: 'center',
     paddingTop: 40,
   },
@@ -210,7 +231,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#fff',
   },
   centerContent: {
     justifyContent: 'center',
@@ -223,31 +244,32 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   headerText: {
-    fontSize: 18,
-    color: '#888',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
   },
   refreshButton: {
-    backgroundColor: '#6a3de8',
+    backgroundColor: '#7839EE',
     borderRadius: 15,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
   },
   refreshButtonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
   },
   card: {
     backgroundColor: 'white',
-    borderRadius: 20,
+    borderRadius: 12,
     width: '90%',
     height: '75%',
     overflow: 'hidden',
-    elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    elevation: 3,
   },
   cardHeader: {
     borderBottomWidth: 1,
@@ -256,9 +278,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardHeaderText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#000',
   },
   eventCount: {
     fontSize: 12,
@@ -271,30 +293,31 @@ const styles = StyleSheet.create({
   eventoContainer: {
     flexDirection: 'row',
     paddingVertical: 15,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f0',
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   colorIndicator: {
     width: 4,
     height: 40,
-    borderRadius: 4,
+    borderRadius: 2,
     marginRight: 15,
   },
   eventoInfo: {
     flex: 1,
   },
   eventoData: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: 14,
+    color: '#9A9A9D',
     marginBottom: 2,
   },
   eventoTitulo: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 2,
+    color: '#000',
+    marginBottom: 4,
   },
   eventoSubtitulo: {
     fontSize: 14,
@@ -302,8 +325,8 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   eventoTipo: {
-    fontSize: 12,
-    color: '#888',
+    fontSize: 14,
+    color: '#7839EE',
   },
   eventoArrow: {
     paddingHorizontal: 10,
@@ -324,7 +347,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   retryButton: {
-    backgroundColor: '#6a3de8',
+    backgroundColor: '#7839EE',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -341,10 +364,11 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   emptyText: {
-    fontSize: 16,
-    color: '#888',
-    marginBottom: 20,
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#000',
     textAlign: 'center',
+    marginBottom: 20,
   },
 });
 
