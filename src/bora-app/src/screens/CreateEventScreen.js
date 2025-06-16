@@ -28,8 +28,7 @@ const CreateEventScreen = ({ navigation, route }) => {
   const [dateText, setDateText] = useState('');
   const [timeText, setTimeText] = useState('');
   const [duration, setDuration] = useState('');
-  const [location, setLocation] = useState('');
-  
+
   const [selectedGroupId, setSelectedGroupId] = useState(''); // <<<<<<< ALTERADO para string vazia
   const [userGroups, setUserGroups] = useState([]);
   const [loadingGroups, setLoadingGroups] = useState(false);
@@ -43,7 +42,7 @@ const CreateEventScreen = ({ navigation, route }) => {
       try {
         const userString = await AsyncStorage.getItem('usuario');
         const storedToken = await AsyncStorage.getItem('access_token');
-        
+
         if (userString && storedToken) {
           const loadedUser = JSON.parse(userString);
           setUser(loadedUser);
@@ -71,7 +70,10 @@ const CreateEventScreen = ({ navigation, route }) => {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (response.data && Array.isArray(response.data)) {
-            setUserGroups(response.data);
+            const verificaAdmin = response.data.filter(grupo =>
+              grupo.grupoAdmins.includes(user._id)
+            )
+            setUserGroups(verificaAdmin);
             console.log(groupId)
           } else {
             setUserGroups([]);
@@ -89,8 +91,8 @@ const CreateEventScreen = ({ navigation, route }) => {
 
   // useEffect para selecionar o valor inicial no Picker caso seja passado algum grupoId como parâmetro
   useEffect(() => {
-    const initialValue = (groupId === null || groupId === undefined) 
-      ? "" 
+    const initialValue = (groupId === null || groupId === undefined)
+      ? ""
       : String(groupId);
     setSelectedGroupId(initialValue);
   }, [groupId])
@@ -125,9 +127,9 @@ const CreateEventScreen = ({ navigation, route }) => {
 
     try {
       const response = await axios.post(`${API_IP}/eventos`, payload, {
-        headers: { 
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}` 
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
       });
       Alert.alert('Sucesso!', 'Evento cadastrado com sucesso!');
@@ -139,8 +141,8 @@ const CreateEventScreen = ({ navigation, route }) => {
   };
 
   const handleNext = async () => {
-    if (!title.trim() || !dateText || !timeText || !location.trim()) {
-      Alert.alert('Campos Obrigatórios', 'Por favor, preencha título, data, hora e localização.');
+    if (!title.trim() || !dateText || !timeText) {
+      Alert.alert('Campos Obrigatórios', 'Por favor, preencha título, data e hora.');
       return;
     }
     if (loadingUser || !user) {
@@ -165,11 +167,10 @@ const CreateEventScreen = ({ navigation, route }) => {
       descricao: description,
       dataEvento: isoDateString,
       dataFimEvento: dataFimEventoISO,
-      local: location,
       tipo: selectedGroupId && selectedGroupId !== "" ? 'grupo' : 'individual', // <<<< ALTERADO para verificar string vazia 
       donoId: selectedGroupId && selectedGroupId !== "" ? selectedGroupId : user._id
     };
-    
+
     await criaEvento(payload);
   };
 
@@ -195,11 +196,11 @@ const CreateEventScreen = ({ navigation, route }) => {
       <ScrollView style={styles.form} keyboardShouldPersistTaps="handled">
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Título*</Text>
-          <TextInput style={styles.input} placeholder="Ex: Reunião de Projeto" value={title} onChangeText={setTitle}/>
+          <TextInput style={styles.input} placeholder="Ex: Reunião de Projeto" value={title} onChangeText={setTitle} />
         </View>
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Descrição</Text>
-          <TextInput style={[styles.input, styles.textArea]} placeholder="Detalhes sobre o evento..." value={description} onChangeText={setDescription} multiline/>
+          <TextInput style={[styles.input, styles.textArea]} placeholder="Detalhes sobre o evento..." value={description} onChangeText={setDescription} multiline />
         </View>
         <View style={styles.inputRow}>
           <View style={[styles.inputGroup, styles.inputHalf]}>
@@ -208,7 +209,7 @@ const CreateEventScreen = ({ navigation, route }) => {
               <Text style={dateText ? styles.inputText : styles.placeholderText}>{dateText || 'DD/MM/AAAA'}</Text>
             </TouchableOpacity>
           </View>
-          <View style={[styles.inputGroup, styles.inputHalf, {marginLeft: 10}]}>
+          <View style={[styles.inputGroup, styles.inputHalf, { marginLeft: 10 }]}>
             <Text style={styles.label}>Hora*</Text>
             <TouchableOpacity style={styles.input} onPress={() => showMode('time')}>
               <Text style={timeText ? styles.inputText : styles.placeholderText}>{timeText || 'HH:MM'}</Text>
@@ -217,17 +218,13 @@ const CreateEventScreen = ({ navigation, route }) => {
         </View>
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Duração (minutos)</Text>
-          <TextInput style={styles.input} placeholder="Ex: 60 para 1 hora" keyboardType="numeric" value={duration} onChangeText={setDuration}/>
-        </View>
-        <View style={styles.inputGroup}>
-          <Text style={styles.label}>Localização*</Text>
-          <TextInput style={styles.input} placeholder="Endereço ou local do evento" value={location} onChangeText={setLocation}/>
+          <TextInput style={styles.input} placeholder="Ex: 60 para 1 hora" keyboardType="numeric" value={duration} onChangeText={setDuration} />
         </View>
 
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Grupo Associado (Opcional)</Text>
           {loadingGroups ? (
-            <ActivityIndicator size="small" color="#7839EE" style={{marginTop:10}}/>
+            <ActivityIndicator size="small" color="#7839EE" style={{ marginTop: 10 }} />
           ) : (
             <View style={styles.pickerContainer}>
               <Picker
@@ -245,11 +242,11 @@ const CreateEventScreen = ({ navigation, route }) => {
                 {userGroups && userGroups
                   .filter(g => g && g._id !== null && g._id !== undefined && String(g._id).trim() !== "") // Filtra grupos inválidos
                   .map((g, index) => ( // <<< FUNÇÃO MAP PARA GERAR PICKER.ITEM
-                    <Picker.Item 
-                      key={String(g._id)} 
+                    <Picker.Item
+                      key={String(g._id)}
                       label={String(g.nome || `Grupo ${index + 1}`)} // Fallback para nome
-                      value={String(g._id)} 
-                      style={styles.pickerItem} 
+                      value={String(g._id)}
+                      style={styles.pickerItem}
                     />
                   ))
                 }
@@ -286,26 +283,26 @@ const CreateEventScreen = ({ navigation, route }) => {
 // Cole-os aqui se precisar da definição completa novamente.
 // ... (copie os styles da resposta anterior aqui)
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#F8F9FA', },
-    header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 15, paddingVertical: 15, backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E0E0E0', },
-    backButton: { padding: 5, },
-    headerTitle: { fontSize: 18, fontWeight: 'bold', color: '#333',},
-    form: { flex: 1, paddingHorizontal: 20, paddingTop: 10, },
-    inputGroup: { marginBottom: 18, },
-    inputRow: { flexDirection: 'row', justifyContent: 'space-between', },
-    inputHalf: { flex: 1, },
-    label: { fontSize: 14, color: '#4F4F4F', marginBottom: 8, },
-    input: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#DEDEDE', borderRadius: 8, paddingHorizontal: 15, paddingVertical: 12, fontSize: 16, color: '#333', minHeight: 48, justifyContent: 'center', },
-    inputText: { fontSize: 16, color: '#333', },
-    placeholderText: { fontSize: 16, color: '#A0A0A0', },
-    textArea: { minHeight: 100, textAlignVertical: 'top', },
-    pickerContainer: { borderWidth: 1, borderColor: '#DEDEDE', borderRadius: 8, backgroundColor: '#FFFFFF', minHeight: 48, justifyContent: 'center', },
-    picker: { height: Platform.OS === 'ios' ? undefined : 55, width: '100%', color: '#333', },
-    pickerItemBase: { fontSize: 16, },
-    pickerItem: { fontSize: 16, color: '#333', },
-    pickerItemDisabled: { fontSize: 16, color: '#A0A0A0', },
-    nextButton: { backgroundColor: '#7839EE', paddingVertical: 16, marginHorizontal: 20, marginBottom: Platform.OS === 'ios' ? 30 : 20, borderRadius: 8, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4, elevation: 3, },
-    nextButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '600', },
+  container: { flex: 1, backgroundColor: '#F8F9FA', },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 15, paddingVertical: 15, backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#E0E0E0', },
+  backButton: { padding: 5, },
+  headerTitle: { fontSize: 18, fontWeight: 'bold', color: '#333', },
+  form: { flex: 1, paddingHorizontal: 20, paddingTop: 10, },
+  inputGroup: { marginBottom: 18, },
+  inputRow: { flexDirection: 'row', justifyContent: 'space-between', },
+  inputHalf: { flex: 1, },
+  label: { fontSize: 14, color: '#4F4F4F', marginBottom: 8, },
+  input: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#DEDEDE', borderRadius: 8, paddingHorizontal: 15, paddingVertical: 12, fontSize: 16, color: '#333', minHeight: 48, justifyContent: 'center', },
+  inputText: { fontSize: 16, color: '#333', },
+  placeholderText: { fontSize: 16, color: '#A0A0A0', },
+  textArea: { minHeight: 100, textAlignVertical: 'top', },
+  pickerContainer: { borderWidth: 1, borderColor: '#DEDEDE', borderRadius: 8, backgroundColor: '#FFFFFF', minHeight: 48, justifyContent: 'center', },
+  picker: { height: Platform.OS === 'ios' ? undefined : 55, width: '100%', color: '#333', },
+  pickerItemBase: { fontSize: 16, },
+  pickerItem: { fontSize: 16, color: '#333', },
+  pickerItemDisabled: { fontSize: 16, color: '#A0A0A0', },
+  nextButton: { backgroundColor: '#7839EE', paddingVertical: 16, marginHorizontal: 20, marginBottom: Platform.OS === 'ios' ? 30 : 20, borderRadius: 8, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4, elevation: 3, },
+  nextButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '600', },
 });
 
 export default CreateEventScreen;

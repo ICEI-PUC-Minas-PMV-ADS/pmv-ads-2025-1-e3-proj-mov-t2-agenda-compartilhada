@@ -46,7 +46,7 @@ export default ({ eventos, qntMembrosGrupo }) => {
         evento.uso === 'cabecalho' ? (
             <Text style={styles.labelMes}>{evento.label}</Text>
         ) : (
-            <CardInfo>
+            <CardInfo evento={evento}>
                 <Text style={styles.cardTitulo}>{evento.titulo}</Text>
                 {ehHoje(dataEditavel(evento.dataEvento)) ? (
                     <Text style={styles.dataEventoCard}>

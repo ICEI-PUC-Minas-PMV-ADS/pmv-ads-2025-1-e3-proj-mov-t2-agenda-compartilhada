@@ -5,7 +5,7 @@ import { Text } from 'react-native-paper';
 import CardInfo from '../../components/CardInfo';
 import { dataEditavel, ehHoje } from '../../utils/dateUtils';
 
-export default ({ eventos, qntMembrosGrupo }) => {
+export default ({ eventos, qntMembrosGrupo, calendarEvents }) => {
     // Controla datas selecionadas no calendário
     const [dataSelecionada, setDataSelecionada] = useState('')
 
@@ -104,7 +104,7 @@ export default ({ eventos, qntMembrosGrupo }) => {
         <View style={styles.container}>
             <View>
                 <CalendarComp
-                    eventos={eventos}
+                    eventos={calendarEvents}
                     onDayPress={(data) => {
                         setDataSelecionada(data)
                     }}
