@@ -85,8 +85,3 @@ Necessidade de ajustes na responsividade para garantir visualização ideal em d
 
 Conclusão:
 Os testes de usabilidade demonstram que o aplicativo Agenda Compartilhada possui uma base sólida de usabilidade. As funcionalidades principais (cadastro, criação de eventos e grupos) funcionam de forma intuitiva. Os problemas identificados são de severidade baixa a média e podem ser corrigidos com ajustes pontuais. O aplicativo está aprovado para lançamento com as melhorias recomendadas sendo implementadas na próxima versão.
-
-
-As referências abaixo irão auxiliá-lo na geração do artefato “Registro de Testes de Usabilidade”.
-> **Links Úteis**:
-> - [Ferramentas de Testes de Usabilidade](https://www.usability.gov/how-to-and-tools/resources/templates.html)
