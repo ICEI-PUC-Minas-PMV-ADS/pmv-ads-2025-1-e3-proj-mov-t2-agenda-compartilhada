@@ -216,20 +216,3 @@
 | **Objetivo do Teste**                                                                                                                                                                                                                                                                                              | Garantir que o usuário visualize uma lista de eventos individuais e de grupos, logado em seu perfil                                                                                                                                                                                           |
 | **Passos**                                                                                                                                                                                                                                                                                                         | **Critérios de Êxito**                                                                                                                                                                                                                                                                        |
 | 1. Acessar a tela de eventos na tab navigator  2. Preencher o título, descrição, data, hora e duração do evento  3. Clicar em "próximo". Procedimento que criará o evento no banco de dados e alimentará a listagem de eventos e também o calendário individual  4. Visualizar o evento criado na lista de eventos | 1. O usuário logado visualiza corretamente seus eventos individuais e de grupos  2. Os eventos são identificáveis por tipo (ícone)  3. A listagem exibe título, data, hora e tipo  4. O evento aparece na lista após ser criado, sem erros  5. Os dados são recuperados corretamente do banco |
-
-
-
-
-
- 
-## Ferramentas de Testes (Opcional)
-
-Comente sobre as ferramentas de testes utilizadas.
- 
-> **Links Úteis**:
-> - [IBM - Criação e Geração de Planos de Teste](https://www.ibm.com/developerworks/br/local/rational/criacao_geracao_planos_testes_software/index.html)
-> - [Práticas e Técnicas de Testes Ágeis](http://assiste.serpro.gov.br/serproagil/Apresenta/slides.pdf)
-> -  [Teste de Software: Conceitos e tipos de testes](https://blog.onedaytesting.com.br/teste-de-software/)
-> - [Criação e Geração de Planos de Teste de Software](https://www.ibm.com/developerworks/br/local/rational/criacao_geracao_planos_testes_software/index.html)
-> - [Ferramentas de Test para Java Script](https://geekflare.com/javascript-unit-testing/)
-> - [UX Tools](https://uxdesign.cc/ux-user-research-and-user-testing-tools-2d339d379dc7)
