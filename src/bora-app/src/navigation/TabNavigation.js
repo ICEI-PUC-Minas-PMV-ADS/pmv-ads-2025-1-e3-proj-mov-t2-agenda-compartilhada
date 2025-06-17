@@ -53,7 +53,7 @@ const CalendarEventStack = () => {
         <EventStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="CalendarScreen">
             <EventStack.Screen name="CalendarScreen" component={CalendarScreen} />
             <EventStack.Screen name="CreateEventScreen" component={CreateEventScreen} />
-            <EventStack.Screen name="eventList" component={EventList} />
+            <EventStack.Screen name="EventList" component={EventList} />
         </EventStack.Navigator>
     );
 };
