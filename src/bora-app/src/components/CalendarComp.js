@@ -15,18 +15,25 @@ export default ({ eventos = [], ...props }) => {
             acum[dataEvento] = { selected: true, dots: [] }
         }
 
-        acum[dataEvento].dots.length < 5
-            ? acum[dataEvento].dots.push({
-                key: evento._id ?? ''.toString(),
-                color: 'transparent',
-            })
-            : null
+        if (!evento.selectedColor && evento.tipo == 'grupo') {
+            acum[dataEvento].dots?.length < 5
+                && acum[dataEvento].dots.push({
+                    key: evento._id ?? ''.toString(),
+                    color: 'transparent',
+                })
 
-        acum[dataEvento].dots.length > 1
-            ? acum[dataEvento].dots.forEach((dot) => {
-                dot.color = '#55EE39'
-            })
-            : null
+            acum[dataEvento].dots?.length > 1
+                && acum[dataEvento].dots.forEach((dot) => {
+                    dot.color = '#55EE39'
+                })
+        }
+
+        evento.selectedColor &&
+            (acum[dataEvento] = { ...acum[dataEvento], selectedColor: evento.selectedColor })
+
+        // acum['2025-06-15'] ? acum['2025-06-15'] = {...acum['2025-06-15'], selectedColor: '#E5879B'} : null
+        // acum['2025-06-16'] = {selected: true, selectedColor: '#E5879B'}
+        // acum['2025-06-18'] = {selected: true, selectedColor: '#EEB58C'}
 
         return acum
     }, {})

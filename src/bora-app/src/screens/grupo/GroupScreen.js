@@ -16,9 +16,12 @@ export default ({ navigation, route }) => {
     const [grupo, setGrupo] = useState([])
     const [loadingGrupo, setLoadingGrupo] = useState(true)
     const [eventos, setEventos] = useState([])
-    const [loadingEventos, setLoadingEventos] = useState(false)
+    const [loadingEventosUser, setLoadingEventosUser] = useState(true)
     const [itemAtivo, setItemAtivo] = useState(0)
+    const [membrosGrupo, setMembrosGrupo] = useState([])
     const [membrosGrupoInfo, setMembrosGrupoInfo] = useState([])
+    const [calendarEvents, setCalendarEvents] = useState([])
+    const [loadingCalendar, setLoadingCalendar] = useState(true)
 
     //Carrega informações do usuário
     useEffect(() => {
@@ -41,65 +44,148 @@ export default ({ navigation, route }) => {
     // Carrega informações do grupo
     useEffect(() => {
         const carregaGrupo = async () => {
+
+            let eventosGrupoData = []
+            let grupoInfoData = null
+
+            try {
+
+                const grupoInfo = await axios.get(`${API_IP}/grupos/${groupId}`)
+
+                const eventosGrupo = await axios.get(
+                    `${API_IP}/eventos-grupo/by-grupoId/${groupId}`)
+
+                const membrosGrupoResponse = await axios.get(
+                    `${API_IP}/grupos/${groupId}/membros`)
+
+                setGrupo(grupoInfo.data)
+                setEventos(eventosGrupo.data)
+                eventosGrupoData = eventosGrupo.data
+                grupoInfoData = grupoInfo.data
+                setMembrosGrupo(membrosGrupoResponse.data)
+
+            } catch (error) {
+                console.error('Erro ao buscar dados do grupo: ', error)
+            } finally {
+                setLoadingGrupo(false)
+            }
+
             if (itemAtivo == 0) {
+
                 try {
-                    const grupoInfo = await axios.get(`${API_IP}/grupos/${groupId}`)
-                    const eventosGrupo = await axios.get(
-                        `${API_IP}/eventos-grupo/by-grupoId/${groupId}`
+                    const todosEventosResponse = await axios.get(
+                        `${API_IP}/eventos/todos-eventos/${groupId}`)
+
+                    const todosEventos = todosEventosResponse.data
+
+                    const eventosTransparentes = todosEventos['eventosIndividuais'].map((evento) => {
+                        evento.selectedColor = 'transparent'
+                        return evento
+                    });
+
+                    const eventosSomados = [...eventosTransparentes, ...todosEventos['eventosGrupo']]
+
+                    const extrairData = (dateString) => {
+                        const data = new Date(dateString)
+                        return data.toISOString().split('T')[0]
+                    }
+
+                    const contagemDonosPorData = {};
+
+                    todosEventos['eventosIndividuais'].forEach(evento => {
+                        const data = extrairData(evento.dataEvento);
+
+                        if (!contagemDonosPorData[data]) {
+                            contagemDonosPorData[data] = new Set();
+                        }
+
+                        contagemDonosPorData[data].add(evento.donoId);
+                    });
+
+                    const contagemFinal = {};
+                    for (const data in contagemDonosPorData) {
+                        contagemFinal[data] = contagemDonosPorData[data].size;
+                    }
+
+                    const eventosCalendarFiltrados = eventosSomados.map((evento) => {
+                        eventosGrupoData.some(eventoGrupo => extrairData(eventoGrupo.dataEvento) == extrairData(evento.dataEvento)) && delete evento.selectedColor
+                        return evento
+                    })
+
+                    const eventosCalendar = eventosCalendarFiltrados.map(evento =>
+                        evento.selectedColor ? {
+                            ...evento,
+                            selectedColor: (contagemFinal[extrairData(evento.dataEvento)] / grupoInfoData.membros.length) >= 0.5 ? '#E5879B' : '#EEB58C'
+                        } : evento
                     )
-                    setGrupo(grupoInfo.data)
-                    setEventos(eventosGrupo.data)
+
+                    setCalendarEvents(eventosCalendar)
                 } catch (error) {
-                    console.error('Erro ao buscar dados do grupo: ', error)
+                    console.error('Erro ao buscar os eventos do calendário ', error)
                 } finally {
-                    setLoadingGrupo(false)
+                    setLoadingCalendar(false)
                 }
             }
 
             if (itemAtivo == 1) {
+
                 try {
-                    const membrosGrupoInfoResponse = await axios.get(
-                        `${API_IP}/grupos/${groupId}/membros`
-                    )
+                    const membrosGrupoInfoFormat = await Promise.all(membrosGrupo.map(async (membro) => {
 
-                    const membrosGrupoInfoData = membrosGrupoInfoResponse.data
+                        try {
 
-                    const membrosGrupoInfoFormat = membrosGrupoInfoData.map((membro) => {
-                        return {
-                            id: membro.user._id,
-                            nome:
-                                membro.user._id == userData._id
-                                    ? membro.user.name + ' (Você)'
-                                    : membro.user.name,
-                            role: membro.isAdmin ? 'Administrador' : 'Membro',
-                            eventos: [],
+                            const eventosResponse = await axios.get(`${API_IP}/eventos-individuais/by-usuarioId/${membro.user._id}`)
+
+                            const eventosDoMembro = eventosResponse.data;
+
+                            const todosEventosUser = [...eventosDoMembro, ...eventos]
+
+                            todosEventosUser.sort((a, b) => new Date(a.dataEvento) - new Date(b.dataEvento))
+
+                            const eventosDoMembroFormat = todosEventosUser.map((evento) => {
+                                return {
+                                    id: evento._id,
+                                    desseGrupo: evento.donoId == groupId,
+                                    data: evento.dataEvento
+                                }
+                            })
+
+                            return {
+                                id: membro.user._id,
+                                nome:
+                                    membro.user._id == userData._id
+                                        ? membro.user.name + ' (Você)'
+                                        : membro.user.name,
+                                role: membro.isAdmin ? 'Administrador' : 'Membro',
+                                eventos: eventosDoMembroFormat,
+                            }
+                        } catch (error) {
+                            console.log('Erro ao buscar eventos do usuário ', error)
+
+                            return {
+                                id: membro.user._id,
+                                nome:
+                                    membro.user._id == userData._id
+                                        ? membro.user.name + ' (Você)'
+                                        : membro.user.name,
+                                role: membro.isAdmin ? 'Administrador' : 'Membro',
+                                eventos: [],
+                            }
                         }
-                    })
+
+                    }))
                     setMembrosGrupoInfo(membrosGrupoInfoFormat)
                 } catch (error) {
-                    console.error('Erro ao buscar dados dos membros do grupo: ', error)
+                    console.log('Erro ao buscar informações de grupo ', error)
                 } finally {
-                    setLoadingGrupo(false)
-                }
-            }
-
-            if (itemAtivo == 2) {
-                try {
-                    const eventosGrupo = await axios.get(
-                        `${API_IP}/eventos-grupo/by-grupoId/${groupId}`
-                    )
-                    setEventos(eventosGrupo.data)
-                } catch (error) {
-                    console.error('Erro ao buscar eventos do grupo: ', error)
-                } finally {
-                    setLoadingEventos(false)
+                    setLoadingEventosUser(false)
                 }
             }
         }
         carregaGrupo()
     }, [itemAtivo, groupId])
 
-    if (loadingUser || loadingGrupo || loadingEventos) {
+    if (loadingUser || loadingGrupo) {
         return (
             <View style={styles.loadingContainer}>
                 <ActivityIndicator size="large" color="#7839EE" />
@@ -185,7 +271,7 @@ export default ({ navigation, route }) => {
 
     const criarEventoButton =
         <>
-            {grupo.grupoAdmins.includes(userData._id) ?
+            {grupo.grupoAdmins.includes(userData._id) &&
                 <FAB
                     icon='plus'
                     style={styles.criarEventoButton}
@@ -195,15 +281,36 @@ export default ({ navigation, route }) => {
                             screen: 'CreateEventScreen',
                             params: { groupId: groupId }
                         })}
-                /> : null}
+                />}
         </>
 
 
     const content = [
 
-        <GroupCalendar eventos={eventos} qntMembrosGrupo={grupo.membros.length} />,
 
-        <GroupMemberEvents userEventos={membrosGrupoInfo} />,
+        <>
+            {!loadingCalendar ?
+                <GroupCalendar eventos={eventos} qntMembrosGrupo={grupo.membros.length} calendarEvents={calendarEvents} /> :
+
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color="#7839EE" />
+                    <Text style={styles.loadingText}>
+                        Carregando calendário...
+                    </Text>
+                </View>}
+        </>,
+
+        <>
+            {!loadingEventosUser ?
+                <GroupMemberEvents userEventos={membrosGrupoInfo} /> :
+
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color="#7839EE" />
+                    <Text style={styles.loadingText}>
+                        Carregando informações dos membros do grupo...
+                    </Text>
+                </View>}
+        </>,
 
         <GroupEvents eventos={eventos} qntMembrosGrupo={grupo.membros.length} />,
     ]
