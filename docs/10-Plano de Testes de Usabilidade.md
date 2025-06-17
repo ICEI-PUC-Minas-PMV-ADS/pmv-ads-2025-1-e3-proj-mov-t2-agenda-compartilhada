@@ -62,16 +62,3 @@ Os testes de usabilidade foram projetados para avaliar a facilidade de uso, a re
 |Objetivo do Teste| Medir desempenho e adaptabilidade em diferentes dispositivos.|
 |Passos| 1. Cronometrar tempo de carregamento das telas principais. <br> 2. Testar em dispositivos com telas de diferentes tamanhos. <br> 3. Verificar fluidez nas transições entre telas. <br> 4. Avaliar responsividade durante uso intenso.|
 |Critério de Êxito|Aplicativo responde em até 5 segundos e mantém usabilidade em todos os tamanhos de tela testados.|
-
-
-
-
-
-
-
-
-> **Links Úteis**:
-> - [Teste De Usabilidade: O Que É e Como Fazer Passo a Passo (neilpatel.com)](https://neilpatel.com/br/blog/teste-de-usabilidade/)
-> - [Teste de usabilidade: tudo o que você precisa saber! | by Jon Vieira | Aela.io | Medium](https://medium.com/aela/teste-de-usabilidade-o-que-voc%C3%AA-precisa-saber-39a36343d9a6/)
-> - [Planejando testes de usabilidade: o que (e o que não) fazer | iMasters](https://imasters.com.br/design-ux/planejando-testes-de-usabilidade-o-que-e-o-que-nao-fazer/)
-> - [Ferramentas de Testes de Usabilidade](https://www.usability.gov/how-to-and-tools/resources/templates.html)
