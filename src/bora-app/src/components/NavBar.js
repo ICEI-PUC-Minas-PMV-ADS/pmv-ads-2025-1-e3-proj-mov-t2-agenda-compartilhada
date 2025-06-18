@@ -8,7 +8,6 @@ const NavBar = ({ navigation }) => {
     { icon: '👤', name: 'profile' },
     { icon: '📅', name: 'calendar' },
     { icon: '👥', name: 'friends' },
-    { icon: '🔔', name: 'notifications' },
     { icon: '⚙️', name: 'settings' },
   ];
 
