@@ -244,7 +244,8 @@ Desenvolvemos um gráfico de Gantt utilizando o Power BI para otimizar o gerenci
 ## Gerenciamento de Equipe
 
 Foi utilizada a ferramenta Trello para a gestão da equipe e distribuição das tarefas. A comunicação aconteceu via grupo no Whatsapp e reuniões semanais através do Teams da equipe.
-![image](https://github.com/user-attachments/assets/b05749e9-6d1a-4b07-af43-1f786ae5487a)
+![Print final Trello](https://github.com/user-attachments/assets/6532f824-708c-4f40-9438-3e872ac4f7f9)
+
 
 ## Gestão de Orçamento
 ### Custos de Pessoal (Bolsas/Auxílios)
