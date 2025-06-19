@@ -1,11 +1,12 @@
 # Template Padrão da Aplicação
-Layout padrão da aplicação que será utilizado em todas as páginas com a definição de identidade visual, aspectos de responsividade e iconografia.
 
-<img width="227" alt="Template Padrão da Aplicação" src="https://github.com/user-attachments/assets/2d99277e-29a5-4e8d-bfc1-9d0d6df48d5a" />
+Pré-requisitos: Especificação do Projeto, Projeto de Interface, Metodologia
 
-> **Links Úteis**:
->
-> - [CSS Website Layout (W3Schools)](https://www.w3schools.com/css/css_website_layout.asp)
-> - [Website Page Layouts](http://www.cellbiol.com/bioinformatics_web_development/chapter-3-your-first-web-page-learning-html-and-css/website-page-layouts/)
-> - [Perfect Liquid Layout](https://matthewjamestaylor.com/perfect-liquid-layouts)
-> - [How and Why Icons Improve Your Web Design](https://usabilla.com/blog/how-and-why-icons-improve-you-web-design/)
+## Layout da Aplicação
+
+![Template Padrão](https://github.com/user-attachments/assets/4b055095-115e-4d18-ada4-304a0820bbc3)
+
+## Elementos da Identidade Visual da Aplicação
+### Guia de Cores
+
+![Cores](https://github.com/user-attachments/assets/50e0c670-7fd0-4706-b35c-2acdc11ee994)
