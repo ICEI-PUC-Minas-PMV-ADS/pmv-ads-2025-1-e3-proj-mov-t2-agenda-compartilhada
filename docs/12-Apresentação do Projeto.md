@@ -11,3 +11,4 @@ Bora
 
 ## Conjunto de Slides (Estrutura)
 
+[📄 Veja o PDF completo](pdf/Apresentacao.pdf)
