@@ -40,14 +40,3 @@ Os requisitos foram definidos com base na análise de necessidades dos usuários
 |RNF-08|Interface intuitiva e fácil de usar  | Alta |
 |RNF-09|Compatibilidade com diferentes tamanhos de tela móvel  | Média |
 |RNF-10|Sistema de notificações  | Média |
-
-
-
-
-> **Links Úteis**:
->
-> - [Trabalhando com HTML5 Local Storage e JSON](https://www.devmedia.com.br/trabalhando-com-html5-local-storage-e-json/29045)
-> - [JSON Tutorial](https://www.w3resource.com/JSON)
-> - [JSON Data Set Sample](https://opensource.adobe.com/Spry/samples/data_region/JSONDataSetSample.html)
-> - [JSON - Introduction (W3Schools)](https://www.w3schools.com/js/js_json_intro.asp)
-> - [JSON Tutorial (TutorialsPoint)](https://www.tutorialspoint.com/json/index.htm)
