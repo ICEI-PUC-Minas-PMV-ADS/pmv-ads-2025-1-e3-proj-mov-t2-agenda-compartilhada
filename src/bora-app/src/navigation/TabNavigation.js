@@ -110,7 +110,7 @@ const TabNavigation = () => {
                     }
                 }}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="notificacoesScreen"
                 component={NotificacoesScreen}
                 options={{
@@ -119,7 +119,7 @@ const TabNavigation = () => {
                         <Ionicons name="notifications-outline" size={size} color={color} />
                     ),
                 }}
-            />
+            /> */}
             {/*
             <Tab.Screen
                 name="telaTesteScreen"
