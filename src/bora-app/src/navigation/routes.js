@@ -6,6 +6,7 @@ import RecuperarSenhaScreen from '../screens/login/recuperar_senha';
 import CadastroScreen from '../screens/login/cadastro';
 import TabNavigation from './TabNavigation';
 import ConfirmedEventDetailsScreen from '../screens/ConfirmedEventDetailsScreen'; // Verifique o caminho
+import EditarEvento from '../screens/EditarEvento'; // Adicione este import
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ const Routes = () => {
             <Stack.Screen name="cadastroScreen" component={CadastroScreen} />
             <Stack.Screen name="mainTab" component={TabNavigation} />
             <Stack.Screen name="ConfirmedEventDetailsScreen" component={ConfirmedEventDetailsScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="EditarEvento" component={EditarEvento} />
         </Stack.Navigator>
     );
 };

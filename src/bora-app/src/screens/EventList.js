@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity, Act
 import { StatusBar } from 'expo-status-bar';
 import { API_IP } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import EventoModal from '../components/EventoModal'; // Importação do modal
+import EditDeleteModal from '../components/EditDeleteModal';
 
 const EventList = ({ navigation }) => {
   useEffect(() => {
@@ -41,6 +41,7 @@ const EventList = ({ navigation }) => {
   const[loading, setLoading] = useState(true);
   const[error, setError] = useState(null);
   const[modalVisivel, setModalVisivel] = useState(false);
+  const[eventoSelecionado, setEventoSelecionado] = useState(null); // novo estado
 
   // Função para buscar eventos do backend
   const fetchEventos = async (userId) => {
@@ -145,6 +146,56 @@ const EventList = ({ navigation }) => {
     return coresGrupos[grupoId] || coresGrupos.default;
   };
 
+  // Função para abrir modal com detalhes do evento
+  const handleOpenModal = (evento) => {
+    setEventoSelecionado(evento);
+    setModalVisivel(true);
+  };
+
+  // Função para fechar modal
+  const handleCloseModal = () => {
+    setModalVisivel(false);
+    setEventoSelecionado(null);
+  };
+
+  // Função para editar evento
+  const handleEdit = () => {
+    console.log("handleEdit acionado", eventoSelecionado);
+    setModalVisivel(false);
+    if (eventoSelecionado) {
+      navigation.navigate('EditarEvento', { id: eventoSelecionado.id });
+    }
+  };
+
+  // Função para deletar evento
+  const handleDelete = async () => {
+    if (!eventoSelecionado) return;
+    Alert.alert(
+      'Confirmar exclusão',
+      'Tem certeza que deseja deletar este evento?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Deletar',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              setModalVisivel(false);
+              setLoading(true);
+              await fetch(`${API_IP}/eventos/${eventoSelecionado.id}`, { method: 'DELETE' });
+              setEventos(eventos.filter(e => e.id !== eventoSelecionado.id));
+              setEventoSelecionado(null);
+            } catch (err) {
+              Alert.alert('Erro', 'Não foi possível deletar o evento.');
+            } finally {
+              setLoading(false);
+            }
+          }
+        }
+      ]
+    );
+  };
+
   if (loading) {
     return (
       <SafeAreaView style={[styles.container, styles.centerContent]}>
@@ -191,7 +242,12 @@ const EventList = ({ navigation }) => {
         {eventos.length > 0 ? (
           <ScrollView style={styles.scrollContainer}>
             {eventos.map((evento) => (
-              <View key={evento.id} style={styles.eventoContainer}>
+              <TouchableOpacity
+                key={evento.id}
+                style={styles.eventoContainer}
+                onPress={() => handleOpenModal(evento)}
+                activeOpacity={0.7}
+              >
                 <View style={[styles.colorIndicator, { backgroundColor: evento.cor }]} />
                 <View style={styles.eventoInfo}>
                   <Text style={styles.eventoData}>{evento.data}</Text>
@@ -201,10 +257,10 @@ const EventList = ({ navigation }) => {
                     {evento.tipo === 'grupo' ? '👥 Grupo' : '👤 Individual'}
                   </Text>
                 </View>
-                <TouchableOpacity style={styles.eventoArrow}>
+                <View style={styles.eventoArrow}>
                   <Text style={styles.arrowText}>›</Text>
-                </TouchableOpacity>
-              </View>
+                </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         ) : (
@@ -215,7 +271,23 @@ const EventList = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         )}
-      </View>     
+      </View>
+      {/* Modal de editar/deletar */}
+      <EditDeleteModal
+        visible={modalVisivel}
+        onClose={handleCloseModal}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        event={
+          eventoSelecionado
+            ? {
+                title: eventoSelecionado.titulo,
+                date: eventoSelecionado.data,
+                description: eventoSelecionado.subtitulo
+              }
+            : null
+        }
+      />
     </SafeAreaView>
   );
 }
