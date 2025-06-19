@@ -1,29 +1,30 @@
-message: Please cite this software using these metadata.
-title:
+cff-version: 1.0.1
+message: App de agenda compartilhada
+title: Bora
 authors:
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
+  - family-names: Moreira Pinto
+    given-names: Daianne Paula
+  - family-names: Santos e Silva
+    given-names: Grace Kelly
+  - family-names: Moreira Pinto
+    given-names: Letícia
+  - family-names: Garcia Ventura
+    given-names: Milton Roberto
+  - family-names: Victor Mota
+    given-names: Nikolas
+  - family-names: Brandão Nunes
+    given-names: Yasmim Emmeline
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: 
-    given-names: 
-  - name-suffix: Professor
-    affiliation: PUC Minas
-    family-names: 
-    given-names: 
+    family-names: Fritzke Junior
+    given-names: Udo
 keywords:
-  - 
-  - 
-repository-code: 
+  - agenda
+  - calendario
+  - eventos
+  - grupo
+  - amigos
+repository-code: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-1-e3-proj-mov-t2-agenda-compartilhada
+license: CC-BY-4.0
 version: 1.0.0
-date-released: 2023-10-31
+date-released: 2024-06-26
