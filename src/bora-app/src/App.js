@@ -12,6 +12,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import EventInfo from './screens/EventInfo';
 import AppRoutes from './src/routes'; // substitua pelo seu componente principal
 
+
 export default function App() {
   return (
     <PaperProvider>
@@ -62,6 +63,7 @@ export default function App() {
           component={CalendarScreen}
           options={{ title: 'Calendário' }}
         />
+        
 
       </Stack.Navigator>
     </NavigationContainer>
