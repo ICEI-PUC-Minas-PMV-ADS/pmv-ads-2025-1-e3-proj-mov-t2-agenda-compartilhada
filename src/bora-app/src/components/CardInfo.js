@@ -74,11 +74,15 @@ export default ({ evento = {}, children }) => {
             </TouchableOpacity>
 
             <EventoModal
+                id={evento._id}
                 titulo={evento.titulo}
                 descricao={evento.descricao ? evento.descricao : 'Sem descrição'}
                 dataEvento={evento.dataEvento}
                 dataFimEvento={evento.dataFimEvento}
                 tipo={evento.tipo}
+                membros={evento.membros}
+                confirmados={evento.confirmados}
+                recusas={evento.recusas}
                 visibilidade={showModal}
                 onClose={() => setShowModal(false)} />
         </>

@@ -6,4 +6,6 @@ export class EventDto {
   time: Date;
   participants: number;
   colorCode: string;
+  confirmados: string[];
+  recusas: string[];
 }

@@ -32,6 +32,8 @@ interface EventoWithId extends Document {
   _id: {
     toString(): string;
   };
+  confirmados: string[];
+  recusas: string[];
 }
 
 @Injectable()
@@ -177,6 +179,9 @@ export class DashboardService {
           time: evento.dataEvento,
           participants: count,
           colorCode: evento.tipo === 'grupo' ? '#7839EE' : '#53E88B',
+          confirmados: evento.confirmados,
+          recusas: evento.recusas,
+          membros: grupo && grupo.membros,
         };
       });
     } catch (error) {

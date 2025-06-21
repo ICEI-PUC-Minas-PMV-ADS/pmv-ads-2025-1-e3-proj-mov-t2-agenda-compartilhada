@@ -24,7 +24,7 @@ export default ({ eventos = [], ...props }) => {
 
             acum[dataEvento].dots?.length > 1
                 && acum[dataEvento].dots.forEach((dot) => {
-                    dot.color = '#55EE39'
+                    dot.color = '#53E88B'
                 })
         }
 

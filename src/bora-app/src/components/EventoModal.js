@@ -3,14 +3,18 @@ import { Modal, View, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import { Text, Button, Surface } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 
-const EventoModal = ({ 
-  titulo, 
-  descricao, 
-  dataEvento, 
-  dataFimEvento, 
-  tipo, 
-  visibilidade, 
-  onClose 
+const EventoModal = ({
+  id,
+  titulo,
+  descricao,
+  dataEvento,
+  dataFimEvento,
+  tipo,
+  membros,
+  confirmados,
+  recusas,
+  visibilidade,
+  onClose
 }) => {
   return (
     <Modal
@@ -48,6 +52,17 @@ const EventoModal = ({
                 <Text style={styles.label}>Tipo:</Text>
               </View>
               <Text>{tipo}</Text>
+              
+              {tipo == 'grupo' &&
+              <>
+
+                <View style={[styles.row, {justifyContent: 'space-evenly'}]}>
+                  <Button mode='contained' style={{backgroundColor: '#53E88B', minWidth: 115}}>Vou</Button>
+                  <Button mode='contained' style={{backgroundColor: '#FF4B4B', minWidth: 115}}>Não vou</Button>
+                </View>
+                                <Text style={[styles.label, {textAlign: 'center', marginTop: 10}]}>{confirmados.length} / {membros.length} confirmados</Text>
+                </>
+              }
 
               <Button mode="contained" onPress={onClose} style={styles.closeButton}>
                 Fechar

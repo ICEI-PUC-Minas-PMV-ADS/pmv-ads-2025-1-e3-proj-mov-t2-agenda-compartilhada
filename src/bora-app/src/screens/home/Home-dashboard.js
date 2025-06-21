@@ -214,16 +214,21 @@ const HomeDashboard = ({ navigation }) => {
                             </View>
                         </View>
                     </View>
+                    <Text>{eventoSelecionado.confirmados} aaaaaaaaaaaaaaaa</Text>
                 </ScrollView>
-
+                
                 {/* Modal do Evento */}
                 {eventoSelecionado && (
                     <EventoModal
-                        titulo={eventoSelecionado.title}
+                    id={eventoSelecionado._id}    
+                    titulo={eventoSelecionado.title}
                         descricao={eventoSelecionado.description || 'Sem descrição disponível'}
                         dataEvento={eventoSelecionado.date}
                         dataFimEvento={eventoSelecionado.endDate || eventoSelecionado.date}
                         tipo={eventoSelecionado.type || 'grupo'}
+                        membros={eventoSelecionado.membros}
+                        confirmados={eventoSelecionado.confirmados}
+                        recusas={eventoSelecionado.recusas}
                         visibilidade={modalVisivel}
                         onClose={() => setModalVisivel(false)}
                     />
