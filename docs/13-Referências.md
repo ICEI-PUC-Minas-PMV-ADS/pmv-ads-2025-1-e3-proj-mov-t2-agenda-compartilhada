@@ -1,5 +1,10 @@
 # Referências
 
+
+|Requisito   | Implementação                                         | Artefatos relacionados |Observações |
+|----------|-------------------------------------------------------|--------------------|-------------------|
+|RF-010 – Criar grupo e convidar usuários| Endpoint REST/legacy para criação com validações de membros e administradores | group.controller.ts, group.service.ts, DTOs (create-group.dto.ts, update-group-members.dto.ts) |Garante que todo administrador também seja membro e inicializa finanças vazias para novas integrações |
+
 **Documentação Oficial React Native**
  - https://reactnative.dev/docs/getting-started?utm_source=chatgpt.com
 
